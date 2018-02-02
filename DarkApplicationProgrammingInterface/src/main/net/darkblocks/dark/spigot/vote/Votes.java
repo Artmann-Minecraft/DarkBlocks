@@ -1,0 +1,58 @@
+/*
+ * © Copyright - MineWar.net | Lars Artmann aka. LartyHD 2017
+ */
+package net.darkblocks.dark.spigot.vote;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import net.darkblocks.dark.universal.messages.Colors;
+
+import java.util.Set;
+
+@Getter
+@AllArgsConstructor
+public abstract class Votes
+{
+	private final String prefix;
+	private final Set<Vote> votes;
+	
+	public String addVote(String name, String voteName)
+	{
+		String result = null;
+		if (name != null && !name.equalsIgnoreCase("") && !name.equalsIgnoreCase(" "))
+		{
+			for (Vote vote : getVotes())
+			{
+				Set<String> voter = vote.getVoter();
+				if (voter.contains(name))
+				{
+					voter.remove(name);
+				}
+				if (vote.getName().equalsIgnoreCase(voteName))
+				{
+					voter.add(name);
+					result = this.prefix + Colors.TEXT + "Du hast für " + Colors.IMPORTANT + voteName + Colors.TEXT + " abgestimmt";
+				}
+			}
+		}
+		return result;
+	}
+	
+	public void getResult()
+	{
+		int max = -1;
+		String winner = "";
+		for (Vote vote : getVotes())
+		{
+			int i = vote.getVoter().size();
+			if (i > max)
+			{
+				max = i;
+				winner = vote.getName();
+			}
+		}
+		finishVotes(winner);
+	}
+	
+	public abstract void finishVotes(String winner);
+}

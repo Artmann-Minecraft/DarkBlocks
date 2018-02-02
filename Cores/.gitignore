@@ -1,0 +1,6 @@
+##### Intellij #####
+
+out
+target
+.idea
+*.iml
