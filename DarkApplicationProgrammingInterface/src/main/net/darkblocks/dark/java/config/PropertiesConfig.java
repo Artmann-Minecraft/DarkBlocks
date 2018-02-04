@@ -33,30 +33,30 @@ public class PropertiesConfig extends Properties
 			{
 				ex.printStackTrace();
 			}
-			return;
 		}
-		if (directory.exists())
+		else if (!directory.exists())
 		{
-			return;
-		}
-		if (!directory.mkdir())
-		{
-			System.out.println(" ");
-			System.out.println("[PropertiesConfig] Der Ordner konnte nicht erstellt werden");
-			System.out.println(" ");
-		}
-		try
-		{
-			if (this.file.createNewFile())
+			if (!directory.mkdir())
 			{
-				return;
+				System.out.println(" ");
+				System.out.println("[PropertiesConfig] Der Ordner konnte nicht erstellt werden");
+				System.out.println(" ");
 			}
-			System.out.println(" ");
-			System.out.println("[PropertiesConfig] Die Datei konnte nicht erstellt werden");
-			System.out.println(" ");
-		} catch (IOException ex)
-		{
-			ex.printStackTrace();
+			else
+			{
+				try
+				{
+					if (!this.file.createNewFile())
+					{
+						System.out.println(" ");
+						System.out.println("[PropertiesConfig] Die Datei konnte nicht erstellt werden");
+						System.out.println(" ");
+					}
+				} catch (IOException ex)
+				{
+					ex.printStackTrace();
+				}
+			}
 		}
 		save();
 	}

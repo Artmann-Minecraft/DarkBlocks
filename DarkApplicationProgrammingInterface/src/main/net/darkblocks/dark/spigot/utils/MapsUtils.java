@@ -1,6 +1,6 @@
 package net.darkblocks.dark.spigot.utils;
 
-import net.craftplugin.craftpluginapi.java.config.PropertiesConfig;
+import net.darkblocks.dark.java.config.PropertiesConfig;
 import org.bukkit.*;
 import org.bukkit.plugin.java.JavaPlugin;
 

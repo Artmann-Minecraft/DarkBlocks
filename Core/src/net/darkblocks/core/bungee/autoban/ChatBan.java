@@ -1,9 +1,9 @@
 package net.darkblocks.core.bungee.autoban;
 
 import lombok.Getter;
-import net.craftplugin.craftpluginapi.java.mysql.MySQL;
 import net.darkblocks.core.bungee.autoban.commands.AddToAutoChatBanCommand;
 import net.darkblocks.core.bungee.autoban.listener.ChatBanListener;
+import net.darkblocks.dark.java.mysql.MySQL;
 import net.md_5.bungee.api.plugin.Plugin;
 
 import java.sql.SQLException;

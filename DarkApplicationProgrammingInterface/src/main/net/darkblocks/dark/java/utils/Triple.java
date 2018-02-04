@@ -1,13 +1,16 @@
 package net.darkblocks.dark.java.utils;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 /**
  * Created by LartyHD on 15.12.2017  04:22.
  */
-public interface Triple<T, O, E>
+@Getter
+@AllArgsConstructor
+public class Triple<F, S, T>
 {
-	T getFirst();
-	
-	O getSecond();
-	
-	E getThird();
+	private final F first;
+	private final S second;
+	private final T third;
 }

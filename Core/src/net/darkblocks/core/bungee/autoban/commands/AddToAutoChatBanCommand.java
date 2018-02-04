@@ -1,15 +1,15 @@
 package net.darkblocks.core.bungee.autoban.commands;
 
 import lombok.Getter;
-import net.craftplugin.craftpluginapi.java.mysql.MySQL;
-import net.craftplugin.craftpluginapi.universal.messages.Messages;
+import net.darkblocks.dark.java.mysql.MySQL;
+import net.darkblocks.dark.universal.messages.Messages;
 import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.Plugin;
 
-import static net.craftplugin.craftpluginapi.universal.messages.Colors.IMPORTANT;
-import static net.craftplugin.craftpluginapi.universal.messages.Colors.TEXT;
+import static net.darkblocks.dark.universal.messages.Colors.IMPORTANT;
+import static net.darkblocks.dark.universal.messages.Colors.TEXT;
 
 /**
  * Created by LartyHD on 09.01.2018  09:24.

@@ -2,7 +2,7 @@ package net.darkblocks.dark.spigot.vote;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.craftplugin.craftpluginapi.java.utils.ServerState;
+import net.darkblocks.dark.java.utils.ServerState;
 import net.darkblocks.dark.spigot.builder.ItemBuilder;
 import net.darkblocks.dark.spigot.controller.GameController;
 import net.darkblocks.dark.spigot.events.LobbyCountdownLastTenSecondsEvent;
@@ -30,8 +30,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
-
-import static net.craftplugin.craftpluginapi.universal.messages.Colors.*;
 
 /**
  * Created by LartyHD on 04.01.2018  16:53.

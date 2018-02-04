@@ -18,9 +18,9 @@ import org.bukkit.event.player.PlayerEvent;
 public class PlayerUpdateCoinsEvent extends PlayerEvent
 {
 	private static final HandlerList handlers = new HandlerList();
-	private int coins;
+	private String coins;
 	
-	public PlayerUpdateCoinsEvent(Player who, int coins)
+	public PlayerUpdateCoinsEvent(Player who, String coins)
 	{
 		super(who);
 		this.coins = coins;

@@ -1,25 +1,25 @@
 package net.darkblocks.cores.listener;
 
-import net.craftplugin.craftpluginapi.java.utils.ServerState;
-import net.craftplugin.craftpluginapi.spigot.builder.ItemBuilder;
-import net.craftplugin.craftpluginapi.spigot.controller.GameController;
-import net.craftplugin.craftpluginapi.spigot.countdowns.EndGameCountdown;
-import net.craftplugin.craftpluginapi.spigot.countdowns.LobbyCountdown;
-import net.craftplugin.craftpluginapi.spigot.countdowns.PreGameCountdown;
-import net.craftplugin.craftpluginapi.spigot.events.*;
-import net.craftplugin.craftpluginapi.spigot.listener.EndGameListener;
-import net.craftplugin.craftpluginapi.spigot.listener.InGameListener;
-import net.craftplugin.craftpluginapi.spigot.listener.LobbyListener;
-import net.craftplugin.craftpluginapi.spigot.listener.PreGameListener;
-import net.craftplugin.craftpluginapi.spigot.messages.Colors;
-import net.craftplugin.craftpluginapi.spigot.team.GameTeam;
-import net.craftplugin.craftpluginapi.spigot.team.SpectatorManager;
-import net.craftplugin.craftpluginapi.spigot.team.TeamManager;
-import net.craftplugin.craftpluginapi.spigot.utils.MapsUtils;
-import net.craftplugin.craftpluginapi.spigot.vote.VoteManager;
 import net.darkblocks.cores.Cores;
 import net.darkblocks.cores.manager.CoreManager;
 import net.darkblocks.cores.utils.Core;
+import net.darkblocks.dark.java.utils.ServerState;
+import net.darkblocks.dark.spigot.builder.ItemBuilder;
+import net.darkblocks.dark.spigot.controller.GameController;
+import net.darkblocks.dark.spigot.countdowns.EndGameCountdown;
+import net.darkblocks.dark.spigot.countdowns.LobbyCountdown;
+import net.darkblocks.dark.spigot.countdowns.PreGameCountdown;
+import net.darkblocks.dark.spigot.events.*;
+import net.darkblocks.dark.spigot.listener.EndGameListener;
+import net.darkblocks.dark.spigot.listener.InGameListener;
+import net.darkblocks.dark.spigot.listener.LobbyListener;
+import net.darkblocks.dark.spigot.listener.PreGameListener;
+import net.darkblocks.dark.spigot.team.GameTeam;
+import net.darkblocks.dark.spigot.team.SpectatorManager;
+import net.darkblocks.dark.spigot.team.TeamManager;
+import net.darkblocks.dark.spigot.utils.MapsUtils;
+import net.darkblocks.dark.spigot.vote.VoteManager;
+import net.darkblocks.dark.universal.messages.Colors;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -41,6 +41,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
+
+import static net.darkblocks.dark.universal.messages.Colors.SECONDARY;
 
 /**
  * Created by LartyHD on 04.01.2018  23:33.
@@ -100,7 +102,7 @@ public class CountdownListener implements Listener
 			{
 				PlayerInventory inventory = player.getInventory();
 				inventory.setItem(0, new ItemBuilder(Material.ENDER_CHEST).setName(Colors.SECONDARY + "Teams").build());
-				inventory.setItem(8, new ItemBuilder(new ItemBuilder(Material.SKULL_ITEM, 1, (short) 3).setOwnerFromURL("http://textures.minecraft.net/texture/1b6f1a25b6bc199946472aedb370522584ff6f4e83221e5946bd2e41b5ca13b", "MHF_ArrowRight").setName(SECONDARY + "Zurück zur Lobby").build()));
+				inventory.setItem(8, new ItemBuilder(Material.SKULL_ITEM, 1, (short) 3).setOwnerFromURL("http://textures.minecraft.net/texture/1b6f1a25b6bc199946472aedb370522584ff6f4e83221e5946bd2e41b5ca13b", "MHF_ArrowRight").setName(SECONDARY + "Zurück zur Lobby").build());
 			}
 		});
 		gameController.getPreGameListener().add(new PreGameListener(this.prefix, gameController, this.spectatorManager));

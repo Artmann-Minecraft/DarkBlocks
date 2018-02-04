@@ -1,14 +1,16 @@
 package net.darkblocks.dark.universal.messages;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
 
-@ToString
 @AllArgsConstructor
 @Getter
 public enum Colors
 {
 	/**
-	 * Wird bei sehr wichtigen Sachen verwendet
+	 * Wird bei SEHR wichtigen Sachen verwendet
 	 */
 	PRIMARY(org.bukkit.ChatColor.DARK_RED)
 			{
@@ -18,7 +20,7 @@ public enum Colors
 				}
 			},
 	/**
-	 * Wird bei Inventar-Namen und Item-Namen verwendet
+	 * Wird bei Inventar-Namen, Item-Namen und Namen für Entitys verwendet
 	 */
 	SECONDARY(org.bukkit.ChatColor.RED)
 			{
@@ -74,5 +76,11 @@ public enum Colors
 	public net.md_5.bungee.api.ChatColor asBungee()
 	{
 		return org.bukkit.ChatColor.RESET.asBungee();
+	}
+	
+	@Override
+	public String toString()
+	{
+		return "§" + getChatColor().getChar();
 	}
 }

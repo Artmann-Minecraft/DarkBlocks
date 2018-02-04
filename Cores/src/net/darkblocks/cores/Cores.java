@@ -3,14 +3,14 @@ package net.darkblocks.cores;
 import com.segdogames.segdocloudplugin.api.CloudAPI;
 import com.segdogames.segdocloudplugin.spigot.Bootstrap;
 import com.segdogames.segdocloudplugin.spigot.utils.ServerPing;
-import net.craftplugin.craftpluginapi.java.utils.ServerState;
-import net.craftplugin.craftpluginapi.spigot.events.ServerStateChangeEvent;
-import net.craftplugin.craftpluginapi.spigot.plugin.CraftPlugin;
 import net.darkblocks.core.spigot.Core;
 import net.darkblocks.cores.listener.CountdownListener;
+import net.darkblocks.dark.java.utils.ServerState;
+import net.darkblocks.dark.spigot.events.ServerStateChangeEvent;
+import net.darkblocks.dark.spigot.plugin.CraftPlugin;
 import org.bukkit.Bukkit;
 
-import static net.craftplugin.craftpluginapi.universal.messages.Colors.*;
+import static net.darkblocks.dark.universal.messages.Colors.*;
 
 /**
  * Created by LartyHD on 03.01.2018  11:14.

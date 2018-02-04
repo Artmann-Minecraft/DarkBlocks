@@ -5,18 +5,16 @@ package net.darkblocks.dark.spigot.countdowns;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.craftplugin.craftpluginapi.spigot.events.LobbyCountdownFinishedEvent;
-import net.craftplugin.craftpluginapi.spigot.events.LobbyCountdownLastTenSecondsEvent;
-import net.craftplugin.craftpluginapi.spigot.events.LobbyCountdownPreFinishedEvent;
-import net.craftplugin.craftpluginapi.spigot.utils.PackageUtils;
+import net.darkblocks.dark.spigot.events.LobbyCountdownFinishedEvent;
+import net.darkblocks.dark.spigot.events.LobbyCountdownLastTenSecondsEvent;
+import net.darkblocks.dark.spigot.events.LobbyCountdownPreFinishedEvent;
+import net.darkblocks.dark.spigot.utils.PackageUtils;
 import net.darkblocks.dark.universal.messages.Colors;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import static net.craftplugin.craftpluginapi.universal.messages.Colors.*;
 
 /**
  * Created by LartyHD on 24.06.2017  16:41.

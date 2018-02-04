@@ -1,8 +1,8 @@
 package net.darkblocks.core.bungee.wartungen.listener;
 
 import lombok.Getter;
-import net.craftplugin.craftpluginapi.universal.messages.Messages;
 import net.darkblocks.core.bungee.wartungen.Wartungen;
+import net.darkblocks.dark.universal.messages.Messages;
 import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -10,7 +10,7 @@ import net.md_5.bungee.api.event.PostLoginEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
-import static net.craftplugin.craftpluginapi.universal.messages.Colors.*;
+import static net.darkblocks.dark.universal.messages.Colors.*;
 
 /**
  * Created by LartyHD on 09.01.2018  09:45.

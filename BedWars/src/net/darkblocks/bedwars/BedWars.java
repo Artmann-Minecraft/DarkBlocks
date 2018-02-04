@@ -1,8 +1,8 @@
 package net.darkblocks.bedwars;
 
-import net.craftplugin.craftpluginapi.spigot.plugin.CraftPlugin;
 import net.darkblocks.bedwars.listener.CountdownListener;
 import net.darkblocks.core.spigot.Core;
+import net.darkblocks.dark.spigot.plugin.CraftPlugin;
 
 /**
  * Created by LartyHD on 10.01.2018  18:38.

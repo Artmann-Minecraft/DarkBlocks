@@ -1,6 +1,6 @@
 package net.darkblocks.dark.java.mysql;
 
-import net.craftplugin.craftpluginapi.java.utils.Callback;
+import net.darkblocks.dark.java.utils.Callback;
 
 import java.sql.*;
 import java.util.concurrent.ExecutorService;
@@ -219,6 +219,6 @@ public class MySQL
 	
 	public boolean isConnected()
 	{
-		return this.connection != null;
+		return this.getConnection() != null;
 	}
 }

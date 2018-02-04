@@ -1,8 +1,8 @@
 package net.darkblocks.core.bungee.teamchat;
 
 import lombok.Getter;
-import net.craftplugin.craftpluginapi.java.mysql.MySQL;
 import net.darkblocks.core.bungee.teamchat.listener.TeamChatListener;
+import net.darkblocks.dark.java.mysql.MySQL;
 import net.md_5.bungee.api.plugin.Plugin;
 
 import java.util.HashSet;

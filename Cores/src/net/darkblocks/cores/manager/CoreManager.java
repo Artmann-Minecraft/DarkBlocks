@@ -1,15 +1,15 @@
 package net.darkblocks.cores.manager;
 
-import net.craftplugin.craftpluginapi.java.utils.ServerState;
-import net.craftplugin.craftpluginapi.spigot.controller.GameController;
-import net.craftplugin.craftpluginapi.spigot.events.PlayerDisconnectEvent;
-import net.craftplugin.craftpluginapi.spigot.events.ServerStateChangeEvent;
-import net.craftplugin.craftpluginapi.spigot.team.GameTeam;
-import net.craftplugin.craftpluginapi.spigot.team.SpectatorManager;
-import net.craftplugin.craftpluginapi.spigot.team.TeamManager;
-import net.craftplugin.craftpluginapi.spigot.utils.MapsUtils;
-import net.craftplugin.craftpluginapi.spigot.utils.PackageUtils;
 import net.darkblocks.cores.utils.Core;
+import net.darkblocks.dark.java.utils.ServerState;
+import net.darkblocks.dark.spigot.controller.GameController;
+import net.darkblocks.dark.spigot.events.PlayerDisconnectEvent;
+import net.darkblocks.dark.spigot.events.ServerStateChangeEvent;
+import net.darkblocks.dark.spigot.team.GameTeam;
+import net.darkblocks.dark.spigot.team.SpectatorManager;
+import net.darkblocks.dark.spigot.team.TeamManager;
+import net.darkblocks.dark.spigot.utils.MapsUtils;
+import net.darkblocks.dark.spigot.utils.PackageUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -28,8 +28,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static net.craftplugin.craftpluginapi.spigot.messages.Colors.IMPORTANT;
-import static net.craftplugin.craftpluginapi.spigot.messages.Colors.TEXT;
+import static net.darkblocks.dark.universal.messages.Colors.IMPORTANT;
+import static net.darkblocks.dark.universal.messages.Colors.TEXT;
 
 /**
  * Created by LartyHD on 03.01.2018  11:26.

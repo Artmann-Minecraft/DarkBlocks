@@ -7,8 +7,8 @@ import net.md_5.bungee.api.chat.TextComponent;
 import java.util.HashMap;
 import java.util.Map;
 
-import static net.craftplugin.craftpluginapi.universal.messages.Colors.IMPORTANT;
-import static net.craftplugin.craftpluginapi.universal.messages.Colors.TEXT;
+import static net.darkblocks.dark.universal.messages.Colors.IMPORTANT;
+import static net.darkblocks.dark.universal.messages.Colors.TEXT;
 
 /**
  * Created by LartyHD on 14.11.2017  17:44.

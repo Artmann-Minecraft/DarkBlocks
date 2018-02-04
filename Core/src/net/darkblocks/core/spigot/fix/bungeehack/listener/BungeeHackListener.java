@@ -2,8 +2,8 @@ package net.darkblocks.core.spigot.fix.bungeehack.listener;
 
 import com.segdogames.segdocloudplugin.api.CloudAPI;
 import lombok.Getter;
-import net.craftplugin.craftpluginapi.java.mysql.MySQL;
-import net.craftplugin.craftpluginapi.universal.messages.Messages;
+import net.darkblocks.dark.java.mysql.MySQL;
+import net.darkblocks.dark.universal.messages.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static net.craftplugin.craftpluginapi.universal.messages.Colors.PRIMARY;
-import static net.craftplugin.craftpluginapi.universal.messages.Colors.TEXT;
+import static net.darkblocks.dark.universal.messages.Colors.PRIMARY;
+import static net.darkblocks.dark.universal.messages.Colors.TEXT;
 
 /**
  * Created by LartyHD on 13.01.2018  00:49.

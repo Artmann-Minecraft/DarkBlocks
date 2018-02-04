@@ -1,7 +1,7 @@
 package net.darkblocks.dark.spigot.listener;
 
-import net.craftplugin.craftpluginapi.java.utils.ServerState;
-import net.craftplugin.craftpluginapi.spigot.events.ServerStateChangeEvent;
+import net.darkblocks.dark.java.utils.ServerState;
+import net.darkblocks.dark.spigot.events.ServerStateChangeEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;

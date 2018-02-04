@@ -1,9 +1,13 @@
 package net.darkblocks.dark.spigot.fakeplayer;
 
 import com.mojang.authlib.GameProfile;
-import net.craftplugin.craftpluginapi.java.utils.ReflectUtils;
+import net.darkblocks.dark.java.utils.ReflectUtils;
 import net.minecraft.server.v1_8_R3.*;
+import org.bukkit.Achievement;
 import org.bukkit.*;
+import org.bukkit.Material;
+import org.bukkit.Statistic;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.conversations.Conversation;
 import org.bukkit.conversations.ConversationAbandonedEvent;
@@ -670,13 +674,13 @@ public class CrashPlayer implements Player
 	}
 	
 	@Override
-	public Vector getVelocity()
+	public org.bukkit.util.Vector getVelocity()
 	{
 		return null;
 	}
 	
 	@Override
-	public void setVelocity(Vector vector)
+	public void setVelocity(org.bukkit.util.Vector vector)
 	{
 	}
 	
@@ -1470,6 +1474,11 @@ public class CrashPlayer implements Player
 	}
 	
 	@Override
+	public <T extends Projectile> T launchProjectile(Class<? extends T> aClass, org.bukkit.util.Vector vector)
+	{
+		return null;
+	}
+	
 	public <T extends Projectile> T launchProjectile(Class<? extends T> aClass, Vector vector)
 	{
 		return null;

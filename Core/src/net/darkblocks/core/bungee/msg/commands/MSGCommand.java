@@ -4,17 +4,17 @@
 package net.darkblocks.core.bungee.msg.commands;
 
 import lombok.Getter;
-import net.craftplugin.craftpluginapi.universal.messages.Messages;
-import net.craftplugin.craftpluginapi.universal.utils.CommandUtils;
 import net.darkblocks.core.bungee.msg.PrivateMessage;
+import net.darkblocks.dark.universal.messages.Messages;
+import net.darkblocks.dark.universal.utils.CommandUtils;
 import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.Plugin;
 
-import static net.craftplugin.craftpluginapi.universal.messages.Colors.IMPORTANT;
-import static net.craftplugin.craftpluginapi.universal.messages.Colors.TEXT;
+import static net.darkblocks.dark.universal.messages.Colors.IMPORTANT;
+import static net.darkblocks.dark.universal.messages.Colors.TEXT;
 
 @Getter
 public class MSGCommand extends Command

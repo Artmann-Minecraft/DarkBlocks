@@ -1,6 +1,6 @@
 package net.darkblocks.cores.utils;
 
-import net.craftplugin.craftpluginapi.spigot.team.GameTeam;
+import net.darkblocks.dark.spigot.team.GameTeam;
 import org.bukkit.Location;
 
 /**

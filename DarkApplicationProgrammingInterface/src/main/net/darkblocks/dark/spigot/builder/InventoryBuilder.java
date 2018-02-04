@@ -1,7 +1,7 @@
 package net.darkblocks.dark.spigot.builder;
 
 import lombok.ToString;
-import net.craftplugin.craftpluginapi.java.builder.Builder;
+import net.darkblocks.dark.java.builder.Builder;
 import org.bukkit.Bukkit;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;

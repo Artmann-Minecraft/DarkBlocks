@@ -1,7 +1,5 @@
 package net.darkblocks.core.bungee;
 
-import net.craftplugin.craftpluginapi.java.config.PropertiesConfig;
-import net.craftplugin.craftpluginapi.java.mysql.MySQL;
 import net.darkblocks.core.bungee.autoban.ChatBan;
 import net.darkblocks.core.bungee.commands.Commands;
 import net.darkblocks.core.bungee.joinme.JoinMe;
@@ -10,6 +8,8 @@ import net.darkblocks.core.bungee.otherversionblocker.OtherVersionBlocker;
 import net.darkblocks.core.bungee.tablist.TabList;
 import net.darkblocks.core.bungee.teamchat.TeamChat;
 import net.darkblocks.core.bungee.wartungen.Wartungen;
+import net.darkblocks.dark.java.config.PropertiesConfig;
+import net.darkblocks.dark.java.mysql.MySQL;
 import net.md_5.bungee.api.plugin.Plugin;
 
 import java.io.File;

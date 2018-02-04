@@ -2,7 +2,7 @@ package net.darkblocks.dark.spigot.team;
 
 import lombok.Getter;
 import lombok.NonNull;
-import net.craftplugin.craftpluginapi.java.utils.ServerState;
+import net.darkblocks.dark.java.utils.ServerState;
 import net.darkblocks.dark.spigot.builder.ItemBuilder;
 import net.darkblocks.dark.spigot.events.ServerStateChangeEvent;
 import net.darkblocks.dark.spigot.utils.InventoryUtils;
@@ -25,8 +25,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
-
-import static net.craftplugin.craftpluginapi.universal.messages.Colors.*;
 
 /**
  * Created by LartyHD on 03.01.2018  12:30.

@@ -4,6 +4,7 @@
 package net.darkblocks.dark.java.mysql;
 
 import net.darkblocks.dark.java.utils.Callback;
+import net.darkblocks.dark.java.utils.ValueType;
 import net.darkblocks.dark.spigot.events.PlayerUpdateCoinsEvent;
 import net.darkblocks.dark.universal.messages.Colors;
 import net.darkblocks.dark.universal.messages.Messages;
@@ -20,25 +21,25 @@ import java.util.UUID;
 @SuppressWarnings("ALL")
 public class CoinsAPI
 {
-	private final Messages messages;
 	private final String tableName;
 	private final MySQL mySQL;
-	
+	private ValueType valueType;
+
 	/**
 	 * Erstellt eine neuen Table mit dem Name den man über "tableName" angeben kann
 	 */
-	public CoinsAPI(Messages messages, String tableName, MySQL mySQL)
+	public CoinsAPI(String tableName, ValueType valueType, MySQL mySQL)
 	{
-		this.messages = messages;
 		this.tableName = tableName;
+		this.valueType = valueType;
 		this.mySQL = mySQL;
-		this.mySQL.update("CREATE TABLE IF NOT EXISTS " + tableName + "(`uuid` VARCHAR(100), `coins` INT, `name` VARCHAR(20), PRIMARY KEY(uuid))");
+		this.mySQL.update("CREATE TABLE IF NOT EXISTS " + tableName + "(`uuid` VARCHAR(100), `coins` " + (valueType == ValueType.LONG ? "BIGINT" : valueType == ValueType.INTEGER ? "INT" : valueType == ValueType.DOUBLE ? ValueType.DOUBLE : valueType == ValueType.FLOAT) + ", `name` VARCHAR(20), PRIMARY KEY(uuid))");
 	}
 	
 	/**
 	 * Erstellt ein neuen Account für die übergebene UUID und mit dem übergebenen Startguthaben
 	 */
-	public void createAccount(UUID uuid, int startguthaben)
+	public void createAccount(UUID uuid, String startguthaben)
 	{
 		getAccount(uuid, (ResultSet result) -> {
 			try
@@ -86,12 +87,12 @@ public class CoinsAPI
 	/**
 	 * Setzt dem Account mit der übergebenen UUID die Coins auf die angegebenen Coins
 	 */
-	public void setCoins(UUID uuid, int coins)
+	public void setCoins(UUID uuid, String coins)
 	{
 		Player player = Bukkit.getPlayer(uuid);
 		if (player != null)
 		{
-			player.sendMessage(this.messages.getMessage("dark.coins.prefix") + Colors.TEXT + "Deine " + Colors.IMPORTANT + "Coins" + Colors.TEXT + " wurden auf " + Colors.IMPORTANT + coins + Colors.TEXT + " gesetzt");
+			player.sendMessage(Messages.getInstance().getMessage("dark.coins.prefix") + Colors.TEXT + "Deine " + Colors.IMPORTANT + "Coins" + Colors.TEXT + " wurden auf " + Colors.IMPORTANT + coins + Colors.TEXT + " gesetzt");
 		}
 		this.mySQL.update("UPDATE " + this.tableName + " SET `coins` = '" + coins + "' WHERE `uuid` = '" + uuid + "'");
 		Bukkit.getPluginManager().callEvent(new PlayerUpdateCoinsEvent(player, coins));
@@ -100,26 +101,58 @@ public class CoinsAPI
 	/**
 	 * Fügt dem Account mit der übergebenen UUID die angegebenen Coins hinzu
 	 */
-	public void addCoins(UUID uuid, int coins)
+	public void addCoins(UUID uuid, String coins)
 	{
 		Player player = Bukkit.getPlayer(uuid);
 		if (player != null)
 		{
-			player.sendMessage(this.messages.getMessage("dark.coins.prefix") + Colors.TEXT + "Dir wurden " + Colors.IMPORTANT + coins + " Coins" + Colors.TEXT + " hinzugefügt");
+			player.sendMessage(Messages.getInstance().getMessage("dark.coins.prefix") + Colors.TEXT + "Dir wurden " + Colors.IMPORTANT + coins + " Coins" + Colors.TEXT + " hinzugefügt");
 		}
-		getCoins(uuid, result -> setCoins(uuid, result + coins));
+		getCoins(uuid, result -> {
+			switch (valueType)
+			{
+				case LONG:
+					setCoins(uuid, String.valueOf(result + Long.valueOf(coins)));
+					break;
+				case INTEGER:
+					setCoins(uuid, String.valueOf(result + Integer.valueOf(coins)));
+					break;
+				case FLOAT:
+					setCoins(uuid, String.valueOf(result + Float.valueOf(coins)));
+					break;
+				case DOUBLE:
+					setCoins(uuid, String.valueOf(result + Double.valueOf(coins)));
+					break;
+			}
+		});
 	}
 	
 	/**
 	 * Entfernt dem Account mit der übergebenen UUID die angegebenen Coins
 	 */
-	public void removeCoins(UUID uuid, int coins)
+	public void removeCoins(UUID uuid, String coins)
 	{
 		Player player = Bukkit.getPlayer(uuid);
 		if (player != null)
 		{
-			player.sendMessage(this.messages.getMessage("dark.coins.prefix") + Colors.TEXT + "Dir wurden " + Colors.IMPORTANT + coins + " Coins" + Colors.TEXT + " gelöscht");
+			player.sendMessage(Messages.getInstance().getMessage("dark.coins.prefix") + Colors.TEXT + "Dir wurden " + Colors.IMPORTANT + coins + " Coins" + Colors.TEXT + " gelöscht");
 		}
-		getCoins(uuid, result -> setCoins(uuid, result - coins));
+		getCoins(uuid, result -> {
+			switch (valueType)
+			{
+				case LONG:
+					setCoins(uuid, String.valueOf(result - Long.valueOf(coins)));
+					break;
+				case INTEGER:
+					setCoins(uuid, String.valueOf(result - Integer.valueOf(coins)));
+					break;
+				case FLOAT:
+					setCoins(uuid, String.valueOf(result - Float.valueOf(coins)));
+					break;
+				case DOUBLE:
+					setCoins(uuid, String.valueOf(result - Double.valueOf(coins)));
+					break;
+			}
+		});
 	}
 }

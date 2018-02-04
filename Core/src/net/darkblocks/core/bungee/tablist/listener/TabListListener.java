@@ -2,8 +2,8 @@ package net.darkblocks.core.bungee.tablist.listener;
 
 import lombok.Getter;
 import lombok.NonNull;
-import net.craftplugin.craftpluginapi.spigot.events.PlayerDisconnectEvent;
-import net.craftplugin.craftpluginapi.universal.messages.Messages;
+import net.darkblocks.dark.spigot.events.PlayerDisconnectEvent;
+import net.darkblocks.dark.universal.messages.Messages;
 import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -15,8 +15,8 @@ import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.event.EventHandler;
 
-import static net.craftplugin.craftpluginapi.universal.messages.Colors.IMPORTANT;
-import static net.craftplugin.craftpluginapi.universal.messages.Colors.TEXT;
+import static net.darkblocks.dark.universal.messages.Colors.IMPORTANT;
+import static net.darkblocks.dark.universal.messages.Colors.TEXT;
 
 /**
  * Created by LartyHD on 22.01.2018  01:18.

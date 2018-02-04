@@ -2,10 +2,10 @@ package net.darkblocks.dark.spigot.listener;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.craftplugin.craftpluginapi.java.utils.ServerState;
-import net.craftplugin.craftpluginapi.spigot.events.ServerStateChangeEvent;
-import net.craftplugin.craftpluginapi.spigot.team.SpectatorManager;
+import net.darkblocks.dark.java.utils.ServerState;
 import net.darkblocks.dark.spigot.controller.GameController;
+import net.darkblocks.dark.spigot.events.ServerStateChangeEvent;
+import net.darkblocks.dark.spigot.team.SpectatorManager;
 import net.darkblocks.dark.universal.messages.Colors;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;

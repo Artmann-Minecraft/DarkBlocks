@@ -1,8 +1,8 @@
 package net.darkblocks.core.bungee.teamchat.listener;
 
 import lombok.Getter;
-import net.craftplugin.craftpluginapi.universal.messages.Messages;
 import net.darkblocks.core.bungee.teamchat.TeamChat;
+import net.darkblocks.dark.universal.messages.Messages;
 import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.connection.Connection;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -11,7 +11,7 @@ import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.event.EventHandler;
 
-import static net.craftplugin.craftpluginapi.universal.messages.Colors.*;
+import static net.darkblocks.dark.universal.messages.Colors.*;
 
 /**
  * Created by LartyHD on 19.01.2018  23:33.

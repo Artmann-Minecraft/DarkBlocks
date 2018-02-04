@@ -1,7 +1,7 @@
 package net.darkblocks.core.spigot.fix.bungeehack;
 
-import net.craftplugin.craftpluginapi.java.mysql.MySQL;
 import net.darkblocks.core.spigot.fix.bungeehack.listener.BungeeHackListener;
+import net.darkblocks.dark.java.mysql.MySQL;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**

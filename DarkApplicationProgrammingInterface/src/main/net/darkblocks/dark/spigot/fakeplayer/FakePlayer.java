@@ -1,7 +1,7 @@
 package net.darkblocks.dark.spigot.fakeplayer;
 
 import com.mojang.authlib.GameProfile;
-import net.craftplugin.craftpluginapi.java.utils.ReflectUtils;
+import net.darkblocks.dark.java.utils.ReflectUtils;
 import net.minecraft.server.v1_8_R3.*;
 import net.minecraft.server.v1_8_R3.WorldSettings.EnumGamemode;
 import org.bukkit.Location;

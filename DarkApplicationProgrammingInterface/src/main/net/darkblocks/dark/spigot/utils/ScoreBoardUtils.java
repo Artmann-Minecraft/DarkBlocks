@@ -4,7 +4,7 @@
 package net.darkblocks.dark.spigot.utils;
 
 import lombok.Getter;
-import net.craftplugin.craftpluginapi.spigot.team.TeamManager;
+import net.darkblocks.dark.spigot.team.TeamManager;
 import net.darkblocks.dark.universal.messages.Colors;
 import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Bukkit;
@@ -13,8 +13,6 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static net.craftplugin.craftpluginapi.universal.messages.Colors.*;
 
 /**
  * Created by LartyHD on 16.01.2018  22:17.

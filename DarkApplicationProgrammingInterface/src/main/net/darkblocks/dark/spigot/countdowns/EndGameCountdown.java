@@ -4,8 +4,8 @@
 package net.darkblocks.dark.spigot.countdowns;
 
 import lombok.Getter;
-import net.craftplugin.craftpluginapi.spigot.events.EndGameCountdownFinishedEvent;
-import net.craftplugin.craftpluginapi.spigot.events.EndGameCountdownStartedEvent;
+import net.darkblocks.dark.spigot.events.EndGameCountdownFinishedEvent;
+import net.darkblocks.dark.spigot.events.EndGameCountdownStartedEvent;
 import net.darkblocks.dark.universal.messages.Colors;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

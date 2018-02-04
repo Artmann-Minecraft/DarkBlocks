@@ -27,6 +27,7 @@ public class CraftPlugin extends JavaPlugin
 	@Override
 	public synchronized void onEnable()
 	{
+		super.onEnable();
 		sendPluginInfos("Enable");
 	}
 	

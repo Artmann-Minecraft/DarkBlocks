@@ -1,6 +1,6 @@
 package net.darkblocks.dark.spigot.events.listener;
 
-import net.craftplugin.craftpluginapi.spigot.events.PlayerDisconnectEvent;
+import net.darkblocks.dark.spigot.events.PlayerDisconnectEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

@@ -7,7 +7,7 @@ import lombok.Getter;
 import net.darkblocks.dark.java.utils.Callback;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -19,9 +19,9 @@ public class StatsAPI
 {
 	private final String tableName;
 	private final MySQL mySQL;
-	private final ArrayList<String> stats;
+	private final List<String> stats;
 	
-	public StatsAPI(String tableName, ArrayList<String> stats, MySQL statsMySQL)
+	public StatsAPI(String tableName, List<String> stats, MySQL statsMySQL)
 	{
 		this.stats = stats;
 		this.mySQL = statsMySQL;

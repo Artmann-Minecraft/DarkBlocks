@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
-import net.craftplugin.craftpluginapi.java.utils.ServerState;
+import net.darkblocks.dark.java.utils.ServerState;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 

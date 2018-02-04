@@ -4,9 +4,9 @@
 package net.darkblocks.dark.spigot.countdowns;
 
 import lombok.Getter;
-import net.craftplugin.craftpluginapi.spigot.events.PreGameCountdownFinishedEvent;
-import net.craftplugin.craftpluginapi.spigot.events.PreGameCountdownStartedEvent;
-import net.craftplugin.craftpluginapi.spigot.utils.PackageUtils;
+import net.darkblocks.dark.spigot.events.PreGameCountdownFinishedEvent;
+import net.darkblocks.dark.spigot.events.PreGameCountdownStartedEvent;
+import net.darkblocks.dark.spigot.utils.PackageUtils;
 import net.darkblocks.dark.universal.messages.Colors;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;

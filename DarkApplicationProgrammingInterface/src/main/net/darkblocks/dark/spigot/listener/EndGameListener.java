@@ -1,10 +1,10 @@
 package net.darkblocks.dark.spigot.listener;
 
 import lombok.Getter;
-import net.craftplugin.craftpluginapi.java.utils.ServerState;
-import net.craftplugin.craftpluginapi.spigot.events.PlayerDisconnectEvent;
-import net.craftplugin.craftpluginapi.spigot.events.ServerStateChangeEvent;
+import net.darkblocks.dark.java.utils.ServerState;
 import net.darkblocks.dark.spigot.controller.GameController;
+import net.darkblocks.dark.spigot.events.PlayerDisconnectEvent;
+import net.darkblocks.dark.spigot.events.ServerStateChangeEvent;
 import net.darkblocks.dark.universal.messages.Colors;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -22,8 +22,6 @@ import org.bukkit.event.player.*;
 import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-
-import static net.craftplugin.craftpluginapi.universal.messages.Colors.*;
 
 /**
  * Created by LartyHD on 29.11.2017  14:06.
