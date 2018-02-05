@@ -9,7 +9,7 @@ import org.bukkit.event.HandlerList;
  * Created by LartyHD on 01.12.2017  05:27.
  */
 @Getter
-public abstract class CountdownEvent extends Event
+public class CountdownEvent extends Event
 {
 	private static final HandlerList handlers = new HandlerList();
 	private final Countdown countdown;
@@ -17,6 +17,11 @@ public abstract class CountdownEvent extends Event
 	public CountdownEvent(Countdown countdown)
 	{
 		this.countdown = countdown;
+	}
+	
+	public static HandlerList getHandlerList()
+	{
+		return handlers;
 	}
 	
 	@Override
