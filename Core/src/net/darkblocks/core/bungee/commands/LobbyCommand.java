@@ -18,7 +18,7 @@ import static net.darkblocks.dark.universal.messages.Colors.TEXT;
 @Getter
 public class LobbyCommand extends Command
 {
-	public LobbyCommand(Plugin plugin)
+	LobbyCommand(Plugin plugin)
 	{
 		super(CommandUtils.getName(LobbyCommand.class), null, "Hub", "l", "leave", "quit");
 		CommandUtils.register(plugin, this);

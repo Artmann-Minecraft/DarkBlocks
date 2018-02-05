@@ -16,8 +16,7 @@ import static net.darkblocks.dark.universal.messages.Colors.*;
 
 public class ListCommand extends Command
 {
-	@SuppressWarnings("SameParameterValue")
-	public ListCommand(Plugin plugin)
+	ListCommand(Plugin plugin)
 	{
 		super(CommandUtils.getName(ListCommand.class));
 		CommandUtils.register(plugin, this);

@@ -1,6 +1,7 @@
 package net.darkblocks.core.bungee;
 
 import net.darkblocks.core.bungee.autoban.ChatBan;
+import net.darkblocks.core.bungee.automessage.AutoMessage;
 import net.darkblocks.core.bungee.commands.Commands;
 import net.darkblocks.core.bungee.joinme.JoinMe;
 import net.darkblocks.core.bungee.msg.PrivateMessage;
@@ -21,7 +22,6 @@ public class Core
 {
 	public Core(Plugin plugin)
 	{
-		@SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
 		PropertiesConfig properties = new PropertiesConfig(new File("databases"), "mysql.properties");
 		MySQL mySQL = new MySQL((String) properties.get("Host"), (String) properties.get("Port"), (String) properties.get("Username"), (String) properties.get("Password"), (String) properties.get("Database"));
 		new Wartungen(plugin, mySQL);
@@ -32,5 +32,6 @@ public class Core
 		new OtherVersionBlocker(plugin);
 		new TabList(plugin);
 		new TeamChat(plugin, mySQL);
+		new AutoMessage(plugin);
 	}
 }

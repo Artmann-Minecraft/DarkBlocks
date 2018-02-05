@@ -13,5 +13,6 @@ public class Commands
 		new ListCommand(plugin);
 		new LobbyCommand(plugin);
 		new PingCommand(plugin);
+		new KickCommand(plugin);
 	}
 }

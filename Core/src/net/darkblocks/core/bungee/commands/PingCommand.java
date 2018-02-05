@@ -19,8 +19,7 @@ import static net.darkblocks.dark.universal.messages.Colors.TEXT;
 @Getter
 public class PingCommand extends Command
 {
-	@SuppressWarnings("WeakerAccess")
-	public PingCommand(Plugin plugin)
+	PingCommand(Plugin plugin)
 	{
 		super(CommandUtils.getName(PingCommand.class));
 		CommandUtils.register(plugin, this);
