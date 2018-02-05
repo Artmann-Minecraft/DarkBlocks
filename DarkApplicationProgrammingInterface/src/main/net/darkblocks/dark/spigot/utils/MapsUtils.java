@@ -12,15 +12,16 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 /**
  * Created by LartyHD on 04.01.2018  20:31.
  */
 public class MapsUtils
 {
-	public static List<String> loadMapNames(JavaPlugin javaPlugin) throws IndexOutOfBoundsException
+	public static Set<String> loadMapNames(JavaPlugin javaPlugin) throws IndexOutOfBoundsException
 	{
-		List<String> mapNamesList = Configuration.loadConfiguration(new File(javaPlugin.getDataFolder() + File.separator + "data.yml")).getStringList("maps");
+		Set<String> mapNamesList = (Set<String>) Configuration.loadConfiguration(new File(javaPlugin.getDataFolder() + File.separator + "data.yml")).getStringList("maps");
 		if (mapNamesList.isEmpty())
 		{
 			throw new IndexOutOfBoundsException("No Maps in Config");

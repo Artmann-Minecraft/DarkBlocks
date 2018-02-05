@@ -42,7 +42,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 
 import static net.darkblocks.dark.universal.messages.Colors.SECONDARY;
 
@@ -64,8 +67,7 @@ public class CountdownListener implements Listener
 		Bukkit.getPluginManager().registerEvents(this, javaPlugin);
 		this.prefix = prefix;
 		this.javaPlugin = javaPlugin;
-		Set<String> maps = new HashSet<>();
-		Collections.addAll(maps, MapsUtils.loadMapNames(javaPlugin));
+		Set<String> maps = MapsUtils.loadMapNames(javaPlugin);
 		this.gameController = new GameController(javaPlugin, ServerState.STARTUP, 2);
 		this.voteManager = new VoteManager(javaPlugin, ((Cores) javaPlugin).getPrefix(javaPlugin.getName()), this.gameController, maps);
 		registerGameController(this.gameController);
