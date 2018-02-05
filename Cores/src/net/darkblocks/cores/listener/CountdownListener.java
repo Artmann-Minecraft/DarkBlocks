@@ -198,7 +198,7 @@ public class CountdownListener implements Listener
 		{
 			HandlerList.unregisterAll(this.teamManager);
 		}
-		this.teamManager = new TeamManager(this.javaPlugin, true, 2, this.prefix);
+		this.teamManager = new TeamManager(this.javaPlugin, true, 2);
 		this.voteManager.getVotes().getResult();
 		for (GameTeam gameTeam : this.teamManager.getTeams())
 		{

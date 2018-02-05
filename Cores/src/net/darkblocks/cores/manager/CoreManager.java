@@ -10,6 +10,7 @@ import net.darkblocks.dark.spigot.team.SpectatorManager;
 import net.darkblocks.dark.spigot.team.TeamManager;
 import net.darkblocks.dark.spigot.utils.MapsUtils;
 import net.darkblocks.dark.spigot.utils.PackageUtils;
+import net.darkblocks.dark.universal.messages.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -98,7 +99,7 @@ public class CoreManager implements Listener
 					{
 						for (Player players : Bukkit.getOnlinePlayers())
 						{
-							players.sendMessage(this.teamManager.getPrefix() + IMPORTANT + core.getGameTeam().getChatColor() + core.getName() + TEXT + " wurde von " + IMPORTANT + team.getChatColor() + player.getName() + TEXT + " zerstört");
+							players.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + IMPORTANT + core.getGameTeam().getChatColor() + core.getName() + TEXT + " wurde von " + IMPORTANT + team.getChatColor() + player.getName() + TEXT + " zerstört");
 							PackageUtils.sendTitle(players, core.getGameTeam().getChatColor() + core.getName(), TEXT + "wurde von " + team.getChatColor() + player.getName() + TEXT + " zerstört", 5, 40, 5);
 						}
 						block.setType(Material.AIR);
@@ -107,7 +108,7 @@ public class CoreManager implements Listener
 					}
 					else
 					{
-						player.sendMessage(this.teamManager.getPrefix() + TEXT + "Du darfst dein eigenen " + IMPORTANT + core.getName() + TEXT + " nicht abbauen");
+						player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du darfst dein eigenen " + IMPORTANT + core.getName() + TEXT + " nicht abbauen");
 						return;
 					}
 				}
@@ -180,7 +181,7 @@ public class CoreManager implements Listener
 		}
 		if (livingTeams == 1)
 		{
-			Bukkit.broadcastMessage(this.teamManager.getPrefix() + TEXT + "Das Team " + IMPORTANT + winnerTeam.getChatColor() + winnerTeam.getName() + TEXT + " hat gewonnen");
+			Bukkit.broadcastMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Das Team " + IMPORTANT + winnerTeam.getChatColor() + winnerTeam.getName() + TEXT + " hat gewonnen");
 			Bukkit.getPluginManager().callEvent(new ServerStateChangeEvent(ServerState.INGAME, ServerState.ENDGAME));
 		}
 	}
