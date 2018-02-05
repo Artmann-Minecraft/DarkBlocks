@@ -9,6 +9,7 @@ import net.darkblocks.dark.spigot.team.TeamManager;
 import org.bukkit.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.util.List;
 import java.util.Random;
 
@@ -17,19 +18,14 @@ import java.util.Random;
  */
 public class MapsUtils
 {
-	public static String[] loadMapNames(JavaPlugin javaPlugin) throws IndexOutOfBoundsException
+	public static List<String> loadMapNames(JavaPlugin javaPlugin) throws IndexOutOfBoundsException
 	{
-		PropertiesConfig propertiesConfig = new PropertiesConfig(javaPlugin.getDataFolder(), "data.properties");
-		if (propertiesConfig != null)
+		List<String> mapNamesList = Configuration.loadConfiguration(new File(javaPlugin.getDataFolder() + File.separator + "data.yml")).getStringList("maps");
+		if (mapNamesList.isEmpty())
 		{
-			Object o = propertiesConfig.get("Maps");
-			if (o != null && o instanceof String)
-			{
-				String maps = (String) propertiesConfig.get("Maps");
-				return maps.split(" ");
-			}
+			throw new IndexOutOfBoundsException("No Maps in Config");
 		}
-		throw new IndexOutOfBoundsException("No Maps in Config");
+		return mapNamesList;
 	}
 	
 	public static String getRandomMap(List<String> mapNames) throws IndexOutOfBoundsException
