@@ -5,6 +5,7 @@ import net.darkblocks.cores.manager.CoreManager;
 import net.darkblocks.cores.utils.Core;
 import net.darkblocks.dark.java.utils.ServerState;
 import net.darkblocks.dark.spigot.builder.ItemBuilder;
+import net.darkblocks.dark.spigot.config.Configuration;
 import net.darkblocks.dark.spigot.controller.GameController;
 import net.darkblocks.dark.spigot.countdowns.EndGameCountdown;
 import net.darkblocks.dark.spigot.countdowns.LobbyCountdown;
@@ -40,6 +41,7 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.io.File;
 import java.util.*;
 
 import static net.darkblocks.dark.universal.messages.Colors.SECONDARY;
@@ -234,7 +236,18 @@ public class CountdownListener implements Listener
 	@EventHandler
 	public void onPreGameCountdownFinishedEvent(PreGameCountdownFinishedEvent event)
 	{
-		this.coreManager = new CoreManager(this.javaPlugin, Arrays.asList(new Core("Core", new Location(Bukkit.getWorld("Test"), 0, 99, -40), this.teamManager.getTeam("Blau")), new Core("Core", new Location(Bukkit.getWorld("Test"), 0, 99, 40), this.teamManager.getTeam("Rot"))), this.teamManager, this.spectatorManager, this.gameController);
+		Configuration configuration = Configuration.loadConfiguration(new File(this.javaPlugin.getDataFolder() + File.separator + "maps" + File.separator + this.voteManager.getMapName() + ".yml"));
+		//MapsUtils.loadSpawns(configuration, this.teamManager, this.spectatorManager);
+		List<Core> cores = new ArrayList<>();
+		for (String coreNames : configuration.getStringList("Cores.CoreNames"))
+		{
+			for (GameTeam gameTeam : this.teamManager.getTeams())
+			{
+				String name = gameTeam.getName();
+				cores.add(new Core(coreNames, new Location(Bukkit.getWorld(configuration.getString("Cores." + name + "." + coreNames + ".World")), configuration.getDouble("spawns." + name + "." + coreNames + "X"), configuration.getDouble("spawns." + name + "." + coreNames + "Y"), configuration.getDouble("spawns." + name + "." + coreNames + "Z"), (float) configuration.getDouble("spawns." + name + "." + coreNames + "yaw"), (float) configuration.getDouble("spawns." + name + "." + coreNames + "pitch")), gameTeam));
+			}
+		}
+		this.coreManager = new CoreManager(this.javaPlugin, cores, this.teamManager, this.spectatorManager, this.gameController);
 		for (Player players : Bukkit.getOnlinePlayers())
 		{
 			players.updateInventory();

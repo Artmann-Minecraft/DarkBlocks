@@ -1,6 +1,11 @@
 package net.darkblocks.dark.spigot.utils;
 
+import lombok.NonNull;
 import net.darkblocks.dark.java.config.PropertiesConfig;
+import net.darkblocks.dark.spigot.config.Configuration;
+import net.darkblocks.dark.spigot.team.GameTeam;
+import net.darkblocks.dark.spigot.team.SpectatorManager;
+import net.darkblocks.dark.spigot.team.TeamManager;
 import org.bukkit.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -10,10 +15,8 @@ import java.util.Random;
 /**
  * Created by LartyHD on 04.01.2018  20:31.
  */
-@SuppressWarnings("ALL")
 public class MapsUtils
 {
-	@SuppressWarnings("unchecked")
 	public static String[] loadMapNames(JavaPlugin javaPlugin) throws IndexOutOfBoundsException
 	{
 		PropertiesConfig propertiesConfig = new PropertiesConfig(javaPlugin.getDataFolder(), "data.properties");
@@ -63,7 +66,18 @@ public class MapsUtils
 		world.getEntities().clear();
 	}
 	
-	@SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
+	public static void loadSpawns(@NonNull Configuration configuration, @NonNull TeamManager teamManager, SpectatorManager spectatorManager)
+	{
+		for (GameTeam team : teamManager.getTeams())
+		{
+			team.setLocation(new Location(Bukkit.getWorld(configuration.getString("spawns." + team.getName() + ".World")), configuration.getDouble("spawns." + team.getName() + ".X"), configuration.getDouble("spawns." + team.getName() + ".Y"), configuration.getDouble("spawns." + team.getName() + ".Z"), (float) configuration.getDouble("spawns." + team.getName() + ".yaw"), (float) configuration.getDouble("spawns." + team.getName() + ".pitch")));
+		}
+		if (spectatorManager != null)
+		{
+			spectatorManager.getSpectators().setLocation(new Location(Bukkit.getWorld(configuration.getString("spawns.spectator.World")), configuration.getDouble("spawns.spectator.X"), configuration.getDouble("spawns.spectator.Y"), configuration.getDouble("spawns.spectator.Z"), (float) configuration.getDouble("spawns.spectator.yaw"), (float) configuration.getDouble("spawns.spectator.pitch")));
+		}
+	}
+	
 	public static Location getLobbyLocation(JavaPlugin javaPlugin)
 	{
 		PropertiesConfig conf = new PropertiesConfig(javaPlugin.getDataFolder(), "lobby.properties");
@@ -75,13 +89,6 @@ public class MapsUtils
 	
 	public static boolean equalsLocation(Location location1, Location location2)
 	{
-		if (location1.getWorld() == location2.getWorld() && location1.getBlockX() == location2.getBlockX() && location1.getBlockY() == location2.getBlockY() && location1.getBlockZ() == location2.getBlockZ())
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return location1.getWorld() == location2.getWorld() && location1.getBlockX() == location2.getBlockX() && location1.getBlockY() == location2.getBlockY() && location1.getBlockZ() == location2.getBlockZ();
 	}
 }
