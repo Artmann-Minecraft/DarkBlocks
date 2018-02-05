@@ -7,6 +7,7 @@ import net.darkblocks.dark.spigot.builder.ItemBuilder;
 import net.darkblocks.dark.spigot.events.ServerStateChangeEvent;
 import net.darkblocks.dark.spigot.utils.InventoryUtils;
 import net.darkblocks.dark.universal.messages.Colors;
+import net.darkblocks.dark.universal.messages.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -34,12 +35,10 @@ public class TeamManager implements Listener
 {
 	@NonNull
 	private final List<GameTeam> teams;
-	private final String prefix;
 	
-	public TeamManager(@NonNull JavaPlugin javaPlugin, boolean colored, int teamsCount, String prefix)
+	public TeamManager(@NonNull JavaPlugin javaPlugin, boolean colored, int teamsCount)
 	{
 		this.teams = new ArrayList<>();
-		this.prefix = prefix;
 		if (colored && teamsCount <= 14)
 		{
 			Map<String, ChatColor> map = new HashMap<>();
@@ -64,29 +63,6 @@ public class TeamManager implements Listener
 					this.teams.add(new GameTeam(name, map.get(name), (Bukkit.getOnlinePlayers().size() / teamsCount) + 1, true));
 				}
 			}
-			/*ArrayList<Double<String, ChatColor>> list = new ArrayList<>();
-			list.add(new Double<>("Blau", ChatColor.DARK_BLUE));
-			list.add(new Double<>("Rot", ChatColor.RED));
-			list.add(new Double<>("Grün", ChatColor.DARK_GREEN));
-			list.add(new Double<>("Gelb", ChatColor.YELLOW));
-			list.add(new Double<>("Schwarz", ChatColor.BLACK));
-			list.add(new Double<>("Weiß", ChatColor.WHITE));
-			list.add(new Double<>("Orange", ChatColor.GOLD));
-			list.add(new Double<>("Türkis", ChatColor.AQUA));
-			list.add(new Double<>("Violett", ChatColor.DARK_PURPLE));
-			list.add(new Double<>("Hellblau", ChatColor.BLUE));
-			list.add(new Double<>("Hellgrün", ChatColor.GREEN));
-			list.add(new Double<>("Hellgrau", ChatColor.GRAY));
-			list.add(new Double<>("Grau", ChatColor.DARK_GRAY));
-			list.add(new Double<>("Rosa", ChatColor.LIGHT_PURPLE));
-			for (Double<String, ChatColor> team : list)
-			{
-				if (this.teams.size() == teamsCount)
-				{
-					return;
-				}
-				this.teams.add(new GameTeam(team.getFirst(), team.getSecond(), (Bukkit.getOnlinePlayers().size() / teamsCount) + 1, true));
-			}*/
 		}
 		else
 		{
@@ -161,47 +137,6 @@ public class TeamManager implements Listener
 				return 8;
 		}
 	}
-	
-	/*public short getWool(String name)
-	{
-		switch (name)
-		{
-			case "Weiß":
-				return 0;
-			case "Orange":
-				return 1;
-			case "Magenta":
-				return 2;
-			case "Hellblau":
-				return 3;
-			case "Gelb":
-				return 4;
-			case "Hellgrün":
-				return 5;
-			case "Rosa":
-				return 6;
-			case "Grau":
-				return 7;
-			case "Hellgrau":
-				return 8;
-			case "Türkis":
-				return 9;
-			case "Violettes":
-				return 10;
-			case "Blau":
-				return 11;
-			case "Braun":
-				return 12;
-			case "Grün":
-				return 13;
-			case "Rot":
-				return 14;
-			case "Schwarz":
-				return 15;
-			default:
-				return 0;
-		}
-	}*/
 	
 	public boolean finishTeams(@NonNull String prefix)
 	{
@@ -389,20 +324,20 @@ public class TeamManager implements Listener
 				}
 				if (gameTeam == null)
 				{
-					player.sendMessage(this.prefix + Colors.TEXT + "Es ist ein " + Colors.IMPORTANT + "Fehler " + Colors.TEXT + "aufgetreten bitte versuche es noch mal");
+					player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.TEXT + "Es ist ein " + Colors.IMPORTANT + "Fehler " + Colors.TEXT + "aufgetreten bitte versuche es noch mal");
 				}
 				else
 				{
 					getTeam(player).remove(player);
 					if (!gameTeam.add(player))
 					{
-						player.sendMessage(this.prefix + Colors.TEXT + "Das Team ist bereits " + Colors.IMPORTANT + "voll");
+						player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.TEXT + "Das Team ist bereits " + Colors.IMPORTANT + "voll");
 						player.closeInventory();
 						openTeamGUI(player);
 					}
 					else
 					{
-						player.sendMessage(this.prefix + Colors.TEXT + "Du bist nun im Team " + gameTeam.getChatColor() + gameTeam.getName());
+						player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.TEXT + "Du bist nun im Team " + gameTeam.getChatColor() + gameTeam.getName());
 						player.closeInventory();
 					}
 				}

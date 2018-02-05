@@ -3,7 +3,7 @@ package net.darkblocks.dark;
 import javax.swing.*;
 
 /**
- * Created by CraftPlugin on 10.11.2017  00:00.
+ * Created by DarkPlugin on 10.11.2017  00:00.
  */
 @SuppressWarnings("ALL")
 public class Bootstrap

@@ -16,7 +16,7 @@ import java.util.Map;
 @Getter
 @Setter
 @AllArgsConstructor
-public class CraftPlugin extends JavaPlugin
+public class DarkPlugin extends JavaPlugin
 {
 	@Override
 	public synchronized void onLoad()

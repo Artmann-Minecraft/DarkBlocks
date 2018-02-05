@@ -78,14 +78,8 @@ public class GameTeam
 	@SuppressWarnings("deprecation")
 	public void remove(Player player)
 	{
-		if (this.players.contains(player))
-		{
-			this.players.remove(player);
-		}
-		if (this.team.hasPlayer(player))
-		{
-			this.team.removePlayer(player);
-		}
+		this.players.remove(player);
+		this.team.removePlayer(player);
 	}
 	
 	private Color getLeatherColor(ChatColor chatColor)

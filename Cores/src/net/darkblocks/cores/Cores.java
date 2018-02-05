@@ -7,7 +7,7 @@ import net.darkblocks.core.spigot.Core;
 import net.darkblocks.cores.listener.CountdownListener;
 import net.darkblocks.dark.java.utils.ServerState;
 import net.darkblocks.dark.spigot.events.ServerStateChangeEvent;
-import net.darkblocks.dark.spigot.plugin.CraftPlugin;
+import net.darkblocks.dark.spigot.plugin.DarkPlugin;
 import org.bukkit.Bukkit;
 
 import static net.darkblocks.dark.universal.messages.Colors.*;
@@ -15,7 +15,7 @@ import static net.darkblocks.dark.universal.messages.Colors.*;
 /**
  * Created by LartyHD on 03.01.2018  11:14.
  */
-public class Cores extends CraftPlugin
+public class Cores extends DarkPlugin
 {
 	@Override
 	public synchronized void onEnable()
