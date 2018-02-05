@@ -202,17 +202,8 @@ public class CountdownListener implements Listener
 		}
 		this.teamManager = new TeamManager(this.javaPlugin, true, 2);
 		this.voteManager.getVotes().getResult();
-		for (GameTeam gameTeam : this.teamManager.getTeams())
-		{
-			if (gameTeam.getName().equalsIgnoreCase("Blau"))
-			{
-				gameTeam.setLocation(new Location(Bukkit.getWorld("Test"), 0, 99, -40));
-			}
-			else if (gameTeam.getName().equalsIgnoreCase("Rot"))
-			{
-				gameTeam.setLocation(new Location(Bukkit.getWorld("Test"), 0, 99, 40));
-			}
-		}
+		Configuration configuration = Configuration.loadConfiguration(new File(this.javaPlugin.getDataFolder() + File.separator + "maps" + File.separator + this.voteManager.getMapName() + ".yml"));
+		MapsUtils.loadSpawns(configuration, this.teamManager, this.spectatorManager);
 	}
 	
 	@EventHandler
