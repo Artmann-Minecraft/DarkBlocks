@@ -1,21 +1,16 @@
 package net.darkblocks.core.spigot.fix.bungeehack.listener;
 
-import com.segdogames.segdocloudplugin.api.CloudAPI;
 import lombok.Getter;
-import net.darkblocks.dark.java.mysql.MySQL;
 import net.darkblocks.dark.universal.messages.Messages;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import static net.darkblocks.dark.universal.messages.Colors.PRIMARY;
 import static net.darkblocks.dark.universal.messages.Colors.TEXT;
@@ -26,15 +21,12 @@ import static net.darkblocks.dark.universal.messages.Colors.TEXT;
 @Getter
 public class BungeeHackListener implements Listener
 {
-	private final MySQL mySQL;
-	private final List<String> bungeeCords;
+	private final Set<String> bungeeCords;
 	
-	public BungeeHackListener(MySQL mySQL, JavaPlugin javaPlugin)
+	public BungeeHackListener(JavaPlugin javaPlugin)
 	{
-		this.mySQL = mySQL;
-		this.bungeeCords = new ArrayList<>();
+		this.bungeeCords = new HashSet<>();
 		Bukkit.getPluginManager().registerEvents(this, javaPlugin);
-		getMySQL().update("CREATE TABLE IF NOT EXISTS BungeeHackerAtacks(id INT NOT NULL AUTO_INCREMENT, address VARCHAR(100), host_address VARCHAR(100), uuid VARCHAR(100), `name` VARCHAR(20), `date` VARCHAR(100), `server` VARCHAR(100), PRIMARY KEY(ID))");
 	}
 	
 	@EventHandler(priority = EventPriority.LOWEST)
@@ -43,18 +35,7 @@ public class BungeeHackListener implements Listener
 		String ip = event.getRealAddress().getHostAddress();
 		if (!check(ip))
 		{
-			Player player = event.getPlayer();
 			event.disallow(PlayerLoginEvent.Result.KICK_OTHER, TEXT + "Bitte joine über " + PRIMARY + Messages.getInstance().getMessage(Messages.getInstance().getPathPrefix() + "servername"));
-			String time = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(new Date());
-			getMySQL().update("INSERT INTO BungeeHackerAngriffe(address, host_address, uuid, `name`, `date`, `server`) VALUES ('" + event.getRealAddress() + "','" + ip + "','" + player.getUniqueId().toString() + "','" + player.getName() + "','" + time + "','" + CloudAPI.get().getNameAPI().getServerName() + "')");
-		/*for (Player players : Bukkit.getOnlinePlayers())
-		{
-			if (!players.hasPermission("dark.core.spigot.fix.bungeehack.seehackjoins"))
-			{
-				continue;
-			}
-			players.sendMessage(getMessages().getMessage("dark.fix.bungeehack.prefix") + TEXT + "Der Server hat ein BungeeHackerAngriffe blockiert weitere daten in der DatenBank. Uhrzeit:" + time);
-		}*/
 		}
 	}
 	

@@ -1,7 +1,6 @@
 package net.darkblocks.core.spigot.fix.bungeehack;
 
 import net.darkblocks.core.spigot.fix.bungeehack.listener.BungeeHackListener;
-import net.darkblocks.dark.java.mysql.MySQL;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -9,8 +8,8 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class BungeeHack
 {
-	public BungeeHack(MySQL mySQL, JavaPlugin javaPlugin)
+	public BungeeHack(JavaPlugin javaPlugin)
 	{
-		new BungeeHackListener(mySQL, javaPlugin);
+		new BungeeHackListener(javaPlugin);
 	}
 }
