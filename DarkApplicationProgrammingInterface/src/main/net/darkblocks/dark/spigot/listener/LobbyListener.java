@@ -21,6 +21,7 @@ import org.bukkit.event.player.*;
 import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+
 /**
  * Created by LartyHD on 29.11.2017  14:06.
  */
@@ -164,7 +165,7 @@ public abstract class LobbyListener implements Listener
 	@EventHandler
 	public void onAsyncPlayerChat(AsyncPlayerChatEvent event)
 	{
-		event.setFormat(event.getPlayer().getDisplayName() + Colors.IMPORTANT + ": §f" + event.getMessage());
+		event.setMessage(event.getPlayer().getDisplayName() + Colors.IMPORTANT + ": §f" + event.getMessage());
 	}
 	
 	@EventHandler

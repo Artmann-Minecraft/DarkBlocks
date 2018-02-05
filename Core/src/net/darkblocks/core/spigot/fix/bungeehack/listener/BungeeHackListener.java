@@ -1,6 +1,7 @@
 package net.darkblocks.core.spigot.fix.bungeehack.listener;
 
 import lombok.Getter;
+import net.darkblocks.dark.spigot.config.Configuration;
 import net.darkblocks.dark.universal.messages.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -9,6 +10,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,15 +27,14 @@ public class BungeeHackListener implements Listener
 	
 	public BungeeHackListener(JavaPlugin javaPlugin)
 	{
-		this.bungeeCords = new HashSet<>();
+		this.bungeeCords = new HashSet<>(Configuration.loadConfiguration(new File(javaPlugin.getDataFolder() + File.separator + "BungeeCords.yml")).getStringList("BungeeCords"));
 		Bukkit.getPluginManager().registerEvents(this, javaPlugin);
 	}
 	
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void on(PlayerLoginEvent event)
 	{
-		String ip = event.getRealAddress().getHostAddress();
-		if (!check(ip))
+		if (!check(event.getRealAddress().getHostAddress()))
 		{
 			event.disallow(PlayerLoginEvent.Result.KICK_OTHER, TEXT + "Bitte joine über " + PRIMARY + Messages.getInstance().getMessage(Messages.getInstance().getPathPrefix() + "servername"));
 		}

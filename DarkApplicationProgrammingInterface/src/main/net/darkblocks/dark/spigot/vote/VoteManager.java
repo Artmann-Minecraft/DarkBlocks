@@ -81,6 +81,7 @@ public class VoteManager implements Listener
 						players.sendMessage(prefix + Colors.TEXT + "     Gewinner" + Colors.IMPORTANT + ": " + Colors.PRIMARY + winner + Colors.TEXT + " (" + Colors.IMPORTANT + count + Colors.TEXT + ")");
 						players.sendMessage(prefix + " ");
 					}
+					VoteManager.this.mapName = winner;
 					MapsUtils.loadMap(winner);
 				}
 				else

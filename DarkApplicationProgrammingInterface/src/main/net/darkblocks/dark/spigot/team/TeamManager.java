@@ -2,6 +2,7 @@ package net.darkblocks.dark.spigot.team;
 
 import lombok.Getter;
 import lombok.NonNull;
+import net.darkblocks.dark.java.utils.Double;
 import net.darkblocks.dark.java.utils.ServerState;
 import net.darkblocks.dark.spigot.builder.ItemBuilder;
 import net.darkblocks.dark.spigot.events.ServerStateChangeEvent;
@@ -25,7 +26,10 @@ import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by LartyHD on 03.01.2018  12:30.
@@ -41,26 +45,26 @@ public class TeamManager implements Listener
 		this.teams = new ArrayList<>();
 		if (colored && teamsCount <= 14)
 		{
-			Map<String, ChatColor> map = new HashMap<>();
-			map.put("Blau", ChatColor.DARK_BLUE);
-			map.put("Rot", ChatColor.RED);
-			map.put("Grün", ChatColor.DARK_GREEN);
-			map.put("Gelb", ChatColor.YELLOW);
-			map.put("Schwarz", ChatColor.BLACK);
-			map.put("Weiß", ChatColor.WHITE);
-			map.put("Orange", ChatColor.GOLD);
-			map.put("Türkis", ChatColor.AQUA);
-			map.put("Violett", ChatColor.DARK_PURPLE);
-			map.put("Hellblau", ChatColor.BLUE);
-			map.put("Hellgrün", ChatColor.GREEN);
-			map.put("Hellgrau", ChatColor.GRAY);
-			map.put("Grau", ChatColor.DARK_GRAY);
-			map.put("Rosa", ChatColor.LIGHT_PURPLE);
-			for (String name : map.keySet())
+			List<Double<String, ChatColor>> list = new ArrayList<>();
+			list.add(new Double<>("Blau", ChatColor.DARK_BLUE));
+			list.add(new Double<>("Rot", ChatColor.RED));
+			list.add(new Double<>("Grün", ChatColor.DARK_GREEN));
+			list.add(new Double<>("Gelb", ChatColor.YELLOW));
+			list.add(new Double<>("Schwarz", ChatColor.BLACK));
+			list.add(new Double<>("Weiß", ChatColor.WHITE));
+			list.add(new Double<>("Orange", ChatColor.GOLD));
+			list.add(new Double<>("Türkis", ChatColor.AQUA));
+			list.add(new Double<>("Violett", ChatColor.DARK_PURPLE));
+			list.add(new Double<>("Hellblau", ChatColor.BLUE));
+			list.add(new Double<>("Hellgrün", ChatColor.GREEN));
+			list.add(new Double<>("Hellgrau", ChatColor.GRAY));
+			list.add(new Double<>("Grau", ChatColor.DARK_GRAY));
+			list.add(new Double<>("Rosa", ChatColor.LIGHT_PURPLE));
+			for (Double<String, ChatColor> teams : list)
 			{
-				if (this.teams.size() <= teamsCount)
+				if (this.teams.size() < teamsCount)
 				{
-					this.teams.add(new GameTeam(name, map.get(name), (Bukkit.getOnlinePlayers().size() / teamsCount) + 1, true));
+					this.teams.add(new GameTeam(teams.getFirst(), teams.getSecond(), (Bukkit.getOnlinePlayers().size() / teamsCount) + 1, true));
 				}
 			}
 		}
@@ -320,7 +324,7 @@ public class TeamManager implements Listener
 				}
 				else
 				{
-					gameTeam = getTeam(itemName.split(" ")[0]);
+					gameTeam = getTeam(ChatColor.stripColor(itemName).split(" ")[0]);
 				}
 				if (gameTeam == null)
 				{
@@ -328,7 +332,11 @@ public class TeamManager implements Listener
 				}
 				else
 				{
-					getTeam(player).remove(player);
+					GameTeam team = getTeam(player);
+					if (team != null)
+					{
+						team.remove(player);
+					}
 					if (!gameTeam.add(player))
 					{
 						player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.TEXT + "Das Team ist bereits " + Colors.IMPORTANT + "voll");

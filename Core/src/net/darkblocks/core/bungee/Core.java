@@ -11,6 +11,7 @@ import net.darkblocks.core.bungee.teamchat.TeamChat;
 import net.darkblocks.core.bungee.wartungen.Wartungen;
 import net.darkblocks.dark.java.config.PropertiesConfig;
 import net.darkblocks.dark.java.mysql.MySQL;
+import net.darkblocks.dark.universal.messages.Messages;
 import net.md_5.bungee.api.plugin.Plugin;
 
 import java.io.File;
@@ -22,6 +23,7 @@ public class Core
 {
 	public Core(Plugin plugin)
 	{
+		new Messages();
 		PropertiesConfig properties = new PropertiesConfig(new File("databases"), "mysql.properties");
 		MySQL mySQL = new MySQL((String) properties.get("Host"), (String) properties.get("Port"), (String) properties.get("Username"), (String) properties.get("Password"), (String) properties.get("Database"));
 		new Wartungen(plugin, mySQL);

@@ -12,16 +12,15 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 /**
  * Created by LartyHD on 04.01.2018  20:31.
  */
 public class MapsUtils
 {
-	public static Set<String> loadMapNames(JavaPlugin javaPlugin) throws IndexOutOfBoundsException
+	public static List<String> loadMapNames(JavaPlugin javaPlugin) throws IndexOutOfBoundsException
 	{
-		Set<String> mapNamesList = (Set<String>) Configuration.loadConfiguration(new File(javaPlugin.getDataFolder() + File.separator + "data.yml")).getStringList("maps");
+		List<String> mapNamesList = Configuration.loadConfiguration(new File(javaPlugin.getDataFolder() + File.separator + "data.yml")).getStringList("maps");
 		if (mapNamesList.isEmpty())
 		{
 			throw new IndexOutOfBoundsException("No Maps in Config");
@@ -80,7 +79,6 @@ public class MapsUtils
 		PropertiesConfig conf = new PropertiesConfig(javaPlugin.getDataFolder(), "lobby.properties");
 		Location location = new Location(Bukkit.getWorld((String) conf.get("lobby.world")), Double.valueOf((String) conf.get("lobby.x")), Double.valueOf((String) conf.get("lobby.y")), Double.valueOf((String) conf.get("lobby.z")), Float.valueOf((String) conf.get("lobby.yaw")), Float.valueOf((String) conf.get("lobby.pitch")));
 		location.getWorld().setSpawnLocation(location.getBlockX(), location.getBlockY(), location.getBlockZ());
-		System.out.println("Der Lobby Spawnpoint wurde gesetzt " + location.toString());
 		return location;
 	}
 	

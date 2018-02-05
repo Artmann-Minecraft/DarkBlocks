@@ -15,14 +15,12 @@ import org.bukkit.plugin.java.JavaPlugin;
  * Created by LartyHD on 24.06.2017  17:22.
  * Project: EndGameCountdown
  */
-@SuppressWarnings("ALL")
 @Getter
 public class EndGameCountdown extends Countdown
 {
 	private final String prefix;
 	private final JavaPlugin javaPlugin;
 	
-	@SuppressWarnings("unused")
 	public EndGameCountdown(String prefix, JavaPlugin javaPlugin)
 	{
 		super(16);
@@ -46,7 +44,7 @@ public class EndGameCountdown extends Countdown
 				switch (getSeconds())
 				{
 					case 1:
-						Bukkit.broadcastMessage(prefix + Colors.TEXT + "Der Server startet in " + Colors.IMPORTANT + "einer" + Colors.TEXT + " Sekunde neu");
+						Bukkit.broadcastMessage(this.prefix + Colors.TEXT + "Der Server startet in " + Colors.IMPORTANT + "einer" + Colors.TEXT + " Sekunde neu");
 						break;
 					case 2:
 					case 3:
@@ -58,7 +56,7 @@ public class EndGameCountdown extends Countdown
 					case 30:
 					case 45:
 					case 60:
-						Bukkit.broadcastMessage(prefix + Colors.TEXT + "Der Server startet in " + Colors.IMPORTANT + getSeconds() + Colors.TEXT + " Sekunden neu");
+						Bukkit.broadcastMessage(this.prefix + Colors.TEXT + "Der Server startet in " + Colors.IMPORTANT + getSeconds() + Colors.TEXT + " Sekunden neu");
 						break;
 				}
 				if (this.getSeconds() == 0 || Bukkit.getOnlinePlayers().size() == 0)
@@ -86,6 +84,6 @@ public class EndGameCountdown extends Countdown
 	private void setLevel(Player player)
 	{
 		player.setLevel(getSeconds());
-		player.setExp(getSeconds() / 15);
+		player.setExp((float) getSeconds() / 15F);
 	}
 }

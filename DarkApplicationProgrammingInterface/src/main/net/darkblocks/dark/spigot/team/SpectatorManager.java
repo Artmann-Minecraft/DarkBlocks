@@ -8,6 +8,7 @@ import net.darkblocks.dark.spigot.events.PlayerDisconnectEvent;
 import net.darkblocks.dark.spigot.utils.InventoryUtils;
 import net.darkblocks.dark.universal.messages.Colors;
 import org.bukkit.*;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
@@ -35,7 +36,6 @@ import java.util.Set;
 /**
  * Created by LartyHD on 03.01.2018  12:33.
  */
-@SuppressWarnings("ALL")
 @Getter
 public class SpectatorManager implements Listener
 {
@@ -53,7 +53,7 @@ public class SpectatorManager implements Listener
 		team.setPrefix((colored ? ChatColor.GRAY : ChatColor.DARK_GRAY) + "[" + Colors.PRIMARY + "✘" + (colored ? ChatColor.GRAY : ChatColor.DARK_GRAY) + "] " + (colored ? ChatColor.DARK_GRAY : ChatColor.GRAY));
 		team.setCanSeeFriendlyInvisibles(true);
 		team.setAllowFriendlyFire(false);
-		spectators.setLocation(location);
+		this.spectators.setLocation(location);
 	}
 	
 	public void add(Player player)
@@ -101,7 +101,7 @@ public class SpectatorManager implements Listener
 	@EventHandler
 	public void onAsyncPlayerChatEvent(AsyncPlayerChatEvent event)
 	{
-		event.setFormat(spectators.getTeam().getPrefix() + event.getFormat());
+		event.setFormat(this.spectators.getTeam().getPrefix() + event.getFormat());
 		//TODO: MAKE IT!
 	}
 	
@@ -146,7 +146,7 @@ public class SpectatorManager implements Listener
 			event.setCancelled(true);
 			if (event.getMaterial() == Material.COMPASS)
 			{
-				Inventory inventory = new InventoryBuilder(null, InventoryUtils.getInventorySize(players.size()), Colors.SECONDARY + "Teleporter").build();
+				Inventory inventory = new InventoryBuilder(null, InventoryUtils.getInventorySize(this.players.size()), Colors.SECONDARY + "Teleporter").build();
 				for (Player players : Bukkit.getOnlinePlayers())
 				{
 					if (!this.players.contains(players))
@@ -167,7 +167,7 @@ public class SpectatorManager implements Listener
 	public void onInventoryClickEvent(InventoryClickEvent event)
 	{
 		Player player = (Player) event.getWhoClicked();
-		if (players.contains(player))
+		if (this.players.contains(player))
 		{
 			event.setCancelled(true);
 			Inventory inventory = event.getInventory();
@@ -186,14 +186,14 @@ public class SpectatorManager implements Listener
 							if (displayName != null)
 							{
 								Player target = Bukkit.getPlayer(ChatColor.stripColor(displayName));
-								if (target != null && !spectators.getPlayers().contains(target))
+								if (target != null && !this.spectators.getPlayers().contains(target))
 								{
 									player.teleport(target);
 									player.closeInventory();
 								}
 								else
 								{
-									player.sendMessage(prefix + Colors.TEXT + "Der Spieler ist nicht mehr im Spiel");
+									player.sendMessage(this.prefix + Colors.TEXT + "Der Spieler ist nicht mehr im Spiel");
 								}
 							}
 						}
@@ -206,7 +206,14 @@ public class SpectatorManager implements Listener
 	@EventHandler
 	public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent event)
 	{
-		block((Player) event.getDamager(), event);
+		if (event.getDamager() instanceof Player)
+		{
+			block((Player) event.getDamager(), event);
+		}
+		else if (event.getDamager() instanceof Arrow)
+		{
+			block((Player) ((Arrow) event.getDamager()).getShooter(), event);
+		}
 	}
 	
 	@EventHandler

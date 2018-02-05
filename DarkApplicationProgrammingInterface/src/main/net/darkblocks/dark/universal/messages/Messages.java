@@ -19,13 +19,13 @@ public class Messages
 	private static Messages instance;
 	private final Map<String, String> messages;
 	
-	private Messages()
+	public Messages()
 	{
 		instance = this;
 		this.messages = new HashMap<>();
 	}
 	
-	private Messages(@NonNull Map<String, String> messages)
+	public Messages(@NonNull Map<String, String> messages)
 	{
 		instance = this;
 		this.messages = messages;
@@ -42,7 +42,7 @@ public class Messages
 		String lowerCaseKey = key.toLowerCase();
 		if (getMessages().get(lowerCaseKey) == null)
 		{
-			return IMPORTANT + lowerCaseKey + TEXT + " wurde nicht gefunden";
+			return "\"" + IMPORTANT + lowerCaseKey + TEXT + " wurde nicht gefunden\"";
 		}
 		else
 		{
@@ -65,7 +65,7 @@ public class Messages
 				resultKeys.append(", ").append(lowerCaseKey);
 			}
 		}
-		return TEXT + "Keiner der Nachichten " + IMPORTANT + resultKeys.substring(2) + TEXT + " wurden gefunden ";
+		return TEXT + "\"Keiner der Nachichten " + IMPORTANT + resultKeys.substring(2) + TEXT + " wurden gefunden\"";
 	}
 	
 	public void add(@NonNull Map<String, String> messages)

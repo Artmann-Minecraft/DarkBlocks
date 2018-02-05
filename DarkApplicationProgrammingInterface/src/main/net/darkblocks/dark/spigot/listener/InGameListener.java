@@ -223,7 +223,7 @@ public class InGameListener implements Listener
 //		}
 //		else
 //		{
-		event.setFormat(player.getDisplayName() + Colors.IMPORTANT + ": §f" + event.getMessage());
+		event.setMessage(player.getDisplayName() + Colors.IMPORTANT + ": §f" + event.getMessage());
 //		}
 	}
 }

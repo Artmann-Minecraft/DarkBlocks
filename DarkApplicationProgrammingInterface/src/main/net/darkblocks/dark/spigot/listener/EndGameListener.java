@@ -98,7 +98,7 @@ public class EndGameListener implements Listener
 	@EventHandler
 	public void onAsyncPlayerChat(AsyncPlayerChatEvent event)
 	{
-		event.setFormat(event.getPlayer().getDisplayName() + Colors.IMPORTANT + ": §f" + event.getMessage());
+		event.setMessage(event.getPlayer().getDisplayName() + Colors.IMPORTANT + ": §f" + event.getMessage());
 	}
 	
 	@EventHandler

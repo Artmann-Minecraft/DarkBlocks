@@ -3,6 +3,7 @@ package net.darkblocks.core.spigot;
 import net.darkblocks.core.spigot.fix.bungeehack.BungeeHack;
 import net.darkblocks.core.spigot.fix.chat.AsyncPlayerChatEventFix;
 import net.darkblocks.dark.spigot.events.listener.EventsListener;
+import net.darkblocks.dark.universal.messages.Messages;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -12,6 +13,7 @@ public class Core
 {
 	public Core(JavaPlugin javaPlugin)
 	{
+		new Messages();
 		new EventsListener(javaPlugin);
 		new AsyncPlayerChatEventFix(javaPlugin);
 //		@SuppressWarnings("MismatchedQueryAndUpdateOfCollection")

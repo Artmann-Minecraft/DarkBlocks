@@ -39,13 +39,11 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static net.darkblocks.dark.universal.messages.Colors.SECONDARY;
 
@@ -67,7 +65,7 @@ public class CountdownListener implements Listener
 		Bukkit.getPluginManager().registerEvents(this, javaPlugin);
 		this.prefix = prefix;
 		this.javaPlugin = javaPlugin;
-		Set<String> maps = MapsUtils.loadMapNames(javaPlugin);
+		Set<String> maps = new HashSet<>(MapsUtils.loadMapNames(javaPlugin));
 		this.gameController = new GameController(javaPlugin, ServerState.STARTUP, 2);
 		this.voteManager = new VoteManager(javaPlugin, ((Cores) javaPlugin).getPrefix(javaPlugin.getName()), this.gameController, maps);
 		registerGameController(this.gameController);
@@ -204,8 +202,7 @@ public class CountdownListener implements Listener
 		}
 		this.teamManager = new TeamManager(this.javaPlugin, true, 2);
 		this.voteManager.getVotes().getResult();
-		Configuration configuration = Configuration.loadConfiguration(new File(this.javaPlugin.getDataFolder() + File.separator + "maps" + File.separator + this.voteManager.getMapName() + ".yml"));
-		MapsUtils.loadSpawns(configuration, this.teamManager, this.spectatorManager);
+		MapsUtils.loadSpawns(Configuration.loadConfiguration(new File(this.javaPlugin.getDataFolder() + File.separator + "maps" + File.separator + this.voteManager.getMapName() + ".yml")), this.teamManager, this.spectatorManager);
 	}
 	
 	@EventHandler
@@ -237,7 +234,7 @@ public class CountdownListener implements Listener
 			for (GameTeam gameTeam : this.teamManager.getTeams())
 			{
 				String name = gameTeam.getName();
-				cores.add(new Core(coreNames, new Location(Bukkit.getWorld(configuration.getString("Cores." + name + "." + coreNames + ".World")), configuration.getDouble("Cores." + name + "." + coreNames + "X"), configuration.getDouble("Cores." + name + "." + coreNames + "Y"), configuration.getDouble("Cores." + name + "." + coreNames + "Z")), gameTeam));
+				cores.add(new Core(coreNames, new Location(Bukkit.getWorld(configuration.getString("Cores." + name + "." + coreNames + ".World")), configuration.getDouble("Cores." + name + "." + coreNames + ".X"), configuration.getDouble("Cores." + name + "." + coreNames + ".Y"), configuration.getDouble("Cores." + name + "." + coreNames + ".Z")), gameTeam));
 			}
 		}
 		this.coreManager = new CoreManager(this.javaPlugin, cores, this.teamManager, this.spectatorManager, this.gameController);
@@ -254,7 +251,10 @@ public class CountdownListener implements Listener
 		HandlerList.unregisterAll(this.coreManager);
 		for (Player players : Bukkit.getOnlinePlayers())
 		{
-			players.getActivePotionEffects().clear();
+			for (PotionEffect potionEffect : players.getActivePotionEffects())
+			{
+				players.removePotionEffect(potionEffect.getType());
+			}
 		}
 	}
 }

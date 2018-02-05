@@ -23,7 +23,6 @@ public class PreGameCountdown extends Countdown
 	private final String prefix;
 	private final JavaPlugin javaPlugin;
 	
-	@SuppressWarnings("unused")
 	public PreGameCountdown(String prefix, JavaPlugin javaPlugin)
 	{
 		super(6);
@@ -86,6 +85,6 @@ public class PreGameCountdown extends Countdown
 	private void setLevel(Player player)
 	{
 		player.setLevel(getSeconds());
-		player.setExp(getSeconds() / 5);
+		player.setExp((float) getSeconds() / 5F);
 	}
 }

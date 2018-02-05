@@ -23,6 +23,9 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,20 +48,24 @@ public class CoreManager implements Listener
 	{
 		Bukkit.getPluginManager().registerEvents(this, javaPlugin);
 		this.cores = cores;
+		for (Core core : cores)
+		{
+			System.out.println(core.toString());
+		}
 		this.teamManager = teamManager;
 		this.spectatorManager = spectatorManager;
-		/*new BukkitRunnable()
+		new BukkitRunnable()
 		{
 			@Override
 			public void run()
 			{
 				while (gameController.getServerState() == ServerState.INGAME)
 				{
-					for (Player players : Bukkit.getOnlinePlayers())
+					for (Core core : cores)
 					{
-						for (Location location : getArenaBlocks(players.getLocation(), 5))
+						for (Player players : Bukkit.getOnlinePlayers())
 						{
-							if (location.getBlock().getType() == Material.BEACON)
+							if (core.getGameTeam() != teamManager.getTeam(players) && players.getLocation().distance(core.getLocation()) <= 5)
 							{
 								players.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 100, 2), true);
 							}
@@ -73,7 +80,7 @@ public class CoreManager implements Listener
 					}
 				}
 			}
-		}.runTask(javaPlugin);*/
+		}.runTask(javaPlugin);
 	}
 	
 	@EventHandler
@@ -104,12 +111,10 @@ public class CoreManager implements Listener
 						}
 						block.setType(Material.AIR);
 						checkWin();
-						return;
 					}
 					else
 					{
 						player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du darfst dein eigenen " + IMPORTANT + core.getName() + TEXT + " nicht abbauen");
-						return;
 					}
 				}
 			}
@@ -158,9 +163,11 @@ public class CoreManager implements Listener
 		for (Core core : this.cores)
 		{
 			Block block = core.getLocation().getBlock();
-			GameTeam gameTeam = core.getGameTeam();
-			Integer size = cores.get(gameTeam);
-			cores.put(gameTeam, block == null ? 0 : block.getType() != Material.BEACON ? 0 : size == null ? 1 : size + 1);
+			if (block != null && block.getType() == Material.BEACON)
+			{
+				GameTeam gameTeam = core.getGameTeam();
+				cores.merge(gameTeam, 1, (a, b) -> a + b);
+			}
 		}
 		int livingTeams = 0;
 		GameTeam winnerTeam = null;

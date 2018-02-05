@@ -170,7 +170,7 @@ public class LobbyCountdown extends Countdown
 	private void setLevel(Player player)
 	{
 		player.setLevel(getSeconds());
-		player.setExp(getSeconds() / 60);
+		player.setExp((float) getSeconds() / 60F);
 	}
 }
 	
