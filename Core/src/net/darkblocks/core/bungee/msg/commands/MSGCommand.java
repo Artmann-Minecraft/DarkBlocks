@@ -35,25 +35,29 @@ public class MSGCommand extends Command
 		if (target == null)
 		{
 			sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "notonline"));
-			return;
 		}
-		else if (args.length > 1)
+		else
 		{
-			StringBuilder sb = new StringBuilder();
-			for (String arg : args)
+			if (args.length > 1)
 			{
-				sb.append(IMPORTANT).append(arg).append(" ");
+				StringBuilder stringBuilder = new StringBuilder();
+				for (String arg : args)
+				{
+					stringBuilder.append(IMPORTANT).append(arg).append(" ");
+				}
+				String messages = stringBuilder.substring(target.getName().length() + 3);
+				if (!messages.equalsIgnoreCase("") && !messages.equalsIgnoreCase(" "))
+				{
+					getPrivateMessage().getReplay().put(target.getName(), sender.getName());
+					sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + "/" + getName() + TEXT + "<Spieler> <Nachricht>"));
+					sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "[Du -> " + target.getName() + "] " + IMPORTANT + messages));
+					target.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "[" + sender.getName() + " -> Dir] " + IMPORTANT + messages));
+				}
 			}
-			String messages = sb.substring(target.getName().length() + 3);
-			if (!messages.equalsIgnoreCase("") && !messages.equalsIgnoreCase(" "))
+			else
 			{
-				getPrivateMessage().getReplay().put(target.getName(), sender.getName());
-				sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + "/" + getName() + TEXT + "<Spieler> <Nachricht>"));
-				sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "[Du -> " + target.getName() + "] " + IMPORTANT + messages));
-				target.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "[" + sender.getName() + " -> Dir] " + IMPORTANT + messages));
-				return;
+				sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + "/" + getName() + TEXT + " <Spieler> <Nachricht>"));
 			}
 		}
-		sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + "/" + getName() + TEXT + "<Spieler> <Nachricht>"));
 	}
 }

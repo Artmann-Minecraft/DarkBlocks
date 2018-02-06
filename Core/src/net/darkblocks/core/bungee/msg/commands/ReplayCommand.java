@@ -32,35 +32,32 @@ public class ReplayCommand extends Command
 	@Override
 	public void execute(CommandSender sender, String[] args)
 	{
-		ProxiedPlayer target = BungeeCord.getInstance().getPlayer(args[0]);
-		if (target == null)
+		if (args.length != 0)
 		{
-			sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "notonline"));
-		}
-		else if (args.length > 1)
-		{
-			String targetName = getPrivateMessage().getReplay().get(sender.getName());
-			if (targetName == null)
+			ProxiedPlayer target = BungeeCord.getInstance().getPlayer(getPrivateMessage().getReplay().get(sender.getName()));
+			if (target == null)
 			{
-				sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "notindatabase"));
+				sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "notonline"));
 			}
 			else
 			{
-				StringBuilder sb = new StringBuilder();
+				StringBuilder stringBuilder = new StringBuilder();
 				for (String arg : args)
 				{
-					sb.append(IMPORTANT).append(arg).append(" ");
+					stringBuilder.append(IMPORTANT).append(arg).append(" ");
 				}
-				String messages = sb.toString();
+				String messages = stringBuilder.toString();
 				if (!messages.equalsIgnoreCase("") && !messages.equalsIgnoreCase(" "))
 				{
 					getPrivateMessage().getReplay().put(target.getName(), sender.getName());
 					sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "[Du -> " + target.getName() + "] " + IMPORTANT + messages));
 					target.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "[" + sender.getName() + " -> Dir] " + IMPORTANT + messages));
-					return;
 				}
 			}
 		}
-		sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", Colors.IMPORTANT + "/" + getName() + Colors.TEXT + "<Nachricht>"));
+		else
+		{
+			sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", Colors.IMPORTANT + "/" + getName() + Colors.TEXT + " <Nachricht>"));
+		}
 	}
 }

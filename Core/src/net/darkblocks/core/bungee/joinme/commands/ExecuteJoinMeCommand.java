@@ -1,6 +1,7 @@
 package net.darkblocks.core.bungee.joinme.commands;
 
 import lombok.Getter;
+import net.darkblocks.core.bungee.joinme.utils.SkullImage;
 import net.darkblocks.dark.universal.messages.Messages;
 import net.darkblocks.dark.universal.utils.CommandUtils;
 import net.md_5.bungee.BungeeCord;
@@ -31,13 +32,13 @@ public class ExecuteJoinMeCommand extends Command
 		{
 			sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "onlyforplayers"));
 		}
-		else if (args.length == 1)
+		else if (args.length == 2 && args[0].equals(SkullImage.RANDOM))
 		{
-			((ProxiedPlayer) sender).connect(BungeeCord.getInstance().getServerInfo(args[0]));
+			((ProxiedPlayer) sender).connect(BungeeCord.getInstance().getServerInfo(args[1]));
 		}
 		else
 		{
-			sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + "/" + getName() + TEXT + ""));
+			sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + "/" + getName() + TEXT + " <CODE> <ServerName>"));
 		}
 	}
 }

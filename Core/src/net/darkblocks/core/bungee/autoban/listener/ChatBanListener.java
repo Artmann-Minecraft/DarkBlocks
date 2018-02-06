@@ -10,6 +10,7 @@ import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.event.EventHandler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static net.darkblocks.dark.universal.messages.Colors.TEXT;
@@ -20,34 +21,35 @@ import static net.darkblocks.dark.universal.messages.Colors.TEXT;
 @Getter
 public class ChatBanListener implements Listener
 {
-	private final List<String> block;
+	private final List<String> matches;
 	
 	public ChatBanListener(Plugin plugin, List<String> block)
 	{
-		this.block = block;
+		this.matches = new ArrayList<>();
+		for (String blocked : block)
+		{
+			char[] chars = blocked.toCharArray();
+			StringBuilder match = new StringBuilder();
+			for (char c : chars)
+			{
+				match.append("+[").append(Character.toUpperCase(c)).append(Character.toLowerCase(c)).append("]");
+			}
+			this.matches.add(match.substring(1));
+		}
 		BungeeCord.getInstance().getPluginManager().registerListener(plugin, this);
 	}
 	
 	@EventHandler
 	public void onChatEvent(ChatEvent event)
 	{
-		if (!event.isCommand() && event.getSender() instanceof ProxiedPlayer)
+		for (String match : getMatches())
 		{
-			ProxiedPlayer sender = (ProxiedPlayer) event.getSender();
-			for (String blocked : getBlock())
+			if (event.getMessage().replaceAll(" ", "").matches(match))
 			{
-				char[] chars = blocked.toCharArray();
-				StringBuilder match = new StringBuilder();
-				for (char c : chars)
-				{
-					match.append(" + [").append(Character.toUpperCase(c)).append(Character.toLowerCase(c)).append("]");
-				}
-				if (event.getMessage().replaceAll(" ", "").matches(match.substring(3)))
-				{
-					event.setCancelled(true);
-					sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Du darfst du nicht schreiben"));
-					ProxyServer.getInstance().getPluginManager().dispatchCommand(ProxyServer.getInstance().getConsole(), "ban " + sender.getName() + " 2");
-				}
+				ProxiedPlayer sender = (ProxiedPlayer) event.getSender();
+				event.setCancelled(true);
+				sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Du darfst du das nicht schreiben"));
+				ProxyServer.getInstance().getPluginManager().dispatchCommand(ProxyServer.getInstance().getConsole(), "ban " + sender.getName() + " 2");
 			}
 		}
 	}

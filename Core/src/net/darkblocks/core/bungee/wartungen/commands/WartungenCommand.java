@@ -33,7 +33,7 @@ public class WartungenCommand extends Command
 	@Override
 	public void execute(CommandSender sender, String[] args)
 	{
-		String servername = Messages.getInstance().getMessage(Messages.getInstance().getPathPrefix(), "servername");
+		String servername = Messages.getInstance().getShortMessage(getClass(), "servername");
 		if (getWartungen().isOn())
 		{
 			BungeeCord.getInstance().broadcast(Messages.getInstance().getShortTextComponent(getClass(), "prefix", servername + TEXT + " ist jetzt nicht mehr im " + IMPORTANT + "Wartungsmodus"));

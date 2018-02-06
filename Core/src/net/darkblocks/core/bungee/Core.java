@@ -31,8 +31,8 @@ public class Core extends Plugin
 	public void onEnable()
 	{
 		Map<String, String> messages = new HashMap<>();
-		messages.put("dark.prefix", "§f" + EXTRA + "[" + PRIMARY + EXTRA + "Cores§f" + EXTRA + "] §r");
 		messages.put("dark.servername", "" + PRIMARY + EXTRA + "DarkBlocks§f" + EXTRA + "." + PRIMARY + EXTRA + "Net");
+		messages.put("dark.prefix", "§f" + EXTRA + "[" + PRIMARY + EXTRA + "DarkBlocks§f" + EXTRA + "] §r");
 		new Messages(messages);
 		PropertiesConfig properties = new PropertiesConfig(new File("databases"), "mysql.properties");
 		MySQL mySQL = new MySQL((String) properties.get("Host"), (String) properties.get("Port"), (String) properties.get("Username"), (String) properties.get("Password"), (String) properties.get("Database"));

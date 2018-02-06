@@ -5,10 +5,10 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
-import org.apache.commons.lang.RandomStringUtils;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 /**
  * Created by LartyHD on 04.02.2018  17:47.
@@ -20,7 +20,7 @@ public class SkullImage
 	
 	static
 	{
-		RANDOM = RandomStringUtils.random(5, true, true);
+		RANDOM = String.valueOf(new Random().nextInt());
 		colors = new Color[]{new Color(0, 0, 0), new Color(0, 0, 170), new Color(0, 170, 0), new Color(0, 170, 170), new Color(170, 0, 0), new Color(170, 0, 170), new Color(255, 170, 0), new Color(170, 170, 170), new Color(85, 85, 85), new Color(85, 85, 255), new Color(85, 255, 85), new Color(85, 255, 255), new Color(255, 85, 85), new Color(255, 85, 255), new Color(255, 255, 85), new Color(255, 255, 255)};
 	}
 	
@@ -206,7 +206,7 @@ public class SkullImage
 		DARK_SHADE('▓'),
 		MEDIUM_SHADE('▒'),
 		LIGHT_SHADE('░');
-		private char c;
+		private final char c;
 		
 		ImgChar(char c)
 		{
