@@ -45,7 +45,10 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import static net.darkblocks.dark.universal.messages.Colors.*;
 
@@ -241,7 +244,7 @@ public class CountdownListener implements Listener
 	{
 		Configuration configuration = Configuration.loadConfiguration(new File(this.javaPlugin.getDataFolder() + File.separator + "maps" + File.separator + this.voteManager.getMapName() + ".yml"));
 		//MapsUtils.loadSpawns(configuration, this.teamManager, this.spectatorManager);
-		List<Core> cores = new ArrayList<>();
+		Set<Core> cores = new HashSet<>();
 		for (String coreNames : configuration.getStringList("Cores.CoreNames"))
 		{
 			for (GameTeam gameTeam : this.teamManager.getTeams())
@@ -257,7 +260,7 @@ public class CountdownListener implements Listener
 		}
 		for (Player players : Bukkit.getOnlinePlayers())
 		{
-			ScoreBoard.update(players, Messages.getInstance().getShortMessage(getClass(), "servername"), cores, 0);
+			ScoreBoard.update(players, Messages.getInstance().getShortMessage(getClass(), "servername"), cores, this.teamManager, 0);
 		}
 		this.gameController.setServerState(ServerState.INGAME);
 	}

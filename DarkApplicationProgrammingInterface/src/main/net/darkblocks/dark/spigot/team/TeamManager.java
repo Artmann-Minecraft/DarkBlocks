@@ -38,11 +38,11 @@ import java.util.Set;
 public class TeamManager implements Listener
 {
 	@NonNull
-	private final List<GameTeam> teams;
+	private final Set<GameTeam> teams;
 	
 	public TeamManager(@NonNull JavaPlugin javaPlugin, boolean colored, int teamsCount)
 	{
-		this.teams = new ArrayList<>();
+		this.teams = new HashSet<>();
 		if (colored && teamsCount <= 14)
 		{
 			List<Double<String, ChatColor>> list = new ArrayList<>();

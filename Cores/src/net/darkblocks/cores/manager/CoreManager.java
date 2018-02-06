@@ -28,8 +28,8 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static net.darkblocks.dark.universal.messages.Colors.IMPORTANT;
 import static net.darkblocks.dark.universal.messages.Colors.TEXT;
@@ -39,11 +39,11 @@ import static net.darkblocks.dark.universal.messages.Colors.TEXT;
  */
 public class CoreManager implements Listener
 {
-	private final List<Core> cores;
+	private final Set<Core> cores;
 	private final TeamManager teamManager;
 	private final SpectatorManager spectatorManager;
 	
-	public CoreManager(JavaPlugin javaPlugin, List<Core> cores, TeamManager teamManager, SpectatorManager spectatorManager, GameController gameController)
+	public CoreManager(JavaPlugin javaPlugin, Set<Core> cores, TeamManager teamManager, SpectatorManager spectatorManager, GameController gameController)
 	{
 		Bukkit.getPluginManager().registerEvents(this, javaPlugin);
 		this.cores = cores;
@@ -72,7 +72,17 @@ public class CoreManager implements Listener
 											players.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 100, 1), true);
 										}
 									}.runTask(javaPlugin);
-									core.setAttacked(true);
+									if (!core.isAttacked())
+									{
+										core.setAttacked(true);
+									}
+								}
+								else
+								{
+									if (core.isAttacked())
+									{
+										core.setAttacked(false);
+									}
 								}
 							}
 						}
@@ -195,7 +205,7 @@ public class CoreManager implements Listener
 	{
 		for (Player players : Bukkit.getOnlinePlayers())
 		{
-			ScoreBoard.update(players, Messages.getInstance().getShortMessage(getClass(), "servername"), this.cores, 0);
+			ScoreBoard.update(players, Messages.getInstance().getShortMessage(getClass(), "servername"), this.cores, this.teamManager, 0);
 		}
 	}
 }
