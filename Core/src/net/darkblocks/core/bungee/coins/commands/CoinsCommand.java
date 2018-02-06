@@ -38,14 +38,14 @@ public class CoinsCommand extends Command
 		{
 			if (args.length == 0)
 			{
-				this.coinsAPI.getCoins(((ProxiedPlayer) sender).getUniqueId(), result -> sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Du hast " + IMPORTANT + result + PRIMARY + " Coins")));
+				this.coinsAPI.getCoins(((ProxiedPlayer) sender).getUniqueId(), result -> sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Du hast " + PRIMARY + result + IMPORTANT + " Coins")));
 			}
 			else if (args.length == 1)
 			{
 				ProxiedPlayer target = ProxyServer.getInstance().getPlayer(args[0]);
 				if (target != null)
 				{
-					this.coinsAPI.getCoins(target.getUniqueId(), result -> sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + target.getName() + TEXT + " hat " + IMPORTANT + result + PRIMARY + " Coins")));
+					this.coinsAPI.getCoins(target.getUniqueId(), result -> sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + target.getName() + TEXT + " hat " + PRIMARY + result + IMPORTANT + " Coins")));
 				}
 				else
 				{

@@ -7,6 +7,7 @@ import net.darkblocks.core.bungee.commands.Commands;
 import net.darkblocks.core.bungee.joinme.JoinMe;
 import net.darkblocks.core.bungee.motd.Motd;
 import net.darkblocks.core.bungee.msg.PrivateMessage;
+import net.darkblocks.core.bungee.onlinetime.OnlineTime;
 import net.darkblocks.core.bungee.otherversionblocker.OtherVersionBlocker;
 import net.darkblocks.core.bungee.tablist.TabList;
 import net.darkblocks.core.bungee.teamchat.TeamChat;
@@ -30,6 +31,8 @@ import static net.darkblocks.dark.universal.messages.Colors.PRIMARY;
  */
 public class Core extends Plugin
 {
+	private OnlineTime onlineTime;
+	
 	@Override
 	public void onEnable()
 	{
@@ -50,5 +53,12 @@ public class Core extends Plugin
 		new TeamChat(this, mySQL);
 		new AutoMessage(this);
 		new Coins(this, new CoinsAPI("Coins", ValueType.INTEGER, mySQL));
+		this.onlineTime = new OnlineTime(this, mySQL);
+	}
+	
+	@Override
+	public void onDisable()
+	{
+		this.onlineTime.disable();
 	}
 }
