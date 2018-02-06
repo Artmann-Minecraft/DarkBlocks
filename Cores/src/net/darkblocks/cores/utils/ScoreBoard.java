@@ -22,31 +22,35 @@ public class ScoreBoard extends ScoreBoardUtils
 	public static void update(Player player, String displayName, Set<Core> cores, TeamManager teamManager, int kills)
 	{
 		List<ScoreboardScore> score = new ArrayList<>();
-		score.add(setScoreboardScore(" ", 15));
 		int i = 15;
+		score.add(setScoreboardScore(" ", i));
 		for (GameTeam gameTeam : teamManager.getTeams())
 		{
-			System.out.println(gameTeam);
-			score.add(setScoreboardScore(gameTeam.getChatColor() + "Team " + gameTeam.getName() + " " + IMPORTANT + "[" + TEXT + gameTeam.getPlayers().size() + IMPORTANT + "]" + i, i--));
+			i--;
+			score.add(setScoreboardScore("  ", i--));
+			score.add(setScoreboardScore(gameTeam.getChatColor() + "Team " + gameTeam.getName() + " " + IMPORTANT + "[" + TEXT + gameTeam.getPlayers().size() + IMPORTANT + "]", i));
 			for (Core core : cores)
 			{
-				if (core.isAttacked())
+				if (core.getGameTeam().getName().equalsIgnoreCase(gameTeam.getName()))
 				{
-					score.add(setScoreboardScore(IMPORTANT + "§e⚠ " + TEXT + gameTeam.getChatColor() + core.getName() + i, i--));
-				}
-				else
-				{
-					if (core.getLocation().getBlock().getType() == Material.BEACON)
+					i--;
+					if (core.isAttacked())
 					{
-						score.add(setScoreboardScore(IMPORTANT + "§a✔ " + TEXT + gameTeam.getChatColor() + core.getName() + i, i--));
+						score.add(setScoreboardScore(IMPORTANT + "§e⚠ " + TEXT + gameTeam.getChatColor() + core.getName(), i));
 					}
 					else
 					{
-						score.add(setScoreboardScore(IMPORTANT + "§c✖ " + TEXT + gameTeam.getChatColor() + core.getName() + i, i--));
+						if (core.getLocation().getBlock().getType() == Material.BEACON)
+						{
+							score.add(setScoreboardScore(IMPORTANT + "§a✔ " + TEXT + gameTeam.getChatColor() + core.getName(), i));
+						}
+						else
+						{
+							score.add(setScoreboardScore(IMPORTANT + "§c✖ " + TEXT + gameTeam.getChatColor() + core.getName(), i));
+						}
 					}
 				}
 			}
-			score.add(setScoreboardScore("  " + i, i--));
 		}
 		score.add(setScoreboardScore("   ", 2));
 		score.add(setScoreboardScore(TEXT + "Kills" + IMPORTANT + ":", 1));

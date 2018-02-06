@@ -53,7 +53,14 @@ public class ScoreBoardUtils
 	
 	protected static void sendScoreBoard(Player p, String displayName, List<ScoreboardScore> scoreboardScores)
 	{
-		objective.setDisplayName(displayName.substring(0, 31));
+		if (displayName.length() >= 32)
+		{
+			objective.setDisplayName(displayName.substring(0, 31));
+		}
+		else
+		{
+			objective.setDisplayName(displayName);
+		}
 		/*
 		 * Remove Packet
 		 */

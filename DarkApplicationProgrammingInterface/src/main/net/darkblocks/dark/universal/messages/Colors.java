@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
+import org.bukkit.ChatColor;
 
 @AllArgsConstructor
 @Getter
@@ -12,8 +13,9 @@ public enum Colors
 	/**
 	 * Wird bei SEHR wichtigen Sachen verwendet
 	 */
-	PRIMARY(org.bukkit.ChatColor.DARK_RED)
+	PRIMARY(ChatColor.AQUA)
 			{
+				@Override
 				public net.md_5.bungee.api.ChatColor asBungee()
 				{
 					return PRIMARY.getChatColor().asBungee();
@@ -22,8 +24,9 @@ public enum Colors
 	/**
 	 * Wird bei Inventar-Namen, Item-Namen und Namen für Entitys verwendet
 	 */
-	SECONDARY(org.bukkit.ChatColor.RED)
+	SECONDARY(ChatColor.BLUE)
 			{
+				@Override
 				public net.md_5.bungee.api.ChatColor asBungee()
 				{
 					return SECONDARY.getChatColor().asBungee();
@@ -34,6 +37,7 @@ public enum Colors
 	 */
 	IMPORTANT(org.bukkit.ChatColor.DARK_GRAY)
 			{
+				@Override
 				public net.md_5.bungee.api.ChatColor asBungee()
 				{
 					return IMPORTANT.getChatColor().asBungee();
@@ -44,6 +48,7 @@ public enum Colors
 	 */
 	TEXT(org.bukkit.ChatColor.GRAY)
 			{
+				@Override
 				public net.md_5.bungee.api.ChatColor asBungee()
 				{
 					return TEXT.getChatColor().asBungee();
@@ -54,6 +59,7 @@ public enum Colors
 	 */
 	EXTRA(org.bukkit.ChatColor.BOLD)
 			{
+				@Override
 				public net.md_5.bungee.api.ChatColor asBungee()
 				{
 					return EXTRA.getChatColor().asBungee();
@@ -64,6 +70,7 @@ public enum Colors
 	 */
 	DESIGN(org.bukkit.ChatColor.STRIKETHROUGH)
 			{
+				@Override
 				public net.md_5.bungee.api.ChatColor asBungee()
 				{
 					return DESIGN.getChatColor().asBungee();

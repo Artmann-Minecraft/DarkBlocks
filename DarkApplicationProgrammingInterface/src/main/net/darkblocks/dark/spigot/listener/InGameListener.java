@@ -6,7 +6,6 @@ import net.darkblocks.dark.java.utils.ServerState;
 import net.darkblocks.dark.spigot.controller.GameController;
 import net.darkblocks.dark.spigot.events.ServerStateChangeEvent;
 import net.darkblocks.dark.spigot.team.SpectatorManager;
-import net.darkblocks.dark.universal.messages.Colors;
 import net.darkblocks.dark.universal.messages.Messages;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -21,6 +20,9 @@ import org.bukkit.event.player.*;
 import org.bukkit.projectiles.ProjectileSource;
 
 import java.util.HashMap;
+
+import static net.darkblocks.dark.universal.messages.Colors.IMPORTANT;
+import static net.darkblocks.dark.universal.messages.Colors.TEXT;
 
 /**
  * Created by LartyHD on 29.11.2017  14:06.
@@ -124,11 +126,12 @@ public class InGameListener implements Listener
 			{*/
 			if (killer == null)
 			{
-				event.setDeathMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.IMPORTANT + playerName + Colors.TEXT + " ist gestorben");
+				event.setDeathMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + IMPORTANT + playerName + TEXT + " ist gestorben");
 			}
 			else
 			{
-				event.setDeathMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.IMPORTANT + playerName + Colors.TEXT + " wurde von " + Colors.IMPORTANT + killer.getDisplayName() + Colors.TEXT + " getötet");
+				event.setDeathMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + IMPORTANT + playerName + TEXT + " wurde von " + IMPORTANT + killer.getDisplayName() + TEXT + " getötet");
+				event.getEntity().sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + IMPORTANT + playerName + TEXT + " hatte " + IMPORTANT + (int) killer.getHealth() + "§c❥");
 			}
 			/*}*/
 		}
@@ -222,7 +225,7 @@ public class InGameListener implements Listener
 //		}
 //		else
 //		{
-		event.setMessage(player.getDisplayName() + Colors.IMPORTANT + ": §f" + event.getMessage());
+		event.setMessage(player.getDisplayName() + IMPORTANT + ": §f" + event.getMessage());
 //		}
 	}
 }
