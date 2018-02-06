@@ -1,6 +1,7 @@
 package net.darkblocks.core.bungee.joinme;
 
 import net.darkblocks.core.bungee.joinme.commands.ExecuteJoinMeCommand;
+import net.darkblocks.core.bungee.joinme.commands.JoinMeCommand;
 import net.md_5.bungee.api.plugin.Plugin;
 
 /**
@@ -10,7 +11,7 @@ public class JoinMe
 {
 	public JoinMe(Plugin plugin)
 	{
-		new JoinMe(plugin);
+		new JoinMeCommand(plugin);
 		new ExecuteJoinMeCommand(plugin);
 	}
 }

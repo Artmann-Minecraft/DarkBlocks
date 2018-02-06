@@ -18,7 +18,7 @@ public class ChatBan
 {
 	public ChatBan(Plugin plugin, MySQL mySQL)
 	{
-		mySQL.update("CREATE TABLE IF NOT EXISTS ChatAutoBan(`id` INT NOT NULL AUTO_INCREMENT, `name` VARCHAR(100), PRIMARY KEY(name))");
+		mySQL.updateSync("CREATE TABLE IF NOT EXISTS ChatAutoBan(`id` INT NOT NULL AUTO_INCREMENT, `name` VARCHAR(100), PRIMARY KEY(id))");
 		mySQL.query("SELECT * FROM ChatAutoBan", resultSet -> {
 			try
 			{

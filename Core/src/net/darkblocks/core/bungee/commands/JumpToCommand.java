@@ -47,7 +47,7 @@ public class JumpToCommand extends Command
 			}
 			else
 			{
-				sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + "/" + getName() + TEXT + "<Spieler>"));
+				sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + "/" + getName() + TEXT + " <Spieler>"));
 			}
 		}
 	}

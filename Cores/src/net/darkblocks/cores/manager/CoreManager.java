@@ -69,7 +69,7 @@ public class CoreManager implements Listener
 										@Override
 										public void run()
 										{
-											players.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 100, 1), true);
+											players.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 100, 0), true);
 										}
 									}.runTask(javaPlugin);
 									if (!core.isAttacked())

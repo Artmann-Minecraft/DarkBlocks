@@ -4,6 +4,7 @@ import net.darkblocks.core.bungee.autoban.ChatBan;
 import net.darkblocks.core.bungee.automessage.AutoMessage;
 import net.darkblocks.core.bungee.commands.Commands;
 import net.darkblocks.core.bungee.joinme.JoinMe;
+import net.darkblocks.core.bungee.motd.Motd;
 import net.darkblocks.core.bungee.msg.PrivateMessage;
 import net.darkblocks.core.bungee.otherversionblocker.OtherVersionBlocker;
 import net.darkblocks.core.bungee.tablist.TabList;
@@ -15,25 +16,35 @@ import net.darkblocks.dark.universal.messages.Messages;
 import net.md_5.bungee.api.plugin.Plugin;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
+import static net.darkblocks.dark.universal.messages.Colors.EXTRA;
+import static net.darkblocks.dark.universal.messages.Colors.PRIMARY;
 
 /**
  * Created by LartyHD on 09.01.2018  08:32.
  */
-public class Core
+public class Core extends Plugin
 {
-	public Core(Plugin plugin)
+	@Override
+	public void onEnable()
 	{
-		new Messages();
+		Map<String, String> messages = new HashMap<>();
+		messages.put("dark.prefix", "§f" + EXTRA + "[" + PRIMARY + EXTRA + "Cores§f" + EXTRA + "] §r");
+		messages.put("dark.servername", "" + PRIMARY + EXTRA + "DarkBlocks§f" + EXTRA + "." + PRIMARY + EXTRA + "Net");
+		new Messages(messages);
 		PropertiesConfig properties = new PropertiesConfig(new File("databases"), "mysql.properties");
 		MySQL mySQL = new MySQL((String) properties.get("Host"), (String) properties.get("Port"), (String) properties.get("Username"), (String) properties.get("Password"), (String) properties.get("Database"));
-		new Wartungen(plugin, mySQL);
-		new ChatBan(plugin, mySQL);
-		new Commands(plugin);
-		new PrivateMessage(plugin);
-		new JoinMe(plugin);
-		new OtherVersionBlocker(plugin);
-		new TabList(plugin);
-		new TeamChat(plugin, mySQL);
-		new AutoMessage(plugin);
+		new Commands(this);
+		new Wartungen(this, mySQL);
+		new ChatBan(this, mySQL);
+		new Motd(this, mySQL);
+		new PrivateMessage(this);
+		new JoinMe(this);
+		new OtherVersionBlocker(this);
+		new TabList(this);
+		new TeamChat(this, mySQL);
+		new AutoMessage(this);
 	}
 }

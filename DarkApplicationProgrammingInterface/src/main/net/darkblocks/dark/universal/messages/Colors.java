@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
-import org.bukkit.ChatColor;
 
 @AllArgsConstructor
 @Getter
@@ -13,81 +12,34 @@ public enum Colors
 	/**
 	 * Wird bei SEHR wichtigen Sachen verwendet
 	 */
-	PRIMARY(ChatColor.AQUA)
-			{
-				@Override
-				public net.md_5.bungee.api.ChatColor asBungee()
-				{
-					return PRIMARY.getChatColor().asBungee();
-				}
-			},
+	PRIMARY(ChatColor.AQUA),
 	/**
 	 * Wird bei Inventar-Namen, Item-Namen und Namen für Entitys verwendet
 	 */
-	SECONDARY(ChatColor.BLUE)
-			{
-				@Override
-				public net.md_5.bungee.api.ChatColor asBungee()
-				{
-					return SECONDARY.getChatColor().asBungee();
-				}
-			},
+	SECONDARY(ChatColor.BLUE),
 	/**
 	 * Wird bei wichtigen Sachen (vor allem in Texten) verwendet
 	 */
-	IMPORTANT(org.bukkit.ChatColor.DARK_GRAY)
-			{
-				@Override
-				public net.md_5.bungee.api.ChatColor asBungee()
-				{
-					return IMPORTANT.getChatColor().asBungee();
-				}
-			},
+	IMPORTANT(ChatColor.DARK_GRAY),
 	/**
 	 * Wird bei Texten verwendet
 	 */
-	TEXT(org.bukkit.ChatColor.GRAY)
-			{
-				@Override
-				public net.md_5.bungee.api.ChatColor asBungee()
-				{
-					return TEXT.getChatColor().asBungee();
-				}
-			},
+	TEXT(ChatColor.GRAY),
 	/**
 	 * Für Prefixe
 	 */
-	EXTRA(org.bukkit.ChatColor.BOLD)
-			{
-				@Override
-				public net.md_5.bungee.api.ChatColor asBungee()
-				{
-					return EXTRA.getChatColor().asBungee();
-				}
-			},
+	EXTRA(ChatColor.BOLD),
 	/**
 	 * Für Designs
 	 */
-	DESIGN(org.bukkit.ChatColor.STRIKETHROUGH)
-			{
-				@Override
-				public net.md_5.bungee.api.ChatColor asBungee()
-				{
-					return DESIGN.getChatColor().asBungee();
-				}
-			};
+	DESIGN(ChatColor.STRIKETHROUGH);
 	@NonNull
 	@Setter
-	private org.bukkit.ChatColor chatColor;
-	
-	public net.md_5.bungee.api.ChatColor asBungee()
-	{
-		return org.bukkit.ChatColor.RESET.asBungee();
-	}
+	private ChatColor chatColor;
 	
 	@Override
 	public String toString()
 	{
-		return "§" + getChatColor().getChar();
+		return this.chatColor.toString();
 	}
 }

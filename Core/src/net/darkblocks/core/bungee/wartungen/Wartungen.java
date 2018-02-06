@@ -25,7 +25,7 @@ public class Wartungen
 		this.plugin = plugin;
 		this.mySQL = mySQL;
 		this.on = false;
-		getMySQL().update("CREATE TABLE IF NOT EXISTS Wartungen(`on` INT, PRIMARY KEY(on))");
+		getMySQL().updateSync("CREATE TABLE IF NOT EXISTS Wartungen(`on` INT)");
 		getMySQL().query("SELECT * FROM Wartungen", resultSet -> {
 			try
 			{

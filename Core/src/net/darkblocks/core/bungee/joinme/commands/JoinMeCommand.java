@@ -39,7 +39,7 @@ public class JoinMeCommand extends Command
 		}
 		else
 		{
-			if (args.length == 1)
+			if (args.length == 0)
 			{
 				try
 				{

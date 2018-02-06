@@ -1,7 +1,5 @@
 package net.darkblocks.dark.universal.utils;
 
-import net.darkblocks.dark.universal.messages.Messages;
-
 /**
  * Created by LartyHD on 22.01.2018  01:51.
  */
@@ -9,12 +7,12 @@ public class CommandUtils
 {
 	public static String getName(Class clazz)
 	{
-		return clazz.getName().replaceAll("Command", "");
+		return clazz.getSimpleName().replaceAll("Command", "");
 	}
 	
 	public static String getPermission(Class clazz)
 	{
-		return Messages.getInstance().getPath(clazz) + clazz.getName() + ".use";
+		return clazz.getName() + ".use";
 	}
 	
 	public static void register(net.md_5.bungee.api.plugin.Plugin plugin, net.md_5.bungee.api.plugin.Command command)

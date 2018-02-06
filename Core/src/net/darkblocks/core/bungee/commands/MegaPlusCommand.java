@@ -13,20 +13,20 @@ import net.md_5.bungee.api.plugin.Plugin;
 import static net.darkblocks.dark.universal.messages.Colors.IMPORTANT;
 import static net.darkblocks.dark.universal.messages.Colors.TEXT;
 
-public class YoutuberCommand extends Command
+public class MegaPlusCommand extends Command
 {
-	YoutuberCommand(Plugin plugin)
+	MegaPlusCommand(Plugin plugin)
 	{
-		super(CommandUtils.getName(YoutuberCommand.class), null, "vip", "yt");
+		super(CommandUtils.getName(MegaPlusCommand.class), null, "mega+", "premium+", "premiumplus");
 		CommandUtils.register(plugin, this);
 	}
 	
 	@Override
 	public void execute(CommandSender sender, String[] args)
 	{
-		sender.sendMessage(new TextComponent(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Vorraussetzungen für " + IMPORTANT + "Youtuber" + TEXT + ":")));
-		sender.sendMessage(new TextComponent(TEXT + "-> Dein " + IMPORTANT + "Kanal " + TEXT + "muss mindestens " + IMPORTANT + "1000 Abonenten" + TEXT + " besitzen."));
-		sender.sendMessage(new TextComponent(TEXT + "-> Du benötigst 500 Klicks nach 24 Stunden auf dein Video."));
+		sender.sendMessage(new TextComponent(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Vorraussetzungen für " + IMPORTANT + "Mega+" + TEXT + ":")));
+		sender.sendMessage(new TextComponent(TEXT + "-> Dein " + IMPORTANT + "Kanal " + TEXT + "muss mindestens " + IMPORTANT + "500 Abonenten" + TEXT + " besitzen."));
+		sender.sendMessage(new TextComponent(TEXT + "-> Du benötigst 250 Klicks nach 24 Stunden auf dein Video."));
 		sender.sendMessage(new TextComponent(TEXT + "-> Dieses Video muss eine Server vorstellung oder der\n" + TEXT + "    Server Trailer sein."));
 		sender.sendMessage(new TextComponent(TEXT + "-> Dieses Video muss in angemessener Qualität und Länge sein."));
 		sender.sendMessage(new TextComponent(TEXT + "-> Alles erfüllt? Bewerbe dich für den " + IMPORTANT + "Youtuber " + TEXT + "Rang im TS"));

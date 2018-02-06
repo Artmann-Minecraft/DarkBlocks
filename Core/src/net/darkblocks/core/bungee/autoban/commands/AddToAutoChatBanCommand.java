@@ -3,7 +3,7 @@ package net.darkblocks.core.bungee.autoban.commands;
 import lombok.Getter;
 import net.darkblocks.dark.java.mysql.MySQL;
 import net.darkblocks.dark.universal.messages.Messages;
-import net.md_5.bungee.BungeeCord;
+import net.darkblocks.dark.universal.utils.CommandUtils;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.Plugin;
@@ -21,9 +21,9 @@ public class AddToAutoChatBanCommand extends Command
 	
 	public AddToAutoChatBanCommand(Plugin plugin, MySQL mySQL)
 	{
-		super(AddToAutoChatBanCommand.class.getName().replaceAll("Command", ""), Messages.getInstance().getPath(AddToAutoChatBanCommand.class) + AddToAutoChatBanCommand.class.getName() + ".use");
+		super(CommandUtils.getName(AddToAutoChatBanCommand.class), CommandUtils.getPermission(AddToAutoChatBanCommand.class));
 		this.mySQL = mySQL;
-		BungeeCord.getInstance().getPluginManager().registerCommand(plugin, this);
+		CommandUtils.register(plugin, this);
 	}
 	
 	@Override
@@ -37,7 +37,7 @@ public class AddToAutoChatBanCommand extends Command
 				sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Ab dem nächsten " + IMPORTANT + "Proxy" + TEXT + " restart ist es geblockt"));
 				break;
 			default:
-				sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + "/" + getName() + TEXT + "<Nachricht>"));
+				sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + "/" + getName() + TEXT + " <Nachricht>"));
 				break;
 		}
 	}

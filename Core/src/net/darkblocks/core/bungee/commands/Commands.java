@@ -14,5 +14,6 @@ public class Commands
 		new LobbyCommand(plugin);
 		new PingCommand(plugin);
 		new KickCommand(plugin);
+		new YoutuberCommand(plugin);
 	}
 }

@@ -33,7 +33,7 @@ public class OtherVersionBlockerListener implements Listener
 			{
 				stringBuilder.append(IMPORTANT).append("1.8.").append(i).append(TEXT).append(", ");
 			}
-			event.setCancelReason(TEXT + "Bitte betrete " + Messages.getInstance().getShortTextComponent(getClass(), "servername") + TEXT + " mit einer dieser Versionen" + IMPORTANT + ":\n" + stringBuilder.substring(0, stringBuilder.length() - 2));
+			event.setCancelReason(TEXT + "Bitte betrete " + Messages.getInstance().getShortMessage(getClass(), "servername") + TEXT + " mit einer dieser Versionen" + IMPORTANT + ":\n" + stringBuilder.substring(0, stringBuilder.length() - 2));
 		}
 	}
 }

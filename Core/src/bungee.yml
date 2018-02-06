@@ -1,0 +1,3 @@
+name: Core
+verison: 1.0
+main: net.darkblocks.core.bungee.Core

@@ -9,7 +9,6 @@ import java.util.concurrent.Executors;
 /**
  * Created by LartyHD and Segdogamer on 10.11.2017 00:44.
  */
-@SuppressWarnings("ALL")
 public class MySQL
 {
 	private final String host;
@@ -219,6 +218,6 @@ public class MySQL
 	
 	public boolean isConnected()
 	{
-		return this.getConnection() != null;
+		return this.connection != null;
 	}
 }
