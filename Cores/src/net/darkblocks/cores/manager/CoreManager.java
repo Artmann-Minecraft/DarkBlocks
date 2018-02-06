@@ -14,9 +14,7 @@ import net.darkblocks.dark.spigot.utils.MapsUtils;
 import net.darkblocks.dark.spigot.utils.PackageUtils;
 import net.darkblocks.dark.universal.messages.Messages;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -29,7 +27,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -99,11 +96,15 @@ public class CoreManager implements Listener
 	public void onBlockBreakEvent(BlockBreakEvent event)
 	{
 		Block block = event.getBlock();
-		if (block.getType() == Material.BEACON && !event.isCancelled())
+		if (!event.isCancelled())
 		{
 			for (Core core : this.cores)
 			{
-				if (MapsUtils.equalsLocation(block.getLocation(), core.getLocation()))
+				if (core.getLocation().distance(core.getLocation()) == 1)
+				{
+					event.setCancelled(true);
+				}
+				else if (MapsUtils.equalsLocation(block.getLocation(), core.getLocation()) && block.getType() == Material.BEACON)
 				{
 					event.setCancelled(true);
 					Player player = event.getPlayer();
@@ -144,23 +145,6 @@ public class CoreManager implements Listener
 			event.setCancelled(true);
 			event.getEntity().remove();
 		}
-	}
-	
-	private List<Location> getArenaBlocks(Location location, int radius)
-	{
-		World world = location.getWorld();
-		List<Location> tempList = new ArrayList<>();
-		for (int x = -radius; x <= radius; x++)
-		{
-			for (int z = -radius; z <= radius; z++)
-			{
-				for (int y = -radius; y <= radius; y++)
-				{
-					tempList.add(new Location(world, location.getX() + x, location.getY() + y, location.getZ() + z));
-				}
-			}
-		}
-		return tempList;
 	}
 	
 	private void checkWin()

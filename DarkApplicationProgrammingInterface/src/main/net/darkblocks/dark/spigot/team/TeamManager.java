@@ -255,10 +255,13 @@ public class TeamManager implements Listener
 	public void openTeamGUI(@NonNull Player player)
 	{
 		Inventory inventory = Bukkit.createInventory(null, InventoryUtils.getInventorySize(this.teams.size()), Colors.SECONDARY + "Teams");
+		InventoryUtils.setDesign(inventory, new ArrayList<>());
+		List<ItemStack> itemStacks = new ArrayList<>();
 		for (GameTeam gameTeam : getTeams())
 		{
-			inventory.addItem(getItem(gameTeam, player));
+			itemStacks.add(getItem(gameTeam, player));
 		}
+		InventoryUtils.sortChestInventory(inventory, itemStacks);
 		player.openInventory(inventory);
 	}
 	

@@ -3,6 +3,7 @@ package net.darkblocks.cores.listener;
 import net.darkblocks.cores.Cores;
 import net.darkblocks.cores.manager.CoreManager;
 import net.darkblocks.cores.utils.Core;
+import net.darkblocks.cores.utils.ScoreBoard;
 import net.darkblocks.dark.java.utils.ServerState;
 import net.darkblocks.dark.spigot.builder.ItemBuilder;
 import net.darkblocks.dark.spigot.config.Configuration;
@@ -21,6 +22,7 @@ import net.darkblocks.dark.spigot.team.TeamManager;
 import net.darkblocks.dark.spigot.utils.MapsUtils;
 import net.darkblocks.dark.spigot.vote.VoteManager;
 import net.darkblocks.dark.universal.messages.Colors;
+import net.darkblocks.dark.universal.messages.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -31,6 +33,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -45,7 +48,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.io.File;
 import java.util.*;
 
-import static net.darkblocks.dark.universal.messages.Colors.SECONDARY;
+import static net.darkblocks.dark.universal.messages.Colors.*;
 
 /**
  * Created by LartyHD on 04.01.2018  23:33.
@@ -126,12 +129,25 @@ public class CountdownListener implements Listener
 			@EventHandler
 			public void onBlockPlaceEvent(BlockPlaceEvent event)
 			{
-				Block block = event.getBlock();
 				for (GameTeam gameTeam : CountdownListener.this.teamManager.getTeams())
 				{
-					if (MapsUtils.equalsLocation(block.getLocation(), gameTeam.getLocation()) || MapsUtils.equalsLocation(block.getLocation(), gameTeam.getLocation().clone().add(0, 1, 0)))
+					if (gameTeam.getLocation().distance(event.getBlock().getLocation()) <= 10)
 					{
 						event.setCancelled(true);
+						event.getPlayer().sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du darfst am " + IMPORTANT + "Spawn " + TEXT + "nicht bauen");
+					}
+				}
+			}
+			
+			@EventHandler
+			public void onBlockBreakEvent(BlockBreakEvent event)
+			{
+				for (GameTeam gameTeam : CountdownListener.this.teamManager.getTeams())
+				{
+					if (gameTeam.getLocation().distance(event.getBlock().getLocation()) <= 10)
+					{
+						event.setCancelled(true);
+						event.getPlayer().sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du darfst am " + IMPORTANT + "Spawn " + TEXT + "nichts abbauen");
 					}
 				}
 			}
@@ -241,6 +257,10 @@ public class CountdownListener implements Listener
 		for (Player players : Bukkit.getOnlinePlayers())
 		{
 			players.updateInventory();
+		}
+		for (Player players : Bukkit.getOnlinePlayers())
+		{
+			ScoreBoard.update(players, Messages.getInstance().getShortMessage(getClass(), "servername"), cores, 0);
 		}
 		this.gameController.setServerState(ServerState.INGAME);
 	}

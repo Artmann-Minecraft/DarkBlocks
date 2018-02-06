@@ -153,6 +153,7 @@ public class LobbyCountdown extends Countdown
 		setSeconds(61);
 		for (Player players : Bukkit.getOnlinePlayers())
 		{
+			players.setExp(0);
 			players.setLevel(0);
 		}
 	}

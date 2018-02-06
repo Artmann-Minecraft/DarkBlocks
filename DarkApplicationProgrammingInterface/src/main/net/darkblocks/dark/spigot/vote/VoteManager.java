@@ -52,6 +52,7 @@ public class VoteManager implements Listener
 		this.maps = maps;
 		this.voteMaps = new HashSet<>();
 		this.mapVoteInventory = Bukkit.createInventory(null, 9, Colors.SECONDARY + "Map Vote");
+		InventoryUtils.setDesign(this.mapVoteInventory, new ArrayList<>());
 		this.prefix = prefix;
 		this.gameController = gameController;
 		Set<Vote> votes = new HashSet<>();
@@ -182,10 +183,13 @@ public class VoteManager implements Listener
 								else if (type == Material.PAPER)
 								{
 									Inventory inventory = Bukkit.createInventory(null, InventoryUtils.getInventorySize(this.maps.size()), Colors.SECONDARY + "ForceMap");
+									InventoryUtils.setDesign(inventory, new ArrayList<>());
+									List<ItemStack> itemStacks = new ArrayList<>();
 									for (String maps : this.maps)
 									{
-										inventory.addItem(new ItemBuilder(Material.PAPER).setName(Colors.SECONDARY + maps).build());
+										itemStacks.add(new ItemBuilder(Material.PAPER).setName(Colors.SECONDARY + maps).build());
 									}
+									InventoryUtils.sortChestInventory(inventory, itemStacks);
 									player.openInventory(inventory);
 								}
 							}
@@ -328,7 +332,8 @@ public class VoteManager implements Listener
 	{
 		Object[] voteMaps = this.voteMaps.toArray();
 		ItemBuilder itemBuilder = new ItemBuilder(Material.MAP).hideItemFlags();
-		this.votes.getVotes().forEach(vote -> {
+		for (Vote vote : this.votes.getVotes())
+		{
 			String name = vote.getName();
 			int size = vote.getVoter().size();
 			if (name.equals(voteMaps[0]))
@@ -343,7 +348,7 @@ public class VoteManager implements Listener
 			{
 				this.mapVoteInventory.setItem(7, itemBuilder.setName(Colors.SECONDARY + voteMaps[2].toString()).setLore(getLore(size)).setAmount((short) size).build());
 			}
-		});
+		}
 	}
 	
 	private String getLore(int count)
