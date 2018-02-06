@@ -51,7 +51,7 @@ public class ScoreBoardUtils
 		}
 	}
 	
-	private static void sendScoreBoard(Player p, String displayName, List<ScoreboardScore> scoreboardScores)
+	protected static void sendScoreBoard(Player p, String displayName, List<ScoreboardScore> scoreboardScores)
 	{
 		objective.setDisplayName(displayName);
 		/*
@@ -75,7 +75,7 @@ public class ScoreBoardUtils
 		}
 	}
 	
-	private static ScoreboardScore setScoreboardScore(String name, int score)
+	protected static ScoreboardScore setScoreboardScore(String name, int score)
 	{
 		ScoreboardScore scoreboardScore = new ScoreboardScore(getScoreboard(), getObjective(), name);
 		scoreboardScore.setScore(score);

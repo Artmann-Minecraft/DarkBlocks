@@ -1,6 +1,8 @@
 package net.darkblocks.cores.manager;
 
+import net.darkblocks.cores.events.CoreAttackedEvent;
 import net.darkblocks.cores.utils.Core;
+import net.darkblocks.cores.utils.ScoreBoard;
 import net.darkblocks.dark.java.utils.ServerState;
 import net.darkblocks.dark.spigot.controller.GameController;
 import net.darkblocks.dark.spigot.events.PlayerDisconnectEvent;
@@ -63,7 +65,7 @@ public class CoreManager implements Listener
 						{
 							for (Player players : Bukkit.getOnlinePlayers())
 							{
-								if (core.getGameTeam() != teamManager.getTeam(players) && players.getLocation().distance(core.getLocation()) <= 5)
+								if (core.getGameTeam() != teamManager.getTeam(players) && core.getLocation().getBlock().getType() == Material.BEACON && players.getLocation().distance(core.getLocation()) <= 6)
 								{
 									new BukkitRunnable()
 									{
@@ -73,6 +75,7 @@ public class CoreManager implements Listener
 											players.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 100, 1), true);
 										}
 									}.runTask(javaPlugin);
+									core.setAttacked(true);
 								}
 							}
 						}
@@ -193,6 +196,15 @@ public class CoreManager implements Listener
 		{
 			Bukkit.broadcastMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Das Team " + IMPORTANT + winnerTeam.getChatColor() + winnerTeam.getName() + TEXT + " hat gewonnen");
 			Bukkit.getPluginManager().callEvent(new ServerStateChangeEvent(ServerState.INGAME, ServerState.ENDGAME));
+		}
+	}
+	
+	@EventHandler
+	public void onCoreAttackedEvent(CoreAttackedEvent event)
+	{
+		for (Player players : Bukkit.getOnlinePlayers())
+		{
+			ScoreBoard.update(players, Messages.getInstance().getShortMessage(getClass(), "servername"), this.cores, 0);
 		}
 	}
 }

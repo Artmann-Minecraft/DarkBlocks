@@ -234,7 +234,7 @@ public class CountdownListener implements Listener
 			for (GameTeam gameTeam : this.teamManager.getTeams())
 			{
 				String name = gameTeam.getName();
-				cores.add(new Core(coreNames, new Location(Bukkit.getWorld(configuration.getString("Cores." + name + "." + coreNames + ".World")), configuration.getDouble("Cores." + name + "." + coreNames + ".X"), configuration.getDouble("Cores." + name + "." + coreNames + ".Y"), configuration.getDouble("Cores." + name + "." + coreNames + ".Z")), gameTeam));
+				cores.add(new Core(coreNames, new Location(Bukkit.getWorld(configuration.getString("Cores." + name + "." + coreNames + ".World")), configuration.getDouble("Cores." + name + "." + coreNames + ".X"), configuration.getDouble("Cores." + name + "." + coreNames + ".Y"), configuration.getDouble("Cores." + name + "." + coreNames + ".Z")), gameTeam, false));
 			}
 		}
 		this.coreManager = new CoreManager(this.javaPlugin, cores, this.teamManager, this.spectatorManager, this.gameController);
