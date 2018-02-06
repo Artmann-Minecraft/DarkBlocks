@@ -7,11 +7,13 @@ import lombok.Getter;
 import net.darkblocks.dark.spigot.events.PreGameCountdownFinishedEvent;
 import net.darkblocks.dark.spigot.events.PreGameCountdownStartedEvent;
 import net.darkblocks.dark.spigot.utils.PackageUtils;
-import net.darkblocks.dark.universal.messages.Colors;
+import net.darkblocks.dark.universal.messages.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import static net.darkblocks.dark.universal.messages.Colors.*;
 
 /**
  * Created by LartyHD on 24.06.2017  18:01.
@@ -20,13 +22,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 @Getter
 public class PreGameCountdown extends Countdown
 {
-	private final String prefix;
 	private final JavaPlugin javaPlugin;
 	
-	public PreGameCountdown(String prefix, JavaPlugin javaPlugin)
+	public PreGameCountdown(JavaPlugin javaPlugin)
 	{
 		super(6);
-		this.prefix = prefix;
 		this.javaPlugin = javaPlugin;
 	}
 	
@@ -50,13 +50,13 @@ public class PreGameCountdown extends Countdown
 					case 4:
 					case 3:
 					case 2:
-						Bukkit.broadcastMessage(this.prefix + Colors.TEXT + "Die Runde startet in " + Colors.IMPORTANT + getSeconds() + Colors.TEXT + " Sekunden");
+						Bukkit.broadcastMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Die Runde startet in " + IMPORTANT + getSeconds() + TEXT + " Sekunden");
 						break;
 					case 1:
-						Bukkit.broadcastMessage(this.prefix + Colors.TEXT + "Die Runde startet in " + Colors.IMPORTANT + "einer" + Colors.TEXT + " Sekunde");
+						Bukkit.broadcastMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Die Runde startet in " + IMPORTANT + "einer" + TEXT + " Sekunde");
 						break;
 					case 0:
-						Bukkit.broadcastMessage(this.prefix + Colors.TEXT + "Die Runde startet");
+						Bukkit.broadcastMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Die Runde startet");
 						Bukkit.getPluginManager().callEvent(new PreGameCountdownFinishedEvent(this));
 						stop();
 						break;
@@ -65,7 +65,7 @@ public class PreGameCountdown extends Countdown
 				{
 					for (Player players : Bukkit.getOnlinePlayers())
 					{
-						PackageUtils.sendTitle(players, Colors.SECONDARY + "" + getSeconds(), null, 1, 18, 1);
+						PackageUtils.sendTitle(players, SECONDARY + "" + getSeconds(), null, 1, 18, 1);
 						players.playSound(players.getLocation(), Sound.ORB_PICKUP, 1.0F, 1.0F);
 					}
 				}

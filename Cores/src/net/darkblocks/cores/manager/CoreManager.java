@@ -62,7 +62,7 @@ public class CoreManager implements Listener
 						{
 							for (Player players : Bukkit.getOnlinePlayers())
 							{
-								if (core.getGameTeam() != teamManager.getTeam(players) && core.getLocation().getBlock().getType() == Material.BEACON && players.getLocation().distance(core.getLocation()) <= 6)
+								if (core.getGameTeam() != teamManager.getTeam(players) && core.getLocation().getBlock().getType() == Material.BEACON && players.getLocation().distance(core.getLocation()) <= 7)
 								{
 									new BukkitRunnable()
 									{
@@ -76,7 +76,7 @@ public class CoreManager implements Listener
 								}
 							}
 						}
-						Thread.sleep(1000);
+						Thread.sleep(250);
 					}
 				} catch (InterruptedException ex)
 				{
@@ -100,11 +100,7 @@ public class CoreManager implements Listener
 		{
 			for (Core core : this.cores)
 			{
-				if (core.getLocation().distance(core.getLocation()) == 1)
-				{
-					event.setCancelled(true);
-				}
-				else if (MapsUtils.equalsLocation(block.getLocation(), core.getLocation()) && block.getType() == Material.BEACON)
+				if (MapsUtils.equalsLocation(block.getLocation(), core.getLocation()) && block.getType() == Material.BEACON)
 				{
 					event.setCancelled(true);
 					Player player = event.getPlayer();
@@ -124,6 +120,10 @@ public class CoreManager implements Listener
 						player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du darfst dein eigenen " + IMPORTANT + core.getName() + TEXT + " nicht abbauen");
 					}
 				}
+				else if (core.getLocation().distance(event.getBlock().getLocation()) <= 2)
+				{
+					event.setCancelled(true);
+				}
 			}
 		}
 	}
@@ -131,9 +131,16 @@ public class CoreManager implements Listener
 	@EventHandler
 	public void onBlockPlaceEvent(BlockPlaceEvent event)
 	{
-		if (event.getBlock().getLocation().add(0, -1, 0).getBlock().getType() == Material.BEACON)
+		if (!event.isCancelled())
 		{
-			event.setCancelled(true);
+			for (Core core : this.cores)
+			{
+				if (core.getLocation().distance(event.getBlock().getLocation()) <= 2)
+				{
+					event.setCancelled(true);
+					event.getPlayer().sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du darfst da keine " + IMPORTANT + "Blöcke " + TEXT + "setzen");
+				}
+			}
 		}
 	}
 	

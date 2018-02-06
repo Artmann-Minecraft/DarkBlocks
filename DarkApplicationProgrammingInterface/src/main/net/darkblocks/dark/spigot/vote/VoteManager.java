@@ -10,6 +10,7 @@ import net.darkblocks.dark.spigot.events.ServerStateChangeEvent;
 import net.darkblocks.dark.spigot.utils.InventoryUtils;
 import net.darkblocks.dark.spigot.utils.MapsUtils;
 import net.darkblocks.dark.universal.messages.Colors;
+import net.darkblocks.dark.universal.messages.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -40,7 +41,6 @@ public class VoteManager implements Listener
 {
 	private final Set<String> maps;
 	private final Set<String> voteMaps;
-	private final String prefix;
 	private final GameController gameController;
 	private Inventory mapVoteInventory;
 	private String mapName;
@@ -53,7 +53,6 @@ public class VoteManager implements Listener
 		this.voteMaps = new HashSet<>();
 		this.mapVoteInventory = Bukkit.createInventory(null, 9, Colors.SECONDARY + "Map Vote");
 		InventoryUtils.setDesign(this.mapVoteInventory, new ArrayList<>());
-		this.prefix = prefix;
 		this.gameController = gameController;
 		Set<Vote> votes = new HashSet<>();
 		for (String map : maps)
@@ -153,16 +152,16 @@ public class VoteManager implements Listener
 											if (Bukkit.getOnlinePlayers().size() > 1)
 											{
 												countdown.setSeconds(11);
-												player.sendMessage(getPrefix() + Colors.TEXT + "Die Runde wurde " + Colors.IMPORTANT + "gestartet");
+												player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.TEXT + "Die Runde wurde " + Colors.IMPORTANT + "gestartet");
 											}
 											else
 											{
-												player.sendMessage(getPrefix() + Colors.TEXT + "Es braucht min. 2 " + Colors.IMPORTANT + "Spieler" + Colors.TEXT + " um die " + Colors.IMPORTANT + "Runde " + Colors.TEXT + "zu starten");
+												player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.TEXT + "Es braucht min. 2 " + Colors.IMPORTANT + "Spieler" + Colors.TEXT + " um die " + Colors.IMPORTANT + "Runde " + Colors.TEXT + "zu starten");
 											}
 										}
 										else
 										{
-											player.sendMessage(getPrefix() + Colors.TEXT + "Die Runde ist schon " + Colors.IMPORTANT + "gestartet");
+											player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.TEXT + "Die Runde ist schon " + Colors.IMPORTANT + "gestartet");
 										}
 										player.closeInventory();
 									});
@@ -176,7 +175,7 @@ public class VoteManager implements Listener
 									}
 									else
 									{
-										player.sendMessage(getPrefix() + Colors.TEXT + "Die Map wurde schon " + Colors.IMPORTANT + "festgelegt");
+										player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.TEXT + "Die Map wurde schon " + Colors.IMPORTANT + "festgelegt");
 										player.closeInventory();
 									}
 								}
@@ -202,11 +201,11 @@ public class VoteManager implements Listener
 										{ //TODO: ADD SCOREBOARD
 											ScoreBoard.sendLobbyScoreBoard(players);
 										}*/
-									Bukkit.broadcastMessage(getPrefix() + Colors.TEXT + "Map" + Colors.IMPORTANT + ": " + this.mapName);
+									Bukkit.broadcastMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.TEXT + "Map" + Colors.IMPORTANT + ": " + this.mapName);
 								}
 								else
 								{
-									player.sendMessage(getPrefix() + Colors.TEXT + "Es braucht min. 2 " + Colors.IMPORTANT + "Spieler" + Colors.TEXT + " um eine " + Colors.IMPORTANT + "Map " + Colors.TEXT + "auszuwählen");
+									player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.TEXT + "Es braucht min. 2 " + Colors.IMPORTANT + "Spieler" + Colors.TEXT + " um eine " + Colors.IMPORTANT + "Map " + Colors.TEXT + "auszuwählen");
 								}
 								player.closeInventory();
 							}
@@ -277,12 +276,13 @@ public class VoteManager implements Listener
 						if (countdown.getSeconds() > 11)
 						{
 							Inventory inventory = Bukkit.createInventory(null, InventoryType.HOPPER, Colors.SECONDARY + "Settings");
+							InventoryUtils.setDesign(inventory, new ArrayList<>());
 							inventory.setItem(2, new ItemBuilder(Material.ENDER_PEARL).setName(Colors.SECONDARY + "Start").build());
 							player.openInventory(inventory);
 							return;
 						}
 					}
-					player.sendMessage(getPrefix() + Colors.TEXT + "Die Settings wurde schon " + Colors.IMPORTANT + "gesetzt");
+					player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.TEXT + "Die Settings wurde schon " + Colors.IMPORTANT + "gesetzt");
 				});
 			}
 			else
@@ -302,7 +302,7 @@ public class VoteManager implements Listener
 				{
 					player.closeInventory();
 				}
-				player.sendMessage(getPrefix() + Colors.TEXT + "Die Map wurde schon " + Colors.IMPORTANT + "festgelegt");
+				player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.TEXT + "Die Map wurde schon " + Colors.IMPORTANT + "festgelegt");
 			}
 		}
 	}

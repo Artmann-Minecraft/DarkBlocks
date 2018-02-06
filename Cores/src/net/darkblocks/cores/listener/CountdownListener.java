@@ -97,9 +97,9 @@ public class CountdownListener implements Listener
 	private void registerGameController(GameController gameController)
 	{
 		Location location = MapsUtils.getLobbyLocation(this.javaPlugin);
-		gameController.getLobbyCountdowns().add(new LobbyCountdown(2, this.prefix, this.javaPlugin));
-		gameController.getPreGameCountdowns().add(new PreGameCountdown(this.prefix, this.javaPlugin));
-		gameController.getEndGameCountdowns().add(new EndGameCountdown(this.prefix, this.javaPlugin));
+		gameController.getLobbyCountdowns().add(new LobbyCountdown(2, this.javaPlugin));
+		gameController.getPreGameCountdowns().add(new PreGameCountdown(this.javaPlugin));
+		gameController.getEndGameCountdowns().add(new EndGameCountdown(this.javaPlugin));
 		gameController.getLobbyListener().add(new LobbyListener(CountdownListener.this.prefix, gameController, location)
 		{
 			@Override
@@ -131,7 +131,7 @@ public class CountdownListener implements Listener
 			{
 				for (GameTeam gameTeam : CountdownListener.this.teamManager.getTeams())
 				{
-					if (gameTeam.getLocation().distance(event.getBlock().getLocation()) <= 10)
+					if (gameTeam.getLocation().distance(event.getBlock().getLocation()) <= 8)
 					{
 						event.setCancelled(true);
 						event.getPlayer().sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du darfst am " + IMPORTANT + "Spawn " + TEXT + "nicht bauen");
@@ -144,7 +144,7 @@ public class CountdownListener implements Listener
 			{
 				for (GameTeam gameTeam : CountdownListener.this.teamManager.getTeams())
 				{
-					if (gameTeam.getLocation().distance(event.getBlock().getLocation()) <= 10)
+					if (gameTeam.getLocation().distance(event.getBlock().getLocation()) <= 8)
 					{
 						event.setCancelled(true);
 						event.getPlayer().sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du darfst am " + IMPORTANT + "Spawn " + TEXT + "nichts abbauen");

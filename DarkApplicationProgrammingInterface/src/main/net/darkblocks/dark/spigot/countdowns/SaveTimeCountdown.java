@@ -21,14 +21,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 @Getter
 public class SaveTimeCountdown extends Countdown
 {
-	private final Messages messages;
 	private final JavaPlugin javaPlugin;
 	
-	@SuppressWarnings("unused")
-	public SaveTimeCountdown(Messages messages, JavaPlugin javaPlugin)
+	public SaveTimeCountdown(JavaPlugin javaPlugin)
 	{
 		super(60);
-		this.messages = messages;
 		this.javaPlugin = javaPlugin;
 	}
 	
@@ -52,13 +49,13 @@ public class SaveTimeCountdown extends Countdown
 					case 4:
 					case 3:
 					case 2:
-						Bukkit.broadcastMessage(getMessages().getMessage("dark.api.spigot.countdouns.savetimecountdown.prefix") + Colors.TEXT + "Die Schutzzeit ended in " + Colors.IMPORTANT + getSeconds() + Colors.TEXT + " Sekunden");
+						Bukkit.broadcastMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.TEXT + "Die Schutzzeit ended in " + Colors.IMPORTANT + getSeconds() + Colors.TEXT + " Sekunden");
 						break;
 					case 1:
-						Bukkit.broadcastMessage(getMessages().getMessage("dark.api.spigot.countdouns.savetimecountdown.prefix") + Colors.TEXT + "Die Schutzzeit ended in " + Colors.IMPORTANT + getSeconds() + Colors.TEXT + " Sekunde");
+						Bukkit.broadcastMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.TEXT + "Die Schutzzeit ended in " + Colors.IMPORTANT + getSeconds() + Colors.TEXT + " Sekunde");
 						break;
 					case 0:
-						Bukkit.broadcastMessage(getMessages().getMessage("dark.api.spigot.countdouns.savetimecountdown.prefix") + Colors.TEXT + "Die Schutzzeit ended");
+						Bukkit.broadcastMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.TEXT + "Die Schutzzeit ended");
 						Bukkit.getPluginManager().callEvent(new SaveTimeCountdownFinishedEvent(this));
 						stop();
 						break;

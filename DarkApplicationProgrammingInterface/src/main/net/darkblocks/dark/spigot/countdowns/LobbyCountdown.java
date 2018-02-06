@@ -10,6 +10,7 @@ import net.darkblocks.dark.spigot.events.LobbyCountdownLastTenSecondsEvent;
 import net.darkblocks.dark.spigot.events.LobbyCountdownPreFinishedEvent;
 import net.darkblocks.dark.spigot.utils.PackageUtils;
 import net.darkblocks.dark.universal.messages.Colors;
+import net.darkblocks.dark.universal.messages.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Sound;
@@ -25,16 +26,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class LobbyCountdown extends Countdown
 {
 	private final JavaPlugin javaPlugin;
-	private final String prefix;
 	private final int minPlayers;
 	private boolean idling;
 	private int idleID;
 	
-	public LobbyCountdown(int minPlayers, String prefix, JavaPlugin javaPlugin)
+	public LobbyCountdown(int minPlayers, JavaPlugin javaPlugin)
 	{
 		super(61);
 		this.minPlayers = minPlayers;
-		this.prefix = prefix;
 		this.javaPlugin = javaPlugin;
 	}
 	
@@ -65,10 +64,10 @@ public class LobbyCountdown extends Countdown
 					case 4:
 					case 3:
 					case 2:
-						Bukkit.broadcastMessage(this.prefix + Colors.TEXT + "Das Spiel startet in " + Colors.IMPORTANT + getSeconds() + Colors.TEXT + " Sekunden");
+						Bukkit.broadcastMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.TEXT + "Das Spiel startet in " + Colors.IMPORTANT + getSeconds() + Colors.TEXT + " Sekunden");
 						break;
 					case 1:
-						Bukkit.broadcastMessage(this.prefix + Colors.TEXT + "Das Spiel startet in " + Colors.IMPORTANT + "einer" + Colors.TEXT + " Sekunde");
+						Bukkit.broadcastMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.TEXT + "Das Spiel startet in " + Colors.IMPORTANT + "einer" + Colors.TEXT + " Sekunde");
 						break;
 					case 0:
 						LobbyCountdownPreFinishedEvent lobbyCountdownPreFinishedEvent = new LobbyCountdownPreFinishedEvent(this);
@@ -76,7 +75,7 @@ public class LobbyCountdown extends Countdown
 						if (!lobbyCountdownPreFinishedEvent.isNext())
 						{
 							Bukkit.getPluginManager().callEvent(new LobbyCountdownFinishedEvent(this));
-							Bukkit.broadcastMessage(this.prefix + Colors.TEXT + "Das Spiel startet");
+							Bukkit.broadcastMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.TEXT + "Das Spiel startet");
 							for (Player players : Bukkit.getOnlinePlayers())
 							{
 								players.playSound(players.getLocation(), Sound.LEVEL_UP, 1.0F, 1.0F);
@@ -128,11 +127,11 @@ public class LobbyCountdown extends Countdown
 			int missing = this.minPlayers - Bukkit.getOnlinePlayers().size();
 			if (missing == 1)
 			{
-				Bukkit.broadcastMessage(this.prefix + Colors.TEXT + "Warte auf " + Colors.IMPORTANT + "einen" + Colors.TEXT + " weiteren Spieler...");
+				Bukkit.broadcastMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.TEXT + "Warte auf " + Colors.IMPORTANT + "einen" + Colors.TEXT + " weiteren Spieler...");
 			}
 			else if (missing >= 1)
 			{
-				Bukkit.broadcastMessage(this.prefix + Colors.TEXT + "Warte auf " + Colors.IMPORTANT + missing + Colors.TEXT + " weitere Spieler...");
+				Bukkit.broadcastMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.TEXT + "Warte auf " + Colors.IMPORTANT + missing + Colors.TEXT + " weitere Spieler...");
 			}
 			else
 			{

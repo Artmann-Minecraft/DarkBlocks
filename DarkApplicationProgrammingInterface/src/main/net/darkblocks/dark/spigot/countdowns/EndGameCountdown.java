@@ -7,6 +7,7 @@ import lombok.Getter;
 import net.darkblocks.dark.spigot.events.EndGameCountdownFinishedEvent;
 import net.darkblocks.dark.spigot.events.EndGameCountdownStartedEvent;
 import net.darkblocks.dark.universal.messages.Colors;
+import net.darkblocks.dark.universal.messages.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -18,13 +19,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 @Getter
 public class EndGameCountdown extends Countdown
 {
-	private final String prefix;
 	private final JavaPlugin javaPlugin;
 	
-	public EndGameCountdown(String prefix, JavaPlugin javaPlugin)
+	public EndGameCountdown(JavaPlugin javaPlugin)
 	{
 		super(16);
-		this.prefix = prefix;
 		this.javaPlugin = javaPlugin;
 	}
 	
@@ -44,7 +43,7 @@ public class EndGameCountdown extends Countdown
 				switch (getSeconds())
 				{
 					case 1:
-						Bukkit.broadcastMessage(this.prefix + Colors.TEXT + "Der Server startet in " + Colors.IMPORTANT + "einer" + Colors.TEXT + " Sekunde neu");
+						Bukkit.broadcastMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.TEXT + "Der Server startet in " + Colors.IMPORTANT + "einer" + Colors.TEXT + " Sekunde neu");
 						break;
 					case 2:
 					case 3:
@@ -56,7 +55,7 @@ public class EndGameCountdown extends Countdown
 					case 30:
 					case 45:
 					case 60:
-						Bukkit.broadcastMessage(this.prefix + Colors.TEXT + "Der Server startet in " + Colors.IMPORTANT + getSeconds() + Colors.TEXT + " Sekunden neu");
+						Bukkit.broadcastMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.TEXT + "Der Server startet in " + Colors.IMPORTANT + getSeconds() + Colors.TEXT + " Sekunden neu");
 						break;
 				}
 				if (this.getSeconds() == 0 || Bukkit.getOnlinePlayers().size() == 0)
