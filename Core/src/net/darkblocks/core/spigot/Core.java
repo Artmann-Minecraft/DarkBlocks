@@ -6,6 +6,8 @@ import net.darkblocks.dark.spigot.events.listener.EventsListener;
 import net.darkblocks.dark.universal.messages.Messages;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.Collections;
+
 /**
  * Created by LartyHD on 09.01.2018  08:32.
  */
@@ -13,7 +15,7 @@ public class Core
 {
 	public Core(JavaPlugin javaPlugin)
 	{
-		new Messages();
+		new Messages(Collections.singletonMap("dark.prefix", "§f§l[§4§lCores§f§l] §r"));
 		new EventsListener(javaPlugin);
 		new AsyncPlayerChatEventFix(javaPlugin);
 //		@SuppressWarnings("MismatchedQueryAndUpdateOfCollection")

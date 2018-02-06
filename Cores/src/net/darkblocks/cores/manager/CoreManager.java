@@ -48,10 +48,6 @@ public class CoreManager implements Listener
 	{
 		Bukkit.getPluginManager().registerEvents(this, javaPlugin);
 		this.cores = cores;
-		for (Core core : cores)
-		{
-			System.out.println(core.toString());
-		}
 		this.teamManager = teamManager;
 		this.spectatorManager = spectatorManager;
 		new BukkitRunnable()
@@ -80,7 +76,7 @@ public class CoreManager implements Listener
 					}
 				}
 			}
-		}.runTask(javaPlugin);
+		}.runTaskAsynchronously(javaPlugin);
 	}
 	
 	@EventHandler
