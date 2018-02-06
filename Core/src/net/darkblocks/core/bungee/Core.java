@@ -2,6 +2,7 @@ package net.darkblocks.core.bungee;
 
 import net.darkblocks.core.bungee.autoban.ChatBan;
 import net.darkblocks.core.bungee.automessage.AutoMessage;
+import net.darkblocks.core.bungee.coins.Coins;
 import net.darkblocks.core.bungee.commands.Commands;
 import net.darkblocks.core.bungee.joinme.JoinMe;
 import net.darkblocks.core.bungee.motd.Motd;
@@ -11,7 +12,9 @@ import net.darkblocks.core.bungee.tablist.TabList;
 import net.darkblocks.core.bungee.teamchat.TeamChat;
 import net.darkblocks.core.bungee.wartungen.Wartungen;
 import net.darkblocks.dark.java.config.PropertiesConfig;
+import net.darkblocks.dark.java.mysql.CoinsAPI;
 import net.darkblocks.dark.java.mysql.MySQL;
+import net.darkblocks.dark.java.utils.ValueType;
 import net.darkblocks.dark.universal.messages.Messages;
 import net.md_5.bungee.api.plugin.Plugin;
 
@@ -46,5 +49,6 @@ public class Core extends Plugin
 		new TabList(this);
 		new TeamChat(this, mySQL);
 		new AutoMessage(this);
+		new Coins(this, new CoinsAPI("Coins", ValueType.INTEGER, mySQL));
 	}
 }
