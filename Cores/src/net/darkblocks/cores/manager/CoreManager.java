@@ -55,25 +55,32 @@ public class CoreManager implements Listener
 			@Override
 			public void run()
 			{
-				while (gameController.getServerState() == ServerState.INGAME)
+				try
 				{
-					for (Core core : cores)
+					while (gameController.getServerState() == ServerState.INGAME)
 					{
-						for (Player players : Bukkit.getOnlinePlayers())
+						for (Core core : cores)
 						{
-							if (core.getGameTeam() != teamManager.getTeam(players) && players.getLocation().distance(core.getLocation()) <= 5)
+							for (Player players : Bukkit.getOnlinePlayers())
 							{
-								players.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 100, 2), true);
+								if (core.getGameTeam() != teamManager.getTeam(players) && players.getLocation().distance(core.getLocation()) <= 5)
+								{
+									new BukkitRunnable()
+									{
+										@Override
+										public void run()
+										{
+											players.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 100, 2), true);
+										}
+									}.runTask(javaPlugin);
+								}
 							}
 						}
-					}
-					try
-					{
 						Thread.sleep(1000);
-					} catch (InterruptedException ex)
-					{
-						ex.printStackTrace();
 					}
+				} catch (InterruptedException ex)
+				{
+					ex.printStackTrace();
 				}
 			}
 		}.runTaskAsynchronously(javaPlugin);

@@ -28,7 +28,7 @@ public class Messages
 	public Messages(@NonNull Map<String, String> messages)
 	{
 		instance = this;
-		this.messages = messages;
+		this.messages = new HashMap<>();
 		add(messages);
 	}
 	
@@ -83,7 +83,7 @@ public class Messages
 	
 	private String changeColors(String text)
 	{
-		return text.toLowerCase().replaceAll("&", "§");
+		return text.replaceAll("&", "§");
 	}
 	
 	public String getPathPrefix()
