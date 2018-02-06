@@ -7,6 +7,7 @@ import net.darkblocks.dark.spigot.countdowns.LobbyCountdown;
 import net.darkblocks.dark.spigot.events.PlayerDisconnectEvent;
 import net.darkblocks.dark.spigot.events.ServerStateChangeEvent;
 import net.darkblocks.dark.universal.messages.Colors;
+import net.darkblocks.dark.universal.messages.Messages;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -28,13 +29,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 @Getter
 public abstract class LobbyListener implements Listener
 {
-	private final String prefix;
 	private final GameController gameController;
 	private final Location lobbyLocation;
 	
-	public LobbyListener(String prefix, GameController gameController, Location lobbyLocation)
+	public LobbyListener(GameController gameController, Location lobbyLocation)
 	{
-		this.prefix = prefix;
 		this.gameController = gameController;
 		this.lobbyLocation = lobbyLocation;
 		getGameController().registerListener(this);
@@ -66,7 +65,7 @@ public abstract class LobbyListener implements Listener
 	public void onPlayerJoin(PlayerJoinEvent event)
 	{
 		Player player = event.getPlayer();
-		event.setJoinMessage(this.prefix + Colors.IMPORTANT + player.getDisplayName() + Colors.TEXT + " hat die Runde betreten");
+		event.setJoinMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.IMPORTANT + player.getDisplayName() + Colors.TEXT + " hat die Runde betreten");
 		player.teleport(getLobbyLocation());
 		setJoinItems(player);
 		for (LobbyCountdown lobbyCountdown : getGameController().getLobbyCountdowns())
@@ -82,13 +81,13 @@ public abstract class LobbyListener implements Listener
 	@EventHandler
 	public void onPlayerQuit(PlayerQuitEvent event)
 	{
-		event.setQuitMessage(this.prefix + Colors.IMPORTANT + event.getPlayer().getDisplayName() + Colors.TEXT + " hat die Runde verlassen");
+		event.setQuitMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.IMPORTANT + event.getPlayer().getDisplayName() + Colors.TEXT + " hat die Runde verlassen");
 	}
 	
 	@EventHandler
 	public void onPlayerKick(PlayerKickEvent event)
 	{
-		event.setLeaveMessage(this.prefix + Colors.IMPORTANT + event.getPlayer().getDisplayName() + Colors.TEXT + " hat die Runde verlassen");
+		event.setLeaveMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.IMPORTANT + event.getPlayer().getDisplayName() + Colors.TEXT + " hat die Runde verlassen");
 	}
 	
 	@EventHandler
@@ -142,7 +141,7 @@ public abstract class LobbyListener implements Listener
 					this.gameController.getLobbyCountdowns().forEach(countdown -> {
 						if (countdown.getSeconds() > 10)
 						{
-							player.sendMessage(this.prefix + Colors.TEXT + "Du kannst erst in den letzten " + Colors.IMPORTANT + "10 Sekunden" + Colors.TEXT + " dein " + Colors.IMPORTANT + "Team" + Colors.TEXT + " wählen");
+							player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.TEXT + "Du kannst erst in den letzten " + Colors.IMPORTANT + "10 Sekunden" + Colors.TEXT + " dein " + Colors.IMPORTANT + "Team" + Colors.TEXT + " wählen");
 						}
 					});
 				}

@@ -7,6 +7,7 @@ import net.darkblocks.dark.spigot.controller.GameController;
 import net.darkblocks.dark.spigot.events.ServerStateChangeEvent;
 import net.darkblocks.dark.spigot.team.SpectatorManager;
 import net.darkblocks.dark.universal.messages.Colors;
+import net.darkblocks.dark.universal.messages.Messages;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -28,14 +29,12 @@ import java.util.HashMap;
 @Setter
 public class InGameListener implements Listener
 {
-	private final String prefix;
 	private final GameController gameController;
 	private final HashMap<String, Player> killer;
 	private SpectatorManager spectatorManager;
 	
-	public InGameListener(String prefix, GameController gameController, SpectatorManager spectatorManager)
+	public InGameListener(GameController gameController, SpectatorManager spectatorManager)
 	{
-		this.prefix = prefix;
 		this.gameController = gameController;
 		this.spectatorManager = spectatorManager;
 		this.killer = new HashMap<>();
@@ -101,11 +100,11 @@ public class InGameListener implements Listener
 					ChatColor playerTeamChatColor = gameTeam.getChatColor();
 					if (killer == null)
 					{
-						event.setDeathMessage(this.prefix + TEXT + playerTeamChatColor + playerName + TEXT + " ist gestorben");
+						event.setDeathMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + playerTeamChatColor + playerName + TEXT + " ist gestorben");
 					}
 					else
 					{
-						event.setDeathMessage(this.prefix + playerTeamChatColor + playerName + TEXT + " wurde von " + teamManager.getTeam(killer).getChatColor() + killer.getName() + TEXT + " getötet");
+						event.setDeathMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + playerTeamChatColor + playerName + TEXT + " wurde von " + teamManager.getTeam(killer).getChatColor() + killer.getName() + TEXT + " getötet");
 					}
 				}
 			}
@@ -114,22 +113,22 @@ public class InGameListener implements Listener
 				String userPrefix = UserManager.getUser(player).getPrefix();
 				if (killer == null)
 				{
-					event.setDeathMessage(this.prefix + TEXT + userPrefix + playerName + TEXT + " ist gestorben");
+					event.setDeathMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + userPrefix + playerName + TEXT + " ist gestorben");
 				}
 				else
 				{
-					event.setDeathMessage(this.prefix + TEXT + userPrefix + playerName + TEXT + " wurde von " + UserManager.getUser(killer).getPrefix() + killer.getName() + TEXT + " getötet");
+					event.setDeathMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + userPrefix + playerName + TEXT + " wurde von " + UserManager.getUser(killer).getPrefix() + killer.getName() + TEXT + " getötet");
 				}
 			}
 			else
 			{*/
 			if (killer == null)
 			{
-				event.setDeathMessage(this.prefix + Colors.IMPORTANT + playerName + Colors.TEXT + " ist gestorben");
+				event.setDeathMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.IMPORTANT + playerName + Colors.TEXT + " ist gestorben");
 			}
 			else
 			{
-				event.setDeathMessage(this.prefix + Colors.IMPORTANT + playerName + Colors.TEXT + " wurde von " + Colors.IMPORTANT + killer.getDisplayName() + Colors.TEXT + " getötet");
+				event.setDeathMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.IMPORTANT + playerName + Colors.TEXT + " wurde von " + Colors.IMPORTANT + killer.getDisplayName() + Colors.TEXT + " getötet");
 			}
 			/*}*/
 		}

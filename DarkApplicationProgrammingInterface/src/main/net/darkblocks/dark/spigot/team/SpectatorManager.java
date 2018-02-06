@@ -7,6 +7,7 @@ import net.darkblocks.dark.spigot.builder.ItemBuilder;
 import net.darkblocks.dark.spigot.events.PlayerDisconnectEvent;
 import net.darkblocks.dark.spigot.utils.InventoryUtils;
 import net.darkblocks.dark.universal.messages.Colors;
+import net.darkblocks.dark.universal.messages.Messages;
 import org.bukkit.*;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
@@ -41,14 +42,12 @@ public class SpectatorManager implements Listener
 {
 	private final Set<Player> players;
 	private final GameTeam spectators;
-	private final String prefix;
 	
-	public SpectatorManager(@NonNull JavaPlugin javaPlugin, boolean colored, String prefix, Location location)
+	public SpectatorManager(@NonNull JavaPlugin javaPlugin, boolean colored, Location location)
 	{
 		Bukkit.getPluginManager().registerEvents(this, javaPlugin);
 		this.players = new HashSet<>();
 		this.spectators = new GameTeam("spectators", colored ? ChatColor.DARK_GRAY : ChatColor.GRAY, Integer.MAX_VALUE, colored);
-		this.prefix = prefix;
 		Team team = this.spectators.getTeam();
 		team.setPrefix((colored ? ChatColor.GRAY : ChatColor.DARK_GRAY) + "[" + Colors.PRIMARY + "✘" + (colored ? ChatColor.GRAY : ChatColor.DARK_GRAY) + "] " + (colored ? ChatColor.DARK_GRAY : ChatColor.GRAY));
 		team.setCanSeeFriendlyInvisibles(true);
@@ -77,7 +76,7 @@ public class SpectatorManager implements Listener
 	public void onPlayerJoinEvent(PlayerJoinEvent event)
 	{
 		event.setJoinMessage(null);
-		Bukkit.broadcastMessage(this.prefix + Colors.IMPORTANT + event.getPlayer().getDisplayName() + Colors.TEXT + " hat die Runde als Spectator betreten");
+		Bukkit.broadcastMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.IMPORTANT + event.getPlayer().getDisplayName() + Colors.TEXT + " hat die Runde als Spectator betreten");
 	}
 	
 	@EventHandler
@@ -95,7 +94,7 @@ public class SpectatorManager implements Listener
 	@EventHandler
 	public void onPlayerDisconnectEvent(PlayerDisconnectEvent event)
 	{
-		Bukkit.broadcastMessage(this.prefix + Colors.IMPORTANT + event.getPlayer().getDisplayName() + Colors.TEXT + " hat die Runde als Spectator verlassen");
+		Bukkit.broadcastMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.IMPORTANT + event.getPlayer().getDisplayName() + Colors.TEXT + " hat die Runde als Spectator verlassen");
 	}
 	
 	@EventHandler
@@ -193,7 +192,7 @@ public class SpectatorManager implements Listener
 								}
 								else
 								{
-									player.sendMessage(this.prefix + Colors.TEXT + "Der Spieler ist nicht mehr im Spiel");
+									player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.TEXT + "Der Spieler ist nicht mehr im Spiel");
 								}
 							}
 						}

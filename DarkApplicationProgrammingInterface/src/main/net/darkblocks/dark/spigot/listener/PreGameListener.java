@@ -7,6 +7,7 @@ import net.darkblocks.dark.spigot.controller.GameController;
 import net.darkblocks.dark.spigot.events.ServerStateChangeEvent;
 import net.darkblocks.dark.spigot.team.SpectatorManager;
 import net.darkblocks.dark.universal.messages.Colors;
+import net.darkblocks.dark.universal.messages.Messages;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -27,13 +28,11 @@ import org.bukkit.event.weather.WeatherChangeEvent;
 @Setter
 public class PreGameListener implements Listener
 {
-	private final String prefix;
 	private final GameController gameController;
 	private SpectatorManager spectatorManager;
 	
-	public PreGameListener(String prefix, GameController gameController, SpectatorManager spectatorManager)
+	public PreGameListener(GameController gameController, SpectatorManager spectatorManager)
 	{
-		this.prefix = prefix;
 		this.gameController = gameController;
 		this.spectatorManager = spectatorManager;
 		getGameController().registerListener(this);
@@ -60,14 +59,14 @@ public class PreGameListener implements Listener
 	@EventHandler
 	public void onPlayerQuit(PlayerQuitEvent event)
 	{
-		event.setQuitMessage(this.prefix + Colors.IMPORTANT + event.getPlayer().getDisplayName() + Colors.TEXT + " hat die Runde verlassen");
+		event.setQuitMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.IMPORTANT + event.getPlayer().getDisplayName() + Colors.TEXT + " hat die Runde verlassen");
 		//TODO: ADD TEAM INFOS
 	}
 	
 	@EventHandler
 	public void onPlayerKick(PlayerKickEvent event)
 	{
-		event.setLeaveMessage(this.prefix + Colors.IMPORTANT + event.getPlayer().getDisplayName() + Colors.TEXT + " hat die Runde verlassen");
+		event.setLeaveMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.IMPORTANT + event.getPlayer().getDisplayName() + Colors.TEXT + " hat die Runde verlassen");
 		//TODO: ADD TEAM INFOS
 	}
 	

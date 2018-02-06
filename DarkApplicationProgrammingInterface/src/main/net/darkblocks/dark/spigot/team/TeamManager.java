@@ -142,7 +142,7 @@ public class TeamManager implements Listener
 		}
 	}
 	
-	public boolean finishTeams(@NonNull String prefix)
+	public boolean finishTeams()
 	{
 		for (Player players : Bukkit.getOnlinePlayers())
 		{
@@ -152,11 +152,11 @@ public class TeamManager implements Listener
 				String teamWithColors = gameTeam.getChatColor() + gameTeam.getName();
 				if (!gameTeam.add(players))
 				{
-					players.sendMessage(prefix + Colors.TEXT + "Das Team " + teamWithColors + Colors.TEXT + "ist" + Colors.IMPORTANT + " voll");
+					players.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.TEXT + "Das Team " + teamWithColors + Colors.TEXT + "ist" + Colors.IMPORTANT + " voll");
 				}
 				else
 				{
-					players.sendMessage(prefix + Colors.TEXT + "Du bist nun im Team " + Colors.IMPORTANT + teamWithColors);
+					players.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.TEXT + "Du bist nun im Team " + Colors.IMPORTANT + teamWithColors);
 				}
 			}
 		}
@@ -170,7 +170,7 @@ public class TeamManager implements Listener
 		}
 		if (size < 2)
 		{
-			Bukkit.broadcastMessage(prefix + Colors.TEXT + "Es müssen mindestens " + Colors.IMPORTANT + "zwei " + Colors.TEXT + "Teams mit Spieler existieren");
+			Bukkit.broadcastMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.TEXT + "Es müssen mindestens " + Colors.IMPORTANT + "zwei " + Colors.TEXT + "Teams mit Spieler existieren");
 			return false;
 		}
 		else

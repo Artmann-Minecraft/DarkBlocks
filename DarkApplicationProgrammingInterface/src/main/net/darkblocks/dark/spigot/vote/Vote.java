@@ -11,12 +11,12 @@ import java.util.Set;
  */
 @Getter
 @Setter
-public class Vote
+class Vote
 {
 	private String name;
 	private Set<String> voter;
 	
-	public Vote(String name)
+	Vote(String name)
 	{
 		this.name = name;
 		this.voter = new HashSet<>();

@@ -6,6 +6,7 @@ package net.darkblocks.dark.spigot.vote;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.darkblocks.dark.universal.messages.Colors;
+import net.darkblocks.dark.universal.messages.Messages;
 
 import java.util.Set;
 
@@ -13,7 +14,6 @@ import java.util.Set;
 @AllArgsConstructor
 public abstract class Votes
 {
-	private final String prefix;
 	private final Set<Vote> votes;
 	
 	public String addVote(String name, String voteName)
@@ -31,7 +31,7 @@ public abstract class Votes
 				if (vote.getName().equalsIgnoreCase(voteName))
 				{
 					voter.add(name);
-					result = this.prefix + Colors.TEXT + "Du hast für " + Colors.IMPORTANT + voteName + Colors.TEXT + " abgestimmt";
+					result = Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.TEXT + "Du hast für " + Colors.IMPORTANT + voteName + Colors.TEXT + " abgestimmt";
 				}
 			}
 		}

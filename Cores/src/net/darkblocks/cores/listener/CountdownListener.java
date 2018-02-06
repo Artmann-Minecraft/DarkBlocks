@@ -1,6 +1,5 @@
 package net.darkblocks.cores.listener;
 
-import net.darkblocks.cores.Cores;
 import net.darkblocks.cores.manager.CoreManager;
 import net.darkblocks.cores.utils.Core;
 import net.darkblocks.cores.utils.ScoreBoard;
@@ -55,7 +54,6 @@ import static net.darkblocks.dark.universal.messages.Colors.*;
  */
 public class CountdownListener implements Listener
 {
-	private final String prefix;
 	private final JavaPlugin javaPlugin;
 	private final VoteManager voteManager;
 	private final GameController gameController;
@@ -63,14 +61,13 @@ public class CountdownListener implements Listener
 	private SpectatorManager spectatorManager;
 	private CoreManager coreManager;
 	
-	public CountdownListener(String prefix, JavaPlugin javaPlugin)
+	public CountdownListener(JavaPlugin javaPlugin)
 	{
 		Bukkit.getPluginManager().registerEvents(this, javaPlugin);
-		this.prefix = prefix;
 		this.javaPlugin = javaPlugin;
 		Set<String> maps = new HashSet<>(MapsUtils.loadMapNames(javaPlugin));
 		this.gameController = new GameController(javaPlugin, ServerState.STARTUP, 2);
-		this.voteManager = new VoteManager(javaPlugin, ((Cores) javaPlugin).getPrefix(javaPlugin.getName()), this.gameController, maps);
+		this.voteManager = new VoteManager(javaPlugin, this.gameController, maps);
 		registerGameController(this.gameController);
 	}
 	
@@ -100,7 +97,7 @@ public class CountdownListener implements Listener
 		gameController.getLobbyCountdowns().add(new LobbyCountdown(2, this.javaPlugin));
 		gameController.getPreGameCountdowns().add(new PreGameCountdown(this.javaPlugin));
 		gameController.getEndGameCountdowns().add(new EndGameCountdown(this.javaPlugin));
-		gameController.getLobbyListener().add(new LobbyListener(CountdownListener.this.prefix, gameController, location)
+		gameController.getLobbyListener().add(new LobbyListener(gameController, location)
 		{
 			@Override
 			protected void setJoinItems(Player player)
@@ -110,8 +107,8 @@ public class CountdownListener implements Listener
 				inventory.setItem(8, new ItemBuilder(Material.SKULL_ITEM, 1, (short) 3).setOwnerFromURL("http://textures.minecraft.net/texture/1b6f1a25b6bc199946472aedb370522584ff6f4e83221e5946bd2e41b5ca13b", "MHF_ArrowRight").setName(SECONDARY + "Zurück zur Lobby").build());
 			}
 		});
-		gameController.getPreGameListener().add(new PreGameListener(this.prefix, gameController, this.spectatorManager));
-		gameController.getInGameListener().add(new InGameListener(CountdownListener.this.prefix, gameController, CountdownListener.this.spectatorManager)
+		gameController.getPreGameListener().add(new PreGameListener(gameController, this.spectatorManager));
+		gameController.getInGameListener().add(new InGameListener(gameController, CountdownListener.this.spectatorManager)
 		{
 			@EventHandler
 			public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent event)
@@ -184,13 +181,13 @@ public class CountdownListener implements Listener
 				}.runTaskLater(CountdownListener.this.javaPlugin, 1);
 			}
 		});
-		gameController.getEndGameListener().add(new EndGameListener(this.prefix, gameController, location));
+		gameController.getEndGameListener().add(new EndGameListener(gameController, location));
 	}
 	
 	@EventHandler
 	public void onLobbyCountdownPreFinishedEvent(LobbyCountdownPreFinishedEvent event)
 	{
-		if (!this.teamManager.finishTeams(this.prefix))
+		if (!this.teamManager.finishTeams())
 		{
 			event.setNext(true);
 			event.getCountdown().setSeconds(9);
@@ -228,7 +225,7 @@ public class CountdownListener implements Listener
 		{
 			setItems(players);
 		}
-		this.spectatorManager = new SpectatorManager(this.javaPlugin, true, this.prefix, this.gameController.getLobbyListener().get(0).getLobbyLocation());
+		this.spectatorManager = new SpectatorManager(this.javaPlugin, true, this.gameController.getLobbyListener().get(0).getLobbyLocation());
 		for (PreGameListener listener : this.gameController.getPreGameListener())
 		{
 			listener.setSpectatorManager(this.spectatorManager);

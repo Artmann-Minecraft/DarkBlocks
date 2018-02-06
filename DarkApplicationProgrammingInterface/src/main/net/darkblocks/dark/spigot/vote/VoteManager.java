@@ -46,7 +46,7 @@ public class VoteManager implements Listener
 	private String mapName;
 	private Votes votes;
 	
-	public VoteManager(JavaPlugin javaPlugin, String prefix, GameController gameController, Set<String> maps)
+	public VoteManager(JavaPlugin javaPlugin, GameController gameController, Set<String> maps)
 	{
 		Bukkit.getPluginManager().registerEvents(this, javaPlugin);
 		this.maps = maps;
@@ -59,7 +59,7 @@ public class VoteManager implements Listener
 		{
 			votes.add(new Vote(map));
 		}
-		this.votes = new Votes(prefix, votes)
+		this.votes = new Votes(votes)
 		{
 			@Override
 			public void finishVotes(String winner)
@@ -76,10 +76,10 @@ public class VoteManager implements Listener
 					}
 					for (Player players : Bukkit.getOnlinePlayers())
 					{
-						players.sendMessage(prefix + " ");
-						players.sendMessage(prefix + Colors.TEXT + "     Das Voting ist beendet");
-						players.sendMessage(prefix + Colors.TEXT + "     Gewinner" + Colors.IMPORTANT + ": " + Colors.PRIMARY + winner + Colors.TEXT + " (" + Colors.IMPORTANT + count + Colors.TEXT + ")");
-						players.sendMessage(prefix + " ");
+						players.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + " ");
+						players.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.TEXT + "     Das Voting ist beendet");
+						players.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.TEXT + "     Gewinner" + Colors.IMPORTANT + ": " + Colors.PRIMARY + winner + Colors.TEXT + " (" + Colors.IMPORTANT + count + Colors.TEXT + ")");
+						players.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + " ");
 					}
 					VoteManager.this.mapName = winner;
 					MapsUtils.loadMap(winner);
@@ -88,9 +88,9 @@ public class VoteManager implements Listener
 				{
 					for (Player players : Bukkit.getOnlinePlayers())
 					{
-						players.sendMessage(prefix + " ");
-						players.sendMessage(prefix + Colors.TEXT + "     Map" + Colors.IMPORTANT + ": " + Colors.PRIMARY + VoteManager.this.mapName);
-						players.sendMessage(prefix + " ");
+						players.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + " ");
+						players.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.TEXT + "     Map" + Colors.IMPORTANT + ": " + Colors.PRIMARY + VoteManager.this.mapName);
+						players.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + " ");
 					}
 					MapsUtils.loadMap(VoteManager.this.mapName);
 				}

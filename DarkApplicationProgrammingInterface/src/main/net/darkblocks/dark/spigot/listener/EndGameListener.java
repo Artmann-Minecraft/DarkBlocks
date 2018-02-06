@@ -6,6 +6,7 @@ import net.darkblocks.dark.spigot.controller.GameController;
 import net.darkblocks.dark.spigot.events.PlayerDisconnectEvent;
 import net.darkblocks.dark.spigot.events.ServerStateChangeEvent;
 import net.darkblocks.dark.universal.messages.Colors;
+import net.darkblocks.dark.universal.messages.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -29,13 +30,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 @Getter
 public class EndGameListener implements Listener
 {
-	private final String prefix;
 	private final GameController gameController;
 	private final Location lobbyLocation;
 	
-	public EndGameListener(String prefix, GameController gameController, Location lobbyLocation)
+	public EndGameListener(GameController gameController, Location lobbyLocation)
 	{
-		this.prefix = prefix;
 		this.gameController = gameController;
 		this.lobbyLocation = lobbyLocation;
 		getGameController().registerListener(this);
@@ -53,7 +52,7 @@ public class EndGameListener implements Listener
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event)
 	{
-		event.setJoinMessage(this.prefix + Colors.IMPORTANT + event.getPlayer().getDisplayName() + Colors.TEXT + " hat die Runde betreten");
+		event.setJoinMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.IMPORTANT + event.getPlayer().getDisplayName() + Colors.TEXT + " hat die Runde betreten");
 		event.getPlayer().teleport(getLobbyLocation());
 	}
 	
@@ -69,13 +68,13 @@ public class EndGameListener implements Listener
 	@EventHandler
 	public void onPlayerQuit(PlayerQuitEvent event)
 	{
-		event.setQuitMessage(this.prefix + Colors.IMPORTANT + event.getPlayer().getDisplayName() + Colors.TEXT + " hat die Runde verlassen");
+		event.setQuitMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.IMPORTANT + event.getPlayer().getDisplayName() + Colors.TEXT + " hat die Runde verlassen");
 	}
 	
 	@EventHandler
 	public void onPlayerKick(PlayerKickEvent event)
 	{
-		event.setLeaveMessage(this.prefix + Colors.IMPORTANT + event.getPlayer().getDisplayName() + Colors.TEXT + " hat die Runde verlassen");
+		event.setLeaveMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.IMPORTANT + event.getPlayer().getDisplayName() + Colors.TEXT + " hat die Runde verlassen");
 	}
 	
 	@EventHandler
