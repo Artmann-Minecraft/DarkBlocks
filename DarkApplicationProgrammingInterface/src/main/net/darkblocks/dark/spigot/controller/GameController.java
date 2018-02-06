@@ -8,10 +8,7 @@ import net.darkblocks.dark.spigot.countdowns.EndGameCountdown;
 import net.darkblocks.dark.spigot.countdowns.LobbyCountdown;
 import net.darkblocks.dark.spigot.countdowns.PreGameCountdown;
 import net.darkblocks.dark.spigot.countdowns.SaveTimeCountdown;
-import net.darkblocks.dark.spigot.events.EndGameCountdownStartedEvent;
-import net.darkblocks.dark.spigot.events.LobbyCountdownFinishedEvent;
-import net.darkblocks.dark.spigot.events.SaveTimeCountdownFinishedEvent;
-import net.darkblocks.dark.spigot.events.ServerStateChangeEvent;
+import net.darkblocks.dark.spigot.events.*;
 import net.darkblocks.dark.spigot.events.listener.EventsListener;
 import net.darkblocks.dark.spigot.listener.*;
 import net.darkblocks.dark.universal.messages.Colors;
@@ -79,6 +76,19 @@ public class GameController implements Listener
 			for (LobbyCountdown countdown : getLobbyCountdowns())
 			{
 				countdown.start();
+			}
+		}
+	}
+	
+	@EventHandler
+	public void onPlayerDisconnectEvent(PlayerDisconnectEvent event)
+	{
+		if ((this.serverState == ServerState.LOBBY || this.serverState == ServerState.LOBBYFULL) && this.minPlayers <= Bukkit.getOnlinePlayers().size())
+		{
+			for (LobbyCountdown countdown : getLobbyCountdowns())
+			{
+				countdown.stopCountdown();
+				countdown.idle();
 			}
 		}
 	}
