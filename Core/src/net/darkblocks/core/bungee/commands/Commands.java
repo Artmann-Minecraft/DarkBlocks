@@ -15,5 +15,7 @@ public class Commands
 		new PingCommand(plugin);
 		new KickCommand(plugin);
 		new YoutuberCommand(plugin);
+		new MegaPlusCommand(plugin);
+		new AlertCommand(plugin);
 	}
 }

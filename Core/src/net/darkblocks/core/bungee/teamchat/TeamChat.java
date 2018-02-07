@@ -1,6 +1,7 @@
 package net.darkblocks.core.bungee.teamchat;
 
 import lombok.Getter;
+import net.darkblocks.core.bungee.teamchat.commands.TeamChatCommand;
 import net.darkblocks.core.bungee.teamchat.listener.TeamChatListener;
 import net.darkblocks.dark.java.mysql.MySQL;
 import net.md_5.bungee.api.plugin.Plugin;
@@ -22,5 +23,6 @@ public class TeamChat
 		this.mySQL = mySQL;
 		this.players = new HashSet<>();
 		new TeamChatListener(plugin, this);
+		new TeamChatCommand(plugin, this);
 	}
 }

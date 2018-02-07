@@ -29,7 +29,7 @@ public class TeamChatCommand extends Command
 	@Override
 	public void execute(CommandSender sender, String[] args)
 	{
-		if (args.length != 0)
+		if (args.length == 0)
 		{
 			if (getTeamChat().getPlayers().contains(sender.getName()))
 			{

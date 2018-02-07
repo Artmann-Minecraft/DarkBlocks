@@ -42,7 +42,10 @@ public class TeamChatListener implements Listener
 				event.setCancelled(true);
 				for (ProxiedPlayer players : BungeeCord.getInstance().getPlayers())
 				{
-					players.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + player.getName() + PRIMARY + EXTRA + " -> " + TEXT + message.substring(1)));
+					if (players.hasPermission(CommandUtils.getPermission(getClass())))
+					{
+						players.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + player.getName() + PRIMARY + EXTRA + " -> " + TEXT + message.substring(1)));
+					}
 				}
 			}
 		}

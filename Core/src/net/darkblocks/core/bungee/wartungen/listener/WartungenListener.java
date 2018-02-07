@@ -5,8 +5,8 @@ import net.darkblocks.core.bungee.wartungen.Wartungen;
 import net.darkblocks.dark.universal.messages.Messages;
 import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.event.PostLoginEvent;
+import net.md_5.bungee.api.connection.PendingConnection;
+import net.md_5.bungee.api.event.LoginEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
@@ -27,12 +27,12 @@ public class WartungenListener implements Listener
 	}
 	
 	@EventHandler
-	public void onPostLoginEvent(PostLoginEvent event)
+	public void onServerConnectedEvent(LoginEvent event)
 	{
-		ProxiedPlayer player = event.getPlayer();
-		if (getWartungen().isOn() && !player.hasPermission("dark.core.bungee.wartungen.bypass"))
+		PendingConnection connection = event.getConnection();
+		if (getWartungen().isOn() && /*!connection.hasPermission("dark.core.bungee.wartungen.bypass")*/ !connection.getName().equalsIgnoreCase("LartyHD") && !getWartungen().getWhitelist().contains(connection.getName().toLowerCase()))
 		{
-			player.disconnect(new TextComponent(PRIMARY + Messages.getInstance().getMessage(Messages.getInstance().getPathPrefix(), "servername") + TEXT + " bedindet sich im " + IMPORTANT + "Wartungsmodus\n" + TEXT + "Das Betreten des Netztwerkes ist derzeit deswegen nicht möglich"));
+			connection.disconnect(new TextComponent(PRIMARY + Messages.getInstance().getShortMessage(getClass(), "servername") + TEXT + " bedindet sich im " + IMPORTANT + "Wartungsmodus\n" + TEXT + "Das Betreten des Netztwerkes ist derzeit deswegen nicht möglich"));
 		}
 	}
 }

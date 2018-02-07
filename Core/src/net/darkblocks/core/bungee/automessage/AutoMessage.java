@@ -8,7 +8,7 @@ import net.md_5.bungee.api.plugin.Plugin;
 import java.util.Arrays;
 import java.util.List;
 
-import static net.darkblocks.dark.universal.messages.Colors.IMPORTANT;
+import static net.darkblocks.dark.universal.messages.Colors.PRIMARY;
 import static net.darkblocks.dark.universal.messages.Colors.TEXT;
 
 /**
@@ -18,7 +18,7 @@ public class AutoMessage
 {
 	public AutoMessage(Plugin plugin)
 	{
-		List<List<TextComponent>> list = Arrays.asList(Arrays.asList(new TextComponent(""), new TextComponent(TEXT + "Interesse am " + IMPORTANT + "Youtuber " + TEXT + "oder " + IMPORTANT + "Mega+ " + TEXT + "Rang?"), new TextComponent(TEXT + "Dann mach doch mal " + IMPORTANT + "/YT " + TEXT + "oder " + IMPORTANT + "/Mega+"), new TextComponent("")));
+		List<List<TextComponent>> list = Arrays.asList(Arrays.asList(new TextComponent(""), new TextComponent(TEXT + "Interesse am " + PRIMARY + "Youtuber " + TEXT + "oder " + PRIMARY + "Mega+ " + TEXT + "Rang?"), new TextComponent(TEXT + "Dann mach doch mal " + PRIMARY + "/YT " + TEXT + "oder " + PRIMARY + "/Mega+"), new TextComponent("")));
 		BungeeCord.getInstance().getScheduler().runAsync(plugin, () -> {
 			try
 			{
@@ -26,6 +26,7 @@ public class AutoMessage
 				{
 					for (List<TextComponent> textComponents : list)
 					{
+						Thread.sleep(300000);
 						for (TextComponent textComponent : textComponents)
 						{
 							for (ProxiedPlayer players : BungeeCord.getInstance().getPlayers())
@@ -33,7 +34,6 @@ public class AutoMessage
 								players.sendMessage(textComponent);
 							}
 						}
-						Thread.sleep(300000);
 					}
 				}
 			} catch (InterruptedException ex)

@@ -44,11 +44,11 @@ public class ChatBanListener implements Listener
 	{
 		for (String match : getMatches())
 		{
-			if (event.getMessage().replaceAll(" ", "").matches(match))
+			if (event.getMessage().replaceAll(" ", "").matches("." + match + "."))
 			{
 				ProxiedPlayer sender = (ProxiedPlayer) event.getSender();
 				event.setCancelled(true);
-				sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Du darfst du das nicht schreiben"));
+				sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Du darfst " + match + " das nicht schreiben"));
 				ProxyServer.getInstance().getPluginManager().dispatchCommand(ProxyServer.getInstance().getConsole(), "ban " + sender.getName() + " 2");
 			}
 		}
