@@ -33,18 +33,18 @@ public class WartungenCommand extends Command
 	public void execute(CommandSender sender, String[] args)
 	{
 		String servername = Messages.getInstance().getShortMessage(getClass(), "servername");
-		if (getWartungen().isOn())
+		if (args.length == 0)
 		{
-			BungeeCord.getInstance().broadcast(new TextComponent(servername + TEXT + " ist jetzt nicht mehr im " + IMPORTANT + "Wartungsmodus"));
-			getWartungen().setOn(false);
-		}
-		else if (isRun())
-		{
-			sender.sendMessage(new TextComponent(TEXT + "Der " + IMPORTANT + "Wartungen-Countdown " + TEXT + "läuft schon"));
-		}
-		else
-		{
-			if (args.length == 0)
+			if (getWartungen().isOn())
+			{
+				BungeeCord.getInstance().broadcast(new TextComponent(servername + TEXT + " ist jetzt nicht mehr im " + IMPORTANT + "Wartungsmodus"));
+				getWartungen().setOn(false);
+			}
+			else if (isRun())
+			{
+				sender.sendMessage(new TextComponent(TEXT + "Der " + IMPORTANT + "Wartungen-Countdown " + TEXT + "läuft schon"));
+			}
+			else
 			{
 				new Thread(() -> {
 					setRun(true);
@@ -78,33 +78,33 @@ public class WartungenCommand extends Command
 						setRun(false);
 					}
 				}).start();
+			}
+			return;
+		}
+		else if (args.length == 1)
+		{
+			if (args[0].equalsIgnoreCase("now"))
+			{
+				BungeeCord.getInstance().broadcast(new TextComponent(servername + TEXT + " ist jetzt im " + IMPORTANT + "Wartungsmodus"));
+				getWartungen().setOn(true);
 				return;
 			}
-			else if (args.length == 1)
-			{
-				if (args[0].equalsIgnoreCase("now"))
-				{
-					BungeeCord.getInstance().broadcast(new TextComponent(servername + TEXT + " ist jetzt im " + IMPORTANT + "Wartungsmodus"));
-					getWartungen().setOn(true);
-					return;
-				}
-			}
-			else if (args.length == 2)
-			{
-				switch (args[0].toLowerCase())
-				{
-					case "add":
-						getWartungen().getWhitelist().add(args[1].toLowerCase());
-						sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + args[1] + TEXT + " wurde zur " + IMPORTANT + "Whitelist " + TEXT + "hinzugefügt"));
-						return;
-					case "remove":
-						getWartungen().getWhitelist().remove(args[1].toLowerCase());
-						sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + args[1] + TEXT + " wurde von der " + IMPORTANT + "Whitelist " + TEXT + "entfernt"));
-						return;
-				}
-			}
-			sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + "/" + getName() + TEXT + " [now]"));
-			sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + "/" + getName() + TEXT + " [add/remove] <Spieler>"));
 		}
+		else if (args.length == 2)
+		{
+			switch (args[0].toLowerCase())
+			{
+				case "add":
+					getWartungen().getWhitelist().add(args[1].toLowerCase());
+					sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + args[1] + TEXT + " wurde zur " + IMPORTANT + "Whitelist " + TEXT + "hinzugefügt"));
+					return;
+				case "remove":
+					getWartungen().getWhitelist().remove(args[1].toLowerCase());
+					sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + args[1] + TEXT + " wurde von der " + IMPORTANT + "Whitelist " + TEXT + "entfernt"));
+					return;
+			}
+		}
+		sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + "/" + getName() + TEXT + " [now]"));
+		sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + "/" + getName() + TEXT + " [add/remove] <Spieler>"));
 	}
 }
