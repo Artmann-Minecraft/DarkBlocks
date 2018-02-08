@@ -131,7 +131,7 @@ public class InGameListener implements Listener
 			else
 			{
 				event.setDeathMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + IMPORTANT + playerName + TEXT + " wurde von " + IMPORTANT + killer.getDisplayName() + TEXT + " getötet");
-				event.getEntity().sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + IMPORTANT + playerName + TEXT + " hatte " + IMPORTANT + (int) killer.getHealth() + "§c❥");
+				event.getEntity().sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + IMPORTANT + killer.getDisplayName() + TEXT + " hatte " + IMPORTANT + (int) killer.getHealth() + "§c❥");
 			}
 			/*}*/
 		}
