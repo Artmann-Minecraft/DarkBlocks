@@ -1,18 +1,17 @@
 package net.darkblocks.dark.spigot.events.cashed;
 
-import org.bukkit.event.EventHandler;
+import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * Created by LartyHD on 22.01.2018  00:19.
  */
-public interface CashedEvent<E> extends Listener
+public interface CashedEvent extends Listener
 {
-	@EventHandler
-	void flush(E event);
-	
-	default void init()
+	default void init(JavaPlugin javaPlugin, CashedEventsManager cashedEventsManager)
 	{
-		CashedEventsManager.getInstance().register(this);
+		Bukkit.getPluginManager().registerEvents(this, javaPlugin);
+		cashedEventsManager.register(this);
 	}
 }

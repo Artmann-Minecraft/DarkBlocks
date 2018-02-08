@@ -3,7 +3,6 @@ package net.darkblocks.dark.spigot.utils;
 import net.darkblocks.dark.spigot.builder.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -125,12 +124,9 @@ public class InventoryUtils
 	 */
 	public static void setDesign(Inventory inventory, ArrayList<ItemStack> items)
 	{
-		assert inventory != null;
-		InventoryType inventoryType = inventory.getType();
-		if (inventoryType != null)
+		switch (inventory.getType())
 		{
-			if (inventoryType == InventoryType.HOPPER)
-			{
+			case HOPPER:
 				switch (items.size())
 				{
 					case 0:
@@ -176,13 +172,8 @@ public class InventoryUtils
 						}
 						break;
 				}
-				//FILL GRAY GALSS
-				fillGlass(inventory, (short) 7);
-				//FILL GRAY GALSS
-				return;
-			}
-			if (inventoryType == InventoryType.DISPENSER)
-			{
+				break;
+			case DISPENSER:
 				switch (items.size())
 				{
 					case 0:
@@ -295,13 +286,8 @@ public class InventoryUtils
 						}
 						break;
 				}
-				//FILL GRAY GALSS
-				fillGlass(inventory, (short) 7);
-				//FILL GRAY GALSS
-				return;
-			}
-			if (inventoryType == InventoryType.CHEST)
-			{
+				break;
+			case CHEST:
 				switch (inventory.getSize())
 				{
 					case 9:
@@ -484,14 +470,40 @@ public class InventoryUtils
 						}
 						break;
 				}
-				//FILL GRAY GALSS
-				fillGlass(inventory, (short) 7);
-				//FILL GRAY GALSS
-			}
-			//FILL GRAY GALSS
-			fillGlass(inventory, (short) 7);
-			//FILL GRAY GALSS
+			case PLAYER:
+				switch (items.size())
+				{
+					case 0:
+						int i = 9;
+						//ZEILE 1
+						setGlas(inventory, 0 + i, (short) 0);
+						setGlas(inventory, 1 + i, (short) 15);
+						setGlas(inventory, 3 + i, (short) 0);
+						setGlas(inventory, 4 + i, (short) 0);
+						setGlas(inventory, 5 + i, (short) 0);
+						setGlas(inventory, 7 + i, (short) 15);
+						setGlas(inventory, 8 + i, (short) 0);
+						//ZEILE 1
+						//ZEILE 2
+						setGlas(inventory, 9 + i, (short) 15);
+						setGlas(inventory, 17 + i, (short) 15);
+						//ZEILE 2
+						//ZEILE 3
+						setGlas(inventory, 18 + i, (short) 0);
+						setGlas(inventory, 19 + i, (short) 15);
+						setGlas(inventory, 21 + i, (short) 0);
+						setGlas(inventory, 22 + i, (short) 0);
+						setGlas(inventory, 23 + i, (short) 0);
+						setGlas(inventory, 25 + i, (short) 15);
+						setGlas(inventory, 26 + i, (short) 0);
+						//ZEILE 3
+						break;
+				}
+				break;
 		}
+		//FILL GRAY GALSS
+		fillGlass(inventory, (short) 7);
+		//FILL GRAY GALSS
 	}
 	
 	private static void setGlas(Inventory inventory, int slot, short durability)

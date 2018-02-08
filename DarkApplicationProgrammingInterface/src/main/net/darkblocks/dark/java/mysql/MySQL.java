@@ -1,8 +1,10 @@
 package net.darkblocks.dark.java.mysql;
 
+import net.darkblocks.dark.java.config.PropertiesConfig;
 import net.darkblocks.dark.java.utils.Callback;
 import net.darkblocks.dark.java.utils.ClearCallback;
 
+import java.io.File;
 import java.sql.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -19,6 +21,19 @@ public class MySQL
 	private final String database;
 	private final ExecutorService executorService;
 	private Connection connection;
+	
+	public MySQL()
+	{
+		@SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
+		PropertiesConfig properties = new PropertiesConfig(new File("databases"), "mysql.properties");
+		this.host = (String) properties.get("Host");
+		this.port = (String) properties.get("Port");
+		this.username = (String) properties.get("Username");
+		this.password = (String) properties.get("Password");
+		this.database = (String) properties.get("Database");
+		this.executorService = Executors.newCachedThreadPool();
+		connect();
+	}
 	
 	public MySQL(String host, String port, String username, String password, String database)
 	{

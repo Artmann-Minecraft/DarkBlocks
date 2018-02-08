@@ -44,8 +44,10 @@ public class StatsOnlineTimeCommand extends Command
 						time += result.getLong(1);
 						player++;
 					}
+					sender.sendMessage(new TextComponent(""));
 					sender.sendMessage(new TextComponent(TEXT + "Insgesamt wurden schon " + getZeit(time) + TEXT + " auf " + Messages.getInstance().getShortMessage(getClass(), "servername") + TEXT + " verbracht"));
 					sender.sendMessage(new TextComponent(TEXT + "Im durschnitt wurden " + getZeit(time / player) + TEXT + " auf " + Messages.getInstance().getShortMessage(getClass(), "servername") + TEXT + " verbracht"));
+					sender.sendMessage(new TextComponent(""));
 				} catch (SQLException ex)
 				{
 					ex.printStackTrace();

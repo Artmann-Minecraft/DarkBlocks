@@ -19,14 +19,16 @@ import net.darkblocks.dark.java.mysql.CoinsAPI;
 import net.darkblocks.dark.java.mysql.MySQL;
 import net.darkblocks.dark.java.utils.ValueType;
 import net.darkblocks.dark.universal.messages.Messages;
+import net.md_5.bungee.BungeeCord;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import static net.darkblocks.dark.universal.messages.Colors.EXTRA;
-import static net.darkblocks.dark.universal.messages.Colors.PRIMARY;
+import static net.darkblocks.dark.universal.messages.Colors.*;
 
 /**
  * Created by LartyHD on 09.01.2018  08:32.
@@ -63,6 +65,10 @@ public class Core extends Plugin
 	@Override
 	public void onDisable()
 	{
+		for (ProxiedPlayer players : BungeeCord.getInstance().getPlayers())
+		{
+			players.disconnect(new TextComponent(TEXT + "Proxy Restart"));
+		}
 		this.onlineTime.disable();
 	}
 }

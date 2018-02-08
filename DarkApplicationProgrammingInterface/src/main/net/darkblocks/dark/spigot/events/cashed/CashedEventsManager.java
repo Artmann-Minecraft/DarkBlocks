@@ -5,10 +5,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by LartyHD on 22.01.2018  00:13.
@@ -16,26 +17,14 @@ import java.util.List;
 @Getter
 public class CashedEventsManager implements Listener
 {
-	private static CashedEventsManager instance;
-	private final List<CashedEvent> cashedEvents;
+	private final Set<CashedEvent> cashedEvents;
 	
 	public CashedEventsManager(JavaPlugin javaPlugin) throws IllegalArgumentException
 	{
-		if (instance != null)
-		{
-			throw new IllegalArgumentException();
-		}
-		instance = this;
-		this.cashedEvents = new ArrayList<>();
+		this.cashedEvents = new HashSet<>();
 		Bukkit.getPluginManager().registerEvents(this, javaPlugin);
 	}
 	
-	public static CashedEventsManager getInstance()
-	{
-		return instance;
-	}
-	
-	@SuppressWarnings({"SingleStatementInBlock", "unchecked"})
 	@EventHandler
 	public void onInventoryClickEvent(InventoryClickEvent event)
 	{
@@ -43,7 +32,19 @@ public class CashedEventsManager implements Listener
 		{
 			if (cashedEvent instanceof CashedInventoryClickEvent)
 			{
-				cashedEvent.flush(event);
+				((CashedInventoryClickEvent) cashedEvent).onCashedInventoryClickEvent(event);
+			}
+		}
+	}
+	
+	@EventHandler
+	public void onPlayerInteractEvent(PlayerInteractEvent event)
+	{
+		for (CashedEvent cashedEvent : getCashedEvents())
+		{
+			if (cashedEvent instanceof CashedPlayerInteractEvent)
+			{
+				((CashedPlayerInteractEvent) cashedEvent).onCashedPlayerInteractEvent(event);
 			}
 		}
 	}
