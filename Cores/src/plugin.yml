@@ -1,6 +1,6 @@
 name: Cores
 version: 1.0
-author: LartyHD
+author: Lars Artmann aka. LartyHD
 main: net.darkblocks.cores.Cores
 depend:
 - SegdoCloudPlugin

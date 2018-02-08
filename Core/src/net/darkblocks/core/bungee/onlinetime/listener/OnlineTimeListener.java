@@ -53,17 +53,6 @@ public class OnlineTimeListener implements Listener
 	public void onPlayerDisconnectEvent(PlayerDisconnectEvent event)
 	{
 		ProxiedPlayer player = event.getPlayer();
-		getOnlineTime().getMySQL().query("SELECT `uuid` FROM OnlineTime WHERE `uuid` = '" + player.getUniqueId() + "'", result -> {
-			try
-			{
-				if (result.next())
-				{
-					getOnlineTime().updateTime(player.getUniqueId(), player.getName(), player.getAddress().getHostString());
-				}
-			} catch (SQLException ex)
-			{
-				ex.printStackTrace();
-			}
-		});
+		getOnlineTime().updateTime(player.getUniqueId(), player.getName(), player.getAddress().getHostString(), () -> getOnlineTime().getTime().remove(event.getPlayer().getUniqueId()));
 	}
 }

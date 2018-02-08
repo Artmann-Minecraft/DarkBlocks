@@ -30,7 +30,6 @@ public class OnlineTimeCommand extends Command
 		super(CommandUtils.getName(OnlineTimeCommand.class), null, "ot");
 		this.onlineTime = onlineTime;
 		CommandUtils.register(plugin, this);
-		getOnlineTime().getMySQL().updateSync("CREATE TABLE IF NOT EXISTS OnlineTime(`uuid` VARCHAR(100) , `name` VARCHAR(16), `ip` VARCHAR(100), `time` INT , PRIMARY KEY(uuid))");
 	}
 	
 	@Override
@@ -46,8 +45,7 @@ public class OnlineTimeCommand extends Command
 			{
 				ProxiedPlayer player = (ProxiedPlayer) sender;
 				UUID uuid = player.getUniqueId();
-				getOnlineTime().updateTime(uuid, player.getName(), player.getAddress().getHostString());
-				getOnlineTime().getMySQL().query("SELECT `time` FROM OnlineTime WHERE `uuid` = '" + uuid + "'", result -> {
+				getOnlineTime().updateTime(uuid, player.getName(), player.getAddress().getHostString(), () -> getOnlineTime().getMySQL().query("SELECT `time` FROM OnlineTime WHERE `uuid` = '" + uuid + "'", result -> {
 					try
 					{
 						if (result.next())
@@ -58,7 +56,7 @@ public class OnlineTimeCommand extends Command
 					{
 						ex.printStackTrace();
 					}
-				});
+				}));
 			}
 			else if (args.length == 1)
 			{
@@ -69,8 +67,7 @@ public class OnlineTimeCommand extends Command
 				}
 				else
 				{
-					getOnlineTime().updateTime(target.getUniqueId(), target.getName(), target.getAddress().getHostString());
-					getOnlineTime().getMySQL().query("SELECT `time` FROM OnlineTime WHERE `uuid` = '" + target.getUniqueId() + "'", result -> {
+					getOnlineTime().updateTime(target.getUniqueId(), target.getName(), target.getAddress().getHostString(), () -> getOnlineTime().getMySQL().query("SELECT `time` FROM OnlineTime WHERE `uuid` = '" + target.getUniqueId() + "'", result -> {
 						try
 						{
 							if (result.next())
@@ -81,7 +78,7 @@ public class OnlineTimeCommand extends Command
 						{
 							ex.printStackTrace();
 						}
-					});
+					}));
 				}
 			}
 			else

@@ -25,7 +25,7 @@ public class YoutuberCommand extends Command
 	public void execute(CommandSender sender, String[] args)
 	{
 		sender.sendMessage(new TextComponent(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Vorraussetzungen für " + IMPORTANT + "Youtuber" + TEXT + ":")));
-		sender.sendMessage(new TextComponent(TEXT + "-> Dein " + IMPORTANT + "Kanal " + TEXT + "muss mindestens " + IMPORTANT + "1000 Abonenten" + TEXT + " besitzen."));
+		sender.sendMessage(new TextComponent(TEXT + "-> Dein " + IMPORTANT + "Kanal " + TEXT + "muss mindestens " + IMPORTANT + "1000 Abonnenten" + TEXT + " besitzen."));
 		sender.sendMessage(new TextComponent(TEXT + "-> Du benötigst 500 Klicks nach 24 Stunden auf dein Video."));
 		sender.sendMessage(new TextComponent(TEXT + "-> Dieses Video muss eine Server vorstellung oder der\n" + TEXT + "    Server Trailer sein."));
 		sender.sendMessage(new TextComponent(TEXT + "-> Dieses Video muss in angemessener Qualität und Länge sein."));

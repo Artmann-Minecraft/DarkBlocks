@@ -2,6 +2,7 @@ package net.darkblocks.core.bungee;
 
 import net.darkblocks.core.bungee.autoban.ChatBan;
 import net.darkblocks.core.bungee.automessage.AutoMessage;
+import net.darkblocks.core.bungee.blockedcommands.BlockedCommands;
 import net.darkblocks.core.bungee.coins.Coins;
 import net.darkblocks.core.bungee.commands.Commands;
 import net.darkblocks.core.bungee.joinme.JoinMe;
@@ -9,6 +10,7 @@ import net.darkblocks.core.bungee.motd.Motd;
 import net.darkblocks.core.bungee.msg.PrivateMessage;
 import net.darkblocks.core.bungee.onlinetime.OnlineTime;
 import net.darkblocks.core.bungee.otherversionblocker.OtherVersionBlocker;
+import net.darkblocks.core.bungee.permissions.Permissions;
 import net.darkblocks.core.bungee.tablist.TabList;
 import net.darkblocks.core.bungee.teamchat.TeamChat;
 import net.darkblocks.core.bungee.wartungen.Wartungen;
@@ -53,6 +55,8 @@ public class Core extends Plugin
 		new TeamChat(this, mySQL);
 		new AutoMessage(this);
 		new Coins(this, new CoinsAPI("Coins", ValueType.INTEGER, mySQL));
+		new BlockedCommands(this, mySQL);
+		new Permissions(this, mySQL);
 		this.onlineTime = new OnlineTime(this, mySQL);
 	}
 	

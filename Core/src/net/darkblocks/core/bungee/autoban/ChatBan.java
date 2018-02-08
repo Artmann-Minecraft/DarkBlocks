@@ -28,11 +28,11 @@ public class ChatBan
 					block.add(resultSet.getString("name"));
 				}
 				new ChatBanListener(plugin, block);
+				new AddToAutoChatBanCommand(plugin, mySQL);
 			} catch (SQLException ex)
 			{
 				ex.printStackTrace();
 			}
 		});
-		new AddToAutoChatBanCommand(plugin, mySQL);
 	}
 }
