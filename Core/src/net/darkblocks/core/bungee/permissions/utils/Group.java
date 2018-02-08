@@ -15,12 +15,12 @@ import java.util.Set;
 @AllArgsConstructor
 public class Group
 {
-	private final int saveID;
 	private Set<String> permissions;
 	private Set<Integer> inherit;
 	private String name;
 	private String prefix;
 	private String suffix;
 	private ChatColor color;
+	private final int saveID;
 	private int sortID;
 }
