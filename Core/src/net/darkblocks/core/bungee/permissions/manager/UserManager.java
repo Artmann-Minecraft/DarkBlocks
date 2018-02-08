@@ -18,6 +18,6 @@ public class UserManager
 	public UserManager(MySQL mySQL, String tableName)
 	{
 		this.user = new HashSet<>();
-		mySQL.update("CREATE TABLE IF NOT EXISTS " + (tableName == null ? "Userdata" : tableName) + "(`uuid` VARCHAR(36), `groups` SET, `fireonline` VARCHAR(19), `lastonline` VARCHAR(19), `prefix` VARCHAR(16), `suffix` VARCHAR(16), PRIMARY KEY(uuid))");
+		mySQL.update("CREATE TABLE IF NOT EXISTS " + (tableName == null ? "Userdata" : tableName) + "(`uuid` VARCHAR(36), `groups` TEXT, `firstonline` VARCHAR(19), `lastonline` VARCHAR(19), `prefix` VARCHAR(16), `suffix` VARCHAR(16), PRIMARY KEY(uuid))");
 	}
 }

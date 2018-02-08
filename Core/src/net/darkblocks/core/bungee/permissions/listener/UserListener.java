@@ -100,7 +100,7 @@ public class UserListener implements Listener
 						Set<Group> singleton = Collections.singleton(defaultGroup);
 						getUserManager().getUser().add(new User(singleton, defaultGroup.getPermissions(), connection, defaultGroup.getPrefix(), defaultGroup.getSuffix(), defaultGroup.getSortID()));
 						String date = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(new Date());
-						getMySQL().update("INSERT INTO Userdata(`uuid`, `groups`, `fireonline`, `lastonline`, `prefix`, `suffix`) VALUES ('" + uniqueId + "','" + singleton + "','" + date + "','" + date + "','" + defaultGroup.getPrefix() + "','" + defaultGroup.getSuffix() + "'");
+						getMySQL().update("INSERT INTO Userdata(`uuid`, `groups`, `firstonline`, `lastonline`, `prefix`, `suffix`) VALUES ('" + uniqueId + "','" + singleton + "','" + date + "','" + date + "','" + defaultGroup.getPrefix() + "','" + defaultGroup.getSuffix() + "'");
 					}
 				} catch (SQLException ex)
 				{
