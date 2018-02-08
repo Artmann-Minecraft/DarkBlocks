@@ -36,9 +36,9 @@ public class VersteckerListener implements CashedPlayerInteractEvent, CashedInve
 	{
 		init(javaPlugin, cashedEventsManager);
 		this.inventory = Bukkit.createInventory(null, InventoryType.BREWING, SECONDARY + "Spieler verstecken");
-		this.inventory.setItem(0, new ItemBuilder(Material.INK_SACK, (byte) 10).setName(SECONDARY + "Alle Spieler anzeigen").build());
-		this.inventory.setItem(1, new ItemBuilder(Material.INK_SACK, (byte) 11).setName(SECONDARY + "Nur Teammitglieder anzeigen").build());
-		this.inventory.setItem(2, new ItemBuilder(Material.INK_SACK, (byte) 1).setName(SECONDARY + "Keine Spieler anzeigen").build());
+		this.inventory.setItem(0, new ItemBuilder(Material.INK_SACK, 1, (short) 10).setName(SECONDARY + "Alle Spieler anzeigen").build());
+		this.inventory.setItem(1, new ItemBuilder(Material.INK_SACK, 1, (short) 11).setName(SECONDARY + "Nur Teammitglieder anzeigen").build());
+		this.inventory.setItem(2, new ItemBuilder(Material.INK_SACK, 1, (short) 1).setName(SECONDARY + "Keine Spieler anzeigen").build());
 		this.inventory.setItem(3, new ItemBuilder(Material.PAPER).setName(SECONDARY + "Spieler verstecken").build());
 		this.itemStack = new ItemBuilder(Material.BLAZE_ROD).setName(SECONDARY + "Spieler verstecken").build();
 	}
@@ -52,8 +52,10 @@ public class VersteckerListener implements CashedPlayerInteractEvent, CashedInve
 	@Override
 	public void onCashedPlayerInteractEvent(PlayerInteractEvent event)
 	{
-		if ((event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) && getItemStack() == event.getItem())
+		System.out.println("1" + getClass().getSimpleName());
+		if ((event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) && getItemStack().getType() == event.getItem().getType())
 		{
+			System.out.println("2" + getClass().getSimpleName());
 			event.getPlayer().openInventory(this.inventory);
 		}
 	}
@@ -72,6 +74,7 @@ public class VersteckerListener implements CashedPlayerInteractEvent, CashedInve
 						player.showPlayer(players);
 					}
 					player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Dir werden nun alle Spieler angezeigt");
+					player.closeInventory();
 					break;
 				case "Nur Teammitglieder anzeigen":
 					for (Player players : Bukkit.getOnlinePlayers())
@@ -86,6 +89,7 @@ public class VersteckerListener implements CashedPlayerInteractEvent, CashedInve
 						}
 					}
 					player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Dir werden nur die Teammitglieder angezeigt");
+					player.closeInventory();
 					break;
 				case "Keine Spieler anzeigen":
 					for (Player players : Bukkit.getOnlinePlayers())
@@ -93,9 +97,9 @@ public class VersteckerListener implements CashedPlayerInteractEvent, CashedInve
 						player.hidePlayer(players);
 					}
 					player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Dir werden nun keine Spieler angezeigt");
+					player.closeInventory();
 					break;
 			}
-			player.closeInventory();
 		}
 	}
 }

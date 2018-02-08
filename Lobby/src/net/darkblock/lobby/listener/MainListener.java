@@ -1,6 +1,6 @@
 package net.darkblock.lobby.listener;
 
-import lombok.AllArgsConstructor;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -12,14 +12,20 @@ import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.event.weather.WeatherChangeEvent;
+import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * Created by LartyHD on 08.02.2018  06:26.
  */
-@AllArgsConstructor
 public class MainListener implements Listener
 {
 	private final Location location;
+	
+	public MainListener(JavaPlugin javaPlugin, Location location)
+	{
+		this.location = location;
+		Bukkit.getPluginManager().registerEvents(this, javaPlugin);
+	}
 	
 	@EventHandler
 	public void onMove(PlayerMoveEvent e)

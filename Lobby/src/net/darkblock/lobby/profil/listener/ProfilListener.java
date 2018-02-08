@@ -46,7 +46,7 @@ public class ProfilListener implements CashedPlayerInteractEvent, CashedInventor
 		this.profil.setItem(1, new ItemBuilder(Material.REDSTONE).setName(SECONDARY + "Settings").build());
 		this.settings = Bukkit.createInventory(null, InventoryType.HOPPER, SECONDARY + "Settings");
 		InventoryUtils.setDesign(this.settings, new ArrayList<>());
-		this.itemBuilder = new ItemBuilder(Material.SKULL_ITEM, (short) 3).setName(SECONDARY + "Profil");
+		this.itemBuilder = new ItemBuilder(Material.SKULL_ITEM, 1, (short) 3).setName(SECONDARY + "Profil");
 	}
 	
 	@EventHandler

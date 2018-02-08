@@ -20,6 +20,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -49,7 +50,7 @@ public class NavigatorListener implements CashedPlayerInteractEvent, CashedInven
 		this.navigatorAnimation = navigatorAnimation;
 		this.warps = new HashMap<>();
 		this.itemStack = new ItemBuilder(Material.COMPASS).setName(SECONDARY + "Navigator").build();
-		this.lobby = new ItemBuilder(Material.INK_SACK, (short) 10).setName(SECONDARY + CloudAPI.get().getNameAPI().getServerName()).build();
+		this.lobby = new ItemBuilder(Material.INK_SACK, 1, (short) 10).setName(SECONDARY + CloudAPI.get().getNameAPI().getServerName()).build();
 		this.inventory = Bukkit.createInventory(null, 45, SECONDARY + "Navigator");
 		InventoryUtils.setDesign(this.inventory, new ArrayList<>());
 		this.inventory.setItem(4, NavigatorItems.CORES.getItemStack());
@@ -96,22 +97,43 @@ public class NavigatorListener implements CashedPlayerInteractEvent, CashedInven
 	@EventHandler
 	public void onCashedPlayerInteractEvent(PlayerInteractEvent event)
 	{
-		System.out.println("1");
-		if ((event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) && getItemStack() == event.getItem())
+		System.out.println("1" + getClass().getSimpleName());
+		if ((event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) && getItemStack().getType() == event.getItem().getType())
 		{
-			System.out.println("2");
+			System.out.println("2" + getClass().getSimpleName());
 			event.setCancelled(true);
 			Player player = event.getPlayer();
-			InventoryUtils.setDesign(player.getInventory(), new ArrayList<>());
-			player.getInventory().setItem(22, this.lobby);
+			PlayerInventory inventory = player.getInventory();
+			InventoryUtils.setDesign(inventory, new ArrayList<>());
+			inventory.setItem(22, this.lobby);
 			if (getNavigatorAnimation().get(player.getName()))
 			{
-				new NavigatorThread(player).start();
+				new Thread(() -> {
+					Thread thread = new NavigatorThread(player);
+					thread.start();
+					try
+					{
+						thread.join();
+					} catch (InterruptedException ex)
+					{
+						ex.printStackTrace();
+					} finally
+					{
+						for (int i = 9; i < inventory.getSize(); i++)
+						{
+							inventory.setItem(i, null);
+						}
+					}
+				}).start();
 			}
 			else
 			{
 				player.playSound(player.getLocation(), Sound.BURP, 1, 1);
 				player.openInventory(this.inventory);
+				for (int i = 9; i < inventory.getSize(); i++)
+				{
+					inventory.setItem(i, null);
+				}
 			}
 		}
 	}

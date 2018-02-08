@@ -476,7 +476,7 @@ public class InventoryUtils
 					case 0:
 						int i = 9;
 						//ZEILE 1
-						setGlas(inventory, 0 + i, (short) 0);
+						setGlas(inventory, i, (short) 0);
 						setGlas(inventory, 1 + i, (short) 15);
 						setGlas(inventory, 3 + i, (short) 0);
 						setGlas(inventory, 4 + i, (short) 0);
@@ -499,10 +499,19 @@ public class InventoryUtils
 						//ZEILE 3
 						break;
 				}
-				break;
+				//FILL GRAY GALSS
+				fillGlass(inventory, (short) 7);
+				//FILL GRAY GALSS
+				return;
 		}
 		//FILL GRAY GALSS
-		fillGlass(inventory, (short) 7);
+		for (int i = 9; i < inventory.getSize(); i++)
+		{
+			if (inventory.getItem(i) == null)
+			{
+				setGlas(inventory, i, (short) 7);
+			}
+		}
 		//FILL GRAY GALSS
 	}
 	

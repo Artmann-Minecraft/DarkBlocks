@@ -57,7 +57,7 @@ public class Lobby extends DarkPlugin
 		new Messages(messages);
 		new Core(this);
 		new DoubleJumpListener(this);
-		new MainListener(MapsUtils.getLobbyLocation(this));
+		new MainListener(this, MapsUtils.getLobbyLocation(this));
 		new ScoreBoard(this, this.mySQL, new CoinsAPI("Coins", ValueType.INTEGER, this.mySQL));
 		CashedEventsManager cashedEventsManager = new CashedEventsManager(this);
 		new Navigator(this, this.mySQL, this.navigatorAnimation, cashedEventsManager);
