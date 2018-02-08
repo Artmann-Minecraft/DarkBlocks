@@ -52,10 +52,8 @@ public class VersteckerListener implements CashedPlayerInteractEvent, CashedInve
 	@Override
 	public void onCashedPlayerInteractEvent(PlayerInteractEvent event)
 	{
-		System.out.println("1" + getClass().getSimpleName());
 		if ((event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) && getItemStack().getType() == event.getItem().getType())
 		{
-			System.out.println("2" + getClass().getSimpleName());
 			event.getPlayer().openInventory(this.inventory);
 		}
 	}

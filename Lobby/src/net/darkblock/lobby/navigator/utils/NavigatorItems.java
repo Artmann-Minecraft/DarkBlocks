@@ -21,7 +21,7 @@ public enum NavigatorItems
 	BELOHNUNG(new ItemBuilder(Material.GOLD_INGOT).setName(SECONDARY + "Belohnung").build()),
 	BEDWARS(new ItemBuilder(Material.BED).setName(SECONDARY + "BedWars").build()),
 	CORES(new ItemBuilder(Material.BEACON).setName(SECONDARY + "Cores").build()),
-	PLATZHALTER(new ItemBuilder(Material.IRON_FENCE).setName("").build());
+	PLATZHALTER(new ItemBuilder(Material.IRON_FENCE).setName("§0").build());
 	private final ItemStack itemStack;
 	
 	NavigatorItems(ItemStack itemStack)

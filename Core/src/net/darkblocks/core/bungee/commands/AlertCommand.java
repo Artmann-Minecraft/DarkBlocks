@@ -22,6 +22,7 @@ public class AlertCommand extends Command
 	public AlertCommand(Plugin plugin)
 	{
 		super(CommandUtils.getName(AlertCommand.class), CommandUtils.getPermission(AlertCommand.class), "bc", "broadcast");
+		CommandUtils.register(plugin, this);
 	}
 	
 	@Override

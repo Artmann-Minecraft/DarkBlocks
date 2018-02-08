@@ -470,6 +470,7 @@ public class InventoryUtils
 						}
 						break;
 				}
+				break;
 			case PLAYER:
 				switch (items.size())
 				{
@@ -500,18 +501,18 @@ public class InventoryUtils
 						break;
 				}
 				//FILL GRAY GALSS
-				fillGlass(inventory, (short) 7);
+				for (int i = 9; i < inventory.getSize(); i++)
+				{
+					if (inventory.getItem(i) == null)
+					{
+						setGlas(inventory, i, (short) 7);
+					}
+				}
 				//FILL GRAY GALSS
 				return;
 		}
 		//FILL GRAY GALSS
-		for (int i = 9; i < inventory.getSize(); i++)
-		{
-			if (inventory.getItem(i) == null)
-			{
-				setGlas(inventory, i, (short) 7);
-			}
-		}
+		fillGlass(inventory, (short) 7);
 		//FILL GRAY GALSS
 	}
 	

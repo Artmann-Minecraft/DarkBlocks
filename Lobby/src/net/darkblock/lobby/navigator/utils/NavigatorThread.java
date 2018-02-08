@@ -35,71 +35,71 @@ public class NavigatorThread extends Thread
 				Thread.sleep(25);
 			}
 			//WEIßES GLASS OBEN
-			Thread.sleep(100);
+			Thread.sleep(50);
 			setGlas(inventory, 0, (short) 0);
 			playSound();
 			for (int i = 3; i < 6; i++)
 			{
-				Thread.sleep(100);
+				Thread.sleep(50);
 				setGlas(inventory, i, (short) 0);
 				playSound();
 			}
-			Thread.sleep(100);
+			Thread.sleep(50);
 			setGlas(inventory, 8, (short) 0);
 			//WEIßES GLASS OBEN
 			//WEIßES GLASS UNTEN
 			playSound();
-			Thread.sleep(100);
+			Thread.sleep(50);
 			setGlas(inventory, 36, (short) 0);
 			playSound();
 			for (int i = 39; i < 42; i++)
 			{
-				Thread.sleep(100);
+				Thread.sleep(50);
 				setGlas(inventory, i, (short) 0);
 				playSound();
 			}
-			Thread.sleep(100);
+			Thread.sleep(50);
 			setGlas(inventory, 44, (short) 0);
 			playSound();
 			//WEIßES GLASS UNTEN
 			Thread.sleep(250);
 			//SCHWERZES GLASS 1
-			Thread.sleep(100);
+			Thread.sleep(50);
 			setGlas(inventory, 1, (short) 15);
 			playSound();
-			Thread.sleep(100);
+			Thread.sleep(50);
 			setGlas(inventory, 7, (short) 15);
 			playSound();
 			//SCHWERZES GLASS 1
 			//SCHWERZES GLASS 2
-			Thread.sleep(100);
+			Thread.sleep(50);
 			setGlas(inventory, 9, (short) 15);
 			playSound();
-			Thread.sleep(100);
+			Thread.sleep(50);
 			setGlas(inventory, 17, (short) 15);
 			playSound();
 			//SCHWERZES GLASS 2
 			//SCHWERZES GLASS 3
-			Thread.sleep(100);
+			Thread.sleep(50);
 			setGlas(inventory, 18, (short) 15);
 			playSound();
-			Thread.sleep(100);
+			Thread.sleep(50);
 			setGlas(inventory, 26, (short) 15);
 			playSound();
 			//SCHWERZES GLASS 3
 			//SCHWERZES GLASS 4
-			Thread.sleep(100);
+			Thread.sleep(50);
 			setGlas(inventory, 27, (short) 15);
 			playSound();
-			Thread.sleep(100);
+			Thread.sleep(50);
 			setGlas(inventory, 35, (short) 15);
 			playSound();
 			//SCHWERZES GLASS 4
 			//SCHWERZES GLASS 5
-			Thread.sleep(100);
+			Thread.sleep(50);
 			setGlas(inventory, 37, (short) 15);
 			playSound();
-			Thread.sleep(100);
+			Thread.sleep(50);
 			setGlas(inventory, 43, (short) 15);
 			playSound();
 			//SCHWERZES GLASS 5
@@ -145,9 +145,9 @@ public class NavigatorThread extends Thread
 			playSound();
 			//8
 			//ADD TELEPORTS
-		} catch (InterruptedException ec)
+		} catch (InterruptedException ex)
 		{
-			ec.printStackTrace();
+			ex.printStackTrace();
 		}
 	}
 	
@@ -158,11 +158,13 @@ public class NavigatorThread extends Thread
 	
 	private void playSound()
 	{
-		if (this.player.getOpenInventory() == null)
+		System.out.println(this.player.getOpenInventory().getTopInventory());
+		if (this.player.getOpenInventory().getTopInventory() == null)
 		{
-			interrupt();
+			this.interrupt();
 			return;
 		}
+		this.player.updateInventory();
 		this.player.playSound(this.player.getLocation(), Sound.BURP, 1, 1);
 	}
 }

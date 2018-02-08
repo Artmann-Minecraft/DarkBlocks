@@ -58,7 +58,7 @@ public class ProfilListener implements CashedPlayerInteractEvent, CashedInventor
 	@Override
 	public void onCashedPlayerInteractEvent(PlayerInteractEvent event)
 	{
-		if ((event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) && getItemBuilder().setOwner(event.getPlayer().getName()).build() == event.getItem())
+		if ((event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) && getItemBuilder().getItemStack().getType() == event.getItem().getType())
 		{
 			this.profil.setItem(3, getItemBuilder().setOwner(event.getPlayer().getName()).build());
 			event.getPlayer().openInventory(this.profil);
@@ -77,18 +77,16 @@ public class ProfilListener implements CashedPlayerInteractEvent, CashedInventor
 				switch (currentItem.getType())
 				{
 					case REDSTONE:
-						Inventory inventory = Bukkit.createInventory(null, InventoryType.HOPPER, SECONDARY + "Settings");
-						InventoryUtils.setDesign(inventory, new ArrayList<>());
 						ItemBuilder itemBuilder = new ItemBuilder(Material.COMPASS).setName(SECONDARY + "Navigator | Animation").hideItemFlags();
 						if (getNavigatorAnimation().get(player.getName()))
 						{
-							inventory.setItem(2, itemBuilder.addUnsafeEnchantment(Enchantment.LUCK, 10).build());
+							this.settings.setItem(2, itemBuilder.addUnsafeEnchantment(Enchantment.LUCK, 10).build());
 						}
 						else
 						{
-							inventory.setItem(2, itemBuilder.build());
+							this.settings.setItem(2, itemBuilder.build());
 						}
-						player.openInventory(inventory);
+						player.openInventory(this.settings);
 						break;
 					case SKULL_ITEM:
 						player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Die Freunde sind in Arbeit");
