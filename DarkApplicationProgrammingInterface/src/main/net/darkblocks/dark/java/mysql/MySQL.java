@@ -1,6 +1,7 @@
 package net.darkblocks.dark.java.mysql;
 
 import net.darkblocks.dark.java.utils.Callback;
+import net.darkblocks.dark.java.utils.ClearCallback;
 
 import java.sql.*;
 import java.util.concurrent.ExecutorService;
@@ -84,12 +85,21 @@ public class MySQL
 	
 	public void update(String update)
 	{
+		update(update, null);
+	}
+	
+	public void update(String update, ClearCallback callback)
+	{
 		if (isConnected())
 		{
 			this.executorService.execute(() -> {
 				try
 				{
 					getConnection().createStatement().executeUpdate(update);
+					if (callback != null)
+					{
+						callback.call();
+					}
 				} catch (SQLException ex)
 				{
 					ex.printStackTrace();
@@ -114,12 +124,21 @@ public class MySQL
 	
 	public void preparedUpdate(PreparedStatement update)
 	{
+		preparedUpdate(update, null);
+	}
+	
+	public void preparedUpdate(PreparedStatement update, ClearCallback callback)
+	{
 		if (isConnected())
 		{
 			this.executorService.execute(() -> {
 				try
 				{
 					update.executeUpdate();
+					if (callback != null)
+					{
+						callback.call();
+					}
 				} catch (SQLException ex)
 				{
 					ex.printStackTrace();
@@ -190,10 +209,6 @@ public class MySQL
 					ex.printStackTrace();
 				}
 			});
-		}
-		else
-		{
-			return;
 		}
 	}
 	

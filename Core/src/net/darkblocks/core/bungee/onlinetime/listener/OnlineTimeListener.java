@@ -32,15 +32,13 @@ public class OnlineTimeListener implements Listener
 	{
 		ProxiedPlayer player = event.getPlayer();
 		UUID uuid = player.getUniqueId();
-		String playerName = player.getName();
-		String ip = player.getAddress().getHostString();
 		getOnlineTime().getTime().put(uuid, System.currentTimeMillis() / 1000);
 		getOnlineTime().getMySQL().query("SELECT `uuid` FROM OnlineTime WHERE `uuid` = '" + uuid + "'", result -> {
 			try
 			{
 				if (!result.next())
 				{
-					getOnlineTime().getMySQL().update("INSERT INTO OnlineTime(`uuid`, `name`, `ip`, `time`) VALUES ('" + uuid + "','" + playerName + "','" + ip + "','" + 0 + "')");
+					getOnlineTime().getMySQL().update("INSERT INTO OnlineTime(`uuid`, `name`, `ip`, `time`) VALUES ('" + uuid + "','" + player.getName() + "','" + player.getAddress().getHostString() + "','" + 0 + "')");
 				}
 			} catch (SQLException ex)
 			{
