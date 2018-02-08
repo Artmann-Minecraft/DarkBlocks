@@ -4,6 +4,7 @@ import net.darkblocks.dark.spigot.builder.ItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftInventoryCrafting;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
@@ -159,7 +160,7 @@ public class NavigatorThread extends Thread
 	private void playSound()
 	{
 		System.out.println(this.player.getOpenInventory().getTopInventory());
-		if (this.player.getOpenInventory().getTopInventory() == null)
+		if (this.player.getOpenInventory().getTopInventory() instanceof CraftInventoryCrafting)
 		{
 			this.interrupt();
 			return;

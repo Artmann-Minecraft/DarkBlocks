@@ -11,6 +11,7 @@ import net.darkblocks.dark.spigot.events.cashed.CashedEventsManager;
 import net.darkblocks.dark.spigot.events.cashed.CashedInventoryClickEvent;
 import net.darkblocks.dark.spigot.events.cashed.CashedPlayerInteractEvent;
 import net.darkblocks.dark.spigot.utils.InventoryUtils;
+import net.darkblocks.dark.universal.messages.Messages;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -31,6 +32,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static net.darkblocks.dark.universal.messages.Colors.SECONDARY;
+import static net.darkblocks.dark.universal.messages.Colors.TEXT;
 
 /**
  * Created by LartyHD on 08.02.2018  07:16.
@@ -133,15 +135,26 @@ public class NavigatorListener implements CashedPlayerInteractEvent, CashedInven
 	@Override
 	public void onCashedInventoryClickEvent(InventoryClickEvent event)
 	{
-		if (event.getCurrentItem() != null && event.getCurrentItem().getItemMeta() != null && event.getWhoClicked().getOpenInventory().getTopInventory().getName().equalsIgnoreCase(event.getInventory().getName()))
+		ItemStack currentItem = event.getCurrentItem();
+		if (currentItem != null && currentItem.getItemMeta() != null)
 		{
-			String name = ChatColor.stripColor(event.getCurrentItem().getItemMeta().getDisplayName());
-			if (name != null && !name.replaceAll(" ", "").equalsIgnoreCase(""))
+			Player player = (Player) event.getWhoClicked();
+			if (event.getClickedInventory() == player.getOpenInventory().getTopInventory())
 			{
-				event.setCancelled(true);
-				Player player = (Player) event.getWhoClicked();
-				player.teleport(getWarps().get(name.toLowerCase()));
-				player.closeInventory();
+				String name = ChatColor.stripColor(currentItem.getItemMeta().getDisplayName());
+				if (name != null && !name.replaceAll(" ", "").equalsIgnoreCase(""))
+				{
+					event.setCancelled(true);
+					player.teleport(getWarps().get(name.toLowerCase()));
+					player.closeInventory();
+				}
+			}
+			else if (event.getClickedInventory() == player.getOpenInventory().getBottomInventory())
+			{
+				if (currentItem.getType() == Material.INK_SACK)
+				{
+					player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du bist bereits auf dieser Lobby");
+				}
 			}
 		}
 	}
