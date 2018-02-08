@@ -132,7 +132,7 @@ public class NavigatorThread extends Thread
 			//5
 			//6
 			Thread.sleep(200);
-			inventory.setItem(40, NavigatorItems.TEAMPVP.getItemStack());
+			inventory.setItem(40, NavigatorItems.PLATZHALTER.getItemStack());
 			playSound();
 			//6
 			//7
@@ -145,6 +145,11 @@ public class NavigatorThread extends Thread
 			inventory.setItem(42, NavigatorItems.BELOHNUNG.getItemStack());
 			playSound();
 			//8
+			//9
+			Thread.sleep(200);
+			inventory.setItem(42, NavigatorItems.TEAMPVP.getItemStack());
+			playSound();
+			//9
 			//ADD TELEPORTS
 		} catch (InterruptedException ex)
 		{
