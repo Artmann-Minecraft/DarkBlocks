@@ -147,7 +147,7 @@ public class NavigatorThread extends Thread
 			//8
 			//9
 			Thread.sleep(200);
-			inventory.setItem(42, NavigatorItems.TEAMPVP.getItemStack());
+			inventory.setItem(40, NavigatorItems.TEAMPVP.getItemStack());
 			playSound();
 			//9
 			//ADD TELEPORTS
