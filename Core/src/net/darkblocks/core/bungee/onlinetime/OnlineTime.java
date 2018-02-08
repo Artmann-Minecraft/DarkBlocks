@@ -50,8 +50,9 @@ public class OnlineTime
 			{
 				if (result.next())
 				{
-					getMySQL().update("UPDATE OnlineTime SET `name` = '" + playerName + "', `ip` = '" + ip + "', `time` = '" + ((System.currentTimeMillis() / 1000) - getTime().get(uuid) + result.getLong(1)) + "' WHERE `uuid` = '" + uuid + "'", () -> {
-						getTime().put(uuid, System.currentTimeMillis() / 1000);
+					long zeit = ((System.currentTimeMillis() / 1000) - getTime().get(uuid) + result.getLong(1));
+					getTime().put(uuid, System.currentTimeMillis() / 1000);
+					getMySQL().update("UPDATE OnlineTime SET `name` = '" + playerName + "', `ip` = '" + ip + "', `time` = '" + zeit + "' WHERE `uuid` = '" + uuid + "'", () -> {
 						if (callback != null)
 						{
 							callback.call();

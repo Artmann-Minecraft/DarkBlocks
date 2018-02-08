@@ -87,43 +87,43 @@ public class StatsOnlineTimeCommand extends Command
 		}
 		if (years == 1)
 		{
-			remainingTime = "" + IMPORTANT + "ein" + TEXT + " Jahre ";
+			remainingTime = "" + IMPORTANT + "ein " + TEXT + "Jahre ";
 		}
 		else if (years != 0)
 		{
-			remainingTime = "" + IMPORTANT + years + TEXT + " Jahr ";
+			remainingTime = "" + IMPORTANT + years + " " + TEXT + "Jahr ";
 		}
 		if (days == 1)
 		{
-			remainingTime = "" + IMPORTANT + "ein" + TEXT + " Tag ";
+			remainingTime = "" + IMPORTANT + "ein " + TEXT + "Tag ";
 		}
 		else if (days != 0)
 		{
-			remainingTime = "" + IMPORTANT + days + TEXT + " Tage ";
+			remainingTime = "" + IMPORTANT + days + " " + TEXT + "Tage ";
 		}
 		if (hours == 1)
 		{
-			remainingTime = remainingTime + "" + IMPORTANT + "eine" + TEXT + " Stunde ";
+			remainingTime = remainingTime + "" + IMPORTANT + "eine " + TEXT + "Stunde ";
 		}
 		else if (hours != 0)
 		{
-			remainingTime = remainingTime + "" + IMPORTANT + hours + TEXT + " Stunden ";
+			remainingTime = remainingTime + "" + IMPORTANT + hours + " " + TEXT + "Stunden ";
 		}
 		if (minutes == 1)
 		{
-			remainingTime = remainingTime + "" + IMPORTANT + "eine" + TEXT + " Minute ";
+			remainingTime = remainingTime + "" + IMPORTANT + "eine " + TEXT + "Minute ";
 		}
 		else if (minutes != 0)
 		{
-			remainingTime = remainingTime + "" + IMPORTANT + minutes + TEXT + " Minuten ";
+			remainingTime = remainingTime + "" + IMPORTANT + minutes + " " + TEXT + "Minuten ";
 		}
 		if (time == 1)
 		{
-			remainingTime = remainingTime + "" + IMPORTANT + time + TEXT + " Sekunde ";
+			remainingTime = remainingTime + "" + IMPORTANT + "eine " + TEXT + "Sekunde ";
 		}
 		else if (time != 0)
 		{
-			remainingTime = remainingTime + "" + IMPORTANT + time + TEXT + " Sekunden ";
+			remainingTime = remainingTime + "" + IMPORTANT + time + " " + TEXT + "Sekunden ";
 		}
 		if (remainingTime.equalsIgnoreCase(""))
 		{
