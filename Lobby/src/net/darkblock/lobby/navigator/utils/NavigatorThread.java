@@ -151,9 +151,8 @@ public class NavigatorThread extends Thread
 			playSound();
 			//9
 			//ADD TELEPORTS
-		} catch (InterruptedException ex)
+		} catch (InterruptedException ignored)
 		{
-			ex.printStackTrace();
 		}
 	}
 	
@@ -164,7 +163,6 @@ public class NavigatorThread extends Thread
 	
 	private void playSound()
 	{
-		System.out.println(this.player.getOpenInventory().getTopInventory());
 		if (this.player.getOpenInventory().getTopInventory() instanceof CraftInventoryCrafting)
 		{
 			this.interrupt();

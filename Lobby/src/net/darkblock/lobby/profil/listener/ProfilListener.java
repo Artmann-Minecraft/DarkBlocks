@@ -58,7 +58,7 @@ public class ProfilListener implements CashedPlayerInteractEvent, CashedInventor
 	@Override
 	public void onCashedPlayerInteractEvent(PlayerInteractEvent event)
 	{
-		if ((event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) && getItemBuilder().getItemStack().getType() == event.getItem().getType())
+		if ((event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) && event.getItem() != null && getItemBuilder().getItemStack().getType() == event.getItem().getType())
 		{
 			this.profil.setItem(3, getItemBuilder().setOwner(event.getPlayer().getName()).build());
 			event.getPlayer().openInventory(this.profil);

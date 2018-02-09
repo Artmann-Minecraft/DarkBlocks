@@ -145,8 +145,11 @@ public class NavigatorListener implements CashedPlayerInteractEvent, CashedInven
 				if (name != null && !name.replaceAll(" ", "").equalsIgnoreCase(""))
 				{
 					event.setCancelled(true);
-					player.teleport(getWarps().get(name.toLowerCase()));
-					player.closeInventory();
+					if (getWarps().get(name.toLowerCase()) != null)
+					{
+						player.teleport(getWarps().get(name.toLowerCase()));
+						player.closeInventory();
+					}
 				}
 			}
 			else if (event.getClickedInventory() == player.getOpenInventory().getBottomInventory())
