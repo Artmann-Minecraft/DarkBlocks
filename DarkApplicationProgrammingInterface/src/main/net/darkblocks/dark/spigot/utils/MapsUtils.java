@@ -7,6 +7,8 @@ import net.darkblocks.dark.spigot.team.GameTeam;
 import net.darkblocks.dark.spigot.team.SpectatorManager;
 import net.darkblocks.dark.spigot.team.TeamManager;
 import org.bukkit.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -23,7 +25,7 @@ public class MapsUtils
 		List<String> mapNamesList = Configuration.loadConfiguration(new File(javaPlugin.getDataFolder() + File.separator + "data.yml")).getStringList("maps");
 		if (mapNamesList.isEmpty())
 		{
-			throw new IndexOutOfBoundsException("No Maps in Config");
+			throw new IndexOutOfBoundsException("No Maps in the Config");
 		}
 		return mapNamesList;
 	}
@@ -60,6 +62,19 @@ public class MapsUtils
 		world.setGameRuleValue("doMobSpawning", "false");
 		world.setGameRuleValue("doFireTick", "false");
 		world.getEntities().clear();
+		Entity entity = world.spawnEntity(new Location(world, 0, 0, 0), EntityType.VILLAGER);
+		new Thread(() -> {
+			try
+			{
+				Thread.sleep(20);
+			} catch (InterruptedException ex)
+			{
+				ex.printStackTrace();
+			} finally
+			{
+				entity.remove();
+			}
+		}).start();
 	}
 	
 	public static void loadSpawns(@NonNull Configuration configuration, @NonNull TeamManager teamManager, SpectatorManager spectatorManager)

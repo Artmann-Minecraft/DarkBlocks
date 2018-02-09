@@ -4,6 +4,7 @@ import lombok.Getter;
 import net.darkblocks.core.bungee.permissions.utils.Group;
 import net.darkblocks.dark.java.mysql.MySQL;
 import net.darkblocks.dark.universal.messages.ChatColor;
+import net.md_5.bungee.BungeeCord;
 
 import java.sql.SQLException;
 import java.util.HashSet;
@@ -16,7 +17,7 @@ import java.util.Set;
 public class GroupManager
 {
 	private final Set<Group> groups;
-	private final Group defaultGroup;
+	private Group defaultGroup;
 	
 	public GroupManager(MySQL mySQL, String tableName)
 	{
@@ -31,51 +32,69 @@ public class GroupManager
 				{
 					Set<String> rawInherit = (Set<String>) result.getObject("inherit");
 					Set<Integer> inherit = new HashSet<>();
-					for (String s : rawInherit)
+					if (rawInherit != null)
 					{
-						inherit.add(Integer.valueOf(s));
-					}
-					getGroups().add(new Group(new HashSet<>(), inherit, result.getString("name"), result.getString("prefix"), result.getString("suffix"), ChatColor.valueOf(result.getString("color")), result.getInt("saveid"), result.getInt("sortid")));
-				}
-			} catch (SQLException ex)
-			{
-				ex.printStackTrace();
-			}
-		});
-		mySQL.query("SELECT * FROM `Permissions`", result ->
-		{
-			try
-			{
-				while (result.next())
-				{
-					if (result.getInt("type") == 0)
-					{
-						for (Group group : getGroups())
+						for (String s : rawInherit)
 						{
-							if (Integer.valueOf(result.getString("name")) == group.getSaveID())
-							{
-								group.getPermissions().add(result.getString("permission"));
-							}
+							inherit.add(Integer.valueOf(s));
 						}
 					}
+					try
+					{
+						getGroups().add(new Group(new HashSet<>(), inherit, result.getString("name"), result.getString("prefix"), result.getString("suffix"), ChatColor.valueOf(result.getString("color")), result.getInt("saveid"), result.getInt("sortid")));
+					} catch (IllegalArgumentException ex)
+					{
+						ex.printStackTrace();
+					}
+				}
+				mySQL.query("SELECT * FROM `Permissions`", result1 ->
+				{
+					try
+					{
+						while (result1.next())
+						{
+							if (result1.getInt("type") == 0)
+							{
+								for (Group group : getGroups())
+								{
+									if (Integer.valueOf(result1.getString("name")) == group.getSaveID())
+									{
+										group.getPermissions().add(result1.getString("permission"));
+									}
+								}
+							}
+						}
+					} catch (SQLException ex)
+					{
+						ex.printStackTrace();
+					}
+				});
+				Group defaultGroup = null;
+				for (Group group : getGroups())
+				{
+					if (defaultGroup == null)
+					{
+						defaultGroup = group;
+					}
+					else if (defaultGroup.getSortID() < group.getSortID())
+					{
+						defaultGroup = group;
+					}
+				}
+				this.defaultGroup = defaultGroup;
+				if (defaultGroup == null)
+				{
+					System.err.println(" ");
+					System.err.println(" ");
+					System.err.println("Keine DefaultGroup gefunden!");
+					System.err.println(" ");
+					System.err.println(" ");
+					BungeeCord.getInstance().stop("Keine DefaultGroup gefunden!");
 				}
 			} catch (SQLException ex)
 			{
 				ex.printStackTrace();
 			}
 		});
-		Group defaultGroup = null;
-		for (Group group : getGroups())
-		{
-			if (defaultGroup == null)
-			{
-				defaultGroup = group;
-			}
-			else if (defaultGroup.getSortID() < group.getSortID())
-			{
-				defaultGroup = group;
-			}
-		}
-		this.defaultGroup = defaultGroup;
 	}
 }
