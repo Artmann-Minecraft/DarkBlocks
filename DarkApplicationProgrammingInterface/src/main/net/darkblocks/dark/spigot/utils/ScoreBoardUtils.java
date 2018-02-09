@@ -4,10 +4,8 @@
 package net.darkblocks.dark.spigot.utils;
 
 import lombok.Getter;
-import net.darkblocks.dark.spigot.team.TeamManager;
 import net.darkblocks.dark.universal.messages.Colors;
 import net.minecraft.server.v1_8_R3.*;
-import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
@@ -30,7 +28,7 @@ public class ScoreBoardUtils
 		objective = scoreboard.registerObjective("object", IScoreboardCriteria.b);
 	}
 	
-	public static void sendLobbyScoreBoard(Player player, String mapName, String displayName, TeamManager teamManager)
+	public static void sendLobbyScoreBoard(Player player, String mapName, String displayName)
 	{
 		List<ScoreboardScore> score = new ArrayList<>();
 		score.add(setScoreboardScore(" ", 4));
@@ -38,17 +36,6 @@ public class ScoreBoardUtils
 		score.add(setScoreboardScore(Colors.PRIMARY + mapName, 2));
 		score.add(setScoreboardScore("  ", 1));
 		sendScoreBoard(player, displayName, score);
-		for (Player players : Bukkit.getOnlinePlayers())
-		{
-			if (teamManager == null)
-			{
-				return;
-			}
-			else if (teamManager.getTeam(players) != null)
-			{
-				//TODO: sendTab(players);
-			}
-		}
 	}
 	
 	protected static void sendScoreBoard(Player p, String displayName, List<ScoreboardScore> scoreboardScores)

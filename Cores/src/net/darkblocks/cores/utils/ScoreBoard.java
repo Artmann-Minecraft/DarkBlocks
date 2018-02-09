@@ -21,6 +21,18 @@ public class ScoreBoard extends ScoreBoardUtils
 {
 	public static void update(Player player, String displayName, Set<Core> cores, TeamManager teamManager, int kills)
 	{
+		/*for (Player players : Bukkit.getOnlinePlayers())
+		{
+			if (teamManager == null)
+			{
+				sendTabAll();
+				return;
+			}
+			else if (teamManager.getTeam(players) != null)
+			{
+				sendTab(players);
+			}
+		}*/
 		List<ScoreboardScore> score = new ArrayList<>();
 		int i = 15;
 		score.add(setScoreboardScore(" ", i));

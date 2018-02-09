@@ -1,7 +1,7 @@
-package net.darkblocks.core.bungee.permissions.manager;
+package net.darkblocks.core.universal.permissions.manager;
 
 import lombok.Getter;
-import net.darkblocks.core.bungee.permissions.utils.User;
+import net.darkblocks.core.universal.permissions.utils.User;
 import net.darkblocks.dark.java.mysql.MySQL;
 
 import java.util.HashSet;

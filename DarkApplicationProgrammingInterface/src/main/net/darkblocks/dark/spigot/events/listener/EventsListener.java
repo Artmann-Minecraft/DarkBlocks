@@ -39,6 +39,9 @@ public class EventsListener implements Listener
 	@EventHandler
 	public void onPlayerKickEvent(PlayerKickEvent event)
 	{
-		Bukkit.getPluginManager().callEvent(new PlayerDisconnectEvent(event.getPlayer()));
+		if (!event.isCancelled())
+		{
+			Bukkit.getPluginManager().callEvent(new PlayerDisconnectEvent(event.getPlayer()));
+		}
 	}
 }

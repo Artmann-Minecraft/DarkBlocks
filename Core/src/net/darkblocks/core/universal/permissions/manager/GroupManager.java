@@ -1,7 +1,7 @@
-package net.darkblocks.core.bungee.permissions.manager;
+package net.darkblocks.core.universal.permissions.manager;
 
 import lombok.Getter;
-import net.darkblocks.core.bungee.permissions.utils.Group;
+import net.darkblocks.core.universal.permissions.utils.Group;
 import net.darkblocks.dark.java.mysql.MySQL;
 import net.darkblocks.dark.universal.messages.ChatColor;
 import net.md_5.bungee.BungeeCord;

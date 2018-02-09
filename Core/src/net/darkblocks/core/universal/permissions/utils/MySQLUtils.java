@@ -1,4 +1,4 @@
-package net.darkblocks.core.bungee.permissions.utils;
+package net.darkblocks.core.universal.permissions.utils;
 
 import lombok.Getter;
 import lombok.NonNull;
