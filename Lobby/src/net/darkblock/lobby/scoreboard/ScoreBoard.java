@@ -1,6 +1,7 @@
 package net.darkblock.lobby.scoreboard;
 
 import net.darkblock.lobby.scoreboard.listener.ScoreBoardListener;
+import net.darkblocks.core.universal.permissions.manager.UserManager;
 import net.darkblocks.dark.java.mysql.CoinsAPI;
 import net.darkblocks.dark.java.mysql.MySQL;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -10,8 +11,8 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class ScoreBoard
 {
-	public ScoreBoard(JavaPlugin javaPlugin, MySQL mySQL, CoinsAPI coinsAPI)
+	public ScoreBoard(JavaPlugin javaPlugin, MySQL mySQL, CoinsAPI coinsAPI, UserManager userManager)
 	{
-		new ScoreBoardListener(javaPlugin, mySQL, coinsAPI);
+		new ScoreBoardListener(javaPlugin, mySQL, coinsAPI, userManager);
 	}
 }

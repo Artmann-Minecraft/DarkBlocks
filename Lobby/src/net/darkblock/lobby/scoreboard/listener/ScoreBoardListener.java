@@ -1,6 +1,7 @@
 package net.darkblock.lobby.scoreboard.listener;
 
 import net.darkblock.lobby.scoreboard.utils.ScoreBoard;
+import net.darkblocks.core.universal.permissions.manager.UserManager;
 import net.darkblocks.dark.java.mysql.CoinsAPI;
 import net.darkblocks.dark.java.mysql.MySQL;
 import net.darkblocks.dark.spigot.events.PlayerUpdateCoinsEvent;
@@ -17,11 +18,13 @@ public class ScoreBoardListener implements Listener
 {
 	private final MySQL mySQL;
 	private final CoinsAPI coinsAPI;
+	private final UserManager userManager;
 	
-	public ScoreBoardListener(JavaPlugin javaPlugin, MySQL mySQL, CoinsAPI coinsAPI)
+	public ScoreBoardListener(JavaPlugin javaPlugin, MySQL mySQL, CoinsAPI coinsAPI, UserManager userManager)
 	{
 		this.mySQL = mySQL;
 		this.coinsAPI = coinsAPI;
+		this.userManager = userManager;
 		Bukkit.getPluginManager().registerEvents(this, javaPlugin);
 	}
 	
@@ -29,6 +32,7 @@ public class ScoreBoardListener implements Listener
 	public void onPlayerJoinEvent(PlayerJoinEvent event)
 	{
 		ScoreBoard.sendScoreBoard(event.getPlayer(), this.mySQL, this.coinsAPI);
+		ScoreBoard.sendTab(this.userManager);
 	}
 	
 	@EventHandler

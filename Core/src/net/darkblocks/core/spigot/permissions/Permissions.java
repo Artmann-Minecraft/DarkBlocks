@@ -11,8 +11,8 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class Permissions
 {
-	public Permissions(JavaPlugin javaPlugin, MySQL mySQL)
+	public Permissions(JavaPlugin javaPlugin, MySQL mySQL, UserManager userManager, GroupManager groupManager)
 	{
-		new UserListener(javaPlugin, mySQL, new UserManager(mySQL, null), new GroupManager(mySQL, null));
+		new UserListener(javaPlugin, mySQL, userManager, groupManager);
 	}
 }
