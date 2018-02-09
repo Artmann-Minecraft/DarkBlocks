@@ -36,9 +36,8 @@ public class AutoMessage
 						}
 					}
 				}
-			} catch (InterruptedException ex)
+			} catch (InterruptedException ignored)
 			{
-				ex.printStackTrace();
 			}
 		});
 	}

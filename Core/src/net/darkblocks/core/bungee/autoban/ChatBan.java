@@ -25,7 +25,7 @@ public class ChatBan
 				List<String> block = new ArrayList<>();
 				while (resultSet.next())
 				{
-					block.add(resultSet.getString("name"));
+					block.add(resultSet.getString("name").toLowerCase());
 				}
 				new ChatBanListener(plugin, block);
 				new AddToAutoChatBanCommand(plugin, mySQL);

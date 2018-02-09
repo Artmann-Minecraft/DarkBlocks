@@ -94,7 +94,7 @@ public class Lobby extends DarkPlugin
 	{
 		for (Player players : Bukkit.getOnlinePlayers())
 		{
-			getMySQL().update("UPDATE NavAnimation SET `on` = '" + (getNavigatorAnimation().get(players.getName()) ? 1 : 0) + "' WHERE `uuid` = '" + players.getUniqueId() + "'");
+			getMySQL().updateSync("UPDATE NavAnimation SET `on` = '" + (getNavigatorAnimation().get(players.getName()) ? 1 : 0) + "' WHERE `uuid` = '" + players.getUniqueId() + "'");
 		}
 	}
 }

@@ -95,6 +95,12 @@ public class MainListener implements Listener
 	}
 	
 	@EventHandler
+	public void onPlayerInteractAtEntityEvent(PlayerInteractAtEntityEvent event)
+	{
+		event.setCancelled(true);
+	}
+	
+	@EventHandler
 	public void onEntityDamage(EntityDamageEvent event)
 	{
 		event.setCancelled(true);

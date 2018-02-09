@@ -74,7 +74,7 @@ public class UserListener implements Listener
 						{
 							user.getPermissions().addAll(group.getPermissions());
 						}
-						this.mySQL.query("SELECT `*` FROM `Permissions`", result1 ->
+						this.mySQL.query("SELECT * FROM `Permissions`", result1 ->
 						{
 							try
 							{
@@ -98,6 +98,12 @@ public class UserListener implements Listener
 					{
 						Group defaultGroup = getGroupManager().getDefaultGroup();
 						Set<Group> singleton = Collections.singleton(defaultGroup);
+						System.out.println(singleton);
+						System.out.println(defaultGroup.getPermissions());
+						System.out.println(connection);
+						System.out.println(defaultGroup.getPrefix());
+						System.out.println(defaultGroup.getSuffix());
+						System.out.println(defaultGroup.getSortID());
 						getUserManager().getUser().add(new User(singleton, defaultGroup.getPermissions(), connection, defaultGroup.getPrefix(), defaultGroup.getSuffix(), defaultGroup.getSortID()));
 						String date = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(new Date());
 						getMySQL().update("INSERT INTO Userdata(`uuid`, `groups`, `firstonline`, `lastonline`, `prefix`, `suffix`) VALUES ('" + uniqueId + "','" + singleton + "','" + date + "','" + date + "','" + defaultGroup.getPrefix() + "','" + defaultGroup.getSuffix() + "'");

@@ -10,9 +10,9 @@ import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.event.EventHandler;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import static net.darkblocks.dark.universal.messages.Colors.IMPORTANT;
 import static net.darkblocks.dark.universal.messages.Colors.TEXT;
 
 /**
@@ -25,30 +25,31 @@ public class ChatBanListener implements Listener
 	
 	public ChatBanListener(Plugin plugin, List<String> block)
 	{
-		this.matches = new ArrayList<>();
-		for (String blocked : block)
-		{
-			char[] chars = blocked.toCharArray();
-			StringBuilder match = new StringBuilder();
-			for (char c : chars)
-			{
-				match.append("+[").append(Character.toUpperCase(c)).append(Character.toLowerCase(c)).append("]");
-			}
-			this.matches.add(match.substring(1));
-		}
+		this.matches = block;
+//		for (String blocked : block)
+//		{
+//			char[] chars = blocked.toCharArray();
+//			StringBuilder match = new StringBuilder();
+//			for (char c : chars)
+//			{
+//				match.append("+[").append(Character.toUpperCase(c)).append(Character.toLowerCase(c)).append("]");
+//			}
+//			this.matches.add(match.substring(1));
+//		}
 		BungeeCord.getInstance().getPluginManager().registerListener(plugin, this);
 	}
 	
 	@EventHandler
 	public void onChatEvent(ChatEvent event)
 	{
+		String s = event.getMessage().toLowerCase().replaceAll(" ", "");
 		for (String match : getMatches())
 		{
-			if (event.getMessage().replaceAll(" ", "").matches("." + match + "."))
+			if (s.contains(match))
 			{
 				ProxiedPlayer sender = (ProxiedPlayer) event.getSender();
 				event.setCancelled(true);
-				sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Du darfst " + match + " das nicht schreiben"));
+				sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Du darfst " + IMPORTANT + match + TEXT + " das nicht schreiben"));
 				ProxyServer.getInstance().getPluginManager().dispatchCommand(ProxyServer.getInstance().getConsole(), "ban " + sender.getName() + " 2");
 			}
 		}

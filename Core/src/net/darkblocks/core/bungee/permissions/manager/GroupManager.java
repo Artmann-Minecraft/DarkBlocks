@@ -23,7 +23,7 @@ public class GroupManager
 		this.groups = new HashSet<>();
 		tableName = tableName == null ? "Groups" : tableName;
 		mySQL.update("CREATE TABLE IF NOT EXISTS " + tableName + "(`saveid` INT, `sortid` INT, `name` VARCHAR(16), `prefix` VARCHAR(16), `suffix` VARCHAR(16), `color` VARCHAR(13), `inherit` TEXT, PRIMARY KEY(saveid))");
-		mySQL.query("SELECT `*` FROM `" + tableName + "`", result ->
+		mySQL.query("SELECT * FROM `" + tableName + "`", result ->
 		{
 			try
 			{
@@ -42,7 +42,7 @@ public class GroupManager
 				ex.printStackTrace();
 			}
 		});
-		mySQL.query("SELECT `*` FROM `Permissions`", result ->
+		mySQL.query("SELECT * FROM `Permissions`", result ->
 		{
 			try
 			{

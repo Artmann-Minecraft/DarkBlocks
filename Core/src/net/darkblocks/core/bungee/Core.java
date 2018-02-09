@@ -14,7 +14,6 @@ import net.darkblocks.core.bungee.permissions.Permissions;
 import net.darkblocks.core.bungee.tablist.TabList;
 import net.darkblocks.core.bungee.teamchat.TeamChat;
 import net.darkblocks.core.bungee.wartungen.Wartungen;
-import net.darkblocks.dark.java.config.PropertiesConfig;
 import net.darkblocks.dark.java.mysql.CoinsAPI;
 import net.darkblocks.dark.java.mysql.MySQL;
 import net.darkblocks.dark.java.utils.ValueType;
@@ -24,7 +23,6 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,8 +42,7 @@ public class Core extends Plugin
 		messages.put("dark.servername", "" + PRIMARY + EXTRA + "DarkBlocks§f" + EXTRA + "." + PRIMARY + EXTRA + "Net");
 		messages.put("dark.prefix", "§f" + EXTRA + "[" + PRIMARY + EXTRA + "DarkBlocks§f" + EXTRA + "] §r");
 		new Messages(messages);
-		PropertiesConfig properties = new PropertiesConfig(new File("databases"), "mysql.properties");
-		MySQL mySQL = new MySQL((String) properties.get("Host"), (String) properties.get("Port"), (String) properties.get("Username"), (String) properties.get("Password"), (String) properties.get("Database"));
+		MySQL mySQL = new MySQL();
 		new Commands(this);
 		new Wartungen(this, mySQL);
 		new ChatBan(this, mySQL);

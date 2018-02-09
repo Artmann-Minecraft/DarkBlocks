@@ -20,7 +20,7 @@ public class MySQLUtils
 	
 	public static void get(@NonNull MySQL mySQL, String tableName, String key, Object whereKey, Object whereValue, @NonNull Callback<ResultSet> callback)
 	{
-		mySQL.query("SELECT `" + key.toLowerCase() + "` FROM `" + tableName + "` WHERE `" + whereKey + "` = '" + whereValue + "'", callback);
+		mySQL.query("SELECT " + key.toLowerCase() + " FROM `" + tableName + "` WHERE `" + whereKey + "` = '" + whereValue + "'", callback);
 	}
 	
 	public static void set(@NonNull MySQL mySQL, String tableName, String key, Object value, Object whereKey, Object whereValue)
