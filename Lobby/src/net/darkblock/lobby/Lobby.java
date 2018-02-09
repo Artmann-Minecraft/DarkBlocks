@@ -55,7 +55,7 @@ public class Lobby extends DarkPlugin
 		messages.put("dark.prefix", "§f" + EXTRA + "[" + PRIMARY + EXTRA + "Lobby§f" + EXTRA + "] §r");
 		messages.put("dark.servername", "" + PRIMARY + EXTRA + "DarkBlocks§f" + EXTRA + "." + PRIMARY + EXTRA + "Net");
 		new Messages(messages);
-		new Core(this);
+		new Core(this, this.mySQL);
 		new DoubleJumpListener(this);
 		new MainListener(this, MapsUtils.getLobbyLocation(this));
 		new ScoreBoard(this, this.mySQL, new CoinsAPI("Coins", ValueType.INTEGER, this.mySQL));
