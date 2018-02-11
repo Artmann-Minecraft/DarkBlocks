@@ -72,13 +72,13 @@ public class Messages
 	{
 		for (String msg : messages.keySet())
 		{
-			getMessages().put(msg, changeColors(messages.get(msg)));
+			getMessages().put(msg.toLowerCase(), changeColors(messages.get(msg)));
 		}
 	}
 	
 	public void add(@NonNull String key, String messages)
 	{
-		getMessages().put(key, changeColors(messages));
+		getMessages().put(key.toLowerCase(), changeColors(messages));
 	}
 	
 	private String changeColors(String text)
@@ -93,7 +93,7 @@ public class Messages
 	
 	public String getPath(Class clazz)
 	{
-		return (clazz.getPackage().getName() + clazz.getName() + ".").toLowerCase().replaceAll("net.darkblocks.", getPathPrefix());
+		return clazz.getName().toLowerCase().replaceAll("net.darkblocks.", getPathPrefix()) + ".";
 	}
 	
 	public String getShortMessage(Class clazz, String name)

@@ -44,50 +44,53 @@ public class PingTrackerListener implements Listener
 		}
 		Logger finalLogger = logger;
 		BungeeCord.getInstance().getScheduler().schedule(plugin, () -> {
+			String message = "In der letzten Minute wurden " + IMPORTANT + this.minutePings.size() + TEXT + " Pings dokumentiert";
 			if (finalLogger != null)
 			{
-				finalLogger.log(Level.INFO, "In der letzten Minute haben " + this.minutePings.size() + " den Server an gepingt");
+				finalLogger.log(Level.INFO, message);
 			}
-			System.out.println("In der letzten Minute haben " + this.minutePings.size() + " den Server an gepingt");
+			System.out.println(message);
 			for (ProxiedPlayer player : BungeeCord.getInstance().getPlayers())
 			{
 				if (player.hasPermission(CommandUtils.getPermission(getClass())))
 				{
-					player.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "In der letzten Minute haben " + IMPORTANT + this.minutePings.size() + TEXT + " den Server an gepingt"));
+					player.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + message));
 				}
 			}
 			this.minutePings.clear();
-		}, 1, TimeUnit.MINUTES);
+		}, 0, 1, TimeUnit.MINUTES);
 		BungeeCord.getInstance().getScheduler().schedule(plugin, () -> {
+			String message = "In der letzten Stunden wurden " + IMPORTANT + this.hourPings.size() + TEXT + " Pings dokumentiert";
 			if (finalLogger != null)
 			{
-				finalLogger.log(Level.INFO, "In der letzten Stunde haben " + this.hourPings.size() + " den Server an gepingt");
+				finalLogger.log(Level.INFO, message);
 			}
-			System.out.println("In der letzten Stunde haben " + this.hourPings.size() + " den Server an gepingt");
+			System.out.println(message);
 			for (ProxiedPlayer player : BungeeCord.getInstance().getPlayers())
 			{
 				if (player.hasPermission(CommandUtils.getPermission(getClass())))
 				{
-					player.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "In der letzten Stunde haben " + IMPORTANT + this.hourPings.size() + TEXT + " den Server an gepingt"));
+					player.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + message));
 				}
 			}
 			this.minutePings.clear();
-		}, 1, TimeUnit.HOURS);
+		}, 0, 1, TimeUnit.HOURS);
 		BungeeCord.getInstance().getScheduler().schedule(plugin, () -> {
+			String message = "In den letzten 24 Stunden wurden " + IMPORTANT + this.dayPings.size() + TEXT + " Pings dokumentiert";
 			if (finalLogger != null)
 			{
-				finalLogger.log(Level.INFO, "In der letzten 24 Stunden haben " + this.dayPings.size() + " den Server an gepingt");
+				finalLogger.log(Level.INFO, message);
 			}
-			System.out.println("In der letzten 24 Stunden haben " + this.dayPings.size() + " den Server an gepingt");
+			System.out.println(message);
 			for (ProxiedPlayer player : BungeeCord.getInstance().getPlayers())
 			{
 				if (player.hasPermission(CommandUtils.getPermission(getClass())))
 				{
-					player.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "In der letzten 24 Stunden haben " + IMPORTANT + this.dayPings.size() + TEXT + " den Server an gepingt"));
+					player.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + message));
 				}
 			}
 			this.minutePings.clear();
-		}, 1, TimeUnit.DAYS);
+		}, 0, 1, TimeUnit.DAYS);
 	}
 	
 	@EventHandler
