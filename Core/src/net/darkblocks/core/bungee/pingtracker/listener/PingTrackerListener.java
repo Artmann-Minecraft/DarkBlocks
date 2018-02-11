@@ -57,7 +57,7 @@ public class PingTrackerListener implements Listener
 				}
 			}
 			this.minutePings.clear();
-		}, 0, TimeUnit.MINUTES);
+		}, 1, TimeUnit.MINUTES);
 		BungeeCord.getInstance().getScheduler().schedule(plugin, () -> {
 			if (finalLogger != null)
 			{
@@ -72,7 +72,7 @@ public class PingTrackerListener implements Listener
 				}
 			}
 			this.minutePings.clear();
-		}, 0, TimeUnit.HOURS);
+		}, 1, TimeUnit.HOURS);
 		BungeeCord.getInstance().getScheduler().schedule(plugin, () -> {
 			if (finalLogger != null)
 			{
@@ -87,7 +87,7 @@ public class PingTrackerListener implements Listener
 				}
 			}
 			this.minutePings.clear();
-		}, 0, TimeUnit.DAYS);
+		}, 1, TimeUnit.DAYS);
 	}
 	
 	@EventHandler

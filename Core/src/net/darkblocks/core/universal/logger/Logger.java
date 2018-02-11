@@ -131,7 +131,7 @@ public class Logger extends java.util.logging.Logger
 		
 		private LoggingFormatter()
 		{
-			this.format = new SimpleDateFormat("HH:mm:ss");
+			this.format = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 		}
 		
 		public String format(LogRecord record)
@@ -143,7 +143,7 @@ public class Logger extends java.util.logging.Logger
 				record.getThrown().printStackTrace(new PrintWriter(writer));
 				builder.append(writer).append("\n");
 			}
-			StringBuilder stringBuilder = (new StringBuilder(13)).append("[").append(this.format.format(System.currentTimeMillis())).append("/").append("SegdoCloud").append("] ").append(record.getLevel().getName()).append(": ").append(this.formatMessage(record)).append("\n").append(builder.substring(0));
+			StringBuilder stringBuilder = (new StringBuilder(13)).append("[").append(this.format.format(System.currentTimeMillis())).append("|").append(Logger.this.name).append("] ").append(record.getLevel().getName()).append(": ").append(this.formatMessage(record)).append("\n").append(builder.substring(0));
 			return stringBuilder.substring(0);
 		}
 	}
