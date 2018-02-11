@@ -60,11 +60,14 @@ public class Wartungen
 	public void setOn(boolean on)
 	{
 		this.on = on;
-		for (ProxiedPlayer players : BungeeCord.getInstance().getPlayers())
+		if (on)
 		{
-			if (!players.hasPermission(CommandUtils.getPermission(getClass())) && !getWhitelist().contains(players.getName()))
+			for (ProxiedPlayer players : BungeeCord.getInstance().getPlayers())
 			{
-				players.disconnect(new TextComponent(PRIMARY + Messages.getInstance().getShortMessage(getClass(), "servername") + TEXT + " bedindet sich im " + IMPORTANT + "Wartungsmodus\n" + TEXT + "Das Betreten des Netztwerkes ist derzeit deswegen nicht möglich"));
+				if (!players.hasPermission(CommandUtils.getPermission(getClass())) && !getWhitelist().contains(players.getName()))
+				{
+					players.disconnect(new TextComponent(PRIMARY + Messages.getInstance().getShortMessage(getClass(), "servername") + TEXT + " befindet sich im " + IMPORTANT + "Wartungsmodus\n" + TEXT + "Das Betreten des Netztwerkes ist derzeit deswegen nicht möglich"));
+				}
 			}
 		}
 	}

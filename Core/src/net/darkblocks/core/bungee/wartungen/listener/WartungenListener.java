@@ -32,7 +32,7 @@ public class WartungenListener implements Listener
 		PendingConnection connection = event.getConnection();
 		if (getWartungen().isOn() && /*!connection.hasPermission("dark.core.bungee.wartungen.bypass")*/ !connection.getName().equalsIgnoreCase("LartyHD") && !getWartungen().getWhitelist().contains(connection.getName().toLowerCase()))
 		{
-			connection.disconnect(new TextComponent(PRIMARY + Messages.getInstance().getShortMessage(getClass(), "servername") + TEXT + " bedindet sich im " + IMPORTANT + "Wartungsmodus\n" + TEXT + "Das Betreten des Netztwerkes ist derzeit deswegen nicht möglich"));
+			connection.disconnect(new TextComponent(PRIMARY + Messages.getInstance().getShortMessage(getClass(), "servername") + TEXT + " befindet sich im " + IMPORTANT + "Wartungsmodus\n" + TEXT + "Das Betreten des Netztwerkes ist derzeit deswegen nicht möglich"));
 		}
 	}
 }

@@ -3,6 +3,7 @@ package net.darkblocks.core.universal.permissions.utils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.Set;
 import java.util.UUID;
@@ -13,6 +14,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @AllArgsConstructor
+@ToString
 public class User
 {
 	private Set<Group> groups;
