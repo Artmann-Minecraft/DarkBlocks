@@ -85,8 +85,15 @@ public class WartungenCommand extends Command
 		{
 			if (args[0].equalsIgnoreCase("now"))
 			{
-				BungeeCord.getInstance().broadcast(new TextComponent(servername + TEXT + " ist jetzt im " + IMPORTANT + "Wartungsmodus"));
-				getWartungen().setOn(true);
+				if (!getWartungen().isOn())
+				{
+					BungeeCord.getInstance().broadcast(new TextComponent(servername + TEXT + " ist jetzt im " + IMPORTANT + "Wartungsmodus"));
+					getWartungen().setOn(true);
+				}
+				else
+				{
+					sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Der " + IMPORTANT + "Wartungsmodus " + TEXT + " sind schon aktive"));
+				}
 				return;
 			}
 		}
