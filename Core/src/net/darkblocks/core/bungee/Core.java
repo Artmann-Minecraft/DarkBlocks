@@ -10,6 +10,7 @@ import net.darkblocks.core.bungee.motd.Motd;
 import net.darkblocks.core.bungee.msg.PrivateMessage;
 import net.darkblocks.core.bungee.onlinetime.OnlineTime;
 import net.darkblocks.core.bungee.otherversionblocker.OtherVersionBlocker;
+import net.darkblocks.core.bungee.pingtracker.PingTracker;
 import net.darkblocks.core.bungee.tablist.TabList;
 import net.darkblocks.core.bungee.teamchat.TeamChat;
 import net.darkblocks.core.bungee.wartungen.Wartungen;
@@ -56,6 +57,7 @@ public class Core extends Plugin
 		new BlockedCommands(this, mySQL);
 		new net.darkblocks.core.universal.permissions.Permissions(mySQL);
 		new net.darkblocks.core.bungee.permissions.Permissions(this, mySQL);
+		new PingTracker(this);
 		this.onlineTime = new OnlineTime(this, mySQL);
 	}
 	

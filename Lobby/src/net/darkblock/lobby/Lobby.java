@@ -35,7 +35,7 @@ import static net.darkblocks.dark.universal.messages.Colors.PRIMARY;
 
 /**
  * Created by LartyHD on 07.07.2017  19:14.
- * Project: Lobby 2.0
+ * Project: Logger 2.0
  */
 @Getter
 public class Lobby extends DarkPlugin
@@ -54,7 +54,7 @@ public class Lobby extends DarkPlugin
 	{
 		super.onEnable();
 		Map<String, String> messages = new HashMap<>();
-		messages.put("dark.prefix", "§f" + EXTRA + "[" + PRIMARY + EXTRA + "Lobby§f" + EXTRA + "] §r");
+		messages.put("dark.prefix", "§f" + EXTRA + "[" + PRIMARY + EXTRA + "Logger§f" + EXTRA + "] §r");
 		messages.put("dark.servername", "" + PRIMARY + EXTRA + "DarkBlocks§f" + EXTRA + "." + PRIMARY + EXTRA + "Net");
 		new Messages(messages);
 		UserManager userManager = new UserManager(this.mySQL, null);
@@ -72,7 +72,7 @@ public class Lobby extends DarkPlugin
 	
 	private void initWorld()
 	{
-		World world = Bukkit.getWorld("Lobby");
+		World world = Bukkit.getWorld("Logger");
 		world.setTime(6000);
 		world.setGameRuleValue("spawnRadius", "0");
 		world.setGameRuleValue("doDaylightCycle", "false");

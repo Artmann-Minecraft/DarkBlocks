@@ -156,7 +156,7 @@ public class NavigatorListener implements CashedPlayerInteractEvent, CashedInven
 			{
 				if (currentItem.getType() == Material.INK_SACK)
 				{
-					player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du bist bereits auf dieser Lobby");
+					player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du bist bereits auf dieser Logger");
 				}
 			}
 		}

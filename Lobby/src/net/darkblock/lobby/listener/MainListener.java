@@ -44,7 +44,7 @@ public class MainListener implements Listener
 		event.setJoinMessage(null);
 		player.setFlying(false);
 		player.setGameMode(GameMode.SURVIVAL);
-		//new AutoActionBar(player, getCurrentMessage(), this.actionBarTimer, Lobby.get());
+		//new AutoActionBar(player, getCurrentMessage(), this.actionBarTimer, Logger.get());
 		player.teleport(this.location);
 	}
 	
