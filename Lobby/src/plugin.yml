@@ -1,6 +1,6 @@
-name: Logger
+name: Lobby
 version: 1.0
-main: net.darkblock.lobby.Logger
+main: net.darkblock.lobby.Lobby
 author: Lars Artmann aka. LartyHD
 depend:
 - SegdoCloudPlugin

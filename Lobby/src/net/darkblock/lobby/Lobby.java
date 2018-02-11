@@ -60,7 +60,7 @@ public class Lobby extends DarkPlugin
 		UserManager userManager = new UserManager(this.mySQL, null);
 		new Core(this, this.mySQL, userManager, new GroupManager(this.mySQL, null));
 		new DoubleJumpListener(this);
-		new MainListener(this, MapsUtils.getLobbyLocation(this));
+		new MainListener(this, MapsUtils.getLobbyLocation(this), userManager);
 		new ScoreBoard(this, this.mySQL, new CoinsAPI("Coins", ValueType.INTEGER, this.mySQL), userManager);
 		CashedEventsManager cashedEventsManager = new CashedEventsManager(this);
 		new Navigator(this, this.mySQL, this.navigatorAnimation, cashedEventsManager);
@@ -72,7 +72,7 @@ public class Lobby extends DarkPlugin
 	
 	private void initWorld()
 	{
-		World world = Bukkit.getWorld("Logger");
+		World world = Bukkit.getWorld("Lobby");
 		world.setTime(6000);
 		world.setGameRuleValue("spawnRadius", "0");
 		world.setGameRuleValue("doDaylightCycle", "false");

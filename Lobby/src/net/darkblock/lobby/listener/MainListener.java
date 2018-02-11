@@ -1,5 +1,7 @@
 package net.darkblock.lobby.listener;
 
+import net.darkblocks.core.universal.permissions.manager.UserManager;
+import net.darkblocks.core.universal.permissions.utils.User;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -20,10 +22,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class MainListener implements Listener
 {
 	private final Location location;
+	private final UserManager userManager;
 	
-	public MainListener(JavaPlugin javaPlugin, Location location)
+	public MainListener(JavaPlugin javaPlugin, Location location, UserManager userManager)
 	{
 		this.location = location;
+		this.userManager = userManager;
 		Bukkit.getPluginManager().registerEvents(this, javaPlugin);
 	}
 	
@@ -61,6 +65,19 @@ public class MainListener implements Listener
 		if (event.getReason().equalsIgnoreCase("Flying is not enabled on this server"))
 		{
 			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler
+	public void onAsyncPlayerChatEvent(AsyncPlayerChatEvent event)
+	{
+		for (User user : this.userManager.getUser())
+		{
+			if (user.getUuid() == event.getPlayer().getUniqueId())
+			{
+				event.setMessage(user.getPrefix() + event.getPlayer().getName() + (user.getSuffix() == null ? "" : user.getSuffix()) + "§8: §r" + event.getMessage());
+				return;
+			}
 		}
 	}
 	

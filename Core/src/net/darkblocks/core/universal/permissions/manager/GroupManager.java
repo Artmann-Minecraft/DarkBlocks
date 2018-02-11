@@ -41,7 +41,18 @@ public class GroupManager
 					}
 					try
 					{
-						getGroups().add(new Group(new HashSet<>(), inherit, result.getString("name"), result.getString("prefix"), result.getString("suffix"), ChatColor.valueOf(result.getString("color")), result.getInt("saveid"), result.getInt("sortid")));
+						Group group = new Group(new HashSet<>(), inherit, result.getString("name"), result.getString("prefix"), result.getString("suffix"), ChatColor.valueOf(result.getString("color")), result.getInt("saveid"), result.getInt("sortid"));
+						getGroups().add(group);
+						for (Group groups : getGroups())
+						{
+							for (Integer integer : inherit)
+							{
+								if (groups.getSortID() == integer)
+								{
+									group.getPermissions().addAll(groups.getPermissions());
+								}
+							}
+						}
 					} catch (IllegalArgumentException ex)
 					{
 						ex.printStackTrace();
@@ -76,7 +87,7 @@ public class GroupManager
 					{
 						defaultGroup = group;
 					}
-					else if (defaultGroup.getSortID() > group.getSortID())
+					else if (defaultGroup.getSortID() < group.getSortID())
 					{
 						defaultGroup = group;
 					}
