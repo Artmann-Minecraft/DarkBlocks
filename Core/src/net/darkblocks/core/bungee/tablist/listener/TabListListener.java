@@ -73,8 +73,8 @@ public class TabListListener implements Listener
 	
 	private void sendTab(@NonNull ProxiedPlayer player)
 	{
-		String header = "\n" + TEXT + "│  " + Messages.getInstance().getMessage(Messages.getInstance().getPathPrefix() + "servername") + TEXT + " │\n\n" + TEXT + "│  " + IMPORTANT + player.getServer().getInfo().getName() + TEXT + " │\n";
-		String footer = "\n" + TEXT + "│  " + IMPORTANT + BungeeCord.getInstance().getOnlineCount() + " Spieler " + TEXT + "│\n\n" + TEXT + "│  " + Messages.getInstance().getMessage(Messages.getInstance().getPathPrefix() + "servername") + TEXT + " │\n";
+		String header = TEXT + "\n│  " + Messages.getInstance().getMessage(Messages.getInstance().getPathPrefix() + "servername") + TEXT + " │\n\n" + TEXT + "│  " + IMPORTANT + player.getServer().getInfo().getName() + TEXT + " │\n";
+		String footer = TEXT + "\n│  " + IMPORTANT + BungeeCord.getInstance().getOnlineCount() + " Spieler " + TEXT + "│\n\n" + TEXT + "│  " + Messages.getInstance().getMessage(Messages.getInstance().getPathPrefix() + "servername") + TEXT + " │\n";
 		player.setTabHeader(new TextComponent(header), new TextComponent(footer));
 	}
 }

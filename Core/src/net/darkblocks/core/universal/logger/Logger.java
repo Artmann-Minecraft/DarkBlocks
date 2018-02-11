@@ -21,6 +21,7 @@ import java.util.logging.LogRecord;
 /**
  * Created by LartyHD on 11.02.2018  19:54.
  */
+@SuppressWarnings("ResultOfMethodCallIgnored")
 public class Logger extends java.util.logging.Logger
 {
 	private final ConsoleReader reader;
@@ -36,12 +37,9 @@ public class Logger extends java.util.logging.Logger
 		Field field = Charset.class.getDeclaredField("defaultCharset");
 		field.setAccessible(true);
 		field.set(null, Charset.forName("UTF-8"));
-		if (!new File("logs").isDirectory())
+		if (!new File(directory).isDirectory())
 		{
-			if (new File("logs").mkdirs())
-			{
-				shutdownAll();
-			}
+			new File(directory).mkdirs();
 		}
 		this.setLevel(Level.ALL);
 		this.reader = new ConsoleReader(System.in, System.out);
