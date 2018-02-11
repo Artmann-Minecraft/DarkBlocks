@@ -21,6 +21,7 @@ public class UserUtils
 			{
 				if (result.next())
 				{
+					System.out.println(1);
 					Set<String> groupIDs = (Set<String>) result.getObject("groups");
 					Set<Group> groups = new HashSet<>();
 					int lowestSortID = Integer.MAX_VALUE;
@@ -69,11 +70,11 @@ public class UserUtils
 				}
 				else
 				{
+					System.out.println(2);
 					Group defaultGroup = groupManager.getDefaultGroup();
-					Set<Group> singleton = Collections.singleton(defaultGroup);
-					userManager.getUser().add(new User(singleton, defaultGroup.getPermissions(), uniqueId, defaultGroup.getPrefix(), defaultGroup.getSuffix(), defaultGroup.getSortID()));
+					userManager.getUser().add(new User(Collections.singleton(defaultGroup), defaultGroup.getPermissions(), uniqueId, defaultGroup.getPrefix(), defaultGroup.getSuffix(), defaultGroup.getSortID()));
 					String date = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(new Date());
-					mySQL.update("INSERT INTO Userdata(`uuid`, `groups`, `firstonline`, `lastonline`) VALUES ('" + uniqueId + "','" + singleton + "','" + date + "','" + date + "'");
+					mySQL.update("INSERT INTO Userdata(`uuid`, `groups`, `firstonline`, `lastonline`) VALUES ('" + uniqueId + "','" + defaultGroup.getSaveID() + "','" + date + "','" + date + "')");
 				}
 			} catch (SQLException ex)
 			{

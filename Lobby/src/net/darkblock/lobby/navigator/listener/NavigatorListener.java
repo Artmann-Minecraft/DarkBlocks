@@ -112,7 +112,7 @@ public class NavigatorListener implements CashedPlayerInteractEvent, CashedInven
 	@Override
 	public void onCashedPlayerInteractEvent(PlayerInteractEvent event)
 	{
-		if ((event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) && getItemStack().getType() == event.getItem().getType())
+		if ((event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) && event.getItem() != null && getItemStack().getType() == event.getItem().getType())
 		{
 			event.setCancelled(true);
 			Player player = event.getPlayer();
