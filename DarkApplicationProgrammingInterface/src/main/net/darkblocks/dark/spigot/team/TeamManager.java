@@ -37,6 +37,29 @@ import java.util.Set;
 @Getter
 public class TeamManager implements Listener
 {
+
+	@Data
+	private enum Teams
+    {
+    	BLUE("Blau", ChatColor.DARK_BLUE),
+        RED("Rot", ChatColor.RED),
+        GREEN("Grün", ChatColor.DARK_GREEN),
+        YELLOW("Gelb", ChatColor.YELLOW),
+        BLACK("Schwarz", ChatColor.BLACK),
+        WHITE("Weiß", ChatColor.WHITE),
+        ORANGE("Orange", ChatColor.GOLD),
+        AQUA("Türkis", ChatColor.AQUA),
+        PURPLE("Violett", ChatColor.DARK_PURPLE),
+        LIGHT_BLUE("Hellblau", ChatColor.BLUE),
+        LIGHT_GREEN("Hellgrün", ChatColor.GREEN),
+        LIGHT_GRAY("Hellgrau", ChatColor.GRAY),
+        GRAY("Grau", ChatColor.DARK_GRAY),
+        PINK("ROSA", ChatColor.LIGHT_PURPLE);
+        
+        private String name;
+        private ChatColor color;
+    }
+
 	@NonNull
 	private final Set<GameTeam> teams;
 	
@@ -45,7 +68,7 @@ public class TeamManager implements Listener
 		this.teams = new HashSet<>();
 		if (colored && teamsCount <= 14)
 		{
-			List<Double<String, ChatColor>> list = new ArrayList<>();
+			/*List<Double<String, ChatColor>> list = new ArrayList<>();
 			list.add(new Double<>("Blau", ChatColor.DARK_BLUE));
 			list.add(new Double<>("Rot", ChatColor.RED));
 			list.add(new Double<>("Grün", ChatColor.DARK_GREEN));
@@ -61,6 +84,13 @@ public class TeamManager implements Listener
 			list.add(new Double<>("Grau", ChatColor.DARK_GRAY));
 			list.add(new Double<>("Rosa", ChatColor.LIGHT_PURPLE));
 			for (Double<String, ChatColor> teams : list)
+			{
+				if (this.teams.size() < teamsCount)
+				{
+					this.teams.add(new GameTeam(teams.getFirst(), teams.getSecond(), (Bukkit.getOnlinePlayers().size() / teamsCount) + 1, true));
+				}
+			}*/
+            for (Teams teams : Teams.values())
 			{
 				if (this.teams.size() < teamsCount)
 				{
