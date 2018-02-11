@@ -36,19 +36,23 @@ public class Wartungen
 		this.mySQL = mySQL;
 		this.whitelist = new HashSet<>();
 		this.on = false;
-		getMySQL().updateSync("CREATE TABLE IF NOT EXISTS Wartungen(`on` INT)");
-		getMySQL().query("SELECT * FROM Wartungen", resultSet -> {
+		getMySQL().update("CREATE TABLE IF NOT EXISTS Wartungen(`active` INT, PRIMARY KEY(active))", () -> getMySQL().query("SELECT `active` FROM Wartungen", result -> {
 			try
 			{
-				if (resultSet.next())
+				if (result.next())
 				{
-					setOn(resultSet.getInt("on") == 1);
+					setOn(result.getInt("active") == 1);
+				}
+				else
+				{
+					getMySQL().update("INSERT INTO `active` VALUES ('1')");
+					setOn(false);
 				}
 			} catch (SQLException ex)
 			{
 				ex.printStackTrace();
 			}
-		});
+		}));
 		new WartungenListener(this);
 		new WartungenCommand(this);
 	}
