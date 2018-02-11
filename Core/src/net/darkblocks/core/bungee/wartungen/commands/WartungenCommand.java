@@ -92,7 +92,7 @@ public class WartungenCommand extends Command
 				}
 				else
 				{
-					sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Der " + IMPORTANT + "Wartungsmodus " + TEXT + " sind schon aktive"));
+					sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Der " + IMPORTANT + "Wartungsmodus " + TEXT + "sind schon aktive"));
 				}
 				return;
 			}

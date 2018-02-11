@@ -1,7 +1,5 @@
 package net.darkblocks.core.universal.logger;
 
-import jline.console.ConsoleReader;
-
 import java.beans.ConstructorProperties;
 import java.io.*;
 import java.lang.reflect.Field;
@@ -24,10 +22,8 @@ import java.util.logging.LogRecord;
 @SuppressWarnings("ResultOfMethodCallIgnored")
 public class Logger extends java.util.logging.Logger
 {
-	private final ConsoleReader reader;
 	private final Logger.AsyncLogDispatcher asyncLogDispatcher = new Logger.AsyncLogDispatcher();
 	private final String name;
-	private final Logger.LoggingFormatter formatter = new Logger.LoggingFormatter();
 	private final String separator = System.getProperty("line.separator");
 	
 	public Logger(String name, String directory) throws Exception
@@ -42,56 +38,15 @@ public class Logger extends java.util.logging.Logger
 			new File(directory).mkdirs();
 		}
 		this.setLevel(Level.ALL);
-		this.reader = new ConsoleReader(System.in, System.out);
-		this.reader.setExpandEvents(false);
 		Logger.FileLoggerHandler handler = new FileLoggerHandler(new FileFormatter(), directory);
 		this.addHandler(handler);
-		Logger.LoggingHandler loggingHandler = new LoggingHandler(this.reader);
-		loggingHandler.setFormatter(this.formatter);
-		loggingHandler.setLevel(Level.INFO);
-		this.addHandler(loggingHandler);
 		System.setOut(new PrintStream(new LoggingOutputStream(Level.INFO), true, "UTF-8"));
 		System.setErr(new PrintStream(new LoggingOutputStream(Level.SEVERE), true, "UTF-8"));
-	}
-	
-	public String getSeparator()
-	{
-		return this.separator;
-	}
-	
-	public Logger.LoggingFormatter getFormatter()
-	{
-		return this.formatter;
-	}
-	
-	public ConsoleReader getReader()
-	{
-		return this.reader;
 	}
 	
 	public String getName()
 	{
 		return this.name;
-	}
-	
-	public Logger.AsyncLogDispatcher getAsyncLogDispatcher()
-	{
-		return this.asyncLogDispatcher;
-	}
-	
-	private void shutdownAll()
-	{
-		Handler[] var1 = this.getHandlers();
-		for (Handler handler : var1)
-		{
-			handler.close();
-		}
-		try
-		{
-			this.reader.killLine();
-		} catch (IOException ignored)
-		{
-		}
 	}
 	
 	public class AsyncLogDispatcher extends Thread
@@ -180,7 +135,7 @@ public class Logger extends java.util.logging.Logger
 		
 		private FileFormatter()
 		{
-			this.format = new SimpleDateFormat("HH:mm:ss");
+			this.format = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 		}
 		
 		public String format(LogRecord record)
@@ -192,30 +147,7 @@ public class Logger extends java.util.logging.Logger
 				record.getThrown().printStackTrace(new PrintWriter(writer));
 				builder.append(writer).append("\n");
 			}
-			return "[" + this.format.format(System.currentTimeMillis()) + "/" + Logger.this.name + "] " + record.getLevel().getLocalizedName() + ":  " + this.formatMessage(record) + "\n" + builder.substring(0);
-		}
-	}
-	
-	private class LoggingFormatter extends Formatter
-	{
-		private final DateFormat format;
-		
-		private LoggingFormatter()
-		{
-			this.format = new SimpleDateFormat("HH:mm:ss");
-		}
-		
-		public String format(LogRecord record)
-		{
-			StringBuilder builder = new StringBuilder();
-			if (record.getThrown() != null)
-			{
-				StringWriter writer = new StringWriter();
-				record.getThrown().printStackTrace(new PrintWriter(writer));
-				builder.append(writer).append("\n");
-			}
-			StringBuilder stringBuilder = (new StringBuilder(13)).append("[").append(this.format.format(System.currentTimeMillis())).append("/").append("SegdoCloud").append("] ").append(record.getLevel().getName()).append(": ").append(this.formatMessage(record)).append("\n").append(builder.substring(0));
-			return stringBuilder.substring(0);
+			return "[" + this.format.format(System.currentTimeMillis()) + "|" + Logger.this.name + "]" + record.getLevel().getLocalizedName() + ":" + this.formatMessage(record) + "\n " + builder.substring(0);
 		}
 	}
 	
@@ -237,54 +169,6 @@ public class Logger extends java.util.logging.Logger
 			{
 				Logger.this.logp(this.level, "", "", contents);
 			}
-		}
-	}
-	
-	private class LoggingHandler extends Handler
-	{
-		private final ConsoleReader reader;
-		
-		LoggingHandler(ConsoleReader reader)
-		{
-			this.reader = reader;
-			try
-			{
-				this.setEncoding(StandardCharsets.UTF_8.name());
-			} catch (UnsupportedEncodingException ignored)
-			{
-			}
-		}
-		
-		public void publish(LogRecord record)
-		{
-			if (this.isLoggable(record))
-			{
-				this.handle(this.getFormatter().format(record));
-			}
-		}
-		
-		@Override
-		public void flush()
-		{
-		}
-		
-		@Override
-		public void close() throws SecurityException
-		{
-		}
-		
-		void handle(String message)
-		{
-			Logger.this.asyncLogDispatcher.getQueueTasks().offer(() -> {
-				try
-				{
-					this.reader.print(message.replace("?", ""));
-					this.reader.drawLine();
-					this.reader.flush();
-				} catch (Exception ignored)
-				{
-				}
-			});
 		}
 	}
 }
