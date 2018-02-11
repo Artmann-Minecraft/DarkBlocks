@@ -2,6 +2,8 @@ package net.darkblocks.bedwars;
 
 import net.darkblocks.bedwars.listener.CountdownListener;
 import net.darkblocks.core.spigot.Core;
+import net.darkblocks.core.universal.permissions.manager.GroupManager;
+import net.darkblocks.core.universal.permissions.manager.UserManager;
 import net.darkblocks.dark.java.mysql.MySQL;
 import net.darkblocks.dark.spigot.plugin.DarkPlugin;
 
@@ -14,7 +16,8 @@ public class BedWars extends DarkPlugin
 	public synchronized void onEnable()
 	{
 		super.onEnable();
-		new Core(this, new MySQL());
+		MySQL mySQL = new MySQL();
+		new Core(this, mySQL, new UserManager(mySQL, null), new GroupManager(mySQL, null));
 		new CountdownListener(this);
 	}
 }

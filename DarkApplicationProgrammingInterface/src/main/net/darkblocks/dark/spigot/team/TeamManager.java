@@ -2,10 +2,10 @@ package net.darkblocks.dark.spigot.team;
 
 import lombok.Getter;
 import lombok.NonNull;
-import net.darkblocks.dark.java.utils.Double;
 import net.darkblocks.dark.java.utils.ServerState;
 import net.darkblocks.dark.spigot.builder.ItemBuilder;
 import net.darkblocks.dark.spigot.events.ServerStateChangeEvent;
+import net.darkblocks.dark.spigot.team.utils.Teams;
 import net.darkblocks.dark.spigot.utils.InventoryUtils;
 import net.darkblocks.dark.universal.messages.Colors;
 import net.darkblocks.dark.universal.messages.Messages;
@@ -37,29 +37,6 @@ import java.util.Set;
 @Getter
 public class TeamManager implements Listener
 {
-
-	@Data
-	private enum Teams
-    {
-    	BLUE("Blau", ChatColor.DARK_BLUE),
-        RED("Rot", ChatColor.RED),
-        GREEN("Grün", ChatColor.DARK_GREEN),
-        YELLOW("Gelb", ChatColor.YELLOW),
-        BLACK("Schwarz", ChatColor.BLACK),
-        WHITE("Weiß", ChatColor.WHITE),
-        ORANGE("Orange", ChatColor.GOLD),
-        AQUA("Türkis", ChatColor.AQUA),
-        PURPLE("Violett", ChatColor.DARK_PURPLE),
-        LIGHT_BLUE("Hellblau", ChatColor.BLUE),
-        LIGHT_GREEN("Hellgrün", ChatColor.GREEN),
-        LIGHT_GRAY("Hellgrau", ChatColor.GRAY),
-        GRAY("Grau", ChatColor.DARK_GRAY),
-        PINK("ROSA", ChatColor.LIGHT_PURPLE);
-        
-        private String name;
-        private ChatColor color;
-    }
-
 	@NonNull
 	private final Set<GameTeam> teams;
 	
@@ -90,11 +67,11 @@ public class TeamManager implements Listener
 					this.teams.add(new GameTeam(teams.getFirst(), teams.getSecond(), (Bukkit.getOnlinePlayers().size() / teamsCount) + 1, true));
 				}
 			}*/
-            for (Teams teams : Teams.values())
+			for (Teams teams : Teams.values())
 			{
 				if (this.teams.size() < teamsCount)
 				{
-					this.teams.add(new GameTeam(teams.getFirst(), teams.getSecond(), (Bukkit.getOnlinePlayers().size() / teamsCount) + 1, true));
+					this.teams.add(new GameTeam(teams.getName(), teams.getColor(), (Bukkit.getOnlinePlayers().size() / teamsCount) + 1, true));
 				}
 			}
 		}

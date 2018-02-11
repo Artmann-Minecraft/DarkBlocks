@@ -76,7 +76,7 @@ public class GroupManager
 					{
 						defaultGroup = group;
 					}
-					else if (defaultGroup.getSortID() < group.getSortID())
+					else if (defaultGroup.getSortID() > group.getSortID())
 					{
 						defaultGroup = group;
 					}

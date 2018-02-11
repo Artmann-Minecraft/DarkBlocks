@@ -1,6 +1,8 @@
 package net.darkblocks.cores;
 
 import net.darkblocks.core.spigot.Core;
+import net.darkblocks.core.universal.permissions.manager.GroupManager;
+import net.darkblocks.core.universal.permissions.manager.UserManager;
 import net.darkblocks.cores.listener.CountdownListener;
 import net.darkblocks.dark.java.mysql.MySQL;
 import net.darkblocks.dark.java.utils.ServerState;
@@ -29,7 +31,8 @@ public class Cores extends DarkPlugin
 		messages.put("dark.prefix", "§f" + EXTRA + "[" + PRIMARY + EXTRA + "Cores§f" + EXTRA + "] §r");
 		messages.put("dark.servername", "" + PRIMARY + EXTRA + "DarkBlocks§f" + EXTRA + "." + PRIMARY + EXTRA + "Net");
 		new Messages(messages);
-		new Core(this, new MySQL());
+		MySQL mySQL = new MySQL();
+		new Core(this, mySQL, new UserManager(mySQL, null), new GroupManager(mySQL, null));
 		new CountdownListener(this);
 		new CloudManager(this, "- - -");
 		Bukkit.getPluginManager().callEvent(new ServerStateChangeEvent(ServerState.STARTUP, ServerState.LOBBY));

@@ -51,16 +51,16 @@ public class ScoreBoard extends ScoreBoardUtils
 					coinsAPI.getCoins(player.getUniqueId(), coins -> {
 						List<ScoreboardScore> score = new ArrayList<>();
 						score.add(setScoreboardScore(" ", 12));
-						score.add(setScoreboardScore(PRIMARY + "OnlineTime", 11));
+						score.add(setScoreboardScore(SECONDARY + "OnlineTime", 11));
 						score.add(setScoreboardScore(TEXT + "" + onlinetime, 10));
 						score.add(setScoreboardScore("  ", 9));
-						score.add(setScoreboardScore(PRIMARY + "Coins", 8));
+						score.add(setScoreboardScore(SECONDARY + "Coins", 8));
 						score.add(setScoreboardScore(TEXT + "" + coins, 7));
 						score.add(setScoreboardScore("   ", 6));
-						score.add(setScoreboardScore(PRIMARY + "TeamSpeak", 5));
+						score.add(setScoreboardScore(SECONDARY + "TeamSpeak", 5));
 						score.add(setScoreboardScore(TEXT + "DarkBlocks" + IMPORTANT + "." + TEXT + "Net", 4));
 						score.add(setScoreboardScore("    ", 3));
-						score.add(setScoreboardScore(PRIMARY + "Webseite", 2));
+						score.add(setScoreboardScore(SECONDARY + "Webseite", 2));
 						score.add(setScoreboardScore(TEXT + "DarkBlocks" + IMPORTANT + "." + TEXT + "Net ", 1));
 						sendScoreBoard(player, Messages.getInstance().getShortMessage(ScoreBoard.class, "servername"), score);
 					});
