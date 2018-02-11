@@ -1,7 +1,7 @@
 package net.darkblocks.core.universal.permissions.utils;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
 import net.darkblocks.dark.universal.messages.ChatColor;
@@ -13,7 +13,6 @@ import java.util.Set;
  */
 @Setter
 @Getter
-@AllArgsConstructor
 @ToString
 public class Group
 {
@@ -25,4 +24,16 @@ public class Group
 	private ChatColor color;
 	private final int saveID;
 	private int sortID;
+	
+	public Group(@NonNull Set<String> permissions, @NonNull Set<Integer> inherit, @NonNull String name, String prefix, String suffix, @NonNull ChatColor color, int saveID, int sortID)
+	{
+		this.permissions = permissions;
+		this.inherit = inherit;
+		this.name = name;
+		this.prefix = prefix == null ? "" : prefix;
+		this.suffix = suffix == null ? "" : suffix;
+		this.color = color;
+		this.saveID = saveID;
+		this.sortID = sortID;
+	}
 }

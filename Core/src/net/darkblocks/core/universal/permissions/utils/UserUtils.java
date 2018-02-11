@@ -21,7 +21,6 @@ public class UserUtils
 			{
 				if (result.next())
 				{
-					System.out.println(1);
 					Set<String> groupIDs = new HashSet<>(Arrays.asList(result.getString("groups").split(", ")));
 					Set<Group> groups = new HashSet<>();
 					int lowestSortID = Integer.MAX_VALUE;
@@ -42,7 +41,7 @@ public class UserUtils
 							}
 						}
 					}
-					User user = new User(groups, new HashSet<>(), uniqueId, result.getString("prefix") == null ? (lowestGroup.getPrefix() == null ? "" : lowestGroup.getPrefix()) : result.getString("prefix"), result.getString("suffix") == null ? (lowestGroup.getPrefix() == null ? "" : lowestGroup.getPrefix()) : result.getString("suffix"), lowestSortID);
+					User user = new User(groups, new HashSet<>(), uniqueId, result.getString("prefix") == null ? (lowestGroup.getPrefix() == null ? "" : lowestGroup.getPrefix()) : result.getString("prefix"), result.getString("suffix") == null ? (lowestGroup.getPrefix() == null ? "" : lowestGroup.getSuffix()) : result.getString("suffix"), lowestSortID);
 					userManager.getUser().add(user);
 					for (Group group : user.getGroups())
 					{
@@ -70,7 +69,6 @@ public class UserUtils
 				}
 				else
 				{
-					System.out.println(2);
 					Group defaultGroup = groupManager.getDefaultGroup();
 					userManager.getUser().add(new User(Collections.singleton(defaultGroup), defaultGroup.getPermissions(), uniqueId, defaultGroup.getPrefix(), defaultGroup.getSuffix(), defaultGroup.getSortID()));
 					String date = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(new Date());

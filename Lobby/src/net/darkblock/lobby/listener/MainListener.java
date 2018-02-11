@@ -75,7 +75,7 @@ public class MainListener implements Listener
 		{
 			if (user.getUuid() == event.getPlayer().getUniqueId())
 			{
-				event.setMessage(user.getPrefix() + event.getPlayer().getName() + (user.getSuffix() == null ? "" : user.getSuffix()) + "§8: §r" + event.getMessage());
+				event.setMessage(user.getPrefix() + event.getPlayer().getName() + user.getSuffix() + "§8: §r" + event.getMessage());
 				return;
 			}
 		}

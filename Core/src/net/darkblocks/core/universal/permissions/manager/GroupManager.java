@@ -31,11 +31,14 @@ public class GroupManager
 			{
 				while (result.next())
 				{
-					Set<String> rawInherit = new HashSet<>(Arrays.asList(result.getString("inherit").split(", ")));
 					Set<Integer> inherit = new HashSet<>();
-					for (String s : rawInherit)
+					if (result.getString("inherit") != null)
 					{
-						inherit.add(Integer.valueOf(s));
+						Set<String> rawInherit = new HashSet<>(Arrays.asList(result.getString("inherit").split(", ")));
+						for (String s : rawInherit)
+						{
+							inherit.add(Integer.valueOf(s));
+						}
 					}
 					try
 					{
