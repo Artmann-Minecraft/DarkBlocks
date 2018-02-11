@@ -1,6 +1,5 @@
 package net.darkblocks.core.universal.logger;
 
-import java.beans.ConstructorProperties;
 import java.io.*;
 import java.lang.reflect.Field;
 import java.nio.charset.Charset;
@@ -24,7 +23,6 @@ public class Logger extends java.util.logging.Logger
 {
 	private final Logger.AsyncLogDispatcher asyncLogDispatcher = new Logger.AsyncLogDispatcher();
 	private final String name;
-	private final String separator = System.getProperty("line.separator");
 	
 	public Logger(String name, String directory) throws Exception
 	{
@@ -38,10 +36,8 @@ public class Logger extends java.util.logging.Logger
 			new File(directory).mkdirs();
 		}
 		this.setLevel(Level.ALL);
-		Logger.FileLoggerHandler handler = new FileLoggerHandler(new FileFormatter(), directory);
+		Logger.FileLoggerHandler handler = new FileLoggerHandler(new LoggingFormatter(), directory);
 		this.addHandler(handler);
-		System.setOut(new PrintStream(new LoggingOutputStream(Level.INFO), true, "UTF-8"));
-		System.setErr(new PrintStream(new LoggingOutputStream(Level.SEVERE), true, "UTF-8"));
 	}
 	
 	public String getName()
@@ -129,13 +125,13 @@ public class Logger extends java.util.logging.Logger
 		}
 	}
 	
-	private class FileFormatter extends Formatter
+	private class LoggingFormatter extends Formatter
 	{
 		private final DateFormat format;
 		
-		private FileFormatter()
+		private LoggingFormatter()
 		{
-			this.format = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+			this.format = new SimpleDateFormat("HH:mm:ss");
 		}
 		
 		public String format(LogRecord record)
@@ -147,28 +143,8 @@ public class Logger extends java.util.logging.Logger
 				record.getThrown().printStackTrace(new PrintWriter(writer));
 				builder.append(writer).append("\n");
 			}
-			return "[" + this.format.format(System.currentTimeMillis()) + "|" + Logger.this.name + "]" + record.getLevel().getLocalizedName() + ":" + this.formatMessage(record) + "\n " + builder.substring(0);
-		}
-	}
-	
-	private class LoggingOutputStream extends ByteArrayOutputStream
-	{
-		private final Level level;
-		
-		@ConstructorProperties({"level"})
-		LoggingOutputStream(Level level)
-		{
-			this.level = level;
-		}
-		
-		public void flush() throws IOException
-		{
-			String contents = this.toString(StandardCharsets.UTF_8.name());
-			super.reset();
-			if (!contents.isEmpty() && !contents.equals(Logger.this.separator))
-			{
-				Logger.this.logp(this.level, "", "", contents);
-			}
+			StringBuilder stringBuilder = (new StringBuilder(13)).append("[").append(this.format.format(System.currentTimeMillis())).append("/").append("SegdoCloud").append("] ").append(record.getLevel().getName()).append(": ").append(this.formatMessage(record)).append("\n").append(builder.substring(0));
+			return stringBuilder.substring(0);
 		}
 	}
 }

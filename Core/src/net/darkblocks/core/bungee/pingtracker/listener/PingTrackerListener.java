@@ -93,7 +93,7 @@ public class PingTrackerListener implements Listener
 	@EventHandler
 	public void onProxyPingEvent(ProxyPingEvent event)
 	{
-		String name = event.getConnection().getName();
+		String name = event.getConnection().getAddress().getHostString();
 		this.minutePings.add(name);
 		this.hourPings.add(name);
 		this.dayPings.add(name);
