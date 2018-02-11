@@ -22,7 +22,7 @@ public class UserUtils
 				if (result.next())
 				{
 					System.out.println(1);
-					Set<String> groupIDs = (Set<String>) result.getObject("groups");
+					Set<String> groupIDs = new HashSet<>(Arrays.asList(result.getString("groups").split(", ")));
 					Set<Group> groups = new HashSet<>();
 					int lowestSortID = Integer.MAX_VALUE;
 					Group lowestGroup = groupManager.getDefaultGroup();

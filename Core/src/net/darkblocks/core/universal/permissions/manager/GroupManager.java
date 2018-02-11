@@ -7,6 +7,7 @@ import net.darkblocks.dark.universal.messages.ChatColor;
 import net.md_5.bungee.BungeeCord;
 
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,14 +31,11 @@ public class GroupManager
 			{
 				while (result.next())
 				{
-					Set<String> rawInherit = (Set<String>) result.getObject("inherit");
+					Set<String> rawInherit = new HashSet<>(Arrays.asList(result.getString("inherit").split(", ")));
 					Set<Integer> inherit = new HashSet<>();
-					if (rawInherit != null)
+					for (String s : rawInherit)
 					{
-						for (String s : rawInherit)
-						{
-							inherit.add(Integer.valueOf(s));
-						}
+						inherit.add(Integer.valueOf(s));
 					}
 					try
 					{
