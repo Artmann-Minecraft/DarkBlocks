@@ -12,7 +12,7 @@ public class CommandUtils
 	
 	public static String getPermission(Class clazz)
 	{
-		return clazz.getName() + ".use";
+		return clazz.getName();
 	}
 	
 	public static void register(net.md_5.bungee.api.plugin.Plugin plugin, net.md_5.bungee.api.plugin.Command command)
