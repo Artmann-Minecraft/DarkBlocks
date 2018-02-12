@@ -46,7 +46,7 @@ public class MySQL
 		connect();
 	}
 	
-	public void connect()
+	private void connect()
 	{
 		if (!isConnected())
 		{

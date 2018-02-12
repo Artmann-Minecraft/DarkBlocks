@@ -1,5 +1,6 @@
 package net.darkblock.lobby.scoreboard.utils;
 
+import lombok.NonNull;
 import net.darkblocks.core.spigot.utils.ScoreBoardUtils;
 import net.darkblocks.dark.java.mysql.CoinsAPI;
 import net.darkblocks.dark.java.mysql.MySQL;
@@ -18,7 +19,7 @@ import static net.darkblocks.dark.universal.messages.Colors.*;
  */
 public class ScoreBoard extends ScoreBoardUtils
 {
-	public static void sendScoreBoard(Player player, MySQL mySQL, CoinsAPI coinsAPI)
+	public static void sendScoreBoard(@NonNull Player player, MySQL mySQL, CoinsAPI coinsAPI)
 	{
 		mySQL.query("SELECT `time` FROM OnlineTime WHERE `uuid` = '" + player.getUniqueId() + "'", result -> {
 			try

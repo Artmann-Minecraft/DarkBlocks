@@ -45,28 +45,6 @@ public class TeamManager implements Listener
 		this.teams = new HashSet<>();
 		if (colored && teamsCount <= 14)
 		{
-			/*List<Double<String, ChatColor>> list = new ArrayList<>();
-			list.add(new Double<>("Blau", ChatColor.DARK_BLUE));
-			list.add(new Double<>("Rot", ChatColor.RED));
-			list.add(new Double<>("Grün", ChatColor.DARK_GREEN));
-			list.add(new Double<>("Gelb", ChatColor.YELLOW));
-			list.add(new Double<>("Schwarz", ChatColor.BLACK));
-			list.add(new Double<>("Weiß", ChatColor.WHITE));
-			list.add(new Double<>("Orange", ChatColor.GOLD));
-			list.add(new Double<>("Türkis", ChatColor.AQUA));
-			list.add(new Double<>("Violett", ChatColor.DARK_PURPLE));
-			list.add(new Double<>("Hellblau", ChatColor.BLUE));
-			list.add(new Double<>("Hellgrün", ChatColor.GREEN));
-			list.add(new Double<>("Hellgrau", ChatColor.GRAY));
-			list.add(new Double<>("Grau", ChatColor.DARK_GRAY));
-			list.add(new Double<>("Rosa", ChatColor.LIGHT_PURPLE));
-			for (Double<String, ChatColor> teams : list)
-			{
-				if (this.teams.size() < teamsCount)
-				{
-					this.teams.add(new GameTeam(teams.getFirst(), teams.getSecond(), (Bukkit.getOnlinePlayers().size() / teamsCount) + 1, true));
-				}
-			}*/
 			for (Teams teams : Teams.values())
 			{
 				if (this.teams.size() < teamsCount)

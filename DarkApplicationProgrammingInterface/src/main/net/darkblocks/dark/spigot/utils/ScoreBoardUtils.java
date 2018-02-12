@@ -4,6 +4,7 @@
 package net.darkblocks.dark.spigot.utils;
 
 import lombok.Getter;
+import lombok.NonNull;
 import net.darkblocks.dark.universal.messages.Colors;
 import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
@@ -28,7 +29,7 @@ public class ScoreBoardUtils
 		objective = scoreboard.registerObjective("object", IScoreboardCriteria.b);
 	}
 	
-	public static void sendLobbyScoreBoard(Player player, String mapName, String displayName)
+	public static void sendLobbyScoreBoard(@NonNull Player player, String mapName, String displayName)
 	{
 		List<ScoreboardScore> score = new ArrayList<>();
 		score.add(setScoreboardScore(" ", 4));
@@ -38,7 +39,7 @@ public class ScoreBoardUtils
 		sendScoreBoard(player, displayName, score);
 	}
 	
-	protected static void sendScoreBoard(Player p, String displayName, List<ScoreboardScore> scoreboardScores)
+	protected static void sendScoreBoard(@NonNull Player player, String displayName, List<ScoreboardScore> scoreboardScores)
 	{
 		if (displayName.length() >= 32)
 		{
@@ -51,21 +52,21 @@ public class ScoreBoardUtils
 		/*
 		 * Remove Packet
 		 */
-		sendPacket(p, new PacketPlayOutScoreboardObjective(objective, 1));
+		sendPacket(player, new PacketPlayOutScoreboardObjective(objective, 1));
 		/*
 		 * Create Packet
 		 */
-		sendPacket(p, new PacketPlayOutScoreboardObjective(objective, 0));
+		sendPacket(player, new PacketPlayOutScoreboardObjective(objective, 0));
 		/*
 		 * Display Packet
 		 */
-		sendPacket(p, new PacketPlayOutScoreboardDisplayObjective(1, objective));
+		sendPacket(player, new PacketPlayOutScoreboardDisplayObjective(1, objective));
 		for (ScoreboardScore score : scoreboardScores)
 		{
 			/*
 			 * Score Packet
 			 */
-			sendPacket(p, new PacketPlayOutScoreboardScore(score));
+			sendPacket(player, new PacketPlayOutScoreboardScore(score));
 		}
 	}
 	
@@ -76,7 +77,7 @@ public class ScoreBoardUtils
 		return scoreboardScore;
 	}
 	
-	private static void sendPacket(Player player, Packet packet)
+	private static void sendPacket(@NonNull Player player, Packet packet)
 	{
 		((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
 	}

@@ -109,7 +109,7 @@ public class CountdownListener implements Listener
 			{
 				PlayerInventory inventory = player.getInventory();
 				inventory.setItem(0, new ItemBuilder(Material.ENDER_CHEST).setName(Colors.SECONDARY + "Teams").build());
-				inventory.setItem(8, new ItemBuilder(Material.SKULL_ITEM, 1, (short) 3).setOwnerFromURL("http://textures.minecraft.net/texture/1b6f1a25b6bc199946472aedb370522584ff6f4e83221e5946bd2e41b5ca13b", "MHF_ArrowRight").setName(SECONDARY + "Zurück zur Logger").build());
+				inventory.setItem(8, new ItemBuilder(Material.SKULL_ITEM, 1, (short) 3).setOwnerFromURL("http://textures.minecraft.net/texture/1b6f1a25b6bc199946472aedb370522584ff6f4e83221e5946bd2e41b5ca13b", "MHF_ArrowRight").setName(SECONDARY + "Zurück zur Lobby").build());
 			}
 			
 			@EventHandler
