@@ -1,6 +1,6 @@
 package net.darkblocks.core.bungee.pingtracker.listener;
 
-import net.darkblocks.core.universal.logger.Logger;
+import net.darkblocks.dark.java.utils.Logger;
 import net.darkblocks.dark.universal.messages.Messages;
 import net.darkblocks.dark.universal.utils.CommandUtils;
 import net.md_5.bungee.BungeeCord;

@@ -2,12 +2,15 @@ package net.darkblocks.core.universal.permissions.manager;
 
 import lombok.Getter;
 import net.darkblocks.core.universal.permissions.utils.Group;
+import net.darkblocks.dark.java.debug.Debug;
 import net.darkblocks.dark.java.mysql.MySQL;
 import net.darkblocks.dark.universal.messages.ChatColor;
 import net.md_5.bungee.BungeeCord;
 
 import java.sql.SQLException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by LartyHD on 07.02.2018  21:55.
@@ -20,97 +23,93 @@ public class GroupManager
 	
 	public GroupManager(MySQL mySQL, String tableName)
 	{
+		Debug.print(" ");
+		Debug.print(" ");
+		Debug.print("Register Constructor " + getClass().getSimpleName() + "(" + getClass().getName() + ")");
+		Debug.print(" ");
 		this.groups = new HashSet<>();
 		tableName = tableName == null ? "Groups" : tableName;
 		String finalTableName = tableName;
-		System.out.println("Register groups...");
-		System.out.println("Try to create the groups table");
+		Debug.print("Register groups...");
+		Debug.print("Try to create the groups table");
 		mySQL.update("CREATE TABLE IF NOT EXISTS " + tableName + "(`saveid` INT, `sortid` INT, `name` VARCHAR(16), `prefix` VARCHAR(16), `suffix` VARCHAR(16), `color` VARCHAR(13), `inherit` TEXT, PRIMARY KEY(saveid))", () -> {
-			System.out.println("Tried to create the groups table");
-			System.out.println("Select * from the groups table");
+			Debug.print("Tried to create the groups table");
+			Debug.print("Select * from the groups table");
 			mySQL.query("SELECT * FROM `" + finalTableName + "`", result ->
 			{
-				System.out.println("Selected * from the groups table");
+				Debug.print("Selected * from the groups table");
 				try
 				{
-					System.out.println("Add groups to the collection");
+					Debug.print("Add groups to the collection");
 					while (result.next())
 					{
-						System.out.println("Add group to the collection");
+						Debug.print("Add group to the collection");
 						try
 						{
 							Set<Integer> inherit = new HashSet<>();
 							if (result.getString("inherit") != null)
 							{
 								Set<String> rawInherit = new HashSet<>(Arrays.asList(result.getString("inherit").split(", ")));
-								System.out.println("Add inherits to the collection");
+								Debug.print("Add inherits to the collection");
 								for (String s : rawInherit)
 								{
-									System.out.println("Add inherit to the collection");
+									Debug.print("Add inherit to the collection");
 									inherit.add(Integer.valueOf(s));
-									System.out.println("Added inherit to the collection");
+									Debug.print("Added inherit to the collection");
 								}
-								System.out.println("Added inherits to the collection");
+								Debug.print("Added inherits to the collection");
 							}
 							getGroups().add(new Group(new HashSet<>(), inherit, result.getString("name"), result.getString("prefix"), result.getString("suffix"), ChatColor.valueOf(result.getString("color")), result.getInt("saveid"), result.getInt("sortid")));
-							System.out.println("Added group to the collection");
+							Debug.print("Added group to the collection");
 						} catch (IllegalArgumentException ex)
 						{
 							ex.printStackTrace();
 						}
 					}
-					System.out.println("Added groups to the collection");
-					System.out.println("Select * from the permissions table");
+					Debug.print("Added groups to the collection");
+					Debug.print("Select * from the permissions table");
 					mySQL.query("SELECT * FROM `Permissions`", result1 ->
 					{
-						System.out.println("Selected * from the permissions table");
+						Debug.print("Selected * from the permissions table");
 						try
 						{
-							System.out.println("Add permissions to the groups");
-							while (result1.next())
+							Debug.print("Add permissions to the groups");
+							while (result1.next() && result1.getInt("type") == 0)
 							{
-								if (result1.getInt("type") == 0)
+								for (Group group : getGroups())
 								{
-									for (Group group : getGroups())
+									if (Integer.valueOf(result1.getString("name")) == group.getSaveID())
 									{
-										if (Integer.valueOf(result1.getString("name")) == group.getSaveID())
-										{
-											System.out.println("Add permissions to the group " + group);
-											group.getPermissions().add(result1.getString("permission"));
-											System.out.println("Added permissions to the group " + group);
-										}
+										Debug.print("Add permissions to the group " + group);
+										group.getPermissions().add(result1.getString("permission"));
+										Debug.print("Added permissions to the group " + group);
 									}
 								}
 							}
-							System.out.println("Added permissions to the groups");
-							System.out.println("Add the inherit permissions to the groups");
-							List<Group> groups = new ArrayList<>();
-							int highestGroup = Integer.MAX_VALUE;
-							System.out.println("Add groups to the collection for the inherit");
-							while (groups.size() != this.groups.size())
-							{
-								System.out.println("Add group to the collection for the inherit");
-								highestGroup = addHigherGroup(highestGroup, groups);
-								System.out.println("Added group to the collection for the inherit (saveid = " + highestGroup + ")");
-							}
-							System.out.println("Added groups to the collection for the inherit");
-							for (Group group : groups)
-							{
-								for (Integer integer : group.getInherit())
+							Debug.print("Added permissions to the groups");
+							Debug.print("Add the inherit permissions to the groups");
+							mySQL.query("SELECT * FROM `Permissions`", result2 -> {
+								try
 								{
-									for (Group all : getGroups())
+									while (result2.next() && result1.getInt("type") == 0)
 									{
-										if (all.getSortID() == integer)
+										for (Group group : getGroups())
 										{
-											System.out.println("Add the inherit permissions to the group " + group);
-											group.getPermissions().addAll(all.getPermissions());
-											System.out.println("Added the inherit permissions to the group " + group);
+											if (Integer.valueOf(result1.getString("name")) == group.getSaveID())
+											{
+												Debug.print("Add the inherit permissions to the group " + group);
+												group.getPermissions().add(result1.getString("permission"));
+												Debug.print("Added the inherit permissions to the group " + group);
+											}
 										}
 									}
+								} catch (SQLException ex)
+								{
+									ex.printStackTrace();
 								}
-							}
-							System.out.println("Added the inherit permissions to the groups");
-							System.out.println("Calculate the default group");
+							});
+							Debug.print("Added the inherit permissions to the groups");
+							Debug.print("Calculate the default group");
 							Group defaultGroup = null;
 							for (Group group : getGroups())
 							{
@@ -133,7 +132,7 @@ public class GroupManager
 								System.err.println(" ");
 								BungeeCord.getInstance().stop("Keine DefaultGroup gefunden!");
 							}
-							System.out.println("Calculated the default group");
+							Debug.print("Calculated the default group");
 						} catch (SQLException ex)
 						{
 							ex.printStackTrace();
@@ -145,20 +144,11 @@ public class GroupManager
 				}
 			});
 		});
-		System.out.println("Groups " + getGroups());
-		System.out.println("Registered groups");
-	}
-	
-	private int addHigherGroup(int highestGroup, List<Group> groups)
-	{
-		for (Group group : getGroups())
-		{
-			if (highestGroup < group.getSaveID())
-			{
-				highestGroup = group.getSaveID();
-				groups.add(group);
-			}
-		}
-		return highestGroup;
+		Debug.print("Groups " + getGroups());
+		Debug.print("Registered groups");
+		Debug.print(" ");
+		Debug.print("Registered Constructor " + getClass().getSimpleName() + "(" + getClass().getName() + ")");
+		Debug.print(" ");
+		Debug.print(" ");
 	}
 }

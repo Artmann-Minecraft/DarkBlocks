@@ -1,4 +1,4 @@
-package net.darkblocks.core.universal.logger;
+package net.darkblocks.dark.java.utils;
 
 import java.io.*;
 import java.lang.reflect.Field;
