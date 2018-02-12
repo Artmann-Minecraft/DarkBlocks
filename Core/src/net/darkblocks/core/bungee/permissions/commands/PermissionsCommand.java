@@ -58,17 +58,20 @@ public class PermissionsCommand extends Command
 			{
 				for (Group group : this.groupManager.getGroups())
 				{
+					sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Permissions der Gruppe " + group.getName()));
 					try
 					{
 						if (Integer.valueOf(args[0]) == group.getSaveID())
 						{
-							sender.sendMessage(new TextComponent(TEXT + "Permissions der Gruppe " + group.getName()));
+							for (String s : group.getPermissions())
+							{
+								sender.sendMessage(new TextComponent(TEXT + s));
+							}
 						}
 					} catch (ClassCastException ex)
 					{
 						if (group.getName().equalsIgnoreCase(args[0]))
 						{
-							sender.sendMessage(new TextComponent(TEXT + "Permissions der Gruppe " + group.getName()));
 							for (String s : group.getPermissions())
 							{
 								sender.sendMessage(new TextComponent(TEXT + s));
