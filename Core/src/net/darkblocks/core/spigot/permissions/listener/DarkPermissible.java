@@ -43,8 +43,10 @@ public class DarkPermissible extends PermissibleBase
 	@Override
 	public synchronized void clearPermissions()
 	{
-		this.perms.clear();
-		this.perms = new HashSet<>();
+		if (perms != null)
+		{
+			this.perms.clear();
+		}
 	}
 	
 	public void addPermission(String permission)

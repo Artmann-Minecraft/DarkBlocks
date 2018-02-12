@@ -1,5 +1,6 @@
 package net.darkblocks.core.spigot.utils;
 
+import lombok.NonNull;
 import net.darkblocks.core.universal.permissions.utils.User;
 import net.darkblocks.dark.spigot.team.TeamManager;
 import org.bukkit.Bukkit;
@@ -11,7 +12,7 @@ import org.bukkit.entity.Player;
 public class ScoreBoardUtils extends net.darkblocks.dark.spigot.utils.ScoreBoardUtils
 {
 	@SuppressWarnings("deprecation")
-	public static void sendTab(User user)
+	public static void sendTab(@NonNull User user, @NonNull Player player)
 	{
 		org.bukkit.scoreboard.Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
 		int lowestSortID = user.getLowestSortID();
@@ -22,17 +23,16 @@ public class ScoreBoardUtils extends net.darkblocks.dark.spigot.utils.ScoreBoard
 			team = board.getTeam(lowestSortID + "");
 		}
 		team.setPrefix(user.getPrefix());
-		Player player = Bukkit.getPlayer(user.getUuid());
 		team.addPlayer(player);
 		player.setScoreboard(board);
 	}
 	
-	public static void sendLobbyScoreBoard(Player player, String mapName, String displayName, TeamManager teamManager, User user)
+	public static void sendLobbyScoreBoard(@NonNull Player player, String mapName, String displayName, TeamManager teamManager, @NonNull User user)
 	{
 		net.darkblocks.dark.spigot.utils.ScoreBoardUtils.sendLobbyScoreBoard(player, mapName, displayName);
 		if (teamManager == null || teamManager.getTeam(player) == null)
 		{
-			sendTab(user);
+			sendTab(user, player);
 		}
 	}
 }

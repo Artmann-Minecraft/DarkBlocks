@@ -29,7 +29,7 @@ public class ScoreBoardListener implements Listener
 	public void onPlayerPermissionsLoadedEvent(PlayerPermissionsLoadedEvent event)
 	{
 		ScoreBoard.sendScoreBoard(event.getPlayer(), this.mySQL, this.coinsAPI);
-		ScoreBoard.sendTab(event.getUser());
+		ScoreBoard.sendTab(event.getUser(), event.getPlayer());
 	}
 	
 	@EventHandler
