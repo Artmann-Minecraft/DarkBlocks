@@ -29,13 +29,13 @@ public class UserManager
 			if (user.getUuid() == uuid)
 			{
 				Set<String> permisions = user.getPermissions();
-				if (permisions.contains("*"))
+				if (permision != null)
 				{
-					return true;
-				}
-				else
-				{
-					if (permision != null && permision.endsWith("*"))
+					if (permisions.contains("*"))
+					{
+						return true;
+					}
+					else if (permision.endsWith("*"))
 					{
 						permision = permision.substring(0, permision.length() - 1);
 						for (String s : permisions)
@@ -45,6 +45,10 @@ public class UserManager
 								return true;
 							}
 						}
+					}
+					else if (permisions.contains(permision))
+					{
+						return true;
 					}
 				}
 			}

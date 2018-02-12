@@ -2,6 +2,7 @@ package net.darkblocks.core.bungee.joinme;
 
 import net.darkblocks.core.bungee.joinme.commands.ExecuteJoinMeCommand;
 import net.darkblocks.core.bungee.joinme.commands.JoinMeCommand;
+import net.darkblocks.core.universal.permissions.manager.UserManager;
 import net.md_5.bungee.api.plugin.Plugin;
 
 /**
@@ -9,9 +10,9 @@ import net.md_5.bungee.api.plugin.Plugin;
  */
 public class JoinMe
 {
-	public JoinMe(Plugin plugin)
+	public JoinMe(Plugin plugin, UserManager userManager)
 	{
-		new JoinMeCommand(plugin);
+		new JoinMeCommand(plugin, userManager);
 		new ExecuteJoinMeCommand(plugin);
 	}
 }

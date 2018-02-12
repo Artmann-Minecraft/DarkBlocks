@@ -40,19 +40,16 @@ public class UserListener implements Listener
 	public void onLoginEvent(LoginEvent event)
 	{
 		PendingConnection connection = event.getConnection();
-		if (!event.isCancelled() && connection.isOnlineMode())
-		{
-			UserUtils.onLogin(this.mySQL, connection.getUniqueId(), this.userManager, this.groupManager, () -> {
-				for (User user : this.userManager.getUser())
+		UserUtils.onLogin(this.mySQL, connection.getUniqueId(), this.userManager, this.groupManager, () -> {
+			for (User user : this.userManager.getUser())
+			{
+				if (user.getUuid() == connection.getUniqueId())
 				{
-					if (user.getUuid() == connection.getUniqueId())
-					{
-						BungeeCord.getInstance().getPluginManager().callEvent(new PermissionsLoadedEvent(connection, user));
-						return;
-					}
+					BungeeCord.getInstance().getPluginManager().callEvent(new PermissionsLoadedEvent(connection, user));
+					return;
 				}
-			});
-		}
+			}
+		});
 	}
 	
 	@EventHandler
@@ -67,7 +64,7 @@ public class UserListener implements Listener
 		CommandSender sender = event.getSender();
 		if (sender instanceof ProxiedPlayer)
 		{
-			this.userManager.hasPermission(((ProxiedPlayer) sender).getUniqueId(), event.getPermission());
+			event.setHasPermission(this.userManager.hasPermission(((ProxiedPlayer) sender).getUniqueId(), event.getPermission()));
 		}
 	}
 }

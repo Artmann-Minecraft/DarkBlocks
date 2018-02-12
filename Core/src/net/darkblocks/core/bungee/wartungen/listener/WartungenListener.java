@@ -11,6 +11,8 @@ import net.md_5.bungee.api.connection.PendingConnection;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
+import java.util.concurrent.TimeUnit;
+
 import static net.darkblocks.dark.universal.messages.Colors.*;
 
 /**
@@ -35,7 +37,7 @@ public class WartungenListener implements Listener
 		{
 			if (!getWartungen().getUserManager().hasPermission(connection.getUniqueId(), CommandUtils.getPermission(getClass())))
 			{
-				connection.disconnect(new TextComponent(PRIMARY + Messages.getInstance().getShortMessage(getClass(), "servername") + TEXT + " befindet sich im " + IMPORTANT + "Wartungsmodus\n" + TEXT + "Das Betreten des Netztwerkes ist derzeit deswegen nicht möglich"));
+				BungeeCord.getInstance().getScheduler().schedule(getWartungen().getPlugin(), () -> connection.disconnect(new TextComponent(PRIMARY + Messages.getInstance().getShortMessage(getClass(), "servername") + TEXT + " befindet sich im " + IMPORTANT + "Wartungsmodus\n" + TEXT + "Das Betreten des Netztwerkes ist derzeit deswegen nicht möglich")), 0, 1, TimeUnit.SECONDS);
 			}
 		}
 	}

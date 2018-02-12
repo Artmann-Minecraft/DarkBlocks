@@ -2,6 +2,8 @@ package net.darkblocks.core.bungee.joinme.commands;
 
 import lombok.Getter;
 import net.darkblocks.core.bungee.joinme.utils.SkullImage;
+import net.darkblocks.core.universal.permissions.manager.UserManager;
+import net.darkblocks.core.universal.permissions.utils.User;
 import net.darkblocks.dark.universal.messages.Messages;
 import net.darkblocks.dark.universal.utils.CommandUtils;
 import net.md_5.bungee.BungeeCord;
@@ -24,9 +26,12 @@ import static net.darkblocks.dark.universal.messages.Colors.*;
 @Getter
 public class JoinMeCommand extends Command
 {
-	public JoinMeCommand(Plugin plugin)
+	private final UserManager userManager;
+	
+	public JoinMeCommand(Plugin plugin, UserManager userManager)
 	{
 		super(CommandUtils.getName(JoinMeCommand.class), CommandUtils.getPermission(JoinMeCommand.class), "join");
+		this.userManager = userManager;
 		CommandUtils.register(plugin, this);
 	}
 	
@@ -49,14 +54,20 @@ public class JoinMeCommand extends Command
 						try
 						{
 							all.sendMessage(new TextComponent(""));
-							SkullImage.imgMessage(all, ImageIO.read(playerHead), 8, SkullImage.ImgChar.BLOCK.getChar(), false, (ProxiedPlayer) sender, TEXT + "Hier klicken zum Joinen", "", "", "", TEXT + "Spielt auf " + IMPORTANT + ((ProxiedPlayer) sender).getServer().getInfo().getName(), PRIMARY + "Klicke um den Server zu betreten", "", "", "");
+							for (User user : this.userManager.getUser())
+							{
+								if (user.getUuid() == ((ProxiedPlayer) sender).getUniqueId())
+								{
+									SkullImage.imgMessage(all, ImageIO.read(playerHead), 8, SkullImage.ImgChar.BLOCK.getChar(), false, (ProxiedPlayer) sender, TEXT + "Hier klicken zum Joinen", "", "", user.getPrefix() + sender.getName() + user.getSuffix(), TEXT + "Spielt auf " + IMPORTANT + ((ProxiedPlayer) sender).getServer().getInfo().getName(), PRIMARY + "Klicke um den Server zu betreten", "", "", "");
+								}
+							}
 							all.sendMessage(new TextComponent(""));
 						} catch (IOException ex)
 						{
 							ex.printStackTrace();
 						}
 					}
-				} catch (MalformedURLException var25)
+				} catch (MalformedURLException ex)
 				{
 					sender.sendMessage(new TextComponent(Messages.getInstance().getShortTextComponent(getClass(), "prefix", "Es ist ein Fehler aufgetreten")));
 					sender.sendMessage(new TextComponent(Messages.getInstance().getShortTextComponent(getClass(), "prefix", "Bitte versuche es erneut")));

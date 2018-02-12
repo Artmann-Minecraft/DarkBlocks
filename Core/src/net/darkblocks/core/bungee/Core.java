@@ -50,7 +50,7 @@ public class Core extends Plugin
 		new ChatBan(this, mySQL);
 		new Motd(this, mySQL);
 		new PrivateMessage(this);
-		new JoinMe(this);
+		new JoinMe(this, userManager);
 		new OtherVersionBlocker(this);
 		new TabList(this);
 		new TeamChat(this, mySQL);

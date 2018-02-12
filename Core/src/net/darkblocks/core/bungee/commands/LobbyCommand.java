@@ -36,7 +36,7 @@ public class LobbyCommand extends Command
 			ProxiedPlayer player = ((ProxiedPlayer) sender);
 			if (player.getServer().getInfo().getName().split("-")[0].equalsIgnoreCase("lobby"))
 			{
-				sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Du bist schon auf einer Logger"));
+				sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Du bist schon auf einer Lobby"));
 			}
 			else
 			{
