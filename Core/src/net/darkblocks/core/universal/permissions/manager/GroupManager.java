@@ -91,14 +91,14 @@ public class GroupManager
 							mySQL.query("SELECT * FROM `Permissions`", result2 -> {
 								try
 								{
-									while (result2.next() && result1.getInt("type") == 0)
+									while (result2.next() && result2.getInt("type") == 0)
 									{
 										for (Group group : getGroups())
 										{
-											if (Integer.valueOf(result1.getString("name")) == group.getSaveID())
+											if (Integer.valueOf(result2.getString("name")) == group.getSaveID())
 											{
 												Debug.print("Add the inherit permissions to the group " + group);
-												group.getPermissions().add(result1.getString("permission"));
+												group.getPermissions().add(result2.getString("permission"));
 												Debug.print("Added the inherit permissions to the group " + group);
 											}
 										}
