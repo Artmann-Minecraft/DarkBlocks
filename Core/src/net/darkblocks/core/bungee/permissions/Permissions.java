@@ -11,8 +11,8 @@ import net.md_5.bungee.api.plugin.Plugin;
  */
 public class Permissions
 {
-	public Permissions(Plugin plugin, MySQL mySQL)
+	public Permissions(Plugin plugin, MySQL mySQL, UserManager userManager)
 	{
-		new UserListener(plugin, mySQL, new UserManager(mySQL, null), new GroupManager(mySQL, null));
+		new UserListener(plugin, mySQL, userManager, new GroupManager(mySQL, null));
 	}
 }

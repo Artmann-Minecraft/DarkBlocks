@@ -14,6 +14,7 @@ import net.darkblocks.core.bungee.pingtracker.PingTracker;
 import net.darkblocks.core.bungee.tablist.TabList;
 import net.darkblocks.core.bungee.teamchat.TeamChat;
 import net.darkblocks.core.bungee.wartungen.Wartungen;
+import net.darkblocks.core.universal.permissions.manager.UserManager;
 import net.darkblocks.dark.java.mysql.CoinsAPI;
 import net.darkblocks.dark.java.mysql.MySQL;
 import net.darkblocks.dark.java.utils.ValueType;
@@ -44,7 +45,8 @@ public class Core extends Plugin
 		new Messages(messages);
 		MySQL mySQL = new MySQL();
 		new Commands(this);
-		new Wartungen(this, mySQL);
+		UserManager userManager = new UserManager(mySQL, null);
+		new Wartungen(this, mySQL, userManager);
 		new ChatBan(this, mySQL);
 		new Motd(this, mySQL);
 		new PrivateMessage(this);
@@ -56,7 +58,7 @@ public class Core extends Plugin
 		new Coins(this, new CoinsAPI("Coins", ValueType.INTEGER, mySQL));
 		new BlockedCommands(this, mySQL);
 		new net.darkblocks.core.universal.permissions.Permissions(mySQL);
-		new net.darkblocks.core.bungee.permissions.Permissions(this, mySQL);
+		new net.darkblocks.core.bungee.permissions.Permissions(this, mySQL, userManager);
 		new PingTracker(this);
 		this.onlineTime = new OnlineTime(this, mySQL);
 	}

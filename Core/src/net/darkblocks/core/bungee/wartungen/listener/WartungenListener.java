@@ -3,6 +3,7 @@ package net.darkblocks.core.bungee.wartungen.listener;
 import lombok.Getter;
 import net.darkblocks.core.bungee.wartungen.Wartungen;
 import net.darkblocks.dark.universal.messages.Messages;
+import net.darkblocks.dark.universal.utils.CommandUtils;
 import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.PendingConnection;
@@ -30,9 +31,12 @@ public class WartungenListener implements Listener
 	public void onServerConnectedEvent(LoginEvent event)
 	{
 		PendingConnection connection = event.getConnection();
-		if (getWartungen().isOn() && /*!connection.hasPermission("dark.core.bungee.wartungen.bypass")*/ !connection.getName().equalsIgnoreCase("LartyHD") && !getWartungen().getWhitelist().contains(connection.getName().toLowerCase()))
+		if (getWartungen().isOn() && !getWartungen().getWhitelist().contains(connection.getName().toLowerCase()))
 		{
-			connection.disconnect(new TextComponent(PRIMARY + Messages.getInstance().getShortMessage(getClass(), "servername") + TEXT + " befindet sich im " + IMPORTANT + "Wartungsmodus\n" + TEXT + "Das Betreten des Netztwerkes ist derzeit deswegen nicht möglich"));
+			if (!getWartungen().getUserManager().hasPermission(connection.getUniqueId(), CommandUtils.getPermission(getClass())))
+			{
+				connection.disconnect(new TextComponent(PRIMARY + Messages.getInstance().getShortMessage(getClass(), "servername") + TEXT + " befindet sich im " + IMPORTANT + "Wartungsmodus\n" + TEXT + "Das Betreten des Netztwerkes ist derzeit deswegen nicht möglich"));
+			}
 		}
 	}
 }

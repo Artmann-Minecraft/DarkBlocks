@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.darkblocks.core.bungee.wartungen.commands.WartungenCommand;
 import net.darkblocks.core.bungee.wartungen.listener.WartungenListener;
+import net.darkblocks.core.universal.permissions.manager.UserManager;
 import net.darkblocks.dark.java.mysql.MySQL;
 import net.darkblocks.dark.universal.messages.Messages;
 import net.darkblocks.dark.universal.utils.CommandUtils;
@@ -29,13 +30,15 @@ public class Wartungen
 	private final MySQL mySQL;
 	private Set<String> whitelist;
 	private boolean on;
+	private UserManager userManager;
 	
-	public Wartungen(Plugin plugin, MySQL mySQL)
+	public Wartungen(Plugin plugin, MySQL mySQL, UserManager userManager)
 	{
 		this.plugin = plugin;
 		this.mySQL = mySQL;
 		this.whitelist = new HashSet<>();
 		this.on = false;
+		this.userManager = userManager;
 		getMySQL().update("CREATE TABLE IF NOT EXISTS Wartungen(`active` INT, PRIMARY KEY(active))", () -> getMySQL().query("SELECT `active` FROM Wartungen", result -> {
 			try
 			{
