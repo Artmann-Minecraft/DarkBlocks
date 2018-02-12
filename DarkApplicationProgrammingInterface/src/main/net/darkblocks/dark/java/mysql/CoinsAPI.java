@@ -75,7 +75,10 @@ public class CoinsAPI
 				{
 					return;
 				}
-				callback.call(result.getInt("coins"));
+				if (callback != null)
+				{
+					callback.call(result.getInt("coins"));
+				}
 			} catch (SQLException ex)
 			{
 				ex.printStackTrace();
@@ -86,32 +89,35 @@ public class CoinsAPI
 	/**
 	 * Setzt dem Account mit der übergebenen UUID die Coins auf die angegebenen Coins
 	 */
-	public String setCoins(UUID uuid, String coins, ClearCallback clearCallback)
+	public String setCoins(UUID uuid, String coins, ClearCallback callback)
 	{
 		this.mySQL.update("UPDATE " + this.tableName + " SET `coins` = '" + coins + "' WHERE `uuid` = '" + uuid + "'");
-		clearCallback.call();
+		if (callback != null)
+		{
+			callback.call();
+		}
 		return Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Deine " + IMPORTANT + "Coins" + TEXT + " wurden auf " + IMPORTANT + coins + TEXT + " gesetzt";
 	}
 	
 	/**
 	 * Fügt dem Account mit der übergebenen UUID die angegebenen Coins hinzu
 	 */
-	public String addCoins(UUID uuid, String coins, ClearCallback clearCallback)
+	public String addCoins(UUID uuid, String coins, ClearCallback callback)
 	{
 		getCoins(uuid, result -> {
 			switch (this.valueType)
 			{
 				case LONG:
-					setCoins(uuid, String.valueOf(result + Long.valueOf(coins)), clearCallback);
+					setCoins(uuid, String.valueOf(result + Long.valueOf(coins)), callback);
 					break;
 				case INTEGER:
-					setCoins(uuid, String.valueOf(result + Integer.valueOf(coins)), clearCallback);
+					setCoins(uuid, String.valueOf(result + Integer.valueOf(coins)), callback);
 					break;
 				case FLOAT:
-					setCoins(uuid, String.valueOf(result + Float.valueOf(coins)), clearCallback);
+					setCoins(uuid, String.valueOf(result + Float.valueOf(coins)), callback);
 					break;
 				case DOUBLE:
-					setCoins(uuid, String.valueOf(result + Double.valueOf(coins)), clearCallback);
+					setCoins(uuid, String.valueOf(result + Double.valueOf(coins)), callback);
 					break;
 			}
 		});
@@ -121,22 +127,22 @@ public class CoinsAPI
 	/**
 	 * Entfernt dem Account mit der übergebenen UUID die angegebenen Coins
 	 */
-	public String removeCoins(UUID uuid, String coins, ClearCallback clearCallback)
+	public String removeCoins(UUID uuid, String coins, ClearCallback callback)
 	{
 		getCoins(uuid, result -> {
 			switch (this.valueType)
 			{
 				case LONG:
-					setCoins(uuid, String.valueOf(result - Long.valueOf(coins)), clearCallback);
+					setCoins(uuid, String.valueOf(result - Long.valueOf(coins)), callback);
 					break;
 				case INTEGER:
-					setCoins(uuid, String.valueOf(result - Integer.valueOf(coins)), clearCallback);
+					setCoins(uuid, String.valueOf(result - Integer.valueOf(coins)), callback);
 					break;
 				case FLOAT:
-					setCoins(uuid, String.valueOf(result - Float.valueOf(coins)), clearCallback);
+					setCoins(uuid, String.valueOf(result - Float.valueOf(coins)), callback);
 					break;
 				case DOUBLE:
-					setCoins(uuid, String.valueOf(result - Double.valueOf(coins)), clearCallback);
+					setCoins(uuid, String.valueOf(result - Double.valueOf(coins)), callback);
 					break;
 			}
 		});
