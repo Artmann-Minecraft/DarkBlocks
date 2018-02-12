@@ -76,7 +76,6 @@ public class GroupManager
 						System.err.println(" ");
 						BungeeCord.getInstance().stop("Keine DefaultGroup gefunden!");
 					}
-					System.out.println(getGroups());
 				} catch (SQLException ex)
 				{
 					ex.printStackTrace();
