@@ -7,6 +7,7 @@ import net.darkblock.lobby.navigator.utils.NavigatorThread;
 import net.darkblocks.dark.java.mysql.MySQL;
 import net.darkblocks.dark.spigot.builder.ItemBuilder;
 import net.darkblocks.dark.spigot.config.Configuration;
+import net.darkblocks.dark.spigot.events.PlayerDisconnectEvent;
 import net.darkblocks.dark.spigot.events.cashed.CashedEventsManager;
 import net.darkblocks.dark.spigot.events.cashed.CashedInventoryClickEvent;
 import net.darkblocks.dark.spigot.events.cashed.CashedPlayerInteractEvent;
@@ -94,6 +95,12 @@ public class NavigatorListener implements CashedPlayerInteractEvent, CashedInven
 				getNavigatorAnimation().put(player.getName(), true);
 			}
 		});
+	}
+	
+	@EventHandler
+	public void onPlayerDisconnectEvent(PlayerDisconnectEvent event)
+	{
+		getMySQL().update("UPDATE NavAnimation SET `on` = '" + (getNavigatorAnimation().get(event.getPlayer().getName()) ? 1 : 0) + "' WHERE `uuid` = '" + event.getPlayer().getUniqueId() + "'");
 	}
 	
 	@EventHandler
