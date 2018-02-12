@@ -7,9 +7,7 @@ import net.darkblocks.dark.universal.messages.ChatColor;
 import net.md_5.bungee.BungeeCord;
 
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by LartyHD on 07.02.2018  21:55.
@@ -31,17 +29,17 @@ public class GroupManager
 			{
 				while (result.next())
 				{
-					Set<Integer> inherit = new HashSet<>();
-					if (result.getString("inherit") != null)
-					{
-						Set<String> rawInherit = new HashSet<>(Arrays.asList(result.getString("inherit").split(", ")));
-						for (String s : rawInherit)
-						{
-							inherit.add(Integer.valueOf(s));
-						}
-					}
 					try
 					{
+						Set<Integer> inherit = new HashSet<>();
+						if (result.getString("inherit") != null)
+						{
+							Set<String> rawInherit = new HashSet<>(Arrays.asList(result.getString("inherit").split(", ")));
+							for (String s : rawInherit)
+							{
+								inherit.add(Integer.valueOf(s));
+							}
+						}
 						getGroups().add(new Group(new HashSet<>(), inherit, result.getString("name"), result.getString("prefix"), result.getString("suffix"), ChatColor.valueOf(result.getString("color")), result.getInt("saveid"), result.getInt("sortid")));
 					} catch (IllegalArgumentException ex)
 					{
@@ -65,15 +63,21 @@ public class GroupManager
 								}
 							}
 						}
-						for (Group group : getGroups())
+						List<Group> groups = new ArrayList<>();
+						int highestGroup = Integer.MAX_VALUE;
+						while (groups.size() != this.groups.size())
+						{
+							addHigherGroup(highestGroup, groups);
+						}
+						for (Group group : groups)
 						{
 							for (Integer integer : group.getInherit())
 							{
-								for (Group groups : getGroups())
+								for (Group all : getGroups())
 								{
-									if (groups.getSortID() == integer)
+									if (all.getSortID() == integer)
 									{
-										group.getPermissions().addAll(groups.getPermissions());
+										group.getPermissions().addAll(all.getPermissions());
 									}
 								}
 							}
@@ -111,5 +115,18 @@ public class GroupManager
 				ex.printStackTrace();
 			}
 		});
+	}
+	
+	private int addHigherGroup(int highestGroup, List<Group> groups)
+	{
+		for (Group group : getGroups())
+		{
+			if (highestGroup < group.getSaveID())
+			{
+				highestGroup = group.getSaveID();
+				groups.add(group);
+			}
+		}
+		return highestGroup;
 	}
 }
