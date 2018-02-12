@@ -4,6 +4,8 @@ import lombok.NonNull;
 import net.darkblocks.core.universal.permissions.utils.User;
 import net.darkblocks.dark.spigot.team.TeamManager;
 import org.bukkit.Bukkit;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R3.scoreboard.CraftScoreboardManager;
 import org.bukkit.entity.Player;
 
 /**
@@ -24,7 +26,7 @@ public class ScoreBoardUtils extends net.darkblocks.dark.spigot.utils.ScoreBoard
 		}
 		team.setPrefix(user.getPrefix());
 		team.addPlayer(player);
-		player.setScoreboard(board);
+		((CraftScoreboardManager) Bukkit.getServer().getScoreboardManager()).setPlayerBoard((CraftPlayer) player, board);
 	}
 	
 	public static void sendLobbyScoreBoard(@NonNull Player player, String mapName, String displayName, TeamManager teamManager, @NonNull User user)

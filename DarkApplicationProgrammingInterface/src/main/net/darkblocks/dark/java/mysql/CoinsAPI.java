@@ -71,11 +71,14 @@ public class CoinsAPI
 		this.mySQL.query("SELECT coins FROM " + this.tableName + " WHERE `uuid` = '" + uuid + "'", result -> {
 			try
 			{
-				if (result.next())
+				if (result.next() && callback != null)
 				{
-					if (callback != null)
+					try
 					{
 						callback.call(result.getInt(1));
+					} catch (SQLException ex)
+					{
+						ex.printStackTrace();
 					}
 				}
 			} catch (SQLException ex)
@@ -90,11 +93,12 @@ public class CoinsAPI
 	 */
 	public String setCoins(UUID uuid, String coins, ClearCallback callback)
 	{
-		this.mySQL.update("UPDATE " + this.tableName + " SET `coins` = '" + coins + "' WHERE `uuid` = '" + uuid + "'");
-		if (callback != null)
-		{
-			callback.call();
-		}
+		this.mySQL.update("UPDATE " + this.tableName + " SET `coins` = '" + coins + "' WHERE `uuid` = '" + uuid + "'", () -> {
+			if (callback != null)
+			{
+				callback.call();
+			}
+		});
 		return Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Deine " + IMPORTANT + "Coins" + TEXT + " wurden auf " + IMPORTANT + coins + TEXT + " gesetzt";
 	}
 	
