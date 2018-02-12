@@ -57,7 +57,6 @@ public class Core extends Plugin
 		new AutoMessage(this);
 		new Coins(this, new CoinsAPI("Coins", ValueType.INTEGER, mySQL));
 		new BlockedCommands(this, mySQL);
-		new net.darkblocks.core.universal.permissions.Permissions(mySQL);
 		new net.darkblocks.core.bungee.permissions.Permissions(this, mySQL, userManager);
 		new PingTracker(this);
 		this.onlineTime = new OnlineTime(this, mySQL);
