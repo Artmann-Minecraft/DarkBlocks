@@ -3,6 +3,7 @@ package net.darkblocks.core.universal.permissions.utils;
 import net.darkblocks.core.universal.permissions.manager.GroupManager;
 import net.darkblocks.core.universal.permissions.manager.UserManager;
 import net.darkblocks.dark.java.mysql.MySQL;
+import net.darkblocks.dark.java.utils.ClearCallback;
 
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -13,7 +14,7 @@ import java.util.*;
  */
 public class UserUtils
 {
-	public static void onLogin(MySQL mySQL, UUID uniqueId, UserManager userManager, GroupManager groupManager)
+	public static void onLogin(MySQL mySQL, UUID uniqueId, UserManager userManager, GroupManager groupManager, ClearCallback callback)
 	{
 		MySQLUtils.get(mySQL, "Userdata", "*", "uuid", uniqueId, result ->
 		{
@@ -61,6 +62,10 @@ public class UserUtils
 									}
 								}
 							}
+							if (callback != null)
+							{
+								callback.call();
+							}
 						} catch (SQLException ex)
 						{
 							ex.printStackTrace();
@@ -73,6 +78,10 @@ public class UserUtils
 					userManager.getUser().add(new User(Collections.singleton(defaultGroup), defaultGroup.getPermissions(), uniqueId, defaultGroup.getPrefix(), defaultGroup.getSuffix(), defaultGroup.getSortID()));
 					String date = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(new Date());
 					mySQL.update("INSERT INTO Userdata(`uuid`, `groups`, `firstonline`, `lastonline`) VALUES ('" + uniqueId + "','" + defaultGroup.getSaveID() + "','" + date + "','" + date + "')");
+					if (callback != null)
+					{
+						callback.call();
+					}
 				}
 			} catch (SQLException ex)
 			{

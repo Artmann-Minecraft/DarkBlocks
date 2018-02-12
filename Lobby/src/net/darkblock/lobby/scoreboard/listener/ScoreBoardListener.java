@@ -1,14 +1,13 @@
 package net.darkblock.lobby.scoreboard.listener;
 
 import net.darkblock.lobby.scoreboard.utils.ScoreBoard;
-import net.darkblocks.core.universal.permissions.manager.UserManager;
+import net.darkblocks.core.spigot.permissions.events.PlayerPermissionsLoadedEvent;
 import net.darkblocks.dark.java.mysql.CoinsAPI;
 import net.darkblocks.dark.java.mysql.MySQL;
 import net.darkblocks.dark.spigot.events.PlayerUpdateCoinsEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -18,21 +17,19 @@ public class ScoreBoardListener implements Listener
 {
 	private final MySQL mySQL;
 	private final CoinsAPI coinsAPI;
-	private final UserManager userManager;
 	
-	public ScoreBoardListener(JavaPlugin javaPlugin, MySQL mySQL, CoinsAPI coinsAPI, UserManager userManager)
+	public ScoreBoardListener(JavaPlugin javaPlugin, MySQL mySQL, CoinsAPI coinsAPI)
 	{
 		this.mySQL = mySQL;
 		this.coinsAPI = coinsAPI;
-		this.userManager = userManager;
 		Bukkit.getPluginManager().registerEvents(this, javaPlugin);
 	}
 	
 	@EventHandler
-	public void onPlayerJoinEvent(PlayerJoinEvent event)
+	public void onPlayerPermissionsLoadedEvent(PlayerPermissionsLoadedEvent event)
 	{
 		ScoreBoard.sendScoreBoard(event.getPlayer(), this.mySQL, this.coinsAPI);
-		ScoreBoard.sendTab(this.userManager);
+		ScoreBoard.sendTab(event.getUser());
 	}
 	
 	@EventHandler

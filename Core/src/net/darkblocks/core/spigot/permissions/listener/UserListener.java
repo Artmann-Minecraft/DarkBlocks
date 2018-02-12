@@ -1,6 +1,7 @@
 package net.darkblocks.core.spigot.permissions.listener;
 
 import lombok.Getter;
+import net.darkblocks.core.spigot.permissions.events.PlayerPermissionsLoadedEvent;
 import net.darkblocks.core.universal.permissions.manager.GroupManager;
 import net.darkblocks.core.universal.permissions.manager.UserManager;
 import net.darkblocks.core.universal.permissions.utils.User;
@@ -54,15 +55,18 @@ public class UserListener implements Listener
 	@EventHandler
 	public void onPlayerLoginEvent(PlayerLoginEvent event)
 	{
-		UserUtils.onLogin(this.mySQL, event.getPlayer().getUniqueId(), this.userManager, this.groupManager);
-		for (User user : this.userManager.getUser())
-		{
-			if (user.getUuid() == event.getPlayer().getUniqueId())
+		Player player = event.getPlayer();
+		UserUtils.onLogin(this.mySQL, player.getUniqueId(), this.userManager, this.groupManager, () -> {
+			for (User user : this.userManager.getUser())
 			{
-				inject(event.getPlayer());
-				return;
+				if (user.getUuid() == player.getUniqueId())
+				{
+					inject(player);
+					Bukkit.getPluginManager().callEvent(new PlayerPermissionsLoadedEvent(player, user));
+					return;
+				}
 			}
-		}
+		});
 	}
 	
 	@EventHandler

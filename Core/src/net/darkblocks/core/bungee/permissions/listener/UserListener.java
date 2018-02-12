@@ -43,7 +43,7 @@ public class UserListener implements Listener
 		PendingConnection connection = event.getConnection();
 		if (!event.isCancelled() && connection.isOnlineMode())
 		{
-			UserUtils.onLogin(this.mySQL, connection.getUniqueId(), this.userManager, this.groupManager);
+			UserUtils.onLogin(this.mySQL, connection.getUniqueId(), this.userManager, this.groupManager, null);
 		}
 	}
 	
