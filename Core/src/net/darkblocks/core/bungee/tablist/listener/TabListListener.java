@@ -67,17 +67,17 @@ public class TabListListener implements Listener
 	{
 		for (ProxiedPlayer players : BungeeCord.getInstance().getPlayers())
 		{
-			if (players != null)
-			{
-				sendTab(players);
-			}
+			sendTab(players);
 		}
 	}
 	
 	private void sendTab(@NonNull ProxiedPlayer player)
 	{
-		String header = TEXT + "\n│  " + Messages.getInstance().getShortMessage(getClass(), "servername") + TEXT + " │\n\n" + TEXT + "│  " + IMPORTANT + player.getServer().getInfo().getName() + TEXT + " │\n";
-		String footer = TEXT + "\n│  " + IMPORTANT + BungeeCord.getInstance().getOnlineCount() + " Spieler " + TEXT + "│\n\n" + TEXT + "│  " + Messages.getInstance().getShortMessage(getClass(), "servername") + TEXT + " │\n";
-		player.setTabHeader(new TextComponent(header), new TextComponent(footer));
+		if (player.getServer() != null)
+		{
+			String header = TEXT + "\n│  " + Messages.getInstance().getShortMessage(getClass(), "servername") + TEXT + " │\n\n" + TEXT + "│  " + IMPORTANT + player.getServer().getInfo().getName() + TEXT + " │\n";
+			String footer = TEXT + "\n│  " + IMPORTANT + BungeeCord.getInstance().getOnlineCount() + " Spieler " + TEXT + "│\n\n" + TEXT + "│  " + Messages.getInstance().getShortMessage(getClass(), "servername") + TEXT + " │\n";
+			player.setTabHeader(new TextComponent(header), new TextComponent(footer));
+		}
 	}
 }
