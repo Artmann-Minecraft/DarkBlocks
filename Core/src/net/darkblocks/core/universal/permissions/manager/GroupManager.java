@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by LartyHD on 07.02.2018  21:55.
@@ -97,24 +98,39 @@ public class GroupManager
 						group.getPermissions().add(result.getString("permission"));
 					}
 				}
-				Set<Integer> inherit = group.getInherit();
-				for (Integer integer : inherit)
+				int times = 0;
+				for (Integer integer : group.getInherit())
 				{
 					for (Group groups : getGroups())
 					{
 						if (groups.getSaveID() == integer)
 						{
-							loadPermissions(mySQL, groups, permissions, result1 -> group.getPermissions().addAll(result1));
+							times++;
+						}
+					}
+				}
+				AtomicInteger time = new AtomicInteger();
+				int finalTimes = times;
+				for (Integer integer : group.getInherit())
+				{
+					for (Group groups : getGroups())
+					{
+						if (groups.getSaveID() == integer)
+						{
+							loadPermissions(mySQL, groups, permissions, result1 -> {
+								group.getPermissions().addAll(result1);
+								time.getAndIncrement();
+								if (finalTimes == time.get() && callback != null)
+								{
+									callback.call(permissions);
+								}
+							});
 						}
 					}
 				}
 			} catch (SQLException ex)
 			{
 				ex.printStackTrace();
-			}
-			if (callback != null)
-			{
-				callback.call(permissions);
 			}
 		});
 	}
