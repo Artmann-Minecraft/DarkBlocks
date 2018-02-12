@@ -16,7 +16,7 @@ public class Core
 	{
 		new EventsListener(javaPlugin);
 		new Fix(javaPlugin);
-		new net.darkblocks.core.spigot.permissions.Permissions(javaPlugin, mySQL, userManager, groupManager);
 		new net.darkblocks.core.universal.permissions.Permissions(mySQL);
+		new net.darkblocks.core.spigot.permissions.Permissions(javaPlugin, mySQL, userManager, groupManager);
 	}
 }

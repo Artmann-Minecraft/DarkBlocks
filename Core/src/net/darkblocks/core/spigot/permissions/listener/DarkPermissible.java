@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissibleBase;
 import org.bukkit.permissions.ServerOperator;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -44,6 +45,21 @@ public class DarkPermissible extends PermissibleBase
 	{
 		this.perms.clear();
 		this.perms = new HashSet<>();
+	}
+	
+	public void addPermission(String permission)
+	{
+		this.perms.add(permission);
+	}
+	
+	public void addPermissions(Collection<String> permissions)
+	{
+		this.perms.addAll(permissions);
+	}
+	
+	public void removePermission(String permission)
+	{
+		this.perms.remove(permission);
 	}
 	
 	@Override

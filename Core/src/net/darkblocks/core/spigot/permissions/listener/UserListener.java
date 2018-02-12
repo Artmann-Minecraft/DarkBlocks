@@ -62,6 +62,7 @@ public class UserListener implements Listener
 				if (user.getUuid() == player.getUniqueId())
 				{
 					inject(player);
+					this.permissibles.get(player.getUniqueId()).addPermissions(user.getPermissions());
 					Bukkit.getPluginManager().callEvent(new PlayerPermissionsLoadedEvent(player, user));
 					return;
 				}
