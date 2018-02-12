@@ -71,13 +71,12 @@ public class CoinsAPI
 		this.mySQL.query("SELECT coins FROM " + this.tableName + " WHERE `uuid` = '" + uuid + "'", result -> {
 			try
 			{
-				if (!result.next())
+				if (result.next())
 				{
-					return;
-				}
-				if (callback != null)
-				{
-					callback.call(result.getInt("coins"));
+					if (callback != null)
+					{
+						callback.call(result.getInt(1));
+					}
 				}
 			} catch (SQLException ex)
 			{

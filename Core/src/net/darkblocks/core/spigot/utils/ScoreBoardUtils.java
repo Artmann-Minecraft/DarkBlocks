@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 public class ScoreBoardUtils extends net.darkblocks.dark.spigot.utils.ScoreBoardUtils
 {
 	@SuppressWarnings("deprecation")
-	public static void sendTab(@NonNull User user, @NonNull Player player)
+	public synchronized static void sendTab(@NonNull User user, @NonNull Player player)
 	{
 		org.bukkit.scoreboard.Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
 		int lowestSortID = user.getLowestSortID();
