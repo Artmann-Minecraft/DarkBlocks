@@ -95,44 +95,51 @@ public class GroupManager
 									{
 										for (Group group : getGroups())
 										{
-											if (Integer.valueOf(result2.getString("name")) == group.getSaveID())
+											Set<Integer> inherit = group.getInherit();
+											for (Integer integer : inherit)
 											{
-												Debug.print("Add the inherit permissions to the group " + group);
-												group.getPermissions().add(result2.getString("permission"));
-												Debug.print("Added the inherit permissions to the group " + group);
+												if (Integer.valueOf(result2.getString("name")).equals(integer))
+												{
+													Debug.print("Add the inherit permissions to the group " + group);
+													group.getPermissions().add(result2.getString("permission"));
+													Debug.print("Added the inherit permissions to the group " + group);
+												}
 											}
 										}
 									}
+									Debug.print("Added the inherit permissions to the groups");
+									Debug.print("Calculate the default group");
+									Group defaultGroup = null;
+									for (Group group : getGroups())
+									{
+										if (defaultGroup == null)
+										{
+											defaultGroup = group;
+										}
+										else if (defaultGroup.getSortID() < group.getSortID())
+										{
+											defaultGroup = group;
+										}
+									}
+									this.defaultGroup = defaultGroup;
+									if (defaultGroup == null)
+									{
+										System.err.println(" ");
+										System.err.println(" ");
+										System.err.println("Keine DefaultGroup gefunden!");
+										System.err.println(" ");
+										System.err.println(" ");
+										BungeeCord.getInstance().stop("Keine DefaultGroup gefunden!");
+									}
+									Debug.print("Calculated the default group");
+									System.out.println(getGroups());
+									Debug.print("Groups " + getGroups());
+									Debug.print("Registered groups");
 								} catch (SQLException ex)
 								{
 									ex.printStackTrace();
 								}
 							});
-							Debug.print("Added the inherit permissions to the groups");
-							Debug.print("Calculate the default group");
-							Group defaultGroup = null;
-							for (Group group : getGroups())
-							{
-								if (defaultGroup == null)
-								{
-									defaultGroup = group;
-								}
-								else if (defaultGroup.getSortID() < group.getSortID())
-								{
-									defaultGroup = group;
-								}
-							}
-							this.defaultGroup = defaultGroup;
-							if (defaultGroup == null)
-							{
-								System.err.println(" ");
-								System.err.println(" ");
-								System.err.println("Keine DefaultGroup gefunden!");
-								System.err.println(" ");
-								System.err.println(" ");
-								BungeeCord.getInstance().stop("Keine DefaultGroup gefunden!");
-							}
-							Debug.print("Calculated the default group");
 						} catch (SQLException ex)
 						{
 							ex.printStackTrace();
@@ -144,8 +151,6 @@ public class GroupManager
 				}
 			});
 		});
-		Debug.print("Groups " + getGroups());
-		Debug.print("Registered groups");
 		Debug.print(" ");
 		Debug.print("Registered Constructor " + getClass().getSimpleName() + "(" + getClass().getName() + ")");
 		Debug.print(" ");
