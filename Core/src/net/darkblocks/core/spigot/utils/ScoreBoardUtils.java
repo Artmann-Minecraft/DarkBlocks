@@ -1,6 +1,7 @@
 package net.darkblocks.core.spigot.utils;
 
 import net.darkblocks.core.universal.permissions.utils.User;
+import net.darkblocks.dark.spigot.team.TeamManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -24,5 +25,14 @@ public class ScoreBoardUtils extends net.darkblocks.dark.spigot.utils.ScoreBoard
 		Player player = Bukkit.getPlayer(user.getUuid());
 		team.addPlayer(player);
 		player.setScoreboard(board);
+	}
+	
+	public static void sendLobbyScoreBoard(Player player, String mapName, String displayName, TeamManager teamManager, User user)
+	{
+		net.darkblocks.dark.spigot.utils.ScoreBoardUtils.sendLobbyScoreBoard(player, mapName, displayName);
+		if (teamManager == null || teamManager.getTeam(player) == null)
+		{
+			sendTab(user);
+		}
 	}
 }

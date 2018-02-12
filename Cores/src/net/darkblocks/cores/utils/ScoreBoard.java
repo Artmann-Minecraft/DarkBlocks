@@ -1,8 +1,8 @@
 package net.darkblocks.cores.utils;
 
+import net.darkblocks.core.spigot.utils.ScoreBoardUtils;
 import net.darkblocks.dark.spigot.team.GameTeam;
 import net.darkblocks.dark.spigot.team.TeamManager;
-import net.darkblocks.dark.spigot.utils.ScoreBoardUtils;
 import net.minecraft.server.v1_8_R3.ScoreboardScore;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -21,18 +21,6 @@ public class ScoreBoard extends ScoreBoardUtils
 {
 	public static void update(Player player, String displayName, Set<Core> cores, TeamManager teamManager, int kills)
 	{
-		/*for (Player players : Bukkit.getOnlinePlayers())
-		{
-			if (teamManager == null)
-			{
-				sendTabAll();
-				return;
-			}
-			else if (teamManager.getTeam(players) != null)
-			{
-				sendTab(players);
-			}
-		}*/
 		List<ScoreboardScore> score = new ArrayList<>();
 		int i = 15;
 		score.add(setScoreboardScore(" ", i));

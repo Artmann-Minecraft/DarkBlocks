@@ -1,5 +1,7 @@
 package net.darkblocks.cores.listener;
 
+import net.darkblocks.core.spigot.permissions.events.PlayerPermissionsLoadedEvent;
+import net.darkblocks.core.spigot.utils.ScoreBoardUtils;
 import net.darkblocks.cores.manager.CoreManager;
 import net.darkblocks.cores.utils.Core;
 import net.darkblocks.cores.utils.ScoreBoard;
@@ -108,6 +110,12 @@ public class CountdownListener implements Listener
 				PlayerInventory inventory = player.getInventory();
 				inventory.setItem(0, new ItemBuilder(Material.ENDER_CHEST).setName(Colors.SECONDARY + "Teams").build());
 				inventory.setItem(8, new ItemBuilder(Material.SKULL_ITEM, 1, (short) 3).setOwnerFromURL("http://textures.minecraft.net/texture/1b6f1a25b6bc199946472aedb370522584ff6f4e83221e5946bd2e41b5ca13b", "MHF_ArrowRight").setName(SECONDARY + "Zurück zur Logger").build());
+			}
+			
+			@EventHandler
+			public void onPlayerPermissionsLoadedEvent(PlayerPermissionsLoadedEvent event)
+			{
+				ScoreBoardUtils.sendLobbyScoreBoard(event.getPlayer(), (CountdownListener.this.voteManager.getMapName() == null ? "§o§lVotephase§r" : CountdownListener.this.voteManager.getMapName()), Messages.getInstance().getShortMessage(getClass(), "servername"), CountdownListener.this.teamManager, event.getUser());
 			}
 		});
 		gameController.getPreGameListener().add(new PreGameListener(gameController, this.spectatorManager));
