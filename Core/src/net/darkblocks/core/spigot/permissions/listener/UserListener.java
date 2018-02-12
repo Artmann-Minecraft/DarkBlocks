@@ -11,8 +11,9 @@ import net.darkblocks.dark.spigot.events.PlayerDisconnectEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerLoginEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
@@ -52,10 +53,10 @@ public class UserListener implements Listener
 		}
 	}
 	
-	@EventHandler
-	public void onPlayerLoginEvent(PlayerLoginEvent event)
+	@EventHandler(priority = EventPriority.LOW)
+	public void onPlayerLoginEvent(PlayerJoinEvent event)
 	{
-		Player player = event.getPlayer();
+		final Player player = event.getPlayer();
 		UserUtils.onLogin(this.mySQL, player.getUniqueId(), this.userManager, this.groupManager, () -> {
 			for (User user : this.userManager.getUser())
 			{

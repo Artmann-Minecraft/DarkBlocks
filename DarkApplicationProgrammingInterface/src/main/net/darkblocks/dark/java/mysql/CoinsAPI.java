@@ -73,15 +73,7 @@ public class CoinsAPI
 			{
 				if (result.next() && callback != null)
 				{
-					try
-					{
-						System.out.println(result);
-						System.out.println(result.getInt(1));
-						callback.call(result.getInt(1));
-					} catch (SQLException ex)
-					{
-						ex.printStackTrace();
-					}
+					callback.call(result.getInt(1));
 				}
 			} catch (SQLException ex)
 			{

@@ -8,6 +8,7 @@ import net.darkblocks.dark.spigot.events.PlayerUpdateCoinsEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -26,9 +27,14 @@ public class ScoreBoardListener implements Listener
 	}
 	
 	@EventHandler
-	public void onPlayerPermissionsLoadedEvent(PlayerPermissionsLoadedEvent event)
+	public void onPlayerJoinEvent(PlayerJoinEvent event)
 	{
 		ScoreBoard.sendScoreBoard(event.getPlayer(), this.mySQL, this.coinsAPI);
+	}
+	
+	@EventHandler
+	public void onPlayerPermissionsLoadedEvent(PlayerPermissionsLoadedEvent event)
+	{
 		ScoreBoard.sendTab(event.getUser(), event.getPlayer());
 	}
 	
