@@ -1,12 +1,10 @@
 package net.darkblock.lobby.scoreboard.utils;
 
-import net.darkblocks.core.universal.permissions.utils.User;
+import net.darkblocks.core.spigot.utils.ScoreBoardUtils;
 import net.darkblocks.dark.java.mysql.CoinsAPI;
 import net.darkblocks.dark.java.mysql.MySQL;
-import net.darkblocks.dark.spigot.utils.ScoreBoardUtils;
 import net.darkblocks.dark.universal.messages.Messages;
 import net.minecraft.server.v1_8_R3.ScoreboardScore;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.sql.SQLException;
@@ -69,22 +67,5 @@ public class ScoreBoard extends ScoreBoardUtils
 				ex.printStackTrace();
 			}
 		});
-	}
-	
-	@SuppressWarnings("deprecation")
-	public static void sendTab(User user)
-	{
-		org.bukkit.scoreboard.Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
-		int lowestSortID = user.getLowestSortID();
-		org.bukkit.scoreboard.Team team = board.getTeam(lowestSortID + "");
-		if (team == null)
-		{
-			board.registerNewTeam(lowestSortID + "");
-			team = board.getTeam(lowestSortID + "");
-		}
-		team.setPrefix(user.getPrefix());
-		Player player = Bukkit.getPlayer(user.getUuid());
-		team.addPlayer(player);
-		player.setScoreboard(board);
 	}
 }
