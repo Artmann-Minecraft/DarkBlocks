@@ -46,7 +46,7 @@ public class PermissionsCommand extends Command
 				{
 					if (user.getUuid() == ((ProxiedPlayer) sender).getUniqueId())
 					{
-						sender.sendMessage(new TextComponent(TEXT + "Deine Permissions"));
+						sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Deine Permissions"));
 						for (String s : user.getPermissions())
 						{
 							sender.sendMessage(new TextComponent(TEXT + s));
@@ -58,31 +58,35 @@ public class PermissionsCommand extends Command
 			{
 				for (Group group : this.groupManager.getGroups())
 				{
-					sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Permissions der Gruppe " + group.getName()));
 					try
 					{
 						if (Integer.valueOf(args[0]) == group.getSaveID())
 						{
+							sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Permissions der Gruppe " + IMPORTANT + group.getName()));
 							for (String s : group.getPermissions())
 							{
 								sender.sendMessage(new TextComponent(TEXT + s));
 							}
+							return;
 						}
-					} catch (ClassCastException ex)
+					} catch (NumberFormatException ex)
 					{
 						if (group.getName().equalsIgnoreCase(args[0]))
 						{
+							sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Permissions der Gruppe " + IMPORTANT + group.getName()));
 							for (String s : group.getPermissions())
 							{
 								sender.sendMessage(new TextComponent(TEXT + s));
 							}
+							return;
 						}
 					}
 				}
+				sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Die Gruppe " + IMPORTANT + args[0] + TEXT + " gibt es nicht"));
 			}
 			else
 			{
-				sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + "/" + getName() + TEXT + ""));
+				sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + "/" + getName() + TEXT + " [Gruppe]"));
 			}
 		}
 	}
