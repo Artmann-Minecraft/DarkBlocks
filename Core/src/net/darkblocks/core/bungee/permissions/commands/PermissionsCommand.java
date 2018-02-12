@@ -1,14 +1,18 @@
 package net.darkblocks.core.bungee.permissions.commands;
 
+import net.darkblocks.core.universal.permissions.manager.GroupManager;
 import net.darkblocks.core.universal.permissions.manager.UserManager;
+import net.darkblocks.core.universal.permissions.utils.Group;
 import net.darkblocks.core.universal.permissions.utils.User;
 import net.darkblocks.dark.universal.messages.Messages;
 import net.darkblocks.dark.universal.utils.CommandUtils;
 import net.md_5.bungee.api.CommandSender;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.Plugin;
 
+import static net.darkblocks.dark.universal.messages.Colors.IMPORTANT;
 import static net.darkblocks.dark.universal.messages.Colors.TEXT;
 
 /**
@@ -17,11 +21,13 @@ import static net.darkblocks.dark.universal.messages.Colors.TEXT;
 public class PermissionsCommand extends Command
 {
 	private final UserManager userManager;
+	private final GroupManager groupManager;
 	
-	public PermissionsCommand(Plugin plugin, UserManager userManager)
+	public PermissionsCommand(Plugin plugin, UserManager userManager, GroupManager groupManager)
 	{
 		super(CommandUtils.getName(PermissionsCommand.class), null, "perms");
 		this.userManager = userManager;
+		this.groupManager = groupManager;
 		CommandUtils.register(plugin, this);
 	}
 	
@@ -34,16 +40,46 @@ public class PermissionsCommand extends Command
 		}
 		else
 		{
-			for (User user : this.userManager.getUser())
+			if (args.length == 0)
 			{
-				if (user.getUuid() == ((ProxiedPlayer) sender).getUniqueId())
+				for (User user : this.userManager.getUser())
 				{
-					sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Deine Permissions"));
-					for (String s : user.getPermissions())
+					if (user.getUuid() == ((ProxiedPlayer) sender).getUniqueId())
 					{
-						sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + s));
+						sender.sendMessage(new TextComponent(TEXT + "Deine Permissions"));
+						for (String s : user.getPermissions())
+						{
+							sender.sendMessage(new TextComponent(TEXT + s));
+						}
 					}
 				}
+			}
+			else if (args.length == 1)
+			{
+				for (Group group : this.groupManager.getGroups())
+				{
+					try
+					{
+						if (Integer.valueOf(args[0]) == group.getSaveID())
+						{
+							sender.sendMessage(new TextComponent(TEXT + "Permissions der Gruppe " + group.getName()));
+						}
+					} catch (ClassCastException ex)
+					{
+						if (group.getName().equalsIgnoreCase(args[0]))
+						{
+							sender.sendMessage(new TextComponent(TEXT + "Permissions der Gruppe " + group.getName()));
+							for (String s : group.getPermissions())
+							{
+								sender.sendMessage(new TextComponent(TEXT + s));
+							}
+						}
+					}
+				}
+			}
+			else
+			{
+				sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + "/" + getName() + TEXT + ""));
 			}
 		}
 	}

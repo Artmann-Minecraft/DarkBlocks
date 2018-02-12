@@ -12,10 +12,10 @@ import net.md_5.bungee.api.plugin.Plugin;
  */
 public class Permissions
 {
-	public Permissions(Plugin plugin, MySQL mySQL, UserManager userManager)
+	public Permissions(Plugin plugin, MySQL mySQL, UserManager userManager, GroupManager groupManager)
 	{
 		new net.darkblocks.core.universal.permissions.Permissions(mySQL);
-		new UserListener(plugin, mySQL, userManager, new GroupManager(mySQL, null));
-		new PermissionsCommand(plugin, userManager);
+		new UserListener(plugin, mySQL, userManager, groupManager);
+		new PermissionsCommand(plugin, userManager, groupManager);
 	}
 }

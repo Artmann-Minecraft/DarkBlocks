@@ -69,13 +69,13 @@ public class JoinMeCommand extends Command
 					}
 				} catch (MalformedURLException ex)
 				{
-					sender.sendMessage(new TextComponent(Messages.getInstance().getShortTextComponent(getClass(), "prefix", "Es ist ein Fehler aufgetreten")));
-					sender.sendMessage(new TextComponent(Messages.getInstance().getShortTextComponent(getClass(), "prefix", "Bitte versuche es erneut")));
+					sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", "Es ist ein Fehler aufgetreten"));
+					sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", "Bitte versuche es erneut"));
 				}
 			}
 			else
 			{
-				sender.sendMessage(new TextComponent(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + "/" + getName() + TEXT + "")));
+				sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + "/" + getName() + TEXT + ""));
 			}
 		}
 	}
