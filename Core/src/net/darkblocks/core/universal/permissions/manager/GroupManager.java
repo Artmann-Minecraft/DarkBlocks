@@ -42,18 +42,7 @@ public class GroupManager
 					}
 					try
 					{
-						Group group = new Group(new HashSet<>(), inherit, result.getString("name"), result.getString("prefix"), result.getString("suffix"), ChatColor.valueOf(result.getString("color")), result.getInt("saveid"), result.getInt("sortid"));
-						getGroups().add(group);
-						for (Group groups : getGroups())
-						{
-							for (Integer integer : inherit)
-							{
-								if (groups.getSortID() == integer)
-								{
-									group.getPermissions().addAll(groups.getPermissions());
-								}
-							}
-						}
+						getGroups().add(new Group(new HashSet<>(), inherit, result.getString("name"), result.getString("prefix"), result.getString("suffix"), ChatColor.valueOf(result.getString("color")), result.getInt("saveid"), result.getInt("sortid")));
 					} catch (IllegalArgumentException ex)
 					{
 						ex.printStackTrace();
@@ -76,34 +65,47 @@ public class GroupManager
 								}
 							}
 						}
+						for (Group group : getGroups())
+						{
+							for (Integer integer : group.getInherit())
+							{
+								for (Group groups : getGroups())
+								{
+									if (groups.getSortID() == integer)
+									{
+										group.getPermissions().addAll(groups.getPermissions());
+									}
+								}
+							}
+						}
+						Group defaultGroup = null;
+						for (Group group : getGroups())
+						{
+							if (defaultGroup == null)
+							{
+								defaultGroup = group;
+							}
+							else if (defaultGroup.getSortID() < group.getSortID())
+							{
+								defaultGroup = group;
+							}
+						}
+						this.defaultGroup = defaultGroup;
+						if (defaultGroup == null)
+						{
+							System.err.println(" ");
+							System.err.println(" ");
+							System.err.println("Keine DefaultGroup gefunden!");
+							System.err.println(" ");
+							System.err.println(" ");
+							BungeeCord.getInstance().stop("Keine DefaultGroup gefunden!");
+						}
+						System.out.println(getGroups());
 					} catch (SQLException ex)
 					{
 						ex.printStackTrace();
 					}
 				});
-				Group defaultGroup = null;
-				for (Group group : getGroups())
-				{
-					if (defaultGroup == null)
-					{
-						defaultGroup = group;
-					}
-					else if (defaultGroup.getSortID() < group.getSortID())
-					{
-						defaultGroup = group;
-					}
-				}
-				this.defaultGroup = defaultGroup;
-				if (defaultGroup == null)
-				{
-					System.err.println(" ");
-					System.err.println(" ");
-					System.err.println("Keine DefaultGroup gefunden!");
-					System.err.println(" ");
-					System.err.println(" ");
-					BungeeCord.getInstance().stop("Keine DefaultGroup gefunden!");
-				}
-				System.out.println(getGroups());
 			} catch (SQLException ex)
 			{
 				ex.printStackTrace();

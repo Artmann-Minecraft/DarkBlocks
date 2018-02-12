@@ -39,15 +39,15 @@ public class UserListener implements Listener
 		Bukkit.getPluginManager().registerEvents(this, javaPlugin);
 	}
 	
-	public void inject(Player player)
+	private void inject(Player player)
 	{
 		try
 		{
 			this.permissibles.put(player.getUniqueId(), new DarkPermissible(player));
 			this.injector.inject(player, this.permissibles.get(player.getUniqueId()));
-		} catch (Exception e)
+		} catch (Exception ex)
 		{
-			e.printStackTrace();
+			ex.printStackTrace();
 		}
 	}
 	
