@@ -1,8 +1,10 @@
 package net.darkblocks.core.bungee.permissions.listener;
 
 import lombok.Getter;
+import net.darkblocks.core.bungee.permissions.events.PermissionsLoadedEvent;
 import net.darkblocks.core.universal.permissions.manager.GroupManager;
 import net.darkblocks.core.universal.permissions.manager.UserManager;
+import net.darkblocks.core.universal.permissions.utils.User;
 import net.darkblocks.core.universal.permissions.utils.UserUtils;
 import net.darkblocks.dark.java.mysql.MySQL;
 import net.md_5.bungee.BungeeCord;
@@ -40,7 +42,16 @@ public class UserListener implements Listener
 		PendingConnection connection = event.getConnection();
 		if (!event.isCancelled() && connection.isOnlineMode())
 		{
-			UserUtils.onLogin(this.mySQL, connection.getUniqueId(), this.userManager, this.groupManager, null);
+			UserUtils.onLogin(this.mySQL, connection.getUniqueId(), this.userManager, this.groupManager, () -> {
+				for (User user : this.userManager.getUser())
+				{
+					if (user.getUuid() == connection.getUniqueId())
+					{
+						BungeeCord.getInstance().getPluginManager().callEvent(new PermissionsLoadedEvent(connection, user));
+						return;
+					}
+				}
+			});
 		}
 	}
 	
