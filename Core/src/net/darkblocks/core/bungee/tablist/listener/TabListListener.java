@@ -67,7 +67,10 @@ public class TabListListener implements Listener
 	{
 		for (ProxiedPlayer players : BungeeCord.getInstance().getPlayers())
 		{
-			sendTab(players);
+			if (players != null)
+			{
+				sendTab(players);
+			}
 		}
 	}
 	

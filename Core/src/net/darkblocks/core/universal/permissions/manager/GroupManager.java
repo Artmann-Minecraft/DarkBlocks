@@ -22,98 +22,100 @@ public class GroupManager
 	{
 		this.groups = new HashSet<>();
 		tableName = tableName == null ? "Groups" : tableName;
-		mySQL.update("CREATE TABLE IF NOT EXISTS " + tableName + "(`saveid` INT, `sortid` INT, `name` VARCHAR(16), `prefix` VARCHAR(16), `suffix` VARCHAR(16), `color` VARCHAR(13), `inherit` TEXT, PRIMARY KEY(saveid))");
-		mySQL.query("SELECT * FROM `" + tableName + "`", result ->
-		{
-			try
+		String finalTableName = tableName;
+		mySQL.update("CREATE TABLE IF NOT EXISTS " + tableName + "(`saveid` INT, `sortid` INT, `name` VARCHAR(16), `prefix` VARCHAR(16), `suffix` VARCHAR(16), `color` VARCHAR(13), `inherit` TEXT, PRIMARY KEY(saveid))", () -> {
+			mySQL.query("SELECT * FROM `" + finalTableName + "`", result ->
 			{
-				while (result.next())
+				try
 				{
-					try
+					while (result.next())
 					{
-						Set<Integer> inherit = new HashSet<>();
-						if (result.getString("inherit") != null)
+						try
 						{
-							Set<String> rawInherit = new HashSet<>(Arrays.asList(result.getString("inherit").split(", ")));
-							for (String s : rawInherit)
+							Set<Integer> inherit = new HashSet<>();
+							if (result.getString("inherit") != null)
 							{
-								inherit.add(Integer.valueOf(s));
+								Set<String> rawInherit = new HashSet<>(Arrays.asList(result.getString("inherit").split(", ")));
+								for (String s : rawInherit)
+								{
+									inherit.add(Integer.valueOf(s));
+								}
 							}
+							getGroups().add(new Group(new HashSet<>(), inherit, result.getString("name"), result.getString("prefix"), result.getString("suffix"), ChatColor.valueOf(result.getString("color")), result.getInt("saveid"), result.getInt("sortid")));
+						} catch (IllegalArgumentException ex)
+						{
+							ex.printStackTrace();
 						}
-						getGroups().add(new Group(new HashSet<>(), inherit, result.getString("name"), result.getString("prefix"), result.getString("suffix"), ChatColor.valueOf(result.getString("color")), result.getInt("saveid"), result.getInt("sortid")));
-					} catch (IllegalArgumentException ex)
-					{
-						ex.printStackTrace();
 					}
-				}
-				mySQL.query("SELECT * FROM `Permissions`", result1 ->
-				{
-					try
+					mySQL.query("SELECT * FROM `Permissions`", result1 ->
 					{
-						while (result1.next())
+						try
 						{
-							if (result1.getInt("type") == 0)
+							while (result1.next())
 							{
-								for (Group group : getGroups())
+								if (result1.getInt("type") == 0)
 								{
-									if (Integer.valueOf(result1.getString("name")) == group.getSaveID())
+									for (Group group : getGroups())
 									{
-										group.getPermissions().add(result1.getString("permission"));
+										if (Integer.valueOf(result1.getString("name")) == group.getSaveID())
+										{
+											group.getPermissions().add(result1.getString("permission"));
+										}
 									}
 								}
 							}
-						}
-						List<Group> groups = new ArrayList<>();
-						int highestGroup = Integer.MAX_VALUE;
-						while (groups.size() != this.groups.size())
-						{
-							addHigherGroup(highestGroup, groups);
-						}
-						for (Group group : groups)
-						{
-							for (Integer integer : group.getInherit())
+							List<Group> groups = new ArrayList<>();
+							int highestGroup = Integer.MAX_VALUE;
+							while (groups.size() != this.groups.size())
 							{
-								for (Group all : getGroups())
+								highestGroup = addHigherGroup(highestGroup, groups);
+							}
+							for (Group group : groups)
+							{
+								for (Integer integer : group.getInherit())
 								{
-									if (all.getSortID() == integer)
+									for (Group all : getGroups())
 									{
-										group.getPermissions().addAll(all.getPermissions());
+										if (all.getSortID() == integer)
+										{
+											group.getPermissions().addAll(all.getPermissions());
+										}
 									}
 								}
 							}
-						}
-						Group defaultGroup = null;
-						for (Group group : getGroups())
-						{
+							Group defaultGroup = null;
+							for (Group group : getGroups())
+							{
+								if (defaultGroup == null)
+								{
+									defaultGroup = group;
+								}
+								else if (defaultGroup.getSortID() < group.getSortID())
+								{
+									defaultGroup = group;
+								}
+							}
+							this.defaultGroup = defaultGroup;
 							if (defaultGroup == null)
 							{
-								defaultGroup = group;
+								System.err.println(" ");
+								System.err.println(" ");
+								System.err.println("Keine DefaultGroup gefunden!");
+								System.err.println(" ");
+								System.err.println(" ");
+								BungeeCord.getInstance().stop("Keine DefaultGroup gefunden!");
 							}
-							else if (defaultGroup.getSortID() < group.getSortID())
-							{
-								defaultGroup = group;
-							}
-						}
-						this.defaultGroup = defaultGroup;
-						if (defaultGroup == null)
+							System.out.println(getGroups());
+						} catch (SQLException ex)
 						{
-							System.err.println(" ");
-							System.err.println(" ");
-							System.err.println("Keine DefaultGroup gefunden!");
-							System.err.println(" ");
-							System.err.println(" ");
-							BungeeCord.getInstance().stop("Keine DefaultGroup gefunden!");
+							ex.printStackTrace();
 						}
-						System.out.println(getGroups());
-					} catch (SQLException ex)
-					{
-						ex.printStackTrace();
-					}
-				});
-			} catch (SQLException ex)
-			{
-				ex.printStackTrace();
-			}
+					});
+				} catch (SQLException ex)
+				{
+					ex.printStackTrace();
+				}
+			});
 		});
 	}
 	
