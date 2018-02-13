@@ -50,6 +50,17 @@ public class CoinsCommand extends Command
 				else
 				{
 					sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "notonline"));
+					sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Lade Informationen aus Datenbank... "));
+					getCoinsAPI().getCoins(target.getUniqueId(), result -> {
+						if (result != -1)
+						{
+							sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + target.getName() + TEXT + " hat " + PRIMARY + result + IMPORTANT + " Coins"));
+						}
+						else
+						{
+							sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "notindatabase"));
+						}
+					});
 				}
 			}
 			else

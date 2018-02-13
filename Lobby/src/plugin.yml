@@ -4,3 +4,5 @@ main: net.darkblock.lobby.Lobby
 author: Lars Artmann aka. LartyHD
 depend:
 - SegdoCloudPlugin
+commands:
+    cookies: null

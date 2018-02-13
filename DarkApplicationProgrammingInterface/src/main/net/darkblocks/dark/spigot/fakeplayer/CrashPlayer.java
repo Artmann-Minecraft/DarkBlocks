@@ -212,7 +212,6 @@ public class CrashPlayer implements Player
 	@Override
 	public void kickPlayer(String s)
 	{
-//		TODO: MAKE IT (KICK)
 	}
 	
 	@Override
@@ -728,7 +727,6 @@ public class CrashPlayer implements Player
 	@Override
 	public void remove()
 	{
-//		TODO: ADD REMOVE!
 	}
 	
 	@Override
@@ -993,7 +991,6 @@ public class CrashPlayer implements Player
 	public PlayerInventory getInventory()
 	{
 		return null;
-//		TODO: ADD PlayerInventory
 	}
 	
 	@Override
@@ -1046,13 +1043,11 @@ public class CrashPlayer implements Player
 	public ItemStack getItemInHand()
 	{
 		return null;
-		//	TODO: ADD ItemInHand
 	}
 	
 	@Override
 	public void setItemInHand(ItemStack itemStack)
 	{
-		//	TODO: ADD ItemInHand
 	}
 	
 	@Override

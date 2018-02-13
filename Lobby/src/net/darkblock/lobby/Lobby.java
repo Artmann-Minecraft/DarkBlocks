@@ -4,6 +4,7 @@
 package net.darkblock.lobby;
 
 import lombok.Getter;
+import net.darkblock.lobby.extras.Extras;
 import net.darkblock.lobby.listener.DoubleJumpListener;
 import net.darkblock.lobby.listener.MainListener;
 import net.darkblock.lobby.navigator.Navigator;
@@ -16,7 +17,6 @@ import net.darkblocks.core.universal.permissions.manager.UserManager;
 import net.darkblocks.dark.java.mysql.CoinsAPI;
 import net.darkblocks.dark.java.mysql.MySQL;
 import net.darkblocks.dark.java.utils.ValueType;
-import net.darkblocks.dark.segdocloud.manager.CloudManager;
 import net.darkblocks.dark.spigot.events.cashed.CashedEventsManager;
 import net.darkblocks.dark.spigot.plugin.DarkPlugin;
 import net.darkblocks.dark.spigot.utils.MapsUtils;
@@ -66,8 +66,8 @@ public class Lobby extends DarkPlugin
 		new Navigator(this, this.mySQL, this.navigatorAnimation, cashedEventsManager);
 		new Verstecker(this, cashedEventsManager);
 		new Profil(this, cashedEventsManager, this.navigatorAnimation);
+		new Extras(this, this.mySQL);
 		initWorld();
-		new CloudManager(this, "");
 	}
 	
 	private void initWorld()

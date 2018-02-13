@@ -3,6 +3,7 @@
  */
 package net.darkblocks.dark.java.mysql;
 
+import lombok.Getter;
 import net.darkblocks.dark.java.utils.Callback;
 import net.darkblocks.dark.java.utils.ClearCallback;
 import net.darkblocks.dark.java.utils.ValueType;
@@ -18,6 +19,7 @@ import static net.darkblocks.dark.universal.messages.Colors.TEXT;
 /**
  * Created by LartyHD on 02.08.2017  13:28.
  */
+@Getter
 public class CoinsAPI
 {
 	private final String tableName;
@@ -71,9 +73,16 @@ public class CoinsAPI
 		this.mySQL.query("SELECT coins FROM " + this.tableName + " WHERE `uuid` = '" + uuid + "'", result -> {
 			try
 			{
-				if (result.next() && callback != null)
+				if (callback != null)
 				{
-					callback.call(result.getInt(1));
+					if (result.next())
+					{
+						callback.call(result.getInt(1));
+					}
+					else
+					{
+						callback.call(-1);
+					}
 				}
 			} catch (SQLException ex)
 			{

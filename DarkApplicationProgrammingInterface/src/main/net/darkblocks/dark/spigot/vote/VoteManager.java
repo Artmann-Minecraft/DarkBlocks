@@ -9,6 +9,7 @@ import net.darkblocks.dark.spigot.events.LobbyCountdownLastTenSecondsEvent;
 import net.darkblocks.dark.spigot.events.ServerStateChangeEvent;
 import net.darkblocks.dark.spigot.utils.InventoryUtils;
 import net.darkblocks.dark.spigot.utils.MapsUtils;
+import net.darkblocks.dark.spigot.utils.ScoreBoardUtils;
 import net.darkblocks.dark.universal.messages.Colors;
 import net.darkblocks.dark.universal.messages.Messages;
 import org.bukkit.Bukkit;
@@ -197,10 +198,10 @@ public class VoteManager implements Listener
 								if (Bukkit.getOnlinePlayers().size() > 1)
 								{
 									this.mapName = ChatColor.stripColor(displayName);
-										/*for (Player players : Bukkit.getOnlinePlayers())
-										{ //TODO: ADD SCOREBOARD
-											ScoreBoard.sendLobbyScoreBoard(players);
-										}*/
+									for (Player players : Bukkit.getOnlinePlayers())
+									{
+										ScoreBoardUtils.sendLobbyScoreBoard(players, this.mapName, Messages.getInstance().getShortMessage(getClass(), "servername"));
+									}
 									Bukkit.broadcastMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.TEXT + "Map" + Colors.IMPORTANT + ": " + this.mapName);
 								}
 								else

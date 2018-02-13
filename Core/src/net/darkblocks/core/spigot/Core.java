@@ -4,6 +4,7 @@ import net.darkblocks.core.spigot.fix.Fix;
 import net.darkblocks.core.universal.permissions.manager.GroupManager;
 import net.darkblocks.core.universal.permissions.manager.UserManager;
 import net.darkblocks.dark.java.mysql.MySQL;
+import net.darkblocks.dark.segdocloud.manager.CloudManager;
 import net.darkblocks.dark.spigot.events.listener.EventsListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -18,5 +19,6 @@ public class Core
 		new Fix(javaPlugin);
 		new net.darkblocks.core.universal.permissions.Permissions(mySQL);
 		new net.darkblocks.core.spigot.permissions.Permissions(javaPlugin, mySQL, userManager, groupManager);
+		new CloudManager(javaPlugin, "");
 	}
 }

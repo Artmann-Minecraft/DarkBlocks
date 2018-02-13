@@ -105,7 +105,6 @@ public abstract class LobbyListener implements Listener
 				lobbyCountdown.stopIdle();
 			}
 		}
-//		Utils.refreshPing(Bukkit.getOnlinePlayers().size() - 1);TODO: CLOUD!
 	}
 	
 	@EventHandler
