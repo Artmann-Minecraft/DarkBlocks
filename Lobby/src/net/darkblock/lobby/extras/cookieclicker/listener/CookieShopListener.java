@@ -131,7 +131,7 @@ public class CookieShopListener implements Listener
 							getCookieClicker().getCookies().put(whoClicked.getUniqueId(), getCookieClicker().getCookies().get(whoClicked.getUniqueId()) - value * 1000);
 							whoClicked.sendMessage(getCoinsAPI().addCoins(whoClicked.getUniqueId(), String.valueOf((int) value), result -> {
 								Bukkit.getPluginManager().callEvent(new PlayerUpdateCoinsEvent((Player) event.getWhoClicked(), result));
-								whoClicked.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du hast " + PRIMARY + value + IMPORTANT + " Coins" + currentItem.getItemMeta().getLore().get(0) + TEXT + " gekauft");
+								whoClicked.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du hast " + PRIMARY + value + IMPORTANT + " Coins " + currentItem.getItemMeta().getLore().get(0) + TEXT + " gekauft");
 							}));
 						}
 						else
