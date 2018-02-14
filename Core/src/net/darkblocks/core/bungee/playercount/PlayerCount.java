@@ -43,7 +43,7 @@ public class PlayerCount
 		{
 			ex.printStackTrace();
 		}
-		new PlayerCountListener(plugin, this.player);
+		new PlayerCountListener(plugin, this);
 	}
 	
 	public void disable(Plugin plugin)

@@ -1,13 +1,12 @@
 package net.darkblocks.core.bungee.playercount.listener;
 
 import lombok.Getter;
+import net.darkblocks.core.bungee.playercount.PlayerCount;
 import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.event.LoginEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
 import org.bukkit.event.EventHandler;
-
-import java.util.List;
 
 /**
  * Created by LartyHD on 14.02.2018  19:30.
@@ -15,20 +14,20 @@ import java.util.List;
 @Getter
 public class PlayerCountListener implements Listener
 {
-	private final List<String> player;
+	private final PlayerCount playerCount;
 	
-	public PlayerCountListener(Plugin plugin, List<String> player)
+	public PlayerCountListener(Plugin plugin, PlayerCount playerCount)
 	{
-		this.player = player;
+		this.playerCount = playerCount;
 		BungeeCord.getInstance().getPluginManager().registerListener(plugin, this);
 	}
 	
 	@EventHandler
 	public void onLoginEvent(LoginEvent event)
 	{
-		if (getPlayer().contains(event.getConnection().getName()))
+		if (getPlayerCount().getPlayer().contains(event.getConnection().getName()))
 		{
-			getPlayer().add(event.getConnection().getName());
+			getPlayerCount().getPlayer().add(event.getConnection().getName());
 		}
 	}
 }
