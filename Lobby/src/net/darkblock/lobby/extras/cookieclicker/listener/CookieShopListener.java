@@ -116,7 +116,7 @@ public class CookieShopListener implements Listener
 						{
 							getCookieClicker().getCookies().put(whoClicked.getUniqueId(), getCookieClicker().getCookies().get(whoClicked.getUniqueId()) - value);
 							getCookieClicker().getCookiesPerClick().put(whoClicked.getUniqueId(), getCookieClicker().getCookiesPerClick().get(whoClicked.getUniqueId()) + value * 100000);
-							whoClicked.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du hast " + PRIMARY + value + IMPORTANT + " Coins" + currentItem.getItemMeta().getLore().get(0) + TEXT + " gekauft");
+							whoClicked.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du hast " + PRIMARY + value + IMPORTANT + " Cookie" + (value > 1 ? "s" : "") + " pro Klick mehr " + currentItem.getItemMeta().getLore().get(0) + TEXT + " gekauft");
 						}
 						else
 						{
@@ -128,7 +128,7 @@ public class CookieShopListener implements Listener
 						if (getCookieClicker().getCookies().get(whoClicked.getUniqueId()) >= value * 1000)
 						{
 							getCookieClicker().getCookies().put(whoClicked.getUniqueId(), getCookieClicker().getCookies().get(whoClicked.getUniqueId()) - value * 1000);
-							whoClicked.sendMessage(getCoinsAPI().addCoins(whoClicked.getUniqueId(), String.valueOf((int) value), () -> whoClicked.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + "Du hast " + PRIMARY + value + IMPORTANT + " Cookie" + (value > 1 ? "s" : "") + " pro Klick mehr " + currentItem.getItemMeta().getLore().get(0) + TEXT + " gekauft")));
+							whoClicked.sendMessage(getCoinsAPI().addCoins(whoClicked.getUniqueId(), String.valueOf((int) value), () -> whoClicked.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du hast " + PRIMARY + value + IMPORTANT + " Coins" + currentItem.getItemMeta().getLore().get(0) + TEXT + " gekauft")));
 						}
 						else
 						{
