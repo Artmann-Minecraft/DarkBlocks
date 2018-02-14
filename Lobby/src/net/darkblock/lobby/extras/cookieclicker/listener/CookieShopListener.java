@@ -112,10 +112,10 @@ public class CookieShopListener implements Listener
 					double value = Double.valueOf(org.bukkit.ChatColor.stripColor(currentItem.getItemMeta().getLore().get(2)).substring(8));
 					if (inventory.equals(getUpdates()))
 					{
-						if (getCookieClicker().getCookies().get(whoClicked.getUniqueId()) >= value * 1000)
+						if (getCookieClicker().getCookies().get(whoClicked.getUniqueId()) >= value * 100000)
 						{
 							getCookieClicker().getCookies().put(whoClicked.getUniqueId(), getCookieClicker().getCookies().get(whoClicked.getUniqueId()) - value);
-							getCookieClicker().getCookiesPerClick().put(whoClicked.getUniqueId(), getCookieClicker().getCookiesPerClick().get(whoClicked.getUniqueId()) + value * 1000);
+							getCookieClicker().getCookiesPerClick().put(whoClicked.getUniqueId(), getCookieClicker().getCookiesPerClick().get(whoClicked.getUniqueId()) + value * 100000);
 							whoClicked.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du hast " + PRIMARY + value + IMPORTANT + " Coins" + currentItem.getItemMeta().getLore().get(0) + TEXT + " gekauft");
 						}
 						else

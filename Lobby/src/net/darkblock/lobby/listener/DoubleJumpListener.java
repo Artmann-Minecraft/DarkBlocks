@@ -5,6 +5,7 @@ package net.darkblock.lobby.listener;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -41,8 +42,11 @@ public class DoubleJumpListener implements Listener
 			player.setFlying(false);
 			player.setAllowFlight(false);
 			player.setFallDistance(0.0F);
-			player.setVelocity(player.getLocation().getDirection().multiply(3D).setY(1D));
-			player.playSound(player.getLocation(), Sound.ENDERMAN_TELEPORT, 1, 1);
+			if (event.getPlayer().getItemInHand() != null && event.getPlayer().getItemInHand().getType() == Material.FEATHER)
+			{
+				player.setVelocity(player.getLocation().getDirection().multiply(3D).setY(1D));
+				player.playSound(player.getLocation(), Sound.ENDERMAN_TELEPORT, 1, 1);
+			}
 		}
 	}
 }
