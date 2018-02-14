@@ -59,7 +59,7 @@ public class CoinsAPI
 	/**
 	 * Gibt den Account der übergebenen UUID zurück
 	 */
-	public void getAccount(UUID uuid, Callback<ResultSet> callback)
+	private void getAccount(UUID uuid, Callback<ResultSet> callback)
 	{
 		this.mySQL.query("SELECT uuid FROM " + this.tableName + " WHERE uuid = '" + uuid + "'", callback);
 	}
@@ -151,6 +151,6 @@ public class CoinsAPI
 					break;
 			}
 		});
-		return Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Dir wurden " + IMPORTANT + coins + " Coins" + TEXT + " gelöscht";
+		return Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Dir wurden " + PRIMARY + coins + IMPORTANT + " Coins" + TEXT + " gelöscht";
 	}
 }

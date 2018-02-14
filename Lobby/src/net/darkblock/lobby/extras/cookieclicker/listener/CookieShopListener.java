@@ -89,68 +89,50 @@ public class CookieShopListener implements Listener
 	public void onInventoryClickEvent(InventoryClickEvent event)
 	{
 		Inventory inventory = event.getInventory();
-		System.out.println(1);
-		System.out.println(inventory);
-		System.out.println(getShop());
-		System.out.println(getUpdates());
-		System.out.println(getCoins());
 		if (inventory.equals(getShop()) || inventory.equals(getUpdates()) || inventory.equals(getCoins()))
 		{
-			System.out.println(2);
 			event.setCancelled(true);
 			ItemStack currentItem = event.getCurrentItem();
 			if (currentItem != null && currentItem.getType() != Material.STAINED_GLASS_PANE && currentItem.getItemMeta() != null)
 			{
-				System.out.println(currentItem.getItemMeta().getLore());
-				System.out.println(3);
 				HumanEntity whoClicked = event.getWhoClicked();
 				if (inventory == getShop())
 				{
-					System.out.println(4);
 					if (currentItem.getType() == Material.COOKIE)
 					{
-						System.out.println(5);
 						whoClicked.openInventory(getUpdates());
 					}
 					else if (currentItem.getType() == Material.GOLD_INGOT)
 					{
-						System.out.println(6);
 						whoClicked.openInventory(getCoins());
 					}
 				}
 				else if (currentItem.getItemMeta().getLore() != null)
 				{
-					System.out.println(7);
 					double value = Double.valueOf(org.bukkit.ChatColor.stripColor(currentItem.getItemMeta().getLore().get(2)).substring(8));
 					if (inventory.equals(getUpdates()))
 					{
-						System.out.println(8);
 						if (getCookieClicker().getCookies().get(whoClicked.getUniqueId()) >= value * 1000)
 						{
-							System.out.println(9);
 							getCookieClicker().getCookies().put(whoClicked.getUniqueId(), getCookieClicker().getCookies().get(whoClicked.getUniqueId()) - value);
-							getCookieClicker().getCookiesPerClick().put(whoClicked.getUniqueId(), getCookieClicker().getCookiesPerClick().get(whoClicked.getUniqueId()) + value);
-							whoClicked.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + "Du hast " + PRIMARY + value + IMPORTANT + " Coins" + currentItem.getItemMeta().getLore().get(0) + TEXT + " gekauft");
+							getCookieClicker().getCookiesPerClick().put(whoClicked.getUniqueId(), getCookieClicker().getCookiesPerClick().get(whoClicked.getUniqueId()) + value * 1000);
+							whoClicked.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du hast " + PRIMARY + value + IMPORTANT + " Coins" + currentItem.getItemMeta().getLore().get(0) + TEXT + " gekauft");
 						}
 						else
 						{
-							System.out.println(10);
-							whoClicked.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + "Du hast nicht " + PRIMARY + "genug " + IMPORTANT + "Coins");
+							whoClicked.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du hast nicht " + PRIMARY + "genug " + IMPORTANT + "Coins");
 						}
 					}
 					else if (inventory.equals(getCoins()))
 					{
-						System.out.println(11);
 						if (getCookieClicker().getCookies().get(whoClicked.getUniqueId()) >= value * 1000)
 						{
-							System.out.println(12);
-							getCookieClicker().getCookies().put(whoClicked.getUniqueId(), getCookieClicker().getCookies().get(whoClicked.getUniqueId()) - value);
-							whoClicked.sendMessage(getCoinsAPI().addCoins(whoClicked.getUniqueId(), String.valueOf((int) value), () -> whoClicked.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + "Du hast " + PRIMARY + value + IMPORTANT + " Cookie" + (value > 1 ? "s" : "") + " pro Klick mehr" + currentItem.getItemMeta().getLore().get(0) + TEXT + " gekauft")));
+							getCookieClicker().getCookies().put(whoClicked.getUniqueId(), getCookieClicker().getCookies().get(whoClicked.getUniqueId()) - value * 1000);
+							whoClicked.sendMessage(getCoinsAPI().addCoins(whoClicked.getUniqueId(), String.valueOf((int) value), () -> whoClicked.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + "Du hast " + PRIMARY + value + IMPORTANT + " Cookie" + (value > 1 ? "s" : "") + " pro Klick mehr " + currentItem.getItemMeta().getLore().get(0) + TEXT + " gekauft")));
 						}
 						else
 						{
-							System.out.println(13);
-							whoClicked.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + "Du hast nicht " + PRIMARY + "genug " + IMPORTANT + "Coins");
+							whoClicked.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du hast nicht " + PRIMARY + "genug " + IMPORTANT + "Coins");
 						}
 					}
 				}
