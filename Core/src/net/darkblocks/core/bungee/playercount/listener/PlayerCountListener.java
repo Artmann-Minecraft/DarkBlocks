@@ -6,7 +6,7 @@ import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.event.LoginEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
-import org.bukkit.event.EventHandler;
+import net.md_5.bungee.event.EventHandler;
 
 /**
  * Created by LartyHD on 14.02.2018  19:30.
@@ -19,15 +19,13 @@ public class PlayerCountListener implements Listener
 	public PlayerCountListener(Plugin plugin, PlayerCount playerCount)
 	{
 		this.playerCount = playerCount;
+		System.out.println(2);
 		BungeeCord.getInstance().getPluginManager().registerListener(plugin, this);
 	}
 	
 	@EventHandler
-	public void onLoginEvent(LoginEvent event)
+	public void onPostLoginEvent(LoginEvent event)
 	{
-		if (getPlayerCount().getPlayer().contains(event.getConnection().getName()))
-		{
-			getPlayerCount().getPlayer().add(event.getConnection().getName());
-		}
+		getPlayerCount().getPlayer().add(event.getConnection().getName());
 	}
 }
