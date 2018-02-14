@@ -25,6 +25,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -54,21 +55,22 @@ public class Lobby extends DarkPlugin
 	public void onEnable()
 	{
 		super.onEnable();
+		initWorld();
 		Map<String, String> messages = new HashMap<>();
-		messages.put("dark.prefix", "§f" + EXTRA + "[" + PRIMARY + EXTRA + "Logger§f" + EXTRA + "] §r");
+		messages.put("dark.prefix", "§f" + EXTRA + "[" + PRIMARY + EXTRA + "Lobby§f" + EXTRA + "] §r");
 		messages.put("dark.servername", "" + PRIMARY + EXTRA + "DarkBlocks§f" + EXTRA + "." + PRIMARY + EXTRA + "Net");
 		new Messages(messages);
 		UserManager userManager = new UserManager(this.mySQL, null);
 		new Core(this, this.mySQL, userManager, new GroupManager(this.mySQL, null));
 		new DoubleJumpListener(this);
 		new MainListener(this, MapsUtils.getLobbyLocation(this), userManager);
-		new ScoreBoard(this, this.mySQL, new CoinsAPI("Coins", ValueType.INTEGER, this.mySQL));
+		CoinsAPI coinsAPI = new CoinsAPI("Coins", ValueType.INTEGER, this.mySQL);
+		new ScoreBoard(this, this.mySQL, coinsAPI);
 		CashedEventsManager cashedEventsManager = new CashedEventsManager(this);
 		new Navigator(this, this.mySQL, this.navigatorAnimation, cashedEventsManager);
 		new Verstecker(this, cashedEventsManager);
 		new Profil(this, cashedEventsManager, this.navigatorAnimation);
-		this.extras = new Extras(this, this.mySQL);
-		initWorld();
+		this.extras = new Extras(this, this.mySQL, coinsAPI);
 	}
 	
 	private void initWorld()
@@ -85,6 +87,10 @@ public class Lobby extends DarkPlugin
 		world.setAutoSave(false);
 		world.setDifficulty(Difficulty.PEACEFUL);
 		world.setKeepSpawnInMemory(true);
+		for (Entity entity : world.getEntities())
+		{
+			entity.remove();
+		}
 		WorldBorder worldBorder = world.getWorldBorder();
 		worldBorder.setCenter(-20.5, -4.5);
 		worldBorder.setSize(400);
@@ -96,10 +102,10 @@ public class Lobby extends DarkPlugin
 	@Override
 	public void onDisable()
 	{
+		this.extras.disable(this.mySQL);
 		for (Player players : Bukkit.getOnlinePlayers())
 		{
 			getMySQL().updateSync("UPDATE NavAnimation SET `on` = '" + (getNavigatorAnimation().get(players.getName()) ? 1 : 0) + "' WHERE `uuid` = '" + players.getUniqueId() + "'");
 		}
-		this.extras.disable(this.mySQL);
 	}
 }

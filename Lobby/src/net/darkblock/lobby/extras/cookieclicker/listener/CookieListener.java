@@ -2,6 +2,8 @@ package net.darkblock.lobby.extras.cookieclicker.listener;
 
 import lombok.Getter;
 import net.darkblock.lobby.extras.cookieclicker.CookieClicker;
+import net.darkblocks.dark.java.mysql.CoinsAPI;
+import net.darkblocks.dark.spigot.events.PlayerDisconnectEvent;
 import net.darkblocks.dark.spigot.utils.PackageUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -30,12 +32,12 @@ public class CookieListener implements Listener
 	private final CookieClicker cookieClicker;
 	private final JavaPlugin javaPlugin;
 	
-	public CookieListener(JavaPlugin javaPlugin, CookieClicker cookieClicker)
+	public CookieListener(JavaPlugin javaPlugin, CookieClicker cookieClicker, CoinsAPI coinsAPI)
 	{
 		Bukkit.getPluginManager().registerEvents(this, javaPlugin);
 		this.cookieClicker = cookieClicker;
 		this.javaPlugin = javaPlugin;
-		new CookieShopListener(javaPlugin);
+		new CookieShopListener(javaPlugin, cookieClicker, coinsAPI);
 	}
 	
 	@EventHandler
@@ -43,40 +45,33 @@ public class CookieListener implements Listener
 	{
 		final UUID uuid = event.getPlayer().getUniqueId();
 		this.getCookieClicker().getMySQL().query("SELECT * FROM Cookies WHERE uuid = '" + uuid.toString() + "'", result -> {
-			System.out.println(10);
 			try
 			{
-				System.out.println(11);
 				if (result.next())
 				{
-					System.out.println(12);
-					getCookieClicker().getCookies().put(uuid, result.getDouble(1));
+					getCookieClicker().getCookies().put(uuid, result.getDouble("coins"));
 				}
 			} catch (SQLException ignored)
 			{
-				System.out.println(13);
 			} finally
 			{
-				System.out.println(14);
 				if (getCookieClicker().getCookies().get(uuid) == null)
 				{
-					System.out.println(15);
 					getCookieClicker().getCookies().put(uuid, 0D);
 					this.getCookieClicker().getMySQL().update("INSERT INTO Cookies (uuid, coins) values ('" + uuid.toString() + "', '0')");
-					System.out.println(16);
 				}
 			}
-			System.out.println(17);
 		});
 		this.getCookieClicker().getMySQL().query("SELECT * FROM CookiesPerClick WHERE uuid = '" + uuid.toString() + "'", result -> {
 			try
 			{
 				if (result.next())
 				{
-					getCookieClicker().getCookiesPerClick().put(uuid, result.getDouble(1));
+					getCookieClicker().getCookiesPerClick().put(uuid, result.getDouble("coins"));
 				}
 			} catch (SQLException ignored)
 			{
+				ignored.printStackTrace();
 			} finally
 			{
 				if (getCookieClicker().getCookiesPerClick().get(uuid) == null)
@@ -89,49 +84,70 @@ public class CookieListener implements Listener
 	}
 	
 	@EventHandler
-	public void onInteract(PlayerInteractAtEntityEvent event)
+	public void onPlayerInteractAtEntityEvent(PlayerInteractAtEntityEvent event)
 	{
-		System.out.println(1);
 		if (event.getRightClicked() != null && event.getRightClicked().getCustomName() != null && org.bukkit.ChatColor.stripColor(event.getRightClicked().getCustomName()).equalsIgnoreCase("CookieClicker"))
 		{
-			System.out.println(2);
 			event.setCancelled(true);
 			addCoin(event.getPlayer(), event.getRightClicked().getLocation().add(0, 2.5, 0));
 		}
 	}
 	
+	@EventHandler
+	public void onPlayerDisconnectEvent(PlayerDisconnectEvent event)
+	{
+		UUID uuid = event.getPlayer().getUniqueId();
+		getCookieClicker().getMySQL().update("UPDATE Cookies SET coins='" + getCookieClicker().getCookies().get(uuid) + "' WHERE uuid='" + uuid.toString() + "'", () -> getCookieClicker().getCookies().remove(uuid));
+		getCookieClicker().getMySQL().update("UPDATE CookiesPerClick SET coins='" + getCookieClicker().getCookiesPerClick().get(uuid) + "' WHERE uuid='" + uuid + "'", () -> getCookieClicker().getCookiesPerClick().remove(uuid));
+	}
+	
 	private void addCoin(Player player, Location location)
 	{
-		System.out.println(3);
 		UUID uuid = player.getUniqueId();
 		if (!getCookieClicker().getBlockedClicks().contains(uuid))
 		{
-			System.out.println(4);
 			getCookieClicker().getBlockedClicks().add(uuid);
-			Bukkit.getScheduler().runTaskLater(getJavaPlugin(), () -> getCookieClicker().getBlockedClicks().remove(uuid), 2);
-			getCookieClicker().getCookies().put(uuid, getCookieClicker().getCookies().get(uuid) + getCookieClicker().getCookiesPerClick().get(uuid));
-			new BukkitRunnable()
-			{
-				@Override
-				public void run()
+			Bukkit.getScheduler().runTaskLaterAsynchronously(getJavaPlugin(), () -> getCookieClicker().getBlockedClicks().remove(uuid), 2);
+			Item item = location.getWorld().dropItemNaturally(location, new ItemStack(Material.COOKIE));
+			new Thread(() -> {
+				try
 				{
-					Item item = location.getWorld().dropItemNaturally(location, new ItemStack(Material.COOKIE));
-					try
+					Thread.sleep(1000);
+				} catch (InterruptedException ex)
+				{
+					ex.printStackTrace();
+				} finally
+				{
+					new BukkitRunnable()
 					{
-						Thread.sleep(1000);
-					} catch (InterruptedException ex)
-					{
-						ex.printStackTrace();
-					} finally
-					{
-						item.remove();
-					}
-					System.out.println(4);
+						@Override
+						public void run()
+						{
+							item.remove();
+						}
+					}.runTask(getJavaPlugin());
 				}
-			}.runTask(getJavaPlugin());
-			String cookies = getCookieClicker().getCookies().get(uuid) == null ? "§4FEHLER!" : String.valueOf(Math.round(100.0 * (getCookieClicker().getCookies().get(uuid))));
-			PackageUtils.sendTitle(player, "" + PRIMARY + EXTRA + "CookieClicker", TEXT + "" + cookies.substring(0, cookies.length() - 2) + "." + cookies.substring(cookies.length() - 2) + IMPORTANT + " Cookies", 0, 20, 10);
-			System.out.println(5);
+			}).start();
+			String subtitle = "§4FEHLER!";
+			if (getCookieClicker().getCookies().get(uuid) != null)
+			{
+				getCookieClicker().getCookies().put(uuid, getCookieClicker().getCookies().get(uuid) + getCookieClicker().getCookiesPerClick().get(uuid));
+				subtitle = String.valueOf(Math.round(100D * getCookieClicker().getCookies().get(uuid)));
+				subtitle = subtitle.substring(0, subtitle.length() - 2) + "," + subtitle.substring(subtitle.length() - 2);
+				if (subtitle.length() > 6)
+				{
+					subtitle = subtitle.substring(0, subtitle.length() - 6) + "." + subtitle.substring(subtitle.length() - 6);
+					if (subtitle.length() > 10)
+					{
+						subtitle = subtitle.substring(0, subtitle.length() - 10) + "." + subtitle.substring(subtitle.length() - 10);
+						if (subtitle.length() > 14)
+						{
+							subtitle = subtitle.substring(0, subtitle.length() - 10) + "." + subtitle.substring(subtitle.length() - 10);
+						}
+					}
+				}
+			}
+			PackageUtils.sendTitle(player, "" + PRIMARY + EXTRA + "CookieClicker", TEXT + "" + subtitle + IMPORTANT + " Cookies", 0, 20, 10);
 		}
 	}
 }

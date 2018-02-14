@@ -7,9 +7,6 @@ import net.md_5.bungee.api.chat.TextComponent;
 import java.util.HashMap;
 import java.util.Map;
 
-import static net.darkblocks.dark.universal.messages.Colors.IMPORTANT;
-import static net.darkblocks.dark.universal.messages.Colors.TEXT;
-
 /**
  * Created by LartyHD on 14.11.2017  17:44.
  */
@@ -42,7 +39,7 @@ public class Messages
 		String lowerCaseKey = key.toLowerCase();
 		if (getMessages().get(lowerCaseKey) == null)
 		{
-			return "\"" + IMPORTANT + lowerCaseKey + TEXT + " wurde nicht gefunden\"";
+			return lowerCaseKey + " wurde nicht gefunden";
 		}
 		else
 		{
@@ -65,7 +62,7 @@ public class Messages
 				resultKeys.append(", ").append(lowerCaseKey);
 			}
 		}
-		return TEXT + "\"Keiner der Nachichten " + IMPORTANT + resultKeys.substring(2) + TEXT + " wurden gefunden\"";
+		return "Keiner der Nachichten " + resultKeys.substring(2) + " wurden gefunden";
 	}
 	
 	public void add(@NonNull Map<String, String> messages)
