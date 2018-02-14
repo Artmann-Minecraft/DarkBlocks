@@ -73,7 +73,7 @@ public class PingTrackerListener implements Listener
 					player.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + message));
 				}
 			}
-			this.minutePings.clear();
+			this.hourPings.clear();
 		}, 0, 1, TimeUnit.HOURS);
 		BungeeCord.getInstance().getScheduler().schedule(plugin, () -> {
 			String message = "In den letzten 24 Stunden wurden " + IMPORTANT + this.dayPings.size() + TEXT + " Pings dokumentiert";
@@ -89,7 +89,7 @@ public class PingTrackerListener implements Listener
 					player.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + message));
 				}
 			}
-			this.minutePings.clear();
+			this.dayPings.clear();
 		}, 0, 1, TimeUnit.DAYS);
 	}
 	
