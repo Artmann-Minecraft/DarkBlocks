@@ -24,7 +24,7 @@ public class OnlineTime
 	{
 		this.time = new HashMap<>();
 		this.mySQL = mySQL;
-		getMySQL().update("CREATE TABLE IF NOT EXISTS OnlineTime(`uuid` VARCHAR(100), `name` VARCHAR(16), `ip` VARCHAR(100), `time` INT, PRIMARY KEY(uuid))");
+		getMySQL().update("CREATE TABLE IF NOT EXISTS OnlineTime(`uuid` VARCHAR(50), `name` VARCHAR(16), `ip` VARCHAR(100), `time` INT, PRIMARY KEY(uuid))");
 		new OnlineTimeListener(plugin, this);
 		new OnlineTimeCommand(plugin, this);
 		new StatsOnlineTimeCommand(plugin, this);

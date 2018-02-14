@@ -25,10 +25,10 @@ public class CookieClicker
 		this.cookiesPerClick = new HashMap<>();
 		this.blockedClicks = new HashSet<>();
 		this.mySQL = mySQL;
-		mySQL.update("CREATE TABLE IF NOT EXISTS Cookies(uuid varchar(19), coins DOUBLE, `name` varchar(16), primary key(uuid))", () -> {
+		mySQL.update("CREATE TABLE IF NOT EXISTS Cookies(uuid VARCHAR(50), coins DOUBLE, PRIMARY KEY(uuid))", () -> mySQL.update("CREATE TABLE IF NOT EXISTS CookiesPerClick(uuid VARCHAR(50), coins DOUBLE, PRIMARY KEY(uuid))", () -> {
 			new CookiesCommand(javaPlugin, this);
 			new CookieListener(javaPlugin, this);
-		});
+		}));
 	}
 	
 	public void disable(MySQL mySQL)
