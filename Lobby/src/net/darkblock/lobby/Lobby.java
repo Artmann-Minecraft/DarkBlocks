@@ -42,6 +42,7 @@ public class Lobby extends DarkPlugin
 {
 	private final Map<String, Boolean> navigatorAnimation;
 	private final MySQL mySQL;
+	private Extras extras;
 	
 	public Lobby()
 	{
@@ -66,7 +67,7 @@ public class Lobby extends DarkPlugin
 		new Navigator(this, this.mySQL, this.navigatorAnimation, cashedEventsManager);
 		new Verstecker(this, cashedEventsManager);
 		new Profil(this, cashedEventsManager, this.navigatorAnimation);
-		new Extras(this, this.mySQL);
+		this.extras = new Extras(this, this.mySQL);
 		initWorld();
 	}
 	
@@ -99,5 +100,6 @@ public class Lobby extends DarkPlugin
 		{
 			getMySQL().updateSync("UPDATE NavAnimation SET `on` = '" + (getNavigatorAnimation().get(players.getName()) ? 1 : 0) + "' WHERE `uuid` = '" + players.getUniqueId() + "'");
 		}
+		this.extras.disable(this.mySQL);
 	}
 }

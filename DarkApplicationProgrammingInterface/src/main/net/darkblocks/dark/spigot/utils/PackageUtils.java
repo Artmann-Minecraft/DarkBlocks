@@ -1,20 +1,32 @@
 package net.darkblocks.dark.spigot.utils;
 
-import org.bukkit.Bukkit;
+import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
 
 @SuppressWarnings("ALL")
 public class PackageUtils
 {
-	// Für Reflection
+	public static void sendTitle(Player player, String title, String subtitle, int fadeIn, int stay, int fadeOut)
+	{
+		PlayerConnection connection = ((CraftPlayer) player).getHandle().playerConnection;
+		connection.sendPacket(new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.TIMES, null, fadeIn, stay, fadeOut));
+		if (title != null)
+		{
+			connection.sendPacket(new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.TITLE, IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + title + "\"}")));
+		}
+		if (subtitle != null)
+		{
+			connection.sendPacket(new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.SUBTITLE, IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + subtitle + "\"}")));
+		}
+	}
+	
+	public static void sendPlayerParticle(Player player, EnumParticle particleType, Location loc, float speed, int amount)
+	{
+		((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutWorldParticles(particleType, true, (float) loc.getX(), (float) loc.getY(), (float) loc.getZ(), 0, 0, 0, speed, amount, 0));
+	}
+	/*// Für Reflection
 	private static final Map<Class<?>, Class<?>> CORRESPONDING_TYPES = new HashMap<>();
 	// Version
 	private static final String version = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",")
@@ -415,5 +427,5 @@ public class PackageUtils
 		{
 		}
 		return null;
-	}
+	}*/
 }

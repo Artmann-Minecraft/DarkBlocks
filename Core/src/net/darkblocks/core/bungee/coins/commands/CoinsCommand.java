@@ -4,6 +4,7 @@ import lombok.Getter;
 import net.darkblocks.dark.java.mysql.CoinsAPI;
 import net.darkblocks.dark.universal.messages.Messages;
 import net.darkblocks.dark.universal.utils.CommandUtils;
+import net.darkblocks.dark.universal.utils.fetcher.UUIDFetcher;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -51,7 +52,7 @@ public class CoinsCommand extends Command
 				{
 					sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "notonline"));
 					sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Lade Informationen aus Datenbank... "));
-					getCoinsAPI().getCoins(target.getUniqueId(), result -> {
+					getCoinsAPI().getCoins(UUIDFetcher.getUUID(args[0]), result -> {
 						if (result != -1)
 						{
 							sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + target.getName() + TEXT + " hat " + PRIMARY + result + IMPORTANT + " Coins"));
