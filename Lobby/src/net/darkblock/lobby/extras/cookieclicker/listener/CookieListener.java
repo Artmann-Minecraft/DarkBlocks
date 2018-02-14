@@ -82,8 +82,10 @@ public class CookieListener implements Listener
 	@EventHandler
 	public void onInteract(PlayerInteractAtEntityEvent event)
 	{
-		if (event.getRightClicked() != null && event.getRightClicked().getCustomName() != null && event.getRightClicked().getCustomName().equalsIgnoreCase(SECONDARY + "CookieClicker"))
+		System.out.println(1);
+		if (event.getRightClicked() != null && event.getRightClicked().getCustomName() != null && org.bukkit.ChatColor.stripColor(event.getRightClicked().getCustomName()).equalsIgnoreCase("CookieClicker"))
 		{
+			System.out.println(2);
 			event.setCancelled(true);
 			addCoin(event.getPlayer(), event.getRightClicked().getLocation().add(0, 2.5, 0));
 		}
@@ -91,9 +93,11 @@ public class CookieListener implements Listener
 	
 	private void addCoin(Player player, Location location)
 	{
+		System.out.println(3);
 		UUID uuid = player.getUniqueId();
 		if (!getCookieClicker().getBlockedClicks().contains(uuid))
 		{
+			System.out.println(4);
 			getCookieClicker().getBlockedClicks().add(uuid);
 			Bukkit.getScheduler().runTaskLater(getJavaPlugin(), () -> getCookieClicker().getBlockedClicks().remove(uuid), 2);
 			getCookieClicker().getCookies().put(uuid, getCookieClicker().getCookies().get(uuid) + getCookieClicker().getCookiesPerClick().get(uuid));
@@ -109,9 +113,11 @@ public class CookieListener implements Listener
 				{
 					item.remove();
 				}
+				System.out.println(4);
 			}).start();
 			String cookies = getCookieClicker().getCookies().get(uuid) == null ? "§4FEHLER!" : String.valueOf(Math.round(100.0 * (getCookieClicker().getCookies().get(uuid))));
 			PackageUtils.sendTitle(player, "" + PRIMARY + EXTRA + "CookieClicker", TEXT + "" + cookies.substring(0, cookies.length() - 2) + "." + cookies.substring(cookies.length() - 2) + IMPORTANT + " Cookies", 0, 20, 10);
+			System.out.println(5);
 		}
 	}
 }
