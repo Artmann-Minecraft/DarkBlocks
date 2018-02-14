@@ -13,8 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
-import static net.darkblocks.dark.universal.messages.Colors.IMPORTANT;
-import static net.darkblocks.dark.universal.messages.Colors.TEXT;
+import static net.darkblocks.dark.universal.messages.Colors.*;
 
 /**
  * Created by LartyHD on 02.08.2017  13:28.
@@ -102,7 +101,7 @@ public class CoinsAPI
 				callback.call();
 			}
 		});
-		return Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Deine " + IMPORTANT + "Coins" + TEXT + " wurden auf " + IMPORTANT + coins + TEXT + " gesetzt";
+		return Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Deine " + PRIMARY + IMPORTANT + "Coins" + TEXT + " wurden auf " + IMPORTANT + coins + TEXT + " gesetzt";
 	}
 	
 	/**
@@ -127,7 +126,7 @@ public class CoinsAPI
 					break;
 			}
 		});
-		return Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Dir wurden " + IMPORTANT + coins + " Coins" + TEXT + " hinzugefügt";
+		return Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Dir wurden " + PRIMARY + coins + IMPORTANT + " Coins" + TEXT + " hinzugefügt";
 	}
 	
 	/**
