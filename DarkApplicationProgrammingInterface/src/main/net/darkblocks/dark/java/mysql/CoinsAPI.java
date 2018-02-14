@@ -5,7 +5,6 @@ package net.darkblocks.dark.java.mysql;
 
 import lombok.Getter;
 import net.darkblocks.dark.java.utils.Callback;
-import net.darkblocks.dark.java.utils.ClearCallback;
 import net.darkblocks.dark.java.utils.ValueType;
 import net.darkblocks.dark.universal.messages.Messages;
 
@@ -93,12 +92,12 @@ public class CoinsAPI
 	/**
 	 * Setzt dem Account mit der übergebenen UUID die Coins auf die angegebenen Coins
 	 */
-	public String setCoins(UUID uuid, String coins, ClearCallback callback)
+	public String setCoins(UUID uuid, String coins, Callback<String> callback)
 	{
 		this.mySQL.update("UPDATE " + this.tableName + " SET `coins` = '" + coins + "' WHERE `uuid` = '" + uuid + "'", () -> {
 			if (callback != null)
 			{
-				callback.call();
+				callback.call(coins);
 			}
 		});
 		return Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Deine " + PRIMARY + IMPORTANT + "Coins" + TEXT + " wurden auf " + IMPORTANT + coins + TEXT + " gesetzt";
@@ -107,7 +106,7 @@ public class CoinsAPI
 	/**
 	 * Fügt dem Account mit der übergebenen UUID die angegebenen Coins hinzu
 	 */
-	public String addCoins(UUID uuid, String coins, ClearCallback callback)
+	public String addCoins(UUID uuid, String coins, Callback<String> callback)
 	{
 		getCoins(uuid, result -> {
 			switch (this.valueType)
@@ -132,7 +131,7 @@ public class CoinsAPI
 	/**
 	 * Entfernt dem Account mit der übergebenen UUID die angegebenen Coins
 	 */
-	public String removeCoins(UUID uuid, String coins, ClearCallback callback)
+	public String removeCoins(UUID uuid, String coins, Callback<String> callback)
 	{
 		getCoins(uuid, result -> {
 			switch (this.valueType)

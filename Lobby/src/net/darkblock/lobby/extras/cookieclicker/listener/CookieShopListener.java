@@ -4,6 +4,7 @@ import lombok.Getter;
 import net.darkblock.lobby.extras.cookieclicker.CookieClicker;
 import net.darkblocks.dark.java.mysql.CoinsAPI;
 import net.darkblocks.dark.spigot.builder.ItemBuilder;
+import net.darkblocks.dark.spigot.events.PlayerUpdateCoinsEvent;
 import net.darkblocks.dark.spigot.utils.InventoryUtils;
 import net.darkblocks.dark.universal.messages.Messages;
 import org.bukkit.Bukkit;
@@ -120,7 +121,7 @@ public class CookieShopListener implements Listener
 						}
 						else
 						{
-							whoClicked.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du hast nicht " + PRIMARY + "genug " + IMPORTANT + "Coins");
+							whoClicked.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du hast nicht " + PRIMARY + "genug " + IMPORTANT + "Cookies");
 						}
 					}
 					else if (inventory.equals(getCoins()))
@@ -128,11 +129,14 @@ public class CookieShopListener implements Listener
 						if (getCookieClicker().getCookies().get(whoClicked.getUniqueId()) >= value * 1000)
 						{
 							getCookieClicker().getCookies().put(whoClicked.getUniqueId(), getCookieClicker().getCookies().get(whoClicked.getUniqueId()) - value * 1000);
-							whoClicked.sendMessage(getCoinsAPI().addCoins(whoClicked.getUniqueId(), String.valueOf((int) value), () -> whoClicked.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du hast " + PRIMARY + value + IMPORTANT + " Coins" + currentItem.getItemMeta().getLore().get(0) + TEXT + " gekauft")));
+							whoClicked.sendMessage(getCoinsAPI().addCoins(whoClicked.getUniqueId(), String.valueOf((int) value), result -> {
+								Bukkit.getPluginManager().callEvent(new PlayerUpdateCoinsEvent((Player) event.getWhoClicked(), result));
+								whoClicked.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du hast " + PRIMARY + value + IMPORTANT + " Coins" + currentItem.getItemMeta().getLore().get(0) + TEXT + " gekauft");
+							}));
 						}
 						else
 						{
-							whoClicked.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du hast nicht " + PRIMARY + "genug " + IMPORTANT + "Coins");
+							whoClicked.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du hast nicht " + PRIMARY + "genug " + IMPORTANT + "Cookies");
 						}
 					}
 				}
