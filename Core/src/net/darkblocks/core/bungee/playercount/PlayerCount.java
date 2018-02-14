@@ -2,8 +2,10 @@ package net.darkblocks.core.bungee.playercount;
 
 import lombok.Getter;
 import net.darkblocks.core.bungee.playercount.listener.PlayerCountListener;
-import net.darkblocks.dark.spigot.config.Configuration;
 import net.md_5.bungee.api.plugin.Plugin;
+import net.md_5.bungee.config.Configuration;
+import net.md_5.bungee.config.ConfigurationProvider;
+import net.md_5.bungee.config.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,7 +17,7 @@ import java.util.List;
 @Getter
 public class PlayerCount
 {
-	private final List<String> player;
+	private List<String> player;
 	
 	public PlayerCount(Plugin plugin)
 	{
@@ -33,14 +35,28 @@ public class PlayerCount
 				ex.printStackTrace();
 			}
 		}
-		Configuration configuration = Configuration.loadConfiguration(file);
-		this.player = configuration.getStringList("players");
+		try
+		{
+			Configuration configuration = ConfigurationProvider.getProvider(YamlConfiguration.class).load(file);
+			this.player = configuration.getStringList("players");
+		} catch (IOException ex)
+		{
+			ex.printStackTrace();
+		}
 		new PlayerCountListener(plugin, this.player);
 	}
 	
 	public void disable(Plugin plugin)
 	{
-		Configuration configuration = Configuration.loadConfiguration(new File(plugin.getDataFolder(), "playercount.yml"));
-		configuration.set("players", getPlayer());
+		File file = new File(plugin.getDataFolder(), "playercount.yml");
+		try
+		{
+			Configuration configuration = ConfigurationProvider.getProvider(YamlConfiguration.class).load(file);
+			configuration.set("players", getPlayer());
+			ConfigurationProvider.getProvider(YamlConfiguration.class).save(configuration, file);
+		} catch (IOException ex)
+		{
+			ex.printStackTrace();
+		}
 	}
 }
