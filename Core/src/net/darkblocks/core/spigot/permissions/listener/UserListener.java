@@ -57,18 +57,17 @@ public class UserListener implements Listener
 	public void onPlayerLoginEvent(PlayerJoinEvent event)
 	{
 		final Player player = event.getPlayer();
-		UserUtils.onLogin(this.mySQL, player.getUniqueId(), this.userManager, this.groupManager, () -> {
-			for (User user : this.userManager.getUser())
+		UserUtils.onLogin(this.mySQL, player.getUniqueId(), this.userManager, this.groupManager);
+		for (User user : this.userManager.getUser())
+		{
+			if (user.getUuid() == player.getUniqueId())
 			{
-				if (user.getUuid() == player.getUniqueId())
-				{
-					inject(player);
-					this.permissibles.get(player.getUniqueId()).addPermissions(user.getPermissions());
-					Bukkit.getPluginManager().callEvent(new PlayerPermissionsLoadedEvent(player, user));
-					return;
-				}
+				inject(player);
+				this.permissibles.get(player.getUniqueId()).addPermissions(user.getPermissions());
+				Bukkit.getPluginManager().callEvent(new PlayerPermissionsLoadedEvent(player, user));
+				return;
 			}
-		});
+		}
 	}
 	
 	@EventHandler

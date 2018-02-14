@@ -18,9 +18,9 @@ public class MySQLUtils
 		mySQL.query("SELECT `*` FROM `" + (tableName == null ? "Permissions" : tableName) + "` WHERE `name` = '" + saveID + "' AND `type` = '" + type + "'", callback);
 	}
 	
-	public static void get(@NonNull MySQL mySQL, String tableName, String key, Object whereKey, Object whereValue, @NonNull Callback<ResultSet> callback)
+	public static ResultSet get(@NonNull MySQL mySQL, String tableName, String key, Object whereKey, Object whereValue)
 	{
-		mySQL.query("SELECT " + key.toLowerCase() + " FROM `" + tableName + "` WHERE `" + whereKey + "` = '" + whereValue + "'", callback);
+		return mySQL.querySync("SELECT " + key.toLowerCase() + " FROM `" + tableName + "` WHERE `" + whereKey + "` = '" + whereValue + "'");
 	}
 	
 	public static void set(@NonNull MySQL mySQL, String tableName, String key, Object value, Object whereKey, Object whereValue)

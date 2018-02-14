@@ -12,6 +12,7 @@ import net.darkblocks.core.bungee.nospam.NoSpam;
 import net.darkblocks.core.bungee.onlinetime.OnlineTime;
 import net.darkblocks.core.bungee.otherversionblocker.OtherVersionBlocker;
 import net.darkblocks.core.bungee.pingtracker.PingTracker;
+import net.darkblocks.core.bungee.playercount.PlayerCount;
 import net.darkblocks.core.bungee.tablist.TabList;
 import net.darkblocks.core.bungee.teamchat.TeamChat;
 import net.darkblocks.core.bungee.wartungen.Wartungen;
@@ -37,6 +38,7 @@ import static net.darkblocks.dark.universal.messages.Colors.*;
 public class Core extends Plugin
 {
 	private OnlineTime onlineTime;
+	private PlayerCount playerCount;
 	
 	@Override
 	public void onEnable()
@@ -63,6 +65,7 @@ public class Core extends Plugin
 		new PingTracker(this);
 		new NoSpam(this);
 		new net.darkblocks.core.bungee.permissions.Permissions(this, mySQL, userManager, groupManager);
+		this.playerCount = new PlayerCount(this);
 		this.onlineTime = new OnlineTime(this, mySQL);
 	}
 	
@@ -74,5 +77,6 @@ public class Core extends Plugin
 			players.disconnect(new TextComponent(TEXT + "Proxy Restart"));
 		}
 		this.onlineTime.disable();
+		this.playerCount.disable(this);
 	}
 }

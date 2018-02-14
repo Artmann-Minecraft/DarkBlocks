@@ -49,14 +49,6 @@ public class PingTrackerListener implements Listener
 			{
 				finalLogger.log(Level.INFO, message);
 			}
-			System.out.println(message);
-			for (ProxiedPlayer player : BungeeCord.getInstance().getPlayers())
-			{
-				if (player.hasPermission(CommandUtils.getPermission(getClass())))
-				{
-					player.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + message));
-				}
-			}
 			this.minutePings.clear();
 		}, 0, 1, TimeUnit.MINUTES);
 		BungeeCord.getInstance().getScheduler().schedule(plugin, () -> {
@@ -65,7 +57,6 @@ public class PingTrackerListener implements Listener
 			{
 				finalLogger.log(Level.INFO, message);
 			}
-			System.out.println(message);
 			for (ProxiedPlayer player : BungeeCord.getInstance().getPlayers())
 			{
 				if (player.hasPermission(CommandUtils.getPermission(getClass())))
@@ -81,7 +72,6 @@ public class PingTrackerListener implements Listener
 			{
 				finalLogger.log(Level.INFO, message);
 			}
-			System.out.println(message);
 			for (ProxiedPlayer player : BungeeCord.getInstance().getPlayers())
 			{
 				if (player.hasPermission(CommandUtils.getPermission(getClass())))

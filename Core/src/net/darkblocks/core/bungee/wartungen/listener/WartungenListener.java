@@ -31,21 +31,9 @@ public class WartungenListener implements Listener
 	public void onPermissionsLoadedEvent(PermissionsLoadedEvent event)
 	{
 		PendingConnection connection = event.getConnection();
-		if (getWartungen().isOn() && !getWartungen().getWhitelist().contains(connection.getName().toLowerCase()))
+		if (getWartungen().isOn() && !getWartungen().getWhitelist().contains(connection.getName().toLowerCase()) && !getWartungen().getUserManager().hasPermission(connection.getUniqueId(), CommandUtils.getPermission(getClass())))
 		{
-			if (!getWartungen().getUserManager().hasPermission(connection.getUniqueId(), CommandUtils.getPermission(getClass())))
-			{
-				BungeeCord.getInstance().getScheduler().runAsync(getWartungen().getPlugin(), () -> {
-					try
-					{
-						Thread.sleep(1000);
-					} catch (InterruptedException ex)
-					{
-						ex.printStackTrace();
-					}
-					connection.disconnect(new TextComponent(PRIMARY + Messages.getInstance().getShortMessage(getClass(), "servername") + TEXT + " befindet sich im " + IMPORTANT + "Wartungsmodus\n" + TEXT + "Das Betreten des Netztwerkes ist derzeit deswegen nicht möglich"));
-				});
-			}
+			connection.disconnect(new TextComponent(PRIMARY + Messages.getInstance().getShortMessage(getClass(), "servername") + TEXT + " befindet sich im " + IMPORTANT + "Wartungsmodus\n" + TEXT + "Das Betreten des Netztwerkes ist derzeit deswegen nicht möglich"));
 		}
 	}
 }

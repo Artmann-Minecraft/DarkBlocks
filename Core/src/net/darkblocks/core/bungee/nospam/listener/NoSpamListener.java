@@ -35,7 +35,7 @@ public class NoSpamListener implements Listener
 	@EventHandler
 	public void onChatEvent(ChatEvent event)
 	{
-		if (!event.isCancelled() && event.getSender() instanceof ProxiedPlayer)
+		if (!event.isCancelled() && !event.isCommand() && event.getSender() instanceof ProxiedPlayer)
 		{
 			ProxiedPlayer player = (ProxiedPlayer) event.getSender();
 			if (getDelay().contains(player.getName()))

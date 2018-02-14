@@ -3,8 +3,8 @@ package net.darkblocks.core.universal.permissions.utils;
 import net.darkblocks.core.universal.permissions.manager.GroupManager;
 import net.darkblocks.core.universal.permissions.manager.UserManager;
 import net.darkblocks.dark.java.mysql.MySQL;
-import net.darkblocks.dark.java.utils.ClearCallback;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -14,80 +14,62 @@ import java.util.*;
  */
 public class UserUtils
 {
-	public static void onLogin(MySQL mySQL, UUID uniqueId, UserManager userManager, GroupManager groupManager, ClearCallback callback)
+	public static void onLogin(MySQL mySQL, UUID uniqueId, UserManager userManager, GroupManager groupManager)
 	{
-		MySQLUtils.get(mySQL, "Userdata", "*", "uuid", uniqueId, result ->
+		try
 		{
-			try
+			ResultSet result = MySQLUtils.get(mySQL, "Userdata", "*", "uuid", uniqueId);
+			if (result.next())
 			{
-				if (result.next())
+				Set<String> groupIDs = new HashSet<>(Arrays.asList(result.getString("groups").split(", ")));
+				Set<Group> groups = new HashSet<>();
+				int lowestSortID = Integer.MAX_VALUE;
+				Group lowestGroup = groupManager.getDefaultGroup();
+				for (String groupID : groupIDs)
 				{
-					Set<String> groupIDs = new HashSet<>(Arrays.asList(result.getString("groups").split(", ")));
-					Set<Group> groups = new HashSet<>();
-					int lowestSortID = Integer.MAX_VALUE;
-					Group lowestGroup = groupManager.getDefaultGroup();
-					for (String groupID : groupIDs)
+					for (Group group : groupManager.getGroups())
 					{
-						for (Group group : groupManager.getGroups())
+						int sortID = Integer.valueOf(groupID);
+						if (sortID == group.getSortID())
 						{
-							int sortID = Integer.valueOf(groupID);
-							if (sortID == group.getSortID())
+							if (sortID < lowestSortID)
 							{
-								if (sortID < lowestSortID)
-								{
-									lowestSortID = sortID;
-									lowestGroup = group;
-								}
-								groups.add(group);
+								lowestSortID = sortID;
+								lowestGroup = group;
 							}
+							groups.add(group);
 						}
 					}
-					User user = new User(groups, new HashSet<>(), uniqueId, result.getString("prefix") == null ? (lowestGroup.getPrefix() == null ? "" : lowestGroup.getPrefix()) : result.getString("prefix"), result.getString("suffix") == null ? (lowestGroup.getPrefix() == null ? "" : lowestGroup.getSuffix()) : result.getString("suffix"), lowestSortID);
-					userManager.getUser().add(user);
-					for (Group group : user.getGroups())
-					{
-						user.getPermissions().addAll(group.getPermissions());
-					}
-					mySQL.query("SELECT * FROM `Permissions`", result1 ->
-					{
-						try
-						{
-							while (result1.next())
-							{
-								if (result1.getInt("type") == 1)
-								{
-									if (result1.getString("name").equalsIgnoreCase(uniqueId.toString()))
-									{
-										user.getPermissions().add(result1.getString("permission"));
-									}
-								}
-							}
-							if (callback != null)
-							{
-								callback.call();
-							}
-						} catch (SQLException ex)
-						{
-							ex.printStackTrace();
-						}
-					});
 				}
-				else
+				User user = new User(groups, new HashSet<>(), uniqueId, result.getString("prefix") == null ? (lowestGroup.getPrefix() == null ? "" : lowestGroup.getPrefix()) : result.getString("prefix"), result.getString("suffix") == null ? (lowestGroup.getPrefix() == null ? "" : lowestGroup.getSuffix()) : result.getString("suffix"), lowestSortID);
+				userManager.getUser().add(user);
+				for (Group group : user.getGroups())
 				{
-					Group defaultGroup = groupManager.getDefaultGroup();
-					userManager.getUser().add(new User(Collections.singleton(defaultGroup), defaultGroup.getPermissions(), uniqueId, defaultGroup.getPrefix(), defaultGroup.getSuffix(), defaultGroup.getSortID()));
-					String date = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(new Date());
-					mySQL.update("INSERT INTO Userdata(`uuid`, `groups`, `firstonline`, `lastonline`) VALUES ('" + uniqueId + "','" + defaultGroup.getSaveID() + "','" + date + "','" + date + "')");
-					if (callback != null)
+					user.getPermissions().addAll(group.getPermissions());
+				}
+				result = mySQL.querySync("SELECT * FROM `Permissions`");
+				while (result.next())
+				{
+					if (result.getInt("type") == 1)
 					{
-						callback.call();
+						if (result.getString("name").equalsIgnoreCase(uniqueId.toString()))
+						{
+							user.getPermissions().add(result.getString("permission"));
+						}
 					}
 				}
-			} catch (SQLException ex)
-			{
-				ex.printStackTrace();
 			}
-		});
+			else
+			{
+				Group defaultGroup = groupManager.getDefaultGroup();
+				userManager.getUser().add(new User(Collections.singleton(defaultGroup), defaultGroup.getPermissions(), uniqueId, defaultGroup.getPrefix(), defaultGroup.getSuffix(), defaultGroup.getSortID()));
+				String date = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(new Date());
+				mySQL.updateSync("INSERT INTO Userdata(`uuid`, `groups`, `firstonline`, `lastonline`) VALUES ('" + uniqueId + "','" + defaultGroup.getSaveID() + "','" + date + "','" + date + "')");
+			}
+		} catch (SQLException ex)
+		{
+			ex.printStackTrace();
+		}
 	}
 	
 	public static void onDisconnect(MySQL mySQL, UUID uniqueId, UserManager userManager)

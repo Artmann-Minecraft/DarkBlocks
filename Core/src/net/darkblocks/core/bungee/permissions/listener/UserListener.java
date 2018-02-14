@@ -40,16 +40,15 @@ public class UserListener implements Listener
 	public void onLoginEvent(LoginEvent event)
 	{
 		PendingConnection connection = event.getConnection();
-		UserUtils.onLogin(this.mySQL, connection.getUniqueId(), this.userManager, this.groupManager, () -> {
-			for (User user : this.userManager.getUser())
+		UserUtils.onLogin(this.mySQL, connection.getUniqueId(), this.userManager, this.groupManager);
+		for (User user : this.userManager.getUser())
+		{
+			if (user.getUuid() == connection.getUniqueId())
 			{
-				if (user.getUuid() == connection.getUniqueId())
-				{
-					BungeeCord.getInstance().getPluginManager().callEvent(new PermissionsLoadedEvent(connection, user));
-					return;
-				}
+				BungeeCord.getInstance().getPluginManager().callEvent(new PermissionsLoadedEvent(connection, user));
+				return;
 			}
-		});
+		}
 	}
 	
 	@EventHandler
