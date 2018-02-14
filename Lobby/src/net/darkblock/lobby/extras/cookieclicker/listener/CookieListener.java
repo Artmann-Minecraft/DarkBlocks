@@ -11,9 +11,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.sql.SQLException;
 import java.util.UUID;
 
 import static net.darkblocks.dark.universal.messages.Colors.*;
@@ -36,6 +38,48 @@ public class CookieListener implements Listener
 	}
 	
 	@EventHandler
+	public void onJoin(PlayerJoinEvent event)
+	{
+		final UUID uuid = event.getPlayer().getUniqueId();
+		this.getCookieClicker().getMySQL().query("SELECT * FROM Cookies WHERE uuid = '" + uuid.toString() + "'", result -> {
+			try
+			{
+				if (result.next())
+				{
+					getCookieClicker().getCookies().put(uuid, result.getDouble(1));
+				}
+			} catch (SQLException ignored)
+			{
+			} finally
+			{
+				if (getCookieClicker().getCookies().get(uuid) == null)
+				{
+					getCookieClicker().getCookies().put(uuid, 0D);
+					this.getCookieClicker().getMySQL().update("INSERT INTO Cookies (uuid, coins) values ('" + uuid.toString() + "', '0')");
+				}
+			}
+		});
+		this.getCookieClicker().getMySQL().query("SELECT * FROM CookiesPerClick WHERE uuid = '" + uuid.toString() + "'", result -> {
+			try
+			{
+				if (result.next())
+				{
+					getCookieClicker().getCookiesPerClick().put(uuid, result.getDouble(1));
+				}
+			} catch (SQLException ignored)
+			{
+			} finally
+			{
+				if (getCookieClicker().getCookiesPerClick().get(uuid) == null)
+				{
+					getCookieClicker().getCookiesPerClick().put(uuid, 0D);
+					this.getCookieClicker().getMySQL().update("INSERT INTO Cookies (uuid, coins) values ('" + uuid.toString() + "', '0')");
+				}
+			}
+		});
+	}
+	
+	@EventHandler
 	public void onInteract(PlayerInteractAtEntityEvent event)
 	{
 		if (event.getRightClicked() != null && event.getRightClicked().getCustomName() != null && event.getRightClicked().getCustomName().equalsIgnoreCase(SECONDARY + "CookieClicker"))
@@ -54,17 +98,19 @@ public class CookieListener implements Listener
 			Bukkit.getScheduler().runTaskLater(getJavaPlugin(), () -> getCookieClicker().getBlockedClicks().remove(uuid), 2);
 			getCookieClicker().getCookies().put(uuid, getCookieClicker().getCookies().get(uuid) + getCookieClicker().getCookiesPerClick().get(uuid));
 			new Thread(() -> {
+				Item item = location.getWorld().dropItemNaturally(location, new ItemStack(Material.COOKIE));
 				try
 				{
-					Item item = location.getWorld().dropItemNaturally(location, new ItemStack(Material.COOKIE));
 					Thread.sleep(1000);
-					item.remove();
 				} catch (InterruptedException ex)
 				{
 					ex.printStackTrace();
+				} finally
+				{
+					item.remove();
 				}
 			}).start();
-			String cookies = String.valueOf(Math.round(100.0 * getCookieClicker().getCookies().get(uuid)));
+			String cookies = getCookieClicker().getCookies().get(uuid) == null ? "§4FEHLER!" : String.valueOf(Math.round(100.0 * (getCookieClicker().getCookies().get(uuid))));
 			PackageUtils.sendTitle(player, "" + PRIMARY + EXTRA + "CookieClicker", TEXT + "" + cookies.substring(0, cookies.length() - 2) + "." + cookies.substring(cookies.length() - 2) + IMPORTANT + " Cookies", 0, 20, 10);
 		}
 	}

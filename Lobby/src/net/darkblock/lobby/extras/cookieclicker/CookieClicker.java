@@ -17,12 +17,14 @@ public class CookieClicker
 	private final Map<UUID, Double> cookies;
 	private final Map<UUID, Double> cookiesPerClick;
 	private final Set<UUID> blockedClicks;
+	private final MySQL mySQL;
 	
 	public CookieClicker(JavaPlugin javaPlugin, MySQL mySQL)
 	{
 		this.cookies = new HashMap<>();
 		this.cookiesPerClick = new HashMap<>();
 		this.blockedClicks = new HashSet<>();
+		this.mySQL = mySQL;
 		mySQL.update("CREATE TABLE IF NOT EXISTS Cookies(uuid varchar(19), coins DOUBLE, `name` varchar(16), primary key(uuid))", () -> {
 			new CookiesCommand(javaPlugin, this);
 			new CookieListener(javaPlugin, this);
