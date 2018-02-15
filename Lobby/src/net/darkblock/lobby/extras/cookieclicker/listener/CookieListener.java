@@ -142,7 +142,7 @@ public class CookieListener implements Listener
 						subtitle = subtitle.substring(0, subtitle.length() - 10) + "." + subtitle.substring(subtitle.length() - 10);
 						if (subtitle.length() > 14)
 						{
-							subtitle = subtitle.substring(0, subtitle.length() - 10) + "." + subtitle.substring(subtitle.length() - 10);
+							subtitle = subtitle.substring(0, subtitle.length() - 14) + "." + subtitle.substring(subtitle.length() - 14);
 						}
 					}
 				}

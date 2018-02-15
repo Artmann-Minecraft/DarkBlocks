@@ -46,13 +46,26 @@ public class ScoreBoard extends ScoreBoardUtils
 					{
 						onlinetime = IMPORTANT + "0 " + TEXT + "Stunden";
 					}
-					coinsAPI.getCoins(player.getUniqueId(), coins -> {
+					coinsAPI.getCoins(player.getUniqueId(), result1 -> {
 						List<ScoreboardScore> score = new ArrayList<>();
 						score.add(setScoreboardScore(" ", 12));
 						score.add(setScoreboardScore(PRIMARY + "OnlineTime", 11));
 						score.add(setScoreboardScore(TEXT + "" + onlinetime, 10));
 						score.add(setScoreboardScore("  ", 9));
 						score.add(setScoreboardScore(PRIMARY + "Coins", 8));
+						String coins = String.valueOf(result1);
+						if (coins.length() > 3)
+						{
+							coins = coins.substring(0, coins.length() - 3) + "." + coins.substring(coins.length() - 3);
+							if (coins.length() > 7)
+							{
+								coins = coins.substring(0, coins.length() - 7) + "." + coins.substring(coins.length() - 7);
+								if (coins.length() > 11)
+								{
+									coins = coins.substring(0, coins.length() - 11) + "." + coins.substring(coins.length() - 11);
+								}
+							}
+						}
 						score.add(setScoreboardScore(TEXT + "" + coins, 7));
 						score.add(setScoreboardScore("   ", 6));
 						score.add(setScoreboardScore(PRIMARY + "TeamSpeak", 5));

@@ -115,8 +115,8 @@ public class CookieShopListener implements Listener
 					{
 						if (getCookieClicker().getCookies().get(whoClicked.getUniqueId()) >= value * 100000)
 						{
-							getCookieClicker().getCookies().put(whoClicked.getUniqueId(), getCookieClicker().getCookies().get(whoClicked.getUniqueId()) - value);
-							getCookieClicker().getCookiesPerClick().put(whoClicked.getUniqueId(), getCookieClicker().getCookiesPerClick().get(whoClicked.getUniqueId()) + value * 100000);
+							getCookieClicker().getCookies().put(whoClicked.getUniqueId(), getCookieClicker().getCookies().get(whoClicked.getUniqueId()) - value * 100000);
+							getCookieClicker().getCookiesPerClick().put(whoClicked.getUniqueId(), getCookieClicker().getCookiesPerClick().get(whoClicked.getUniqueId()) + value);
 							whoClicked.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du hast " + PRIMARY + value + IMPORTANT + " Cookie" + (value > 1 ? "s" : "") + " pro Klick mehr " + currentItem.getItemMeta().getLore().get(0) + TEXT + " gekauft");
 						}
 						else
