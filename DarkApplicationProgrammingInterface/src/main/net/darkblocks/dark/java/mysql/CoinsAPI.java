@@ -97,7 +97,13 @@ public class CoinsAPI
 		this.mySQL.update("UPDATE " + this.tableName + " SET `coins` = '" + coins + "' WHERE `uuid` = '" + uuid + "'", () -> {
 			if (callback != null)
 			{
-				callback.call(coins);
+				try
+				{
+					callback.call(coins);
+				} catch (SQLException ex)
+				{
+					ex.printStackTrace();
+				}
 			}
 		});
 		return Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Deine " + PRIMARY + IMPORTANT + "Coins" + TEXT + " wurden auf " + IMPORTANT + coins + TEXT + " gesetzt";
