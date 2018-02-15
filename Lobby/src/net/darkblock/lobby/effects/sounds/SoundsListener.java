@@ -22,7 +22,7 @@ public class SoundsListener implements Listener
 	{
 		if (event.getPlayer().getInventory().getItem(event.getNewSlot()) != null)
 		{
-			event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.LEVEL_UP, 1F, 1F);
+			event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.CLICK, 1F, 1F);
 		}
 	}
 }
