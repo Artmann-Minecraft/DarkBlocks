@@ -23,6 +23,11 @@ public class MySQLUtils
 		return mySQL.querySync("SELECT " + key.toLowerCase() + " FROM `" + tableName + "` WHERE `" + whereKey + "` = '" + whereValue + "'");
 	}
 	
+	public static void get(@NonNull MySQL mySQL, String tableName, String key, Object whereKey, Object whereValue, Callback<ResultSet> callback)
+	{
+		mySQL.query("SELECT " + key.toLowerCase() + " FROM `" + tableName + "` WHERE `" + whereKey + "` = '" + whereValue + "'", callback);
+	}
+	
 	public static void set(@NonNull MySQL mySQL, String tableName, String key, Object value, Object whereKey, Object whereValue)
 	{
 		mySQL.update("UPDATE " + tableName + " SET `" + key.toLowerCase() + "` = '" + value + "' WHERE `" + whereKey + "` = '" + whereValue + "'");
