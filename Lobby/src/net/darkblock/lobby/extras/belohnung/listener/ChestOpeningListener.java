@@ -41,6 +41,7 @@ public class ChestOpeningListener implements Listener
 {
 	private final Map<String, Integer> chests;
 	private final List<ChestOpeningItem> items;
+	private final List<String> player;
 	private final Belohnung belohnung;
 	private final Inventory buyChestInventory;
 	
@@ -48,6 +49,7 @@ public class ChestOpeningListener implements Listener
 	{
 		this.chests = new HashMap<>();
 		this.items = new ArrayList<>();
+		this.player = new ArrayList<>();
 		this.belohnung = belohnung;
 		this.buyChestInventory = Bukkit.createInventory(null, InventoryType.HOPPER, SECONDARY + "CaseOpening | Buy");
 		InventoryUtils.setDesign(this.buyChestInventory, new ArrayList<>());
@@ -137,7 +139,7 @@ public class ChestOpeningListener implements Listener
 	@EventHandler
 	private void onInventoryClose(InventoryCloseEvent event)
 	{
-		if (event.getInventory().getName() != null && event.getInventory().getName().equalsIgnoreCase(SECONDARY + "CaseOpening"))
+		if (this.player.contains(event.getPlayer().getName()) && event.getInventory().getName() != null && event.getInventory().getName().equalsIgnoreCase(SECONDARY + "CaseOpening"))
 		{
 			new BukkitRunnable()
 			{
@@ -147,6 +149,7 @@ public class ChestOpeningListener implements Listener
 					event.getPlayer().openInventory(finished((Player) event.getPlayer(), event.getInventory()));
 				}
 			}.runTaskLater(getBelohnung().getJavaPlugin(), 1);
+			this.player.remove(event.getPlayer().getName());
 		}
 	}
 	
@@ -179,12 +182,11 @@ public class ChestOpeningListener implements Listener
 							executeOneChestDelay(caseOpeningInventory, player);
 							player.openInventory(caseOpeningInventory);
 							new Thread(() -> {
-								System.out.println(1);
+								this.player.add(player.getName());
 								try
 								{
 									for (int i = 0; i < 100; i++)
 									{
-										System.out.println(11);
 										if (!executeOneChestDelay(caseOpeningInventory, player))
 										{
 											return;
@@ -194,7 +196,6 @@ public class ChestOpeningListener implements Listener
 									}
 									for (int i = 0; i < 50; i++)
 									{
-										System.out.println(12);
 										if (!executeOneChestDelay(caseOpeningInventory, player))
 										{
 											return;
@@ -204,7 +205,6 @@ public class ChestOpeningListener implements Listener
 									}
 									for (int i = 0; i < 25; i++)
 									{
-										System.out.println(13);
 										if (!executeOneChestDelay(caseOpeningInventory, player))
 										{
 											return;
@@ -216,16 +216,8 @@ public class ChestOpeningListener implements Listener
 								{
 									ex.printStackTrace();
 								}
-								System.out.println(2);
-								new BukkitRunnable()
-								{
-									@Override
-									public void run()
-									{
-										player.openInventory(finished(player, caseOpeningInventory));
-									}
-								}.runTask(getBelohnung().getJavaPlugin());
-								System.out.println(3);
+								this.player.remove(player.getName());
+								player.openInventory(finished(player, caseOpeningInventory));
 							}).start();
 						}
 					}
@@ -252,6 +244,13 @@ public class ChestOpeningListener implements Listener
 							break;
 						case 14:
 							player.closeInventory();
+							break;
+						case 0:
+							if (event.getCurrentItem() != null && event.getCurrentItem().getType() == Material.CHEST)
+							{
+								this.buyChestInventory.setItem(2, new ItemBuilder(Material.CHEST).setName(SECONDARY + "CaseOpening").setLore(Collections.singletonList(TEXT + "Du hast noch " + IMPORTANT + this.chests.get(player.getName()) + TEXT + " Kisten")).build());
+								player.openInventory(this.buyChestInventory);
+							}
 							break;
 					}
 					break;

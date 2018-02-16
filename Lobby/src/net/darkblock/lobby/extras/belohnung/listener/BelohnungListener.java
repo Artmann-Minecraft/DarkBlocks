@@ -1,3 +1,7 @@
+/*
+ * © Copyright - Lars Artmann | LartyHD 2018.
+ */
+
 package net.darkblock.lobby.extras.belohnung.listener;
 
 import lombok.Getter;
@@ -145,7 +149,7 @@ public class BelohnungListener implements Listener
 								{
 									try
 									{
-										Thread.sleep(10);
+										Thread.sleep(1);
 									} catch (InterruptedException ex)
 									{
 										ex.printStackTrace();

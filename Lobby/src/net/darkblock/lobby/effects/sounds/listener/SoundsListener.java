@@ -1,4 +1,7 @@
-package net.darkblock.lobby.effects.sounds;
+/*
+ * © Copyright - Lars Artmann | LartyHD 2018.
+ */
+package net.darkblock.lobby.effects.sounds.listener;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
@@ -22,7 +25,11 @@ public class SoundsListener implements Listener
 	{
 		if (event.getPlayer().getInventory().getItem(event.getNewSlot()) != null)
 		{
-			event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.CLICK, 1F, 1F);
+			event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.ITEM_PICKUP, 3F, 1F);
+		}
+		else
+		{
+			event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.ITEM_PICKUP, 1F, 1F);
 		}
 	}
 }
