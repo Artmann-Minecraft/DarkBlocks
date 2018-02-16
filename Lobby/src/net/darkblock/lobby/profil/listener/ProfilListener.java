@@ -2,6 +2,7 @@ package net.darkblock.lobby.profil.listener;
 
 import lombok.Getter;
 import net.darkblocks.dark.spigot.builder.ItemBuilder;
+import net.darkblocks.dark.spigot.events.PlayerDisconnectEvent;
 import net.darkblocks.dark.spigot.events.cashed.CashedEventsManager;
 import net.darkblocks.dark.spigot.events.cashed.CashedInventoryClickEvent;
 import net.darkblocks.dark.spigot.events.cashed.CashedPlayerInteractEvent;
@@ -22,6 +23,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import static net.darkblocks.dark.universal.messages.Colors.*;
@@ -33,6 +35,7 @@ import static net.darkblocks.dark.universal.messages.Colors.*;
 public class ProfilListener implements CashedPlayerInteractEvent, CashedInventoryClickEvent
 {
 	private final Map<String, Boolean> navigatorAnimation;
+	private final Map<String, ItemStack> skulls;
 	private final Inventory profil;
 	private final Inventory settings;
 	private final ItemBuilder itemBuilder;
@@ -41,6 +44,7 @@ public class ProfilListener implements CashedPlayerInteractEvent, CashedInventor
 	{
 		init(javaPlugin, cashedEventsManager);
 		this.navigatorAnimation = navigatorAnimation;
+		this.skulls = new HashMap<>();
 		this.profil = Bukkit.createInventory(null, InventoryType.HOPPER, SECONDARY + "Profil");
 		InventoryUtils.setDesign(this.profil, new ArrayList<>());
 		this.profil.setItem(1, new ItemBuilder(Material.REDSTONE).setName(SECONDARY + "Settings").build());
@@ -52,6 +56,15 @@ public class ProfilListener implements CashedPlayerInteractEvent, CashedInventor
 	@EventHandler
 	public void onPlayerJoinEvent(PlayerJoinEvent event)
 	{
+		String name = event.getPlayer().getName();
+		this.skulls.put(name, new ItemBuilder(Material.SKULL_ITEM, 1, (short) 3).setOwner(name).build());
+		event.getPlayer().getInventory().setItem(8, this.skulls.get(name));
+	}
+	
+	@EventHandler
+	public void onPlayerDisconnectEvent(PlayerDisconnectEvent event)
+	{
+		this.skulls.remove(event.getPlayer().getName());
 		event.getPlayer().getInventory().setItem(8, getItemBuilder().setOwner(event.getPlayer().getName()).build());
 	}
 	
@@ -60,7 +73,7 @@ public class ProfilListener implements CashedPlayerInteractEvent, CashedInventor
 	{
 		if ((event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) && event.getItem() != null && getItemBuilder().getItemStack().getType() == event.getItem().getType())
 		{
-			this.profil.setItem(3, getItemBuilder().setOwner(event.getPlayer().getName()).build());
+			this.profil.setItem(3, getSkulls().get(event.getPlayer().getName()));
 			event.getPlayer().openInventory(this.profil);
 		}
 	}
