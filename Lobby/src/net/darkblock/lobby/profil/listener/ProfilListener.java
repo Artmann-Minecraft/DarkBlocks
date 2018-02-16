@@ -1,3 +1,7 @@
+/*
+ * © Copyright - Lars Artmann | LartyHD 2018.
+ */
+
 package net.darkblock.lobby.profil.listener;
 
 import lombok.Getter;
@@ -35,10 +39,9 @@ import static net.darkblocks.dark.universal.messages.Colors.*;
 public class ProfilListener implements CashedPlayerInteractEvent, CashedInventoryClickEvent
 {
 	private final Map<String, Boolean> navigatorAnimation;
-	private final Map<String, ItemStack> skulls;
+	private final Map<String, ItemBuilder> skulls;
 	private final Inventory profil;
 	private final Inventory settings;
-	private final ItemBuilder itemBuilder;
 	
 	public ProfilListener(JavaPlugin javaPlugin, CashedEventsManager cashedEventsManager, Map<String, Boolean> navigatorAnimation)
 	{
@@ -50,30 +53,28 @@ public class ProfilListener implements CashedPlayerInteractEvent, CashedInventor
 		this.profil.setItem(1, new ItemBuilder(Material.REDSTONE).setName(SECONDARY + "Settings").build());
 		this.settings = Bukkit.createInventory(null, InventoryType.HOPPER, SECONDARY + "Settings");
 		InventoryUtils.setDesign(this.settings, new ArrayList<>());
-		this.itemBuilder = new ItemBuilder(Material.SKULL_ITEM, 1, (short) 3).setName(SECONDARY + "Profil");
 	}
 	
 	@EventHandler
 	public void onPlayerJoinEvent(PlayerJoinEvent event)
 	{
 		String name = event.getPlayer().getName();
-		this.skulls.put(name, new ItemBuilder(Material.SKULL_ITEM, 1, (short) 3).setOwner(name).setName(SECONDARY + name).build());
-		event.getPlayer().getInventory().setItem(8, this.skulls.get(name));
+		this.skulls.put(name, new ItemBuilder(Material.SKULL_ITEM, 1, (short) 3).setOwner(name));
+		event.getPlayer().getInventory().setItem(8, this.skulls.get(name).setName(SECONDARY + "Profil").build());
 	}
 	
 	@EventHandler
 	public void onPlayerDisconnectEvent(PlayerDisconnectEvent event)
 	{
 		this.skulls.remove(event.getPlayer().getName());
-		event.getPlayer().getInventory().setItem(8, getItemBuilder().setOwner(event.getPlayer().getName()).build());
 	}
 	
 	@Override
 	public void onCashedPlayerInteractEvent(PlayerInteractEvent event)
 	{
-		if ((event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) && event.getItem() != null && getItemBuilder().getItemStack().getType() == event.getItem().getType())
+		if ((event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) && event.getItem() != null && event.getItem().getType() == Material.SKULL_ITEM)
 		{
-			this.profil.setItem(3, getSkulls().get(event.getPlayer().getName()));
+			this.profil.setItem(3, getSkulls().get(event.getPlayer().getName()).setName(SECONDARY + "Freunde").build());
 			event.getPlayer().openInventory(this.profil);
 		}
 	}

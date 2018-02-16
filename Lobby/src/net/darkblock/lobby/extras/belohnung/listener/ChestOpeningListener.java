@@ -245,14 +245,15 @@ public class ChestOpeningListener implements Listener
 						case 14:
 							player.closeInventory();
 							break;
-						case 0:
-							if (event.getCurrentItem() != null && event.getCurrentItem().getType() == Material.CHEST)
-							{
-								this.buyChestInventory.setItem(2, new ItemBuilder(Material.CHEST).setName(SECONDARY + "CaseOpening").setLore(Collections.singletonList(TEXT + "Du hast noch " + IMPORTANT + this.chests.get(player.getName()) + TEXT + " Kisten")).build());
-								player.openInventory(this.buyChestInventory);
-							}
-							break;
 					}
+					System.out.println(1);
+					if (event.getCurrentItem() != null && event.getCurrentItem().getType() == Material.CHEST)
+					{
+						System.out.println(2);
+						this.buyChestInventory.setItem(2, new ItemBuilder(Material.CHEST).setName(SECONDARY + "CaseOpening").setLore(Collections.singletonList(TEXT + "Du hast noch " + IMPORTANT + this.chests.get(player.getName()) + TEXT + " Kisten")).build());
+						player.openInventory(this.buyChestInventory);
+					}
+					System.out.println(3);
 					break;
 			}
 		}
