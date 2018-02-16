@@ -22,6 +22,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.UUID;
 
 import static net.darkblocks.dark.universal.messages.Colors.*;
@@ -131,29 +132,41 @@ public class CookieListener implements Listener
 					}.runTask(getJavaPlugin());
 				}
 			}).start();
-			String subtitle = "§4FEHLER!";
+			String subtitle;
 			if (getCookieClicker().getCookies().get(uuid) != null)
 			{
 				getCookieClicker().getCookies().put(uuid, getCookieClicker().getCookies().get(uuid) + getCookieClicker().getCookiesPerClick().get(uuid));
-				subtitle = String.valueOf(Math.round(100.0 * getCookieClicker().getCookies().get(uuid)) / 100.0);
+				subtitle = new DecimalFormat("0,000,000,000.00").format(getCookieClicker().getCookies().get(uuid));
+				for (char c : subtitle.toCharArray())
+				{
+					if (c == '0' || c == '.')
+					{
+						subtitle = subtitle.substring(1);
+					}
+					else
+					{
+						PackageUtils.sendTitle(player, "" + PRIMARY + EXTRA + "CookieClicker", TEXT + "" + subtitle + IMPORTANT + " Cookies", 0, 20, 10);
+						return;
+					}
+				}
+				/*subtitle = String.valueOf(Math.round(100.0 * getCookieClicker().getCookies().get(uuid)) / 100.0);
 				if (subtitle.length() > 2)
 				{
 					subtitle = (subtitle.substring(0, subtitle.length() - 2) + "," + subtitle.substring(subtitle.length() - 2)).replace(".", "");
-					if (subtitle.length() > 6)
+					if (subtitle.split(",")[0].length() > 3)
 					{
-						subtitle = subtitle.substring(0, subtitle.length() - 6) + "." + subtitle.substring(subtitle.length() - 6);
-						if (subtitle.length() > 10)
+						subtitle = subtitle.split(",")[0].substring(0, subtitle.length() - (3 + subtitle.split(",")[1].length())) + "." + subtitle.substring(subtitle.length() - (3 + subtitle.split(",")[1].length()));
+						if (subtitle.split(",")[0].length() > 6)
 						{
-							subtitle = subtitle.substring(0, subtitle.length() - 10) + "." + subtitle.substring(subtitle.length() - 10);
-							if (subtitle.length() > 14)
+							subtitle = subtitle.split(",")[0].substring(0, subtitle.length() - (6 + subtitle.split(",")[1].length())) + "." + subtitle.substring(subtitle.length() - (6 + subtitle.split(",")[1].length()));
+							if (subtitle.split(",")[0].length() > 9)
 							{
-								subtitle = subtitle.substring(0, subtitle.length() - 14) + "." + subtitle.substring(subtitle.length() - 14);
+								subtitle = subtitle.split(",")[0].substring(0, subtitle.length() - (9 + subtitle.split(",")[1].length())) + "." + subtitle.substring(subtitle.length() - (9 + subtitle.split(",")[1].length()));
 							}
 						}
 					}
-				}
+				}*/
 			}
-			PackageUtils.sendTitle(player, "" + PRIMARY + EXTRA + "CookieClicker", TEXT + "" + subtitle + IMPORTANT + " Cookies", 0, 20, 10);
 		}
 	}
 }

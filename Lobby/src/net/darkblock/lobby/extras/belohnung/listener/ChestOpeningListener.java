@@ -41,7 +41,6 @@ public class ChestOpeningListener implements Listener
 {
 	private final Map<String, Integer> chests;
 	private final List<ChestOpeningItem> items;
-	private final List<ChestOpeningItem> possibleItems;
 	private final Belohnung belohnung;
 	private final Inventory buyChestInventory;
 	
@@ -49,7 +48,6 @@ public class ChestOpeningListener implements Listener
 	{
 		this.chests = new HashMap<>();
 		this.items = new ArrayList<>();
-		this.possibleItems = new ArrayList<>();
 		this.belohnung = belohnung;
 		this.buyChestInventory = Bukkit.createInventory(null, InventoryType.HOPPER, SECONDARY + "CaseOpening | Buy");
 		InventoryUtils.setDesign(this.buyChestInventory, new ArrayList<>());
@@ -90,11 +88,14 @@ public class ChestOpeningListener implements Listener
 			}, 10);
 			Bukkit.getPluginManager().registerEvents(this, javaPlugin);
 		});
+		for (int i = 0; i < 10; i++)
+		{
+			Collections.shuffle(this.items);
+		}
 	}
 	
 	private void addItem(@NonNull ChestOpeningItem chestOpeningItem, int chance)
 	{
-		this.possibleItems.add(chestOpeningItem);
 		for (int i = 0; i < chance; i++)
 		{
 			this.items.add(chestOpeningItem);
