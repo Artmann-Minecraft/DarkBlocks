@@ -143,7 +143,7 @@ public class NavigatorListener implements CashedPlayerInteractEvent, CashedInven
 	public void onCashedInventoryClickEvent(InventoryClickEvent event)
 	{
 		ItemStack currentItem = event.getCurrentItem();
-		if (currentItem != null && currentItem.getItemMeta() != null)
+		if (event.getInventory() != null && event.getInventory().getName() != null && event.getInventory().getName().equalsIgnoreCase(SECONDARY + "Navigator") && currentItem != null && currentItem.getItemMeta() != null)
 		{
 			Player player = (Player) event.getWhoClicked();
 			if (event.getClickedInventory() == player.getOpenInventory().getTopInventory())

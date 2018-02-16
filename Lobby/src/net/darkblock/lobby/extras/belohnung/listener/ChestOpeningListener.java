@@ -246,7 +246,6 @@ public class ChestOpeningListener implements Listener
 				InventoryUtils.setDesign(finishedCaseOpeningInventory, new ArrayList<>());
 				finishedCaseOpeningInventory.setItem(4, new ItemBuilder(Material.HOPPER).setName(SECONDARY + "Dein Item").build());
 				finishedCaseOpeningInventory.setItem(13, chestOpeningItem.getDisplayItem());
-				player.closeInventory();
 				player.openInventory(finishedCaseOpeningInventory);
 				this.chests.put(player.getName(), this.chests.get(player.getName()) - 1);
 				chestOpeningItem.executeCommand();

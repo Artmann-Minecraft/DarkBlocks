@@ -167,6 +167,13 @@ public class BelohnungListener implements Listener
 				}
 				else
 				{
+					getBelohnung().getMySQL().query("SELECT * FROM Belohnung WHERE `uuid` = '" + player.getUniqueId() + "'", result1 -> {
+						if (result1.next())
+						{
+							player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du kannst dir wieder in " + getZeitMessage(result1.getLong("time") - (System.currentTimeMillis() / 1000)) + " die nächste Belohnung abholen");
+						}
+					});
+					player.closeInventory();
 				}
 			}
 		}
