@@ -228,9 +228,13 @@ public class BelohnungListener implements Listener
 		{
 			remainingTime = remainingTime + "" + IMPORTANT + time + TEXT + " Sekunde ";
 		}
-		else
+		else if (time != 0)
 		{
 			remainingTime = remainingTime + "" + IMPORTANT + time + TEXT + " Sekunden ";
+		}
+		else if (remainingTime.equalsIgnoreCase(""))
+		{
+			return IMPORTANT + "0" + TEXT + " Sekunden ";
 		}
 		return remainingTime.substring(0, remainingTime.length() - 1);
 	}

@@ -57,7 +57,7 @@ public class ProfilListener implements CashedPlayerInteractEvent, CashedInventor
 	public void onPlayerJoinEvent(PlayerJoinEvent event)
 	{
 		String name = event.getPlayer().getName();
-		this.skulls.put(name, new ItemBuilder(Material.SKULL_ITEM, 1, (short) 3).setOwner(name).build());
+		this.skulls.put(name, new ItemBuilder(Material.SKULL_ITEM, 1, (short) 3).setOwner(name).setName(SECONDARY + name).build());
 		event.getPlayer().getInventory().setItem(8, this.skulls.get(name));
 	}
 	
