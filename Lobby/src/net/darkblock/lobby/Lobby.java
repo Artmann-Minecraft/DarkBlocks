@@ -1,5 +1,5 @@
 /*
- * © Copyright - MineWar.net | Lars Artmann aka. LartyHD 2017
+ * © Copyright - Lars Artmann | LartyHD 2018.
  */
 package net.darkblock.lobby;
 
@@ -36,8 +36,7 @@ import static net.darkblocks.dark.universal.messages.Colors.EXTRA;
 import static net.darkblocks.dark.universal.messages.Colors.PRIMARY;
 
 /**
- * Created by LartyHD on 07.07.2017  19:14.
- * Project: Logger 2.0
+ * Created by LartyHD on 2018
  */
 @Getter
 public class Lobby extends DarkPlugin
