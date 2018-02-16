@@ -156,7 +156,7 @@ public class BelohnungListener implements Listener
 	
 	private void setBelohnungItem(Inventory inventory, boolean belohnung)
 	{
-		ItemStack itemStack = new ItemBuilder(Material.FIREWORK_CHARGE).setName(SECONDARY + "Belohnung").build();
+		ItemStack itemStack = new ItemBuilder(Material.FIREWORK_CHARGE).setName(SECONDARY + "Belohnung").hideItemFlags().build();
 		if (belohnung)
 		{
 			FireworkEffectMeta itemMeta = (FireworkEffectMeta) itemStack.getItemMeta();
