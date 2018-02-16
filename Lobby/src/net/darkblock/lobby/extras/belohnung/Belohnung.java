@@ -34,10 +34,10 @@ public class Belohnung
 	public Belohnung(JavaPlugin javaPlugin, UserManager userManager, MySQL mySQL, CoinsAPI coinsAPI)
 	{
 		this.javaPlugin = javaPlugin;
-		this.chestOpeningListener = new ChestOpeningListener(javaPlugin, this);
 		this.userManager = userManager;
 		this.mySQL = mySQL;
 		this.coinsAPI = coinsAPI;
+		this.chestOpeningListener = new ChestOpeningListener(javaPlugin, this);
 		new BelohnungListener(javaPlugin, this);
 		Configuration configuration = Configuration.loadConfiguration(new File(javaPlugin.getDataFolder(), "extras.yml"));
 		Location location = new Location(Bukkit.getWorld(configuration.getString("Extras.Belohnung.World")), configuration.getDouble("Extras.Belohnung.X"), configuration.getDouble("Extras.Belohnung.Y"), configuration.getDouble("Extras.Belohnung.Z"), (float) configuration.getDouble("Extras.Belohnung.Yaw"), (float) configuration.getDouble("Extras.Belohnung.Pitch"));
