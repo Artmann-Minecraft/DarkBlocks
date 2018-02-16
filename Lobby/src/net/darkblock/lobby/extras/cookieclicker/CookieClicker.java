@@ -42,9 +42,8 @@ public class CookieClicker
 			new CookiesCommand(javaPlugin, this);
 			new CookieListener(javaPlugin, this, coinsAPI);
 		}));
-		Configuration configuration = Configuration.loadConfiguration(new File(javaPlugin.getDataFolder(), "cookieclicker.yml"));
-		configuration.get("");
-		Location cookieClicker = new Location(Bukkit.getWorld(configuration.getString("CookieClicker.CookieClicker.World")), configuration.getDouble("CookieClicker.CookieClicker.X"), configuration.getDouble("CookieClicker.CookieClicker.Y"), configuration.getDouble("CookieClicker.CookieClicker.Z"));
+		Configuration configuration = Configuration.loadConfiguration(new File(javaPlugin.getDataFolder(), "extras.yml"));
+		Location cookieClicker = new Location(Bukkit.getWorld(configuration.getString("Extras.CookieClicker.World")), configuration.getDouble("Extras.CookieClicker.X"), configuration.getDouble("Extras.CookieClicker.Y"), configuration.getDouble("Extras.CookieClicker.Z"));
 		ArmorStand armorStand = cookieClicker.getWorld().spawn(cookieClicker.add(0, -1.5, 0), ArmorStand.class);
 		armorStand.setGravity(false);
 		armorStand.setVisible(false);
@@ -52,7 +51,7 @@ public class CookieClicker
 		armorStand.setCustomName(SECONDARY + "CookieClicker");
 		armorStand.setCustomNameVisible(true);
 		armorStand.setHelmet(new ItemBuilder(Material.SKULL_ITEM, 1, (byte) 3).setOwnerFromURL("http://textures.minecraft.net/texture/b592cf9f42a5a8c995968493fdd1b11e0b69aad6473ff45384abe58b7fc7c7", "QuadratCookie").build());
-		Location cookieShop = new Location(Bukkit.getWorld(configuration.getString("CookieClicker.CookieShop.World")), configuration.getDouble("CookieClicker.CookieShop.X"), configuration.getDouble("CookieClicker.CookieShop.Y"), configuration.getDouble("CookieClicker.CookieShop.Z"));
+		Location cookieShop = new Location(Bukkit.getWorld(configuration.getString("Extras.CookieShop.World")), configuration.getDouble("Extras.CookieShop.X"), configuration.getDouble("Extras.CookieShop.Y"), configuration.getDouble("Extras.CookieShop.Z"));
 		Villager villager = cookieShop.getWorld().spawn(cookieShop, Villager.class);
 		NBTTagCompound compound = new NBTTagCompound();
 		((CraftEntity) villager).getHandle().e(compound);
