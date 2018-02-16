@@ -44,6 +44,7 @@ public class Belohnung
 		ArmorStand armorStand = location.getWorld().spawn(location, ArmorStand.class);
 		armorStand.setGravity(false);
 		armorStand.setVisible(true);
+		armorStand.setSmall(true);
 		armorStand.setBasePlate(false);
 		armorStand.setCustomName(SECONDARY + "Belohnung");
 		armorStand.setCustomNameVisible(true);

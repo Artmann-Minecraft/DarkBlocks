@@ -4,6 +4,7 @@ import lombok.Getter;
 import net.darkblock.lobby.extras.belohnung.Belohnung;
 import net.darkblocks.core.universal.permissions.utils.User;
 import net.darkblocks.dark.spigot.builder.ItemBuilder;
+import net.darkblocks.dark.spigot.events.PlayerUpdateCoinsEvent;
 import net.darkblocks.dark.spigot.utils.InventoryUtils;
 import net.darkblocks.dark.universal.messages.Messages;
 import org.bukkit.Bukkit;
@@ -59,7 +60,7 @@ public class BelohnungListener implements Listener
 			}
 			else
 			{
-				getBelohnung().getMySQL().update("INSERT INTO Belohnung(`uuid`, `name`, `ip`, `time`) VALUES ('" + player.getUniqueId() + "','" + player.getName() + "','" + player.getAddress().getHostString() + "','" + 0 + "')", () -> player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du kannst dir eine " + IMPORTANT + "Belohnung " + TEXT + "abholen"));
+				getBelohnung().getMySQL().update("INSERT INTO Belohnung(`uuid`, `time`) VALUES ('" + player.getUniqueId() + "','" + 0 + "')", () -> player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du kannst dir eine " + IMPORTANT + "Belohnung " + TEXT + "abholen"));
 			}
 		});
 	}
@@ -93,7 +94,7 @@ public class BelohnungListener implements Listener
 	}
 	
 	@EventHandler
-	public void onClick(InventoryClickEvent event)
+	public void onInventoryClickEvent(InventoryClickEvent event)
 	{
 		Inventory inventory = event.getInventory();
 		String title = inventory.getTitle();
@@ -123,33 +124,41 @@ public class BelohnungListener implements Listener
 								switch (user.getLowestSortID())
 								{
 									case 11000:
-										getBelohnung().getMySQL().update("UPDATE Belohnung SET `time` = '" + (System.currentTimeMillis() / 1000 + 86400) + "' WHERE `uuid` = '" + uuid + "'");
+										getBelohnung().getMySQL().update("UPDATE Belohnung SET `time` = '" + (System.currentTimeMillis() / 1000 + 86400) + "' WHERE `uuid` = '" + uuid + "'", BelohnungListener.this::notifyAll);
 										break;
 									case 10170:
-										getBelohnung().getMySQL().update("UPDATE Belohnung SET `time` = '" + (System.currentTimeMillis() / 1000 + 43200) + "' WHERE `uuid` = '" + uuid + "'");
+										getBelohnung().getMySQL().update("UPDATE Belohnung SET `time` = '" + (System.currentTimeMillis() / 1000 + 43200) + "' WHERE `uuid` = '" + uuid + "'", BelohnungListener.this::notifyAll);
 										break;
 									case 10160:
-										getBelohnung().getMySQL().update("UPDATE Belohnung SET `time` = '" + (System.currentTimeMillis() / 1000 + 43200) + "' WHERE `uuid` = '" + uuid + "'");
+										getBelohnung().getMySQL().update("UPDATE Belohnung SET `time` = '" + (System.currentTimeMillis() / 1000 + 43200) + "' WHERE `uuid` = '" + uuid + "'", BelohnungListener.this::notifyAll);
 										break;
 									case 10150:
-										getBelohnung().getMySQL().update("UPDATE Belohnung SET `time` = '" + (System.currentTimeMillis() / 1000 + 21600) + "' WHERE `uuid` = '" + uuid + "'");
+										getBelohnung().getMySQL().update("UPDATE Belohnung SET `time` = '" + (System.currentTimeMillis() / 1000 + 21600) + "' WHERE `uuid` = '" + uuid + "'", BelohnungListener.this::notifyAll);
 										break;
 									default:
-										getBelohnung().getMySQL().update("UPDATE Belohnung SET `time` = '" + (System.currentTimeMillis() / 1000 + 10800) + "' WHERE `uuid` = '" + uuid + "'");
+										getBelohnung().getMySQL().update("UPDATE Belohnung SET `time` = '" + (System.currentTimeMillis() / 1000 + 10800) + "' WHERE `uuid` = '" + uuid + "'", BelohnungListener.this::notifyAll);
 										break;
 								}
-								player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du hast dir erfolgreich deine Belohnung abgeholt (1000 Coins und eine Kiste)");
+								try
+								{
+									wait();
+								} catch (InterruptedException ex)
+								{
+									ex.printStackTrace();
+								}
+								player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du hast dir erfolgreich deine " + IMPORTANT + "Belohnung " + TEXT + "abgeholt");
 							}
 						}
+						Bukkit.getPluginManager().callEvent(new PlayerUpdateCoinsEvent(player, result));
+						getBelohnung().getMySQL().query("SELECT * FROM Belohnung WHERE `uuid` = '" + player.getUniqueId() + "'", result1 -> {
+							if (result1.next())
+							{
+								player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du kannst dir wieder in " + getZeitMessage(result1.getLong("time") - (System.currentTimeMillis() / 1000)) + " die nächste Belohnung abholen");
+							}
+						});
+						player.closeInventory();
 					}));
 				}
-				getBelohnung().getMySQL().query("SELECT * FROM Belohnung WHERE `uuid` = '" + player.getUniqueId() + "'", result -> {
-					if (result.next())
-					{
-						player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du kannst dir wieder in " + getZeitMessage(result.getLong("time") - System.currentTimeMillis() / 1000) + " die nächste Belohnung abholen");
-					}
-				});
-				player.closeInventory();
 			}
 		}
 	}
