@@ -1,7 +1,6 @@
 /*
  * © Copyright - Lars Artmann | LartyHD 2018.
  */
-
 package net.darkblock.lobby.extras.belohnung.listener;
 
 import lombok.Getter;
@@ -217,7 +216,14 @@ public class ChestOpeningListener implements Listener
 									ex.printStackTrace();
 								}
 								System.out.println(2);
-								player.openInventory(finished(player, caseOpeningInventory));
+								new BukkitRunnable()
+								{
+									@Override
+									public void run()
+									{
+										player.openInventory(finished(player, caseOpeningInventory));
+									}
+								}.runTask(getBelohnung().getJavaPlugin());
 								System.out.println(3);
 							}).start();
 						}
