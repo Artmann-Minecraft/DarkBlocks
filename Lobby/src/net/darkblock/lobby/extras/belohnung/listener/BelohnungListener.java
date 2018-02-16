@@ -28,6 +28,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static net.darkblocks.dark.universal.messages.Colors.*;
 
@@ -121,43 +122,51 @@ public class BelohnungListener implements Listener
 						{
 							if (user.getUuid() == player.getUniqueId())
 							{
+								AtomicBoolean go = new AtomicBoolean(false);
 								switch (user.getLowestSortID())
 								{
 									case 11000:
-										getBelohnung().getMySQL().update("UPDATE Belohnung SET `time` = '" + (System.currentTimeMillis() / 1000 + 86400) + "' WHERE `uuid` = '" + uuid + "'", BelohnungListener.this::notifyAll);
+										getBelohnung().getMySQL().update("UPDATE Belohnung SET `time` = '" + (System.currentTimeMillis() / 1000 + 86400) + "' WHERE `uuid` = '" + uuid + "'", () -> go.set(true));
 										break;
 									case 10170:
-										getBelohnung().getMySQL().update("UPDATE Belohnung SET `time` = '" + (System.currentTimeMillis() / 1000 + 43200) + "' WHERE `uuid` = '" + uuid + "'", BelohnungListener.this::notifyAll);
+										getBelohnung().getMySQL().update("UPDATE Belohnung SET `time` = '" + (System.currentTimeMillis() / 1000 + 43200) + "' WHERE `uuid` = '" + uuid + "'", () -> go.set(true));
 										break;
 									case 10160:
-										getBelohnung().getMySQL().update("UPDATE Belohnung SET `time` = '" + (System.currentTimeMillis() / 1000 + 43200) + "' WHERE `uuid` = '" + uuid + "'", BelohnungListener.this::notifyAll);
+										getBelohnung().getMySQL().update("UPDATE Belohnung SET `time` = '" + (System.currentTimeMillis() / 1000 + 43200) + "' WHERE `uuid` = '" + uuid + "'", () -> go.set(true));
 										break;
 									case 10150:
-										getBelohnung().getMySQL().update("UPDATE Belohnung SET `time` = '" + (System.currentTimeMillis() / 1000 + 21600) + "' WHERE `uuid` = '" + uuid + "'", BelohnungListener.this::notifyAll);
+										getBelohnung().getMySQL().update("UPDATE Belohnung SET `time` = '" + (System.currentTimeMillis() / 1000 + 21600) + "' WHERE `uuid` = '" + uuid + "'", () -> go.set(true));
 										break;
 									default:
-										getBelohnung().getMySQL().update("UPDATE Belohnung SET `time` = '" + (System.currentTimeMillis() / 1000 + 10800) + "' WHERE `uuid` = '" + uuid + "'", BelohnungListener.this::notifyAll);
+										getBelohnung().getMySQL().update("UPDATE Belohnung SET `time` = '" + (System.currentTimeMillis() / 1000 + 10800) + "' WHERE `uuid` = '" + uuid + "'", () -> go.set(true));
 										break;
 								}
-								try
+								while (!go.get())
 								{
-									wait();
-								} catch (InterruptedException ex)
-								{
-									ex.printStackTrace();
+									try
+									{
+										Thread.sleep(10);
+									} catch (InterruptedException ex)
+									{
+										ex.printStackTrace();
+									}
 								}
 								player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du hast dir erfolgreich deine " + IMPORTANT + "Belohnung " + TEXT + "abgeholt");
+								Bukkit.getPluginManager().callEvent(new PlayerUpdateCoinsEvent(player, result));
+								getBelohnung().getMySQL().query("SELECT * FROM Belohnung WHERE `uuid` = '" + player.getUniqueId() + "'", result1 -> {
+									if (result1.next())
+									{
+										player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du kannst dir wieder in " + getZeitMessage(result1.getLong("time") - (System.currentTimeMillis() / 1000)) + " die nächste Belohnung abholen");
+									}
+								});
+								player.closeInventory();
+								return;
 							}
 						}
-						Bukkit.getPluginManager().callEvent(new PlayerUpdateCoinsEvent(player, result));
-						getBelohnung().getMySQL().query("SELECT * FROM Belohnung WHERE `uuid` = '" + player.getUniqueId() + "'", result1 -> {
-							if (result1.next())
-							{
-								player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du kannst dir wieder in " + getZeitMessage(result1.getLong("time") - (System.currentTimeMillis() / 1000)) + " die nächste Belohnung abholen");
-							}
-						});
-						player.closeInventory();
 					}));
+				}
+				else
+				{
 				}
 			}
 		}
