@@ -124,8 +124,7 @@ public class ChestOpeningListener implements Listener
 	private void onPlayerDisconnect(PlayerDisconnectEvent event)
 	{
 		Player player = event.getPlayer();
-		String name = player.getName();
-		getBelohnung().getMySQL().update("UPDATE Chests SET chests='" + this.chests.get(name) + "' WHERE uuid='" + player.getUniqueId() + "'", () -> this.chests.remove(name));
+		getBelohnung().getMySQL().update("UPDATE Chests SET chests='" + this.chests.get(player.getName()) + "' WHERE uuid='" + player.getUniqueId() + "'", () -> this.chests.remove(player.getName()));
 	}
 	
 	@EventHandler
@@ -133,7 +132,14 @@ public class ChestOpeningListener implements Listener
 	{
 		if (event.getInventory().getName() != null && event.getInventory().getName().equalsIgnoreCase(SECONDARY + "CaseOpening"))
 		{
-			finished((Player) event.getPlayer(), event.getInventory());
+			new BukkitRunnable()
+			{
+				@Override
+				public void run()
+				{
+					event.getPlayer().openInventory(finished((Player) event.getPlayer(), event.getInventory()));
+				}
+			}.runTaskLater(getBelohnung().getJavaPlugin(), 1);
 		}
 	}
 	
@@ -199,7 +205,7 @@ public class ChestOpeningListener implements Listener
 								{
 									ex.printStackTrace();
 								}
-								finished(player, caseOpeningInventory);
+								player.openInventory(finished(player, caseOpeningInventory));
 							}).start();
 						}
 					}
@@ -233,7 +239,7 @@ public class ChestOpeningListener implements Listener
 		}
 	}
 	
-	private void finished(Player player, Inventory inventory)
+	private Inventory finished(Player player, Inventory inventory)
 	{
 		String itemName = inventory.getItem(13).getItemMeta().getDisplayName();
 		for (ChestOpeningItem chestOpeningItem : this.items)
@@ -244,7 +250,6 @@ public class ChestOpeningListener implements Listener
 				InventoryUtils.setDesign(finishedCaseOpeningInventory, new ArrayList<>());
 				finishedCaseOpeningInventory.setItem(4, new ItemBuilder(Material.HOPPER).setName(SECONDARY + "Dein Item").build());
 				finishedCaseOpeningInventory.setItem(13, chestOpeningItem.getDisplayItem());
-				player.openInventory(finishedCaseOpeningInventory);
 				this.chests.put(player.getName(), this.chests.get(player.getName()) - 1);
 				chestOpeningItem.executeCommand();
 				chestOpeningItem.execute(player);
@@ -260,9 +265,10 @@ public class ChestOpeningListener implements Listener
 						firework.setFireworkMeta(fireworkMeta);
 					}
 				}.runTaskLater(getBelohnung().getJavaPlugin(), 20);
-				return;
+				return finishedCaseOpeningInventory;
 			}
 		}
+		return null;
 	}
 	
 	private boolean executeOneChestDelay(Inventory inventory, Player player)
