@@ -125,9 +125,7 @@ public class ChestOpeningListener implements Listener
 	{
 		Player player = event.getPlayer();
 		String name = player.getName();
-		getBelohnung().getMySQL().update("UPDATE Chests SET chests='" + this.chests.get(name) + "' WHERE uuid='" + player.getUniqueId() + "'", () -> {
-			this.chests.remove(name);
-		});
+		getBelohnung().getMySQL().update("UPDATE Chests SET chests='" + this.chests.get(name) + "' WHERE uuid='" + player.getUniqueId() + "'", () -> this.chests.remove(name));
 	}
 	
 	@EventHandler
