@@ -16,10 +16,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -72,18 +72,17 @@ public class CookieShopListener implements Listener
 		if (event.getRightClicked() != null && event.getRightClicked().getCustomName() != null && org.bukkit.ChatColor.stripColor(event.getRightClicked().getCustomName()).equalsIgnoreCase("CookieShop"))
 		{
 			event.setCancelled(true);
-			new BukkitRunnable()
-			{
-				@Override
-				public void run()
-				{
-					Player player = event.getPlayer();
-					player.closeInventory();
-					player.openInventory(CookieShopListener.this.shop);
-					player.updateInventory();
-				}
-			}.runTaskLater(getJavaPlugin(), 2);
+			Player player = event.getPlayer();
+			player.closeInventory();
+			player.openInventory(CookieShopListener.this.shop);
+			player.updateInventory();
 		}
+	}
+	
+	@EventHandler
+	public void on(PlayerInteractEntityEvent event)
+	{
+		event.setCancelled(true);
 	}
 	
 	@EventHandler

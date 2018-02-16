@@ -5,6 +5,7 @@ import net.darkblocks.core.bungee.teamchat.TeamChat;
 import net.darkblocks.dark.universal.messages.Messages;
 import net.darkblocks.dark.universal.utils.CommandUtils;
 import net.md_5.bungee.api.CommandSender;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.Plugin;
 
@@ -29,22 +30,29 @@ public class TeamChatCommand extends Command
 	@Override
 	public void execute(CommandSender sender, String[] args)
 	{
-		if (args.length == 0)
+		if (!(sender instanceof ProxiedPlayer))
 		{
-			if (getTeamChat().getPlayers().contains(sender.getName()))
-			{
-				getTeamChat().getPlayers().remove(sender.getName());
-				sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Du bist jetzt nicht mehr im " + IMPORTANT + "TeamChat " + TEXT + "eingeloggt"));
-			}
-			else
-			{
-				getTeamChat().getPlayers().add(sender.getName());
-				sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Du bist jetzt im " + IMPORTANT + "TeamChat " + TEXT + "eingeloggt"));
-			}
+			sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "onlyforplayers"));
 		}
 		else
 		{
-			sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + "/" + getName()));
+			if (args.length == 0)
+			{
+				if (getTeamChat().getPlayers().contains(sender))
+				{
+					getTeamChat().getPlayers().remove(sender);
+					sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Du bist jetzt nicht mehr im " + IMPORTANT + "TeamChat " + TEXT + "eingeloggt"));
+				}
+				else
+				{
+					getTeamChat().getPlayers().add((ProxiedPlayer) sender);
+					sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Du bist jetzt im " + IMPORTANT + "TeamChat " + TEXT + "eingeloggt"));
+				}
+			}
+			else
+			{
+				sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + "/" + getName()));
+			}
 		}
 	}
 }

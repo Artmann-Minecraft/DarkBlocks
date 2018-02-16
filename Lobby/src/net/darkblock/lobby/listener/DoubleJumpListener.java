@@ -42,7 +42,7 @@ public class DoubleJumpListener implements Listener
 			player.setFlying(false);
 			player.setAllowFlight(false);
 			player.setFallDistance(0.0F);
-			if (event.getPlayer().getItemInHand() != null && event.getPlayer().getItemInHand().getType() == Material.FEATHER)
+			if (event.getPlayer().getItemInHand() == null || event.getPlayer().getItemInHand().getType() != Material.FEATHER)
 			{
 				player.setVelocity(player.getLocation().getDirection().multiply(3D).setY(1D));
 				player.playSound(player.getLocation(), Sound.ENDERMAN_TELEPORT, 1, 1);

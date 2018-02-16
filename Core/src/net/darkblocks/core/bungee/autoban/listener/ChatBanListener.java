@@ -49,7 +49,7 @@ public class ChatBanListener implements Listener
 			{
 				ProxiedPlayer sender = (ProxiedPlayer) event.getSender();
 				event.setCancelled(true);
-				sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Du darfst " + IMPORTANT + match + TEXT + " das nicht schreiben"));
+				sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Du darfst " + IMPORTANT + match + TEXT + " nicht schreiben"));
 				ProxyServer.getInstance().getPluginManager().dispatchCommand(ProxyServer.getInstance().getConsole(), "ban " + sender.getName() + " 2");
 			}
 		}

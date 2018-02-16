@@ -37,15 +37,12 @@ public class TeamChatListener implements Listener
 		if (message.startsWith("#") && !message.substring(1).replaceAll(" ", "").equalsIgnoreCase("") && sender instanceof ProxiedPlayer)
 		{
 			ProxiedPlayer player = (ProxiedPlayer) sender;
-			if (getTeamChat().getPlayers().contains(player.getName()))
+			if (getTeamChat().getPlayers().contains(player))
 			{
 				event.setCancelled(true);
-				for (ProxiedPlayer players : BungeeCord.getInstance().getPlayers())
+				for (ProxiedPlayer players : getTeamChat().getPlayers())
 				{
-					if (players.hasPermission(CommandUtils.getPermission(getClass())))
-					{
-						players.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + player.getName() + PRIMARY + EXTRA + " -> " + TEXT + message.substring(1)));
-					}
+					players.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + player.getName() + PRIMARY + EXTRA + " -> " + TEXT + message.substring(1)));
 				}
 			}
 		}
@@ -56,7 +53,7 @@ public class TeamChatListener implements Listener
 	{
 		if (event.getPlayer().hasPermission(CommandUtils.getPermission(getClass())))
 		{
-			getTeamChat().getPlayers().add(event.getPlayer().getName());
+			getTeamChat().getPlayers().add(event.getPlayer());
 		}
 	}
 }

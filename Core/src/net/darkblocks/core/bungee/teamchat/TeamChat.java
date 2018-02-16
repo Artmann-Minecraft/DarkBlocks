@@ -4,6 +4,7 @@ import lombok.Getter;
 import net.darkblocks.core.bungee.teamchat.commands.TeamChatCommand;
 import net.darkblocks.core.bungee.teamchat.listener.TeamChatListener;
 import net.darkblocks.dark.java.mysql.MySQL;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
 
 import java.util.HashSet;
@@ -16,7 +17,7 @@ import java.util.Set;
 public class TeamChat
 {
 	private final MySQL mySQL;
-	private final Set<String> players;
+	private final Set<ProxiedPlayer> players;
 	
 	public TeamChat(Plugin plugin, MySQL mySQL)
 	{

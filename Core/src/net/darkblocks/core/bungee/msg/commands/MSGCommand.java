@@ -49,9 +49,12 @@ public class MSGCommand extends Command
 				if (!messages.equalsIgnoreCase("") && !messages.equalsIgnoreCase(" "))
 				{
 					getPrivateMessage().getReplay().put(target.getName(), sender.getName());
-					sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + "/" + getName() + TEXT + "<Spieler> <Nachricht>"));
 					sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "[Du -> " + target.getName() + "] " + IMPORTANT + messages));
 					target.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "[" + sender.getName() + " -> Dir] " + IMPORTANT + messages));
+				}
+				else
+				{
+					sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + "/" + getName() + TEXT + " <Spieler> <Nachricht>"));
 				}
 			}
 		}
