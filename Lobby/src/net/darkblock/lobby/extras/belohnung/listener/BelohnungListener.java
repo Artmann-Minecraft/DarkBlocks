@@ -43,7 +43,7 @@ public class BelohnungListener implements Listener
 	{
 		this.belohnung = belohnung;
 		Bukkit.getPluginManager().registerEvents(this, javaPlugin);
-		belohnung.getMySQL().update("CREATE TABLE IF NOT EXISTS Belohnung(`uuid` VARCHAR(50), `ip` VARCHAR(100), `time` BIGINT, PRIMARY KEY(uuid))");
+		belohnung.getMySQL().update("CREATE TABLE IF NOT EXISTS Belohnung(`uuid` VARCHAR(50), `time` BIGINT, PRIMARY KEY(uuid))");
 	}
 	
 	@EventHandler
