@@ -137,7 +137,7 @@ public class CoinsAPI
 	/**
 	 * Entfernt dem Account mit der übergebenen UUID die angegebenen Coins
 	 */
-	public String removeCoins(UUID uuid, String coins, Callback<String> callback)
+	public String removeCoins(UUID uuid, int coins, Callback<String> callback)
 	{
 		getCoins(uuid, result -> {
 			switch (this.valueType)

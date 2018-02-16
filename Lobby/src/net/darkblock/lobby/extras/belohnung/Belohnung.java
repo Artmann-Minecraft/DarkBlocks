@@ -16,11 +16,13 @@ public class Belohnung
 {
 	private final ChestOpeningListener chestOpeningListener;
 	private final UserManager userManager;
+	private final JavaPlugin javaPlugin;
 	private final MySQL mySQL;
 	private final CoinsAPI coinsAPI;
 	
 	public Belohnung(JavaPlugin javaPlugin, UserManager userManager, MySQL mySQL, CoinsAPI coinsAPI)
 	{
+		this.javaPlugin = javaPlugin;
 		this.chestOpeningListener = new ChestOpeningListener(javaPlugin, this);
 		this.userManager = userManager;
 		this.mySQL = mySQL;
