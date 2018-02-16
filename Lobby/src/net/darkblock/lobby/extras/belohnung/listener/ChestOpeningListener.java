@@ -1,8 +1,9 @@
 package net.darkblock.lobby.extras.belohnung.listener;
 
+import lombok.Getter;
 import lombok.NonNull;
+import net.darkblock.lobby.extras.belohnung.Belohnung;
 import net.darkblock.lobby.extras.belohnung.utils.ChestOpeningItem;
-import net.darkblocks.dark.java.mysql.CoinsAPI;
 import net.darkblocks.dark.java.mysql.MySQL;
 import net.darkblocks.dark.spigot.builder.ItemBuilder;
 import org.bukkit.Bukkit;
@@ -18,12 +19,13 @@ import static net.darkblocks.dark.universal.messages.Colors.SECONDARY;
 /**
  * Created by LartyHD on 16.02.2018  13:47.
  */
+@Getter
 public class ChestOpeningListener implements Listener
 {
 	private final Map<String, Integer> chests;
 	private final List<ChestOpeningItem> items;
 	
-	public ChestOpeningListener(JavaPlugin javaPlugin, CoinsAPI coinsAPI)
+	public ChestOpeningListener(JavaPlugin javaPlugin, Belohnung belohnung)
 	{
 		this.chests = new HashMap<>();
 		this.items = new ArrayList<>();
@@ -32,7 +34,7 @@ public class ChestOpeningListener implements Listener
 			@Override
 			public void execute(Player player)
 			{
-				player.sendMessage(coinsAPI.addCoins(player.getUniqueId(), String.valueOf(1000), null));
+				player.sendMessage(belohnung.getCoinsAPI().addCoins(player.getUniqueId(), String.valueOf(1000), null));
 			}
 		}, 100);
 		addItem(new ChestOpeningItem("5000 Coins", new ItemBuilder(Material.GOLD_INGOT).setName(SECONDARY + "5000 Coins").build())
@@ -40,7 +42,7 @@ public class ChestOpeningListener implements Listener
 			@Override
 			public void execute(Player player)
 			{
-				player.sendMessage(coinsAPI.addCoins(player.getUniqueId(), String.valueOf(5000), null));
+				player.sendMessage(belohnung.getCoinsAPI().addCoins(player.getUniqueId(), String.valueOf(5000), null));
 			}
 		}, 40);
 		addItem(new ChestOpeningItem("10000 Coins", new ItemBuilder(Material.GOLD_BLOCK).setName(SECONDARY + "10000 Coins").build())
@@ -48,7 +50,7 @@ public class ChestOpeningListener implements Listener
 			@Override
 			public void execute(Player player)
 			{
-				player.sendMessage(coinsAPI.addCoins(player.getUniqueId(), String.valueOf(10000), null));
+				player.sendMessage(belohnung.getCoinsAPI().addCoins(player.getUniqueId(), String.valueOf(10000), null));
 			}
 		}, 20);
 		addItem(new ChestOpeningItem("2 Kisten", new ItemBuilder(Material.CHEST).setName(SECONDARY + "2 Kisten").build())

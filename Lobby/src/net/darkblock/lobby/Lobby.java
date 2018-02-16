@@ -72,7 +72,7 @@ public class Lobby extends DarkPlugin
 		new Verstecker(this, cashedEventsManager);
 		new Profil(this, cashedEventsManager, this.navigatorAnimation);
 		new Sounds(this);
-		this.extras = new Extras(this, this.mySQL, coinsAPI);
+		this.extras = new Extras(this, userManager, this.mySQL, coinsAPI);
 	}
 	
 	private void initWorld()
