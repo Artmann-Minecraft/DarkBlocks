@@ -1,3 +1,7 @@
+/*
+ * © Copyright - Lars Artmann | LartyHD 2018.
+ */
+
 package net.darkblock.lobby.extras.belohnung.listener;
 
 import lombok.Getter;
@@ -38,6 +42,7 @@ public class ChestOpeningListener implements Listener
 {
 	private final Map<String, Integer> chests;
 	private final List<ChestOpeningItem> items;
+	private final List<ChestOpeningItem> possibleItems;
 	private final Belohnung belohnung;
 	private final Inventory buyChestInventory;
 	
@@ -45,6 +50,7 @@ public class ChestOpeningListener implements Listener
 	{
 		this.chests = new HashMap<>();
 		this.items = new ArrayList<>();
+		this.possibleItems = new ArrayList<>();
 		this.belohnung = belohnung;
 		this.buyChestInventory = Bukkit.createInventory(null, InventoryType.HOPPER, SECONDARY + "CaseOpening | Buy");
 		InventoryUtils.setDesign(this.buyChestInventory, new ArrayList<>());
@@ -89,6 +95,7 @@ public class ChestOpeningListener implements Listener
 	
 	private void addItem(@NonNull ChestOpeningItem chestOpeningItem, int chance)
 	{
+		this.possibleItems.add(chestOpeningItem);
 		for (int i = 0; i < chance; i++)
 		{
 			this.items.add(chestOpeningItem);
@@ -172,10 +179,12 @@ public class ChestOpeningListener implements Listener
 							executeOneChestDelay(caseOpeningInventory, player);
 							player.openInventory(caseOpeningInventory);
 							new Thread(() -> {
+								System.out.println(1);
 								try
 								{
 									for (int i = 0; i < 100; i++)
 									{
+										System.out.println(11);
 										if (!executeOneChestDelay(caseOpeningInventory, player))
 										{
 											return;
@@ -185,6 +194,7 @@ public class ChestOpeningListener implements Listener
 									}
 									for (int i = 0; i < 50; i++)
 									{
+										System.out.println(12);
 										if (!executeOneChestDelay(caseOpeningInventory, player))
 										{
 											return;
@@ -194,6 +204,7 @@ public class ChestOpeningListener implements Listener
 									}
 									for (int i = 0; i < 25; i++)
 									{
+										System.out.println(13);
 										if (!executeOneChestDelay(caseOpeningInventory, player))
 										{
 											return;
@@ -205,7 +216,9 @@ public class ChestOpeningListener implements Listener
 								{
 									ex.printStackTrace();
 								}
+								System.out.println(2);
 								player.openInventory(finished(player, caseOpeningInventory));
+								System.out.println(3);
 							}).start();
 						}
 					}
@@ -225,7 +238,7 @@ public class ChestOpeningListener implements Listener
 									getBelohnung().getCoinsAPI().removeCoins(player.getUniqueId(), 5000, result1 -> {
 										this.chests.put(player.getName(), this.chests.get(player.getName()) + 1);
 										player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Dir wurde eine Kiste hinzugefügt");
-										player.closeInventory();
+										this.buyChestInventory.setItem(2, new ItemBuilder(Material.CHEST).setName(SECONDARY + "CaseOpening").setLore(Collections.singletonList(TEXT + "Du hast noch " + IMPORTANT + this.chests.get(player.getName()) + TEXT + " Kisten")).build());
 									});
 								}
 							});
@@ -241,33 +254,34 @@ public class ChestOpeningListener implements Listener
 	
 	private Inventory finished(Player player, Inventory inventory)
 	{
-		String itemName = inventory.getItem(13).getItemMeta().getDisplayName();
-		for (ChestOpeningItem chestOpeningItem : this.items)
+		ChestOpeningItem chestOpeningItem = getItems().get(3);
+		System.out.println(4);
+		if (chestOpeningItem.getDisplayItem().getItemMeta().getDisplayName().equalsIgnoreCase(inventory.getItem(13).getItemMeta().getDisplayName()))
 		{
-			if (chestOpeningItem.getDisplayItem().getItemMeta().getDisplayName().equalsIgnoreCase(itemName))
+			System.out.println(5);
+			Inventory finishedCaseOpeningInventory = Bukkit.createInventory(null, 27, SECONDARY + "CaseOpening | Finish");
+			InventoryUtils.setDesign(finishedCaseOpeningInventory, new ArrayList<>());
+			finishedCaseOpeningInventory.setItem(4, new ItemBuilder(Material.HOPPER).setName(SECONDARY + "Dein Item").build());
+			finishedCaseOpeningInventory.setItem(13, chestOpeningItem.getDisplayItem());
+			this.chests.put(player.getName(), this.chests.get(player.getName()) - 1);
+			chestOpeningItem.executeCommand();
+			chestOpeningItem.execute(player);
+			new BukkitRunnable()
 			{
-				Inventory finishedCaseOpeningInventory = Bukkit.createInventory(null, 27, SECONDARY + "CaseOpening | Finish");
-				InventoryUtils.setDesign(finishedCaseOpeningInventory, new ArrayList<>());
-				finishedCaseOpeningInventory.setItem(4, new ItemBuilder(Material.HOPPER).setName(SECONDARY + "Dein Item").build());
-				finishedCaseOpeningInventory.setItem(13, chestOpeningItem.getDisplayItem());
-				this.chests.put(player.getName(), this.chests.get(player.getName()) - 1);
-				chestOpeningItem.executeCommand();
-				chestOpeningItem.execute(player);
-				new BukkitRunnable()
+				@Override
+				public void run()
 				{
-					@Override
-					public void run()
-					{
-						Firework firework = player.getLocation().getWorld().spawn(player.getLocation(), Firework.class);
-						FireworkMeta fireworkMeta = firework.getFireworkMeta();
-						fireworkMeta.addEffect(FireworkEffect.builder().flicker(false).trail(true).with(FireworkEffect.Type.BALL_LARGE).withColor(Color.RED).withFade(Color.BLACK).withColor(Color.RED).build());
-						fireworkMeta.setPower(1);
-						firework.setFireworkMeta(fireworkMeta);
-					}
-				}.runTaskLater(getBelohnung().getJavaPlugin(), 20);
-				return finishedCaseOpeningInventory;
-			}
+					Firework firework = player.getLocation().getWorld().spawn(player.getLocation(), Firework.class);
+					FireworkMeta fireworkMeta = firework.getFireworkMeta();
+					fireworkMeta.addEffect(FireworkEffect.builder().flicker(false).trail(true).with(FireworkEffect.Type.BALL_LARGE).withColor(Color.RED).withFade(Color.BLACK).withColor(Color.RED).build());
+					fireworkMeta.setPower(1);
+					firework.setFireworkMeta(fireworkMeta);
+				}
+			}.runTaskLater(getBelohnung().getJavaPlugin(), 20);
+			System.out.println(6);
+			return finishedCaseOpeningInventory;
 		}
+		System.out.println(7);
 		return null;
 	}
 	
