@@ -1,3 +1,7 @@
+/*
+ * © Copyright - Lars Artmann | LartyHD 2018.
+ */
+
 package net.darkblocks.dark.spigot.utils;
 
 import net.darkblocks.dark.spigot.builder.ItemBuilder;
@@ -6,7 +10,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -122,7 +125,7 @@ public class InventoryUtils
 	/**
 	 * NUR FÜR 45 SLOT INVENTARE
 	 */
-	public static void setDesign(Inventory inventory, ArrayList<ItemStack> items)
+	public static void setDesign(Inventory inventory, List<ItemStack> items)
 	{
 		switch (inventory.getType())
 		{

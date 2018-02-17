@@ -8,12 +8,12 @@ import lombok.NonNull;
 import net.darkblock.lobby.extras.belohnung.Belohnung;
 import net.darkblock.lobby.extras.belohnung.utils.ChestOpeningItem;
 import net.darkblocks.dark.java.mysql.MySQL;
+import net.darkblocks.dark.spigot.builder.InventoryBuilder;
 import net.darkblocks.dark.spigot.builder.ItemBuilder;
 import net.darkblocks.dark.spigot.events.PlayerDisconnectEvent;
 import net.darkblocks.dark.spigot.utils.InventoryUtils;
 import net.darkblocks.dark.universal.messages.Messages;
 import org.bukkit.*;
-import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftInventoryCrafting;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -43,7 +43,7 @@ public class ChestOpeningListener implements Listener
 	private final List<ChestOpeningItem> items;
 	private final List<String> player;
 	private final Belohnung belohnung;
-	private final Inventory buyChestInventory;
+	private final ItemBuilder againItem;
 	
 	public ChestOpeningListener(JavaPlugin javaPlugin, Belohnung belohnung)
 	{
@@ -51,10 +51,7 @@ public class ChestOpeningListener implements Listener
 		this.items = new ArrayList<>();
 		this.player = new ArrayList<>();
 		this.belohnung = belohnung;
-		this.buyChestInventory = Bukkit.createInventory(null, InventoryType.HOPPER, SECONDARY + "CaseOpening | Buy");
-		InventoryUtils.setDesign(this.buyChestInventory, new ArrayList<>());
-		this.buyChestInventory.setItem(0, new ItemBuilder(Material.STAINED_CLAY).setDurability((short) 5).setName(TEXT + "Kaufen").setLore(TEXT + "Eine Kiste kostet" + IMPORTANT + " 5000 Coins").build());
-		this.buyChestInventory.setItem(4, new ItemBuilder(Material.STAINED_CLAY).setDurability((short) 14).setName(TEXT + "Abbrechen").build());
+		this.againItem = new ItemBuilder(Material.CHEST).setName(SECONDARY + "Weitere Kiste öffnen");
 		getBelohnung().getMySQL().update("CREATE TABLE IF NOT EXISTS Chests(uuid VARCHAR (50), `chests` INT, PRIMARY KEY (uuid))", () -> {
 			addItem(new ChestOpeningItem("1000 Coins", new ItemBuilder(Material.GOLD_NUGGET).setName(SECONDARY + "1000 Coins").build())
 			{
@@ -170,55 +167,16 @@ public class ChestOpeningListener implements Listener
 					{
 						if (this.chests.get(player.getName()) != null && (event.isShiftClick() || this.chests.get(player.getName()) < 1))
 						{
-							this.buyChestInventory.setItem(2, new ItemBuilder(Material.CHEST).setName(SECONDARY + "CaseOpening").setLore(Collections.singletonList(TEXT + "Du hast noch " + IMPORTANT + this.chests.get(player.getName()) + TEXT + " Kisten")).build());
-							player.openInventory(this.buyChestInventory);
+							player.openInventory(new InventoryBuilder(player, InventoryType.HOPPER, SECONDARY + "CaseOpening | Buy")
+									.setDesign(new ArrayList<>())
+									.setItem(0, new ItemBuilder(Material.STAINED_CLAY).setDurability((short) 5).setName(TEXT + "Kaufen").setLore(TEXT + "Eine Kiste kostet" + IMPORTANT + " 5000 Coins").build())
+									.setItem(4, new ItemBuilder(Material.STAINED_CLAY).setDurability((short) 14).setName(TEXT + "Abbrechen").build())
+									.setItem(2, new ItemBuilder(Material.CHEST).setName(SECONDARY + "CaseOpening").setLore(Collections.singletonList(TEXT + "Du hast noch " + IMPORTANT + this.chests.get(player.getName()) + TEXT + " Kisten")).build())
+									.build());
 						}
 						else
 						{
-							Inventory caseOpeningInventory = Bukkit.createInventory(null, 27, SECONDARY + "CaseOpening");
-							InventoryUtils.setDesign(caseOpeningInventory, new ArrayList<>());
-							caseOpeningInventory.setItem(4, new ItemBuilder(Material.HOPPER).setName(SECONDARY + "Dein Item").build());
-							Collections.shuffle(this.items);
-							executeOneChestDelay(caseOpeningInventory, player);
-							player.openInventory(caseOpeningInventory);
-							new Thread(() -> {
-								this.player.add(player.getName());
-								try
-								{
-									for (int i = 0; i < 100; i++)
-									{
-										if (!executeOneChestDelay(caseOpeningInventory, player))
-										{
-											return;
-										}
-										Thread.sleep((long) (25));
-										player.playSound(player.getLocation(), Sound.BURP, 1, 1);
-									}
-									for (int i = 0; i < 50; i++)
-									{
-										if (!executeOneChestDelay(caseOpeningInventory, player))
-										{
-											return;
-										}
-										Thread.sleep((long) (50));
-										player.playSound(player.getLocation(), Sound.BURP, 1, 1);
-									}
-									for (int i = 0; i < 25; i++)
-									{
-										if (!executeOneChestDelay(caseOpeningInventory, player))
-										{
-											return;
-										}
-										Thread.sleep((long) (100));
-										player.playSound(player.getLocation(), Sound.BURP, 1, 1);
-									}
-								} catch (InterruptedException ex)
-								{
-									ex.printStackTrace();
-								}
-								this.player.remove(player.getName());
-								player.openInventory(finished(player, caseOpeningInventory));
-							}).start();
+							performChestOpening(player);
 						}
 					}
 					break;
@@ -237,7 +195,7 @@ public class ChestOpeningListener implements Listener
 									getBelohnung().getCoinsAPI().removeCoins(player.getUniqueId(), 5000, result1 -> {
 										this.chests.put(player.getName(), this.chests.get(player.getName()) + 1);
 										player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Dir wurde eine Kiste hinzugefügt");
-										this.buyChestInventory.setItem(2, new ItemBuilder(Material.CHEST).setName(SECONDARY + "CaseOpening").setLore(Collections.singletonList(TEXT + "Du hast noch " + IMPORTANT + this.chests.get(player.getName()) + TEXT + " Kisten")).build());
+										player.getOpenInventory().setItem(2, new ItemBuilder(Material.CHEST).setName(SECONDARY + "CaseOpening").setLore(Collections.singletonList(TEXT + "Du hast noch " + IMPORTANT + this.chests.get(player.getName()) + TEXT + " Kisten")).build());
 									});
 								}
 							});
@@ -245,27 +203,83 @@ public class ChestOpeningListener implements Listener
 						case 14:
 							player.closeInventory();
 							break;
+						case 0:
+							if (event.getCurrentItem() != null && event.getCurrentItem().getType() == Material.CHEST)
+							{
+								if (this.chests.get(player.getName()) != null && (event.isShiftClick() || this.chests.get(player.getName()) < 1))
+								{
+									player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du hast nicht genug " + IMPORTANT + "Kisten");
+								}
+								else
+								{
+									performChestOpening(player);
+								}
+							}
+							break;
 					}
-					System.out.println(1);
-					if (event.getCurrentItem() != null && event.getCurrentItem().getType() == Material.CHEST)
-					{
-						System.out.println(2);
-						this.buyChestInventory.setItem(2, new ItemBuilder(Material.CHEST).setName(SECONDARY + "CaseOpening").setLore(Collections.singletonList(TEXT + "Du hast noch " + IMPORTANT + this.chests.get(player.getName()) + TEXT + " Kisten")).build());
-						player.openInventory(this.buyChestInventory);
-					}
-					System.out.println(3);
 					break;
 			}
 		}
 	}
 	
+	private void performChestOpening(Player player)
+	{
+		Collections.shuffle(this.items);
+		Inventory caseOpeningInventory = new InventoryBuilder(player, 27, SECONDARY + "CaseOpening").setDesign(new ArrayList<>()).setItem(4, new ItemBuilder(Material.HOPPER).setName(SECONDARY + "Dein Item").build()).build();
+		executeOneChestDelay(caseOpeningInventory, player);
+		player.openInventory(caseOpeningInventory);
+		new Thread(() -> {
+			this.player.add(player.getName());
+			try
+			{
+				for (int i = 0; i < 100; i++)
+				{
+					if (!executeOneChestDelay(caseOpeningInventory, player))
+					{
+						return;
+					}
+					Thread.sleep((long) (25));
+					player.playSound(player.getLocation(), Sound.BURP, 1, 1);
+				}
+				for (int i = 0; i < 50; i++)
+				{
+					if (!executeOneChestDelay(caseOpeningInventory, player))
+					{
+						return;
+					}
+					Thread.sleep((long) (50));
+					player.playSound(player.getLocation(), Sound.BURP, 1, 1);
+				}
+				for (int i = 0; i < 25; i++)
+				{
+					if (!executeOneChestDelay(caseOpeningInventory, player))
+					{
+						return;
+					}
+					Thread.sleep((long) (100));
+					player.playSound(player.getLocation(), Sound.BURP, 1, 1);
+				}
+			} catch (InterruptedException ex)
+			{
+				ex.printStackTrace();
+			}
+			this.player.remove(player.getName());
+			new BukkitRunnable()
+			{
+				@Override
+				public void run()
+				{
+					player.openInventory(finished(player, caseOpeningInventory));
+				}
+			}.runTask(getBelohnung().getJavaPlugin());
+		}).start();
+	}
+	
 	private Inventory finished(Player player, Inventory inventory)
 	{
 		ChestOpeningItem chestOpeningItem = getItems().get(3);
-		System.out.println(4);
 		if (chestOpeningItem.getDisplayItem().getItemMeta().getDisplayName().equalsIgnoreCase(inventory.getItem(13).getItemMeta().getDisplayName()))
 		{
-			System.out.println(5);
 			Inventory finishedCaseOpeningInventory = Bukkit.createInventory(null, 27, SECONDARY + "CaseOpening | Finish");
 			InventoryUtils.setDesign(finishedCaseOpeningInventory, new ArrayList<>());
 			finishedCaseOpeningInventory.setItem(4, new ItemBuilder(Material.HOPPER).setName(SECONDARY + "Dein Item").build());
@@ -285,16 +299,16 @@ public class ChestOpeningListener implements Listener
 					firework.setFireworkMeta(fireworkMeta);
 				}
 			}.runTaskLater(getBelohnung().getJavaPlugin(), 20);
-			System.out.println(6);
+			InventoryUtils.setDesign(player.getInventory(), new ArrayList<>());
+			inventory.setItem(22, this.againItem.setLore(TEXT + "Du hast noch " + IMPORTANT + getBelohnung().getChestOpeningListener().getChests().get(player.getName()) + TEXT + " Kisten").build());
 			return finishedCaseOpeningInventory;
 		}
-		System.out.println(7);
 		return null;
 	}
 	
 	private boolean executeOneChestDelay(Inventory inventory, Player player)
 	{
-		if (player.getOpenInventory().getTopInventory() instanceof CraftInventoryCrafting)
+		if (player.getOpenInventory().getTopInventory().getName().equalsIgnoreCase(SECONDARY + "ChestOpening"))
 		{
 			return false;
 		}

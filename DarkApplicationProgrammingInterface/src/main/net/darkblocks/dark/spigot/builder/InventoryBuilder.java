@@ -1,12 +1,19 @@
+/*
+ * © Copyright - Lars Artmann | LartyHD 2018.
+ */
+
 package net.darkblocks.dark.spigot.builder;
 
 import lombok.ToString;
 import net.darkblocks.dark.java.builder.Builder;
+import net.darkblocks.dark.spigot.utils.InventoryUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.List;
 
 @ToString
 public class InventoryBuilder implements Builder<Inventory>
@@ -36,6 +43,12 @@ public class InventoryBuilder implements Builder<Inventory>
 	public InventoryBuilder setItem(int slot, ItemStack item)
 	{
 		this.inventory.setItem(slot, item);
+		return this;
+	}
+	
+	public InventoryBuilder setDesign(List<ItemStack> items)
+	{
+		InventoryUtils.setDesign(this.inventory, items);
 		return this;
 	}
 	

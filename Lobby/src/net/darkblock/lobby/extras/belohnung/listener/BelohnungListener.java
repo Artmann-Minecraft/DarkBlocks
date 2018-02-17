@@ -29,7 +29,6 @@ import org.bukkit.inventory.meta.FireworkEffectMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -90,7 +89,7 @@ public class BelohnungListener implements Listener
 					{
 						setBelohnungItem(inventory, false);
 					}
-					inventory.setItem(3, new ItemBuilder(Material.CHEST).setName(SECONDARY + "CaseOpening").setLore(Collections.singletonList(TEXT + "Du hast noch " + IMPORTANT + getBelohnung().getChestOpeningListener().getChests().get(player.getName()) + TEXT + " Kisten")).build());
+					inventory.setItem(3, new ItemBuilder(Material.CHEST).setName(SECONDARY + "CaseOpening").setLore(TEXT + "Du hast noch " + IMPORTANT + getBelohnung().getChestOpeningListener().getChests().get(player.getName()) + TEXT + " Kisten").build());
 					player.openInventory(inventory);
 				}
 			});
