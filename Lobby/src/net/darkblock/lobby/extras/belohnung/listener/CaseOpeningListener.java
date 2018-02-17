@@ -283,58 +283,43 @@ public class CaseOpeningListener implements Listener
 	{
 		Collections.shuffle(this.items);
 		Inventory caseOpeningInventory = new InventoryBuilder(player, 27, SECONDARY + "CaseOpening").setDesign(new ArrayList<>()).setItem(4, new ItemBuilder(Material.HOPPER).setName(SECONDARY + "Dein Item").build()).build();
-		executeOneChestDelay(caseOpeningInventory, player);
 		player.openInventory(caseOpeningInventory);
+		executeOneChestDelay(caseOpeningInventory, player);
 		new Thread(() -> {
-			System.out.println(1);
 			this.player.add(player.getName());
 			try
 			{
-				System.out.println(2);
 				for (int i = 0; i < 100; i++)
 				{
-					System.out.println(3);
 					if (!executeOneChestDelay(caseOpeningInventory, player))
 					{
-						System.out.println(4);
 						return;
 					}
-					System.out.println(5);
 					Thread.sleep((long) (25));
 					player.playSound(player.getLocation(), Sound.BURP, 1, 1);
 				}
-				System.out.println(6);
 				for (int i = 0; i < 50; i++)
 				{
-					System.out.println(7);
 					if (!executeOneChestDelay(caseOpeningInventory, player))
 					{
-						System.out.println(8);
 						return;
 					}
 					Thread.sleep((long) (50));
 					player.playSound(player.getLocation(), Sound.BURP, 1, 1);
 				}
-				System.out.println(9);
 				for (int i = 0; i < 25; i++)
 				{
-					System.out.println(10);
 					if (!executeOneChestDelay(caseOpeningInventory, player))
 					{
-						System.out.println(11);
 						return;
 					}
-					System.out.println(12);
 					Thread.sleep((long) (100));
 					player.playSound(player.getLocation(), Sound.BURP, 1, 1);
 				}
-				System.out.println(13);
 			} catch (InterruptedException ex)
 			{
-				System.out.println(14);
 				ex.printStackTrace();
 			}
-			System.out.println(15);
 			this.player.remove(player.getName());
 			new BukkitRunnable()
 			{
@@ -380,24 +365,17 @@ public class CaseOpeningListener implements Listener
 	
 	private boolean executeOneChestDelay(Inventory inventory, Player player)
 	{
-		System.out.println(player);
-		System.out.println(player.getOpenInventory());
-		System.out.println(player.getOpenInventory().getTopInventory());
-		System.out.println(player.getOpenInventory().getTopInventory().getName());
-		if (player.getOpenInventory().getTopInventory().getName().equalsIgnoreCase(SECONDARY + "CaseOpening"))
+		if (!player.getOpenInventory().getTopInventory().getName().equalsIgnoreCase(SECONDARY + "CaseOpening"))
 		{
-			System.out.println(200);
 			return false;
 		}
 		else
 		{
-			System.out.println(201);
 			CaseOpeningItem caseOpeningItem = this.items.get(0);
 			this.items.add(caseOpeningItem);
 			this.items.remove(caseOpeningItem);
 			for (int i = 0; i < 7; i++)
 			{
-				System.out.println(202);
 				inventory.setItem(i + 10, this.items.get(i).getDisplayItem());
 			}
 			return true;
