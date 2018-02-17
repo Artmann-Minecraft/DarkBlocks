@@ -255,7 +255,12 @@ public class ChestOpeningListener implements Listener
 							{
 								if (this.chests.get(player.getName()) < 1)
 								{
-									player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du hast nicht genug " + IMPORTANT + "Kisten");
+									player.openInventory(new InventoryBuilder(player, InventoryType.HOPPER, SECONDARY + "CaseOpening | Buy")
+											.setDesign(new ArrayList<>())
+											.setItem(0, new ItemBuilder(Material.STAINED_CLAY).setDurability((short) 5).setName(TEXT + "Kaufen").setLore(TEXT + "Eine Kiste kostet" + IMPORTANT + " 5000 Coins").build())
+											.setItem(4, new ItemBuilder(Material.STAINED_CLAY).setDurability((short) 14).setName(TEXT + "Abbrechen").build())
+											.setItem(2, new ItemBuilder(Material.CHEST).setName(SECONDARY + "CaseOpening").setLore(Collections.singletonList(TEXT + "Du hast noch " + IMPORTANT + this.chests.get(player.getName()) + TEXT + " Kisten")).build())
+											.build());
 								}
 								else
 								{
