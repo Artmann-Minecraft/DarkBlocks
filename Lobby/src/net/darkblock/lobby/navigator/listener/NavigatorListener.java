@@ -174,12 +174,11 @@ public class NavigatorListener implements CashedPlayerInteractEvent, CashedInven
 				}
 				else if (currentItem.getItemMeta().getDisplayName() != null)
 				{
+					setLobbys(player);
 					ByteArrayDataOutput out = ByteStreams.newDataOutput();
 					out.writeUTF("Connect");
 					out.writeUTF(ChatColor.stripColor(currentItem.getItemMeta().getDisplayName()));
-					System.out.println(ChatColor.stripColor(currentItem.getItemMeta().getDisplayName()));
 					player.sendPluginMessage(getJavaPlugin(), "BungeeCord", out.toByteArray());
-					setLobbys(player);
 				}
 			}
 		}
@@ -192,7 +191,6 @@ public class NavigatorListener implements CashedPlayerInteractEvent, CashedInven
 		{
 			if (server.getGroup().equalsIgnoreCase("Lobby"))
 			{
-				System.out.println(server.getName());
 				lobbies.add(this.lobby.clone().setAmount(server.getPlayers()).setLore(TEXT + "Spieler" + IMPORTANT + ": " + TEXT + server.getPlayers() + IMPORTANT + "/" + TEXT + server.getMaxPlayers()).setDurability((short) (server.getName().equalsIgnoreCase(CloudAPI.get().getNameAPI().getServerName()) ? 10 : 8)).setName(SECONDARY + server.getName()).build());
 			}
 		}

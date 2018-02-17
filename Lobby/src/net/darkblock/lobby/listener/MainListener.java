@@ -1,7 +1,6 @@
 /*
  * © Copyright - Lars Artmann | LartyHD 2018.
  */
-
 package net.darkblock.lobby.listener;
 
 import net.darkblocks.core.universal.permissions.manager.UserManager;
