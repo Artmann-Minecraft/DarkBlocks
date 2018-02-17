@@ -751,7 +751,7 @@ public class ItemBuilder implements Builder<ItemStack>
 	 */
 	@SuppressWarnings({"MethodDoesntCallSuperMethod", "CloneDoesntDeclareCloneNotSupportedException"})
 	@Override
-	protected ItemBuilder clone()
+	public ItemBuilder clone()
 	{
 		return new ItemBuilder(getItemStack());
 	}
