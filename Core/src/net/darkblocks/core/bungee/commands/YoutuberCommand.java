@@ -1,5 +1,5 @@
 /*
- * © Copyright - MineWar.net | Lars Artmann aka. LartyHD 2017
+ * © Copyright - Lars Artmann | LartyHD 2018.
  */
 package net.darkblocks.core.bungee.commands;
 
@@ -13,7 +13,7 @@ import net.md_5.bungee.api.plugin.Plugin;
 import static net.darkblocks.dark.universal.messages.Colors.IMPORTANT;
 import static net.darkblocks.dark.universal.messages.Colors.TEXT;
 
-public class YoutuberCommand extends Command
+class YoutuberCommand extends Command
 {
 	YoutuberCommand(Plugin plugin)
 	{

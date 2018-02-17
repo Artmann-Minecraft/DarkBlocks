@@ -1,3 +1,7 @@
+/*
+ * © Copyright - Lars Artmann | LartyHD 2018.
+ */
+
 package net.darkblocks.core.spigot.fix.bungeehack.listener;
 
 import lombok.Getter;
@@ -36,7 +40,7 @@ public class BungeeHackListener implements Listener
 	{
 		if (!check(event.getRealAddress().getHostAddress()))
 		{
-			event.disallow(PlayerLoginEvent.Result.KICK_OTHER, TEXT + "Bitte joine über " + PRIMARY + Messages.getInstance().getMessage(Messages.getInstance().getPathPrefix() + "servername"));
+			event.disallow(PlayerLoginEvent.Result.KICK_OTHER, TEXT + "Bitte joine über " + PRIMARY + Messages.getInstance().getShortMessage(getClass(), "servername"));
 		}
 	}
 	

@@ -1,3 +1,7 @@
+/*
+ * © Copyright - Lars Artmann | LartyHD 2018.
+ */
+
 package net.darkblock.lobby.navigator.listener;
 
 import com.segdogames.segdocloudplugin.api.CloudAPI;
@@ -112,7 +116,6 @@ public class NavigatorListener implements CashedPlayerInteractEvent, CashedInven
 			{
 				event.getPlayer().getInventory().setItem(i, new ItemStack(Material.AIR));
 			}
-//			((Player) event.getPlayer()).updateInventory();
 		}
 	}
 	

@@ -1,5 +1,5 @@
 /*
- * © Copyright - MineWar.net | Lars Artmann aka. LartyHD 2017
+ * © Copyright - Lars Artmann | LartyHD 2018.
  */
 package net.darkblocks.core.bungee.commands;
 
@@ -16,7 +16,7 @@ import static net.darkblocks.dark.universal.messages.Colors.IMPORTANT;
 import static net.darkblocks.dark.universal.messages.Colors.TEXT;
 
 @Getter
-public class JumpToCommand extends Command
+class JumpToCommand extends Command
 {
 	JumpToCommand(Plugin plugin)
 	{

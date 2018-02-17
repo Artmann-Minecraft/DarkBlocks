@@ -1,3 +1,7 @@
+/*
+ * © Copyright - Lars Artmann | LartyHD 2018.
+ */
+
 package net.darkblocks.core.bungee.joinme.utils;
 
 import net.md_5.bungee.api.ChatColor;
@@ -24,7 +28,7 @@ public class SkullImage
 		colors = new Color[]{new Color(0, 0, 0), new Color(0, 0, 170), new Color(0, 170, 0), new Color(0, 170, 170), new Color(170, 0, 0), new Color(170, 0, 170), new Color(255, 170, 0), new Color(170, 170, 170), new Color(85, 85, 85), new Color(85, 85, 255), new Color(85, 255, 85), new Color(85, 255, 255), new Color(255, 85, 85), new Color(255, 85, 255), new Color(255, 255, 85), new Color(255, 255, 255)};
 	}
 	
-	public static ChatColor[][] toChatColorArray(BufferedImage image, int height)
+	private static ChatColor[][] toChatColorArray(BufferedImage image, int height)
 	{
 		double ratio = (double) (image.getHeight() / image.getWidth());
 		int width = (int) ((double) height / ratio);
@@ -46,22 +50,22 @@ public class SkullImage
 		return chatImg;
 	}
 	
-	public static String[] toImgMessage(ChatColor[][] colors, char imgchar)
+	private static String[] toImgMessage(ChatColor[][] colors, char imgchar)
 	{
 		String[] lines = new String[colors[0].length];
 		for (int y = 0; y < colors[0].length; ++y)
 		{
-			String line = "";
-			for (int x = 0; x < colors.length; ++x)
+			StringBuilder line = new StringBuilder();
+			for (ChatColor[] color : colors)
 			{
-				line = line + colors[x][y].toString() + imgchar;
+				line.append(color[y].toString()).append(imgchar);
 			}
-			lines[y] = line + ChatColor.RESET;
+			lines[y] = line.toString() + ChatColor.RESET;
 		}
 		return lines;
 	}
 	
-	public static String[] appendTextToImg(String[] chatImg, String... text)
+	private static String[] appendTextToImg(String[] chatImg, String... text)
 	{
 		for (int y = 0; y < chatImg.length; ++y)
 		{
@@ -73,7 +77,7 @@ public class SkullImage
 		return chatImg;
 	}
 	
-	public static String[] appendCenteredTextToImg(String[] chatImg, String... text)
+	private static String[] appendCenteredTextToImg(String[] chatImg, String... text)
 	{
 		for (int y = 0; y < chatImg.length; ++y)
 		{
@@ -87,7 +91,7 @@ public class SkullImage
 		return chatImg;
 	}
 	
-	public static String center(String s, int length)
+	private static String center(String s, int length)
 	{
 		if (s.length() > length)
 		{

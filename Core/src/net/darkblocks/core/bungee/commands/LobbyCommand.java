@@ -1,3 +1,7 @@
+/*
+ * © Copyright - Lars Artmann | LartyHD 2018.
+ */
+
 package net.darkblocks.core.bungee.commands;
 
 import lombok.Getter;
@@ -16,7 +20,7 @@ import static net.darkblocks.dark.universal.messages.Colors.TEXT;
  * Created by LartyHD on 14.01.2018  02:02.
  */
 @Getter
-public class LobbyCommand extends Command
+class LobbyCommand extends Command
 {
 	LobbyCommand(Plugin plugin)
 	{

@@ -136,17 +136,27 @@ public class ChestOpeningListener implements Listener
 	@EventHandler
 	private void onInventoryClose(InventoryCloseEvent event)
 	{
-		if (this.player.contains(event.getPlayer().getName()) && event.getInventory().getName() != null && event.getInventory().getName().equalsIgnoreCase(SECONDARY + "CaseOpening"))
+		if (event.getInventory().getName() != null)
 		{
-			new BukkitRunnable()
+			if (this.player.contains(event.getPlayer().getName()) && event.getInventory().getName().equalsIgnoreCase(SECONDARY + "CaseOpening"))
 			{
-				@Override
-				public void run()
+				new BukkitRunnable()
 				{
-					event.getPlayer().openInventory(finished((Player) event.getPlayer(), event.getInventory()));
+					@Override
+					public void run()
+					{
+						event.getPlayer().openInventory(finished((Player) event.getPlayer(), event.getInventory()));
+					}
+				}.runTaskLater(getBelohnung().getJavaPlugin(), 1);
+				this.player.remove(event.getPlayer().getName());
+			}
+			else if (event.getInventory().getName().equalsIgnoreCase(SECONDARY + "CaseOpening | Buy"))
+			{
+				for (int i = 9; i < event.getPlayer().getInventory().getSize(); i++)
+				{
+					event.getPlayer().getInventory().setItem(i, null);
 				}
-			}.runTaskLater(getBelohnung().getJavaPlugin(), 1);
-			this.player.remove(event.getPlayer().getName());
+			}
 		}
 	}
 	
@@ -192,9 +202,9 @@ public class ChestOpeningListener implements Listener
 								}
 								else
 								{
-									getBelohnung().getCoinsAPI().removeCoins(player.getUniqueId(), 5000, result1 -> {
+									getBelohnung().getCoinsAPI().removeCoins(player.getUniqueId(), String.valueOf(5000), result1 -> {
 										this.chests.put(player.getName(), this.chests.get(player.getName()) + 1);
-										player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Dir wurde eine Kiste hinzugefügt");
+										player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Dir wurde eine " + IMPORTANT + "Kiste " + TEXT + "hinzugefügt");
 										player.getOpenInventory().setItem(2, new ItemBuilder(Material.CHEST).setName(SECONDARY + "CaseOpening").setLore(Collections.singletonList(TEXT + "Du hast noch " + IMPORTANT + this.chests.get(player.getName()) + TEXT + " Kisten")).build());
 									});
 								}

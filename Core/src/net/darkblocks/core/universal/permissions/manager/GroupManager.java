@@ -1,3 +1,7 @@
+/*
+ * © Copyright - Lars Artmann | LartyHD 2018.
+ */
+
 package net.darkblocks.core.universal.permissions.manager;
 
 import lombok.Getter;
@@ -27,62 +31,60 @@ public class GroupManager
 		this.groups = new HashSet<>();
 		tableName = tableName == null ? "Groups" : tableName;
 		String finalTableName = tableName;
-		mySQL.update("CREATE TABLE IF NOT EXISTS " + tableName + "(`saveid` INT, `sortid` INT, `name` VARCHAR(16), `prefix` VARCHAR(16), `suffix` VARCHAR(16), `color` VARCHAR(13), `inherit` TEXT, PRIMARY KEY(saveid))", () -> {
-			mySQL.query("SELECT * FROM `" + finalTableName + "`", result ->
+		mySQL.update("CREATE TABLE IF NOT EXISTS " + tableName + "(`saveid` INT, `sortid` INT, `name` VARCHAR(16), `prefix` VARCHAR(16), `suffix` VARCHAR(16), `color` VARCHAR(13), `inherit` TEXT, PRIMARY KEY(saveid))", () -> mySQL.query("SELECT * FROM `" + finalTableName + "`", result ->
+		{
+			try
 			{
-				try
+				while (result.next())
 				{
-					while (result.next())
+					try
 					{
-						try
+						Set<Integer> inherit = new HashSet<>();
+						if (result.getString("inherit") != null)
 						{
-							Set<Integer> inherit = new HashSet<>();
-							if (result.getString("inherit") != null)
+							Set<String> rawInherit = new HashSet<>(Arrays.asList(result.getString("inherit").split(", ")));
+							for (String s : rawInherit)
 							{
-								Set<String> rawInherit = new HashSet<>(Arrays.asList(result.getString("inherit").split(", ")));
-								for (String s : rawInherit)
-								{
-									inherit.add(Integer.valueOf(s));
-								}
+								inherit.add(Integer.valueOf(s));
 							}
-							getGroups().add(new Group(new HashSet<>(), inherit, result.getString("name"), result.getString("prefix"), result.getString("suffix"), ChatColor.valueOf(result.getString("color")), result.getInt("saveid"), result.getInt("sortid")));
-						} catch (IllegalArgumentException ex)
-						{
-							ex.printStackTrace();
 						}
-					}
-					for (Group group : getGroups())
+						getGroups().add(new Group(new HashSet<>(), inherit, result.getString("name"), result.getString("prefix"), result.getString("suffix"), ChatColor.valueOf(result.getString("color")), result.getInt("saveid"), result.getInt("sortid")));
+					} catch (IllegalArgumentException ex)
 					{
-						loadPermissions(mySQL, group, new HashSet<>(), null);
+						ex.printStackTrace();
 					}
-					Group defaultGroup = null;
-					for (Group group : getGroups())
-					{
-						if (defaultGroup == null)
-						{
-							defaultGroup = group;
-						}
-						else if (defaultGroup.getSortID() < group.getSortID())
-						{
-							defaultGroup = group;
-						}
-					}
-					this.defaultGroup = defaultGroup;
+				}
+				for (Group group : getGroups())
+				{
+					loadPermissions(mySQL, group, new HashSet<>(), null);
+				}
+				Group defaultGroup = null;
+				for (Group group : getGroups())
+				{
 					if (defaultGroup == null)
 					{
-						System.err.println(" ");
-						System.err.println(" ");
-						System.err.println("Keine DefaultGroup gefunden!");
-						System.err.println(" ");
-						System.err.println(" ");
-						BungeeCord.getInstance().stop("Keine DefaultGroup gefunden!");
+						defaultGroup = group;
 					}
-				} catch (SQLException ex)
-				{
-					ex.printStackTrace();
+					else if (defaultGroup.getSortID() < group.getSortID())
+					{
+						defaultGroup = group;
+					}
 				}
-			});
-		});
+				this.defaultGroup = defaultGroup;
+				if (defaultGroup == null)
+				{
+					System.err.println(" ");
+					System.err.println(" ");
+					System.err.println("Keine DefaultGroup gefunden!");
+					System.err.println(" ");
+					System.err.println(" ");
+					BungeeCord.getInstance().stop("Keine DefaultGroup gefunden!");
+				}
+			} catch (SQLException ex)
+			{
+				ex.printStackTrace();
+			}
+		}));
 	}
 	
 	private void loadPermissions(MySQL mySQL, Group group, Set<String> permissions, Callback<Set<String>> callback)

@@ -1,3 +1,7 @@
+/*
+ * © Copyright - Lars Artmann | LartyHD 2018.
+ */
+
 package net.darkblocks.core.bungee.permissions.commands;
 
 import net.darkblocks.core.universal.permissions.manager.GroupManager;
@@ -40,53 +44,53 @@ public class PermissionsCommand extends Command
 		}
 		else
 		{
-			if (args.length == 0)
+			switch (args.length)
 			{
-				for (User user : this.userManager.getUser())
-				{
-					if (user.getUuid() == ((ProxiedPlayer) sender).getUniqueId())
+				case 0:
+					for (User user : this.userManager.getUser())
 					{
-						sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Deine Permissions"));
-						for (String s : user.getPermissions())
+						if (user.getUuid() == ((ProxiedPlayer) sender).getUniqueId())
 						{
-							sender.sendMessage(new TextComponent(TEXT + s));
-						}
-					}
-				}
-			}
-			else if (args.length == 1)
-			{
-				for (Group group : this.groupManager.getGroups())
-				{
-					try
-					{
-						if (Integer.valueOf(args[0]) == group.getSaveID())
-						{
-							sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Permissions der Gruppe " + IMPORTANT + group.getName()));
-							for (String s : group.getPermissions())
+							sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Deine Permissions"));
+							for (String s : user.getPermissions())
 							{
 								sender.sendMessage(new TextComponent(TEXT + s));
 							}
-							return;
-						}
-					} catch (NumberFormatException ex)
-					{
-						if (group.getName().equalsIgnoreCase(args[0]))
-						{
-							sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Permissions der Gruppe " + IMPORTANT + group.getName()));
-							for (String s : group.getPermissions())
-							{
-								sender.sendMessage(new TextComponent(TEXT + s));
-							}
-							return;
 						}
 					}
-				}
-				sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Die Gruppe " + IMPORTANT + args[0] + TEXT + " gibt es nicht"));
-			}
-			else
-			{
-				sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + "/" + getName() + TEXT + " [Gruppe]"));
+					break;
+				case 1:
+					for (Group group : this.groupManager.getGroups())
+					{
+						try
+						{
+							if (Integer.valueOf(args[0]) == group.getSaveID())
+							{
+								sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Permissions der Gruppe " + IMPORTANT + group.getName()));
+								for (String s : group.getPermissions())
+								{
+									sender.sendMessage(new TextComponent(TEXT + s));
+								}
+								return;
+							}
+						} catch (NumberFormatException ex)
+						{
+							if (group.getName().equalsIgnoreCase(args[0]))
+							{
+								sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Permissions der Gruppe " + IMPORTANT + group.getName()));
+								for (String s : group.getPermissions())
+								{
+									sender.sendMessage(new TextComponent(TEXT + s));
+								}
+								return;
+							}
+						}
+					}
+					sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Die Gruppe " + IMPORTANT + args[0] + TEXT + " gibt es nicht"));
+					break;
+				default:
+					sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + "/" + getName() + TEXT + " [Gruppe]"));
+					break;
 			}
 		}
 	}

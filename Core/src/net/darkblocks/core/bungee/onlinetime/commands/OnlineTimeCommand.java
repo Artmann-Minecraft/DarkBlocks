@@ -1,3 +1,7 @@
+/*
+ * © Copyright - Lars Artmann | LartyHD 2018.
+ */
+
 package net.darkblocks.core.bungee.onlinetime.commands;
 
 import lombok.Getter;
@@ -41,49 +45,49 @@ public class OnlineTimeCommand extends Command
 		}
 		else
 		{
-			if (args.length == 0)
+			switch (args.length)
 			{
-				ProxiedPlayer player = (ProxiedPlayer) sender;
-				UUID uuid = player.getUniqueId();
-				getOnlineTime().updateTime(uuid, player.getName(), player.getAddress().getHostString(), () -> getOnlineTime().getMySQL().query("SELECT `time` FROM OnlineTime WHERE `uuid` = '" + uuid + "'", result -> {
-					try
-					{
-						if (result.next())
-						{
-							sender.sendMessage(new TextComponent(TEXT + "Du hast schon " + getZeit(result.getLong(1)) + TEXT + " auf " + Messages.getInstance().getShortMessage(getClass(), "servername") + " " + TEXT + "verbracht"));
-						}
-					} catch (SQLException ex)
-					{
-						ex.printStackTrace();
-					}
-				}));
-			}
-			else if (args.length == 1)
-			{
-				ProxiedPlayer target = BungeeCord.getInstance().getPlayer(args[0]);
-				if (target == null)
-				{
-					sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "notonline"));
-				}
-				else
-				{
-					getOnlineTime().updateTime(target.getUniqueId(), target.getName(), target.getAddress().getHostString(), () -> getOnlineTime().getMySQL().query("SELECT `time` FROM OnlineTime WHERE `uuid` = '" + target.getUniqueId() + "'", result -> {
+				case 0:
+					ProxiedPlayer player = (ProxiedPlayer) sender;
+					UUID uuid = player.getUniqueId();
+					getOnlineTime().updateTime(uuid, player.getName(), player.getAddress().getHostString(), () -> getOnlineTime().getMySQL().query("SELECT `time` FROM OnlineTime WHERE `uuid` = '" + uuid + "'", result -> {
 						try
 						{
 							if (result.next())
 							{
-								sender.sendMessage(new TextComponent(IMPORTANT + target.getName() + TEXT + " hat schon " + getZeit(result.getLong(1)) + TEXT + " auf " + Messages.getInstance().getShortMessage(getClass(), "servername") + " " + TEXT + "verbracht"));
+								sender.sendMessage(new TextComponent(TEXT + "Du hast schon " + getZeit(result.getLong(1)) + TEXT + " auf " + Messages.getInstance().getShortMessage(getClass(), "servername") + " " + TEXT + "verbracht"));
 							}
 						} catch (SQLException ex)
 						{
 							ex.printStackTrace();
 						}
 					}));
-				}
-			}
-			else
-			{
-				sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + "/" + getName() + TEXT + " [Spieler]"));
+					break;
+				case 1:
+					ProxiedPlayer target = BungeeCord.getInstance().getPlayer(args[0]);
+					if (target == null)
+					{
+						sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "notonline"));
+					}
+					else
+					{
+						getOnlineTime().updateTime(target.getUniqueId(), target.getName(), target.getAddress().getHostString(), () -> getOnlineTime().getMySQL().query("SELECT `time` FROM OnlineTime WHERE `uuid` = '" + target.getUniqueId() + "'", result -> {
+							try
+							{
+								if (result.next())
+								{
+									sender.sendMessage(new TextComponent(IMPORTANT + target.getName() + TEXT + " hat schon " + getZeit(result.getLong(1)) + TEXT + " auf " + Messages.getInstance().getShortMessage(getClass(), "servername") + " " + TEXT + "verbracht"));
+								}
+							} catch (SQLException ex)
+							{
+								ex.printStackTrace();
+							}
+						}));
+					}
+					break;
+				default:
+					sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + "/" + getName() + TEXT + " [Spieler]"));
+					break;
 			}
 		}
 	}

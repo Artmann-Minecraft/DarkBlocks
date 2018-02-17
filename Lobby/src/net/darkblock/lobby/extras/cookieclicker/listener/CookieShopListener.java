@@ -1,3 +1,7 @@
+/*
+ * © Copyright - Lars Artmann | LartyHD 2018.
+ */
+
 package net.darkblock.lobby.extras.cookieclicker.listener;
 
 import lombok.Getter;
@@ -30,7 +34,7 @@ import static net.darkblocks.dark.universal.messages.Colors.*;
  * Created by LartyHD on 13.02.2018  14:31.
  */
 @Getter
-public class CookieShopListener implements Listener
+class CookieShopListener implements Listener
 {
 	private final JavaPlugin javaPlugin;
 	private final CookieClicker cookieClicker;

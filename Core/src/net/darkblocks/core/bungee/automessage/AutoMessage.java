@@ -1,5 +1,10 @@
+/*
+ * © Copyright - Lars Artmann | LartyHD 2018.
+ */
+
 package net.darkblocks.core.bungee.automessage;
 
+import net.darkblocks.core.bungee.Core;
 import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -18,11 +23,13 @@ public class AutoMessage
 {
 	public AutoMessage(Plugin plugin)
 	{
-		List<List<TextComponent>> list = Arrays.asList(Arrays.asList(new TextComponent(""), new TextComponent(TEXT + "Interesse am " + PRIMARY + "Youtuber " + TEXT + "oder " + PRIMARY + "Mega+ " + TEXT + "Rang?"), new TextComponent(TEXT + "Dann mach doch mal " + PRIMARY + "/YT " + TEXT + "oder " + PRIMARY + "/Mega+"), new TextComponent("")));
+		List<List<TextComponent>> list = Arrays.asList(
+				Arrays.asList(new TextComponent(""), new TextComponent(TEXT + "Interesse am " + PRIMARY + "Youtuber " + TEXT + "oder " + PRIMARY + "Mega+ " + TEXT + "Rang?"), new TextComponent(TEXT + "Dann mach doch mal " + PRIMARY + "/YT " + TEXT + "oder " + PRIMARY + "/Mega+"), new TextComponent("")),
+				Arrays.asList(new TextComponent(""), new TextComponent(TEXT + "Du willst unserem " + PRIMARY + "Serverteam " + TEXT + " beitreten?"), new TextComponent(TEXT + "Dann bewerbe dich doch im " + PRIMARY + "Forum " + TEXT + "doch mal"), new TextComponent("")));
 		BungeeCord.getInstance().getScheduler().runAsync(plugin, () -> {
 			try
 			{
-				while (true)
+				while (((Core) plugin).isRun())
 				{
 					for (List<TextComponent> textComponents : list)
 					{

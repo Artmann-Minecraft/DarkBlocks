@@ -1,3 +1,7 @@
+/*
+ * © Copyright - Lars Artmann | LartyHD 2018.
+ */
+
 package net.darkblocks.core.bungee.coins.commands;
 
 import lombok.Getter;
@@ -37,36 +41,36 @@ public class CoinsCommand extends Command
 		}
 		else
 		{
-			if (args.length == 0)
+			switch (args.length)
 			{
-				this.coinsAPI.getCoins(((ProxiedPlayer) sender).getUniqueId(), result -> sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Du hast " + PRIMARY + result + IMPORTANT + " Coins")));
-			}
-			else if (args.length == 1)
-			{
-				ProxiedPlayer target = ProxyServer.getInstance().getPlayer(args[0]);
-				if (target != null)
-				{
-					this.coinsAPI.getCoins(target.getUniqueId(), result -> sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + target.getName() + TEXT + " hat " + PRIMARY + result + IMPORTANT + " Coins")));
-				}
-				else
-				{
-					sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "notonline"));
-					sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Lade Informationen aus Datenbank... "));
-					getCoinsAPI().getCoins(UUIDFetcher.getUUID(args[0]), result -> {
-						if (result != -1)
-						{
-							sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + target.getName() + TEXT + " hat " + PRIMARY + result + IMPORTANT + " Coins"));
-						}
-						else
-						{
-							sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "notindatabase"));
-						}
-					});
-				}
-			}
-			else
-			{
-				sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + "/" + getName() + TEXT + " [Spieler]"));
+				case 0:
+					this.coinsAPI.getCoins(((ProxiedPlayer) sender).getUniqueId(), result -> sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Du hast " + PRIMARY + result + IMPORTANT + " Coins")));
+					break;
+				case 1:
+					ProxiedPlayer target = ProxyServer.getInstance().getPlayer(args[0]);
+					if (target != null)
+					{
+						this.coinsAPI.getCoins(target.getUniqueId(), result -> sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + target.getName() + TEXT + " hat " + PRIMARY + result + IMPORTANT + " Coins")));
+					}
+					else
+					{
+						sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "notonline"));
+						sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Lade Informationen aus Datenbank... "));
+						getCoinsAPI().getCoins(UUIDFetcher.getUUID(args[0]), result -> {
+							if (result != -1)
+							{
+								sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + args[0] + TEXT + " hat " + PRIMARY + result + IMPORTANT + " Coins"));
+							}
+							else
+							{
+								sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "notindatabase"));
+							}
+						});
+					}
+					break;
+				default:
+					sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + "/" + getName() + TEXT + " [Spieler]"));
+					break;
 			}
 		}
 	}

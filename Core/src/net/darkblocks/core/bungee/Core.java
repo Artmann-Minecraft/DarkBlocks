@@ -1,5 +1,10 @@
+/*
+ * © Copyright - Lars Artmann | LartyHD 2018.
+ */
+
 package net.darkblocks.core.bungee;
 
+import lombok.Getter;
 import net.darkblocks.core.bungee.autoban.ChatBan;
 import net.darkblocks.core.bungee.automessage.AutoMessage;
 import net.darkblocks.core.bungee.blockedcommands.BlockedCommands;
@@ -35,14 +40,17 @@ import static net.darkblocks.dark.universal.messages.Colors.*;
 /**
  * Created by LartyHD on 09.01.2018  08:32.
  */
+@Getter
 public class Core extends Plugin
 {
 	private OnlineTime onlineTime;
 	private PlayerCount playerCount;
+	private boolean run;
 	
 	@Override
 	public void onEnable()
 	{
+		this.run = true;
 		Map<String, String> messages = new HashMap<>();
 		messages.put("dark.servername", "" + PRIMARY + EXTRA + "DarkBlocks§f" + EXTRA + "." + PRIMARY + EXTRA + "Net");
 		messages.put("dark.prefix", "§f" + EXTRA + "[" + PRIMARY + EXTRA + "DarkBlocks§f" + EXTRA + "] §r");
@@ -72,6 +80,7 @@ public class Core extends Plugin
 	@Override
 	public void onDisable()
 	{
+		this.run = false;
 		for (ProxiedPlayer players : BungeeCord.getInstance().getPlayers())
 		{
 			players.disconnect(new TextComponent(TEXT + "Proxy Restart"));

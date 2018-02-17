@@ -1,5 +1,5 @@
 /*
- * © Copyright - MineWar.net | Lars Artmann aka. LartyHD 2017
+ * © Copyright - Lars Artmann | LartyHD 2018.
  */
 package net.darkblocks.core.bungee.commands;
 
@@ -14,7 +14,7 @@ import net.md_5.bungee.api.plugin.Plugin;
 
 import static net.darkblocks.dark.universal.messages.Colors.*;
 
-public class ListCommand extends Command
+class ListCommand extends Command
 {
 	ListCommand(Plugin plugin)
 	{
