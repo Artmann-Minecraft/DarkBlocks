@@ -61,7 +61,7 @@ public class CaseOpeningListener implements Listener
 				{
 					player.sendMessage(belohnung.getCoinsAPI().addCoins(player.getUniqueId(), String.valueOf(1000), null));
 				}
-			}, 100);
+			}, 80);
 			addItem(new CaseOpeningItem("5000 Coins", new ItemBuilder(Material.GOLD_INGOT).setName(SECONDARY + "5000 Coins").build())
 			{
 				@Override
