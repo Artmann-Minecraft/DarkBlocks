@@ -76,24 +76,7 @@ public class BelohnungListener implements Listener
 		if (entity instanceof ArmorStand && entity.getName().equalsIgnoreCase(SECONDARY + "Belohnung"))
 		{
 			event.setCancelled(true);
-			Player player = event.getPlayer();
-			getBelohnung().getMySQL().query("SELECT * FROM Belohnung WHERE `uuid` = '" + player.getUniqueId() + "'", result -> {
-				Inventory inventory = Bukkit.createInventory(null, InventoryType.HOPPER, SECONDARY + "Belohnung");
-				InventoryUtils.setDesign(inventory, new ArrayList<>());
-				if (result.next())
-				{
-					if (result.getLong("time") - (System.currentTimeMillis() / 1000) < 1)
-					{
-						setBelohnungItem(inventory, true);
-					}
-					else
-					{
-						setBelohnungItem(inventory, false);
-					}
-					inventory.setItem(3, new ItemBuilder(Material.CHEST).setName(SECONDARY + "CaseOpening").setLore(Arrays.asList(TEXT + "Du hast noch " + IMPORTANT + getBelohnung().getCaseOpeningListener().getChests().get(player.getName()) + TEXT + " Kisten", " ", TEXT + "Kaufe mit shift " + PRIMARY + "Kisten " + TEXT + "für " + PRIMARY + "5000 " + IMPORTANT + "Coins")).build());
-					player.openInventory(inventory);
-				}
-			});
+			Player player = event.getPlayer(); openBelohungsInventory(player);
 		}
 	}
 	
@@ -180,6 +163,27 @@ public class BelohnungListener implements Listener
 				}
 			}
 		}
+	}
+	
+	public void openBelohungsInventory(Player player)
+	{
+		getBelohnung().getMySQL().query("SELECT * FROM Belohnung WHERE `uuid` = '" + player.getUniqueId() + "'", result -> {
+			Inventory inventory = Bukkit.createInventory(null, InventoryType.HOPPER, SECONDARY + "Belohnung");
+			InventoryUtils.setDesign(inventory, new ArrayList<>());
+			if (result.next())
+			{
+				if (result.getLong("time") - (System.currentTimeMillis() / 1000) < 1)
+				{
+					setBelohnungItem(inventory, true);
+				}
+				else
+				{
+					setBelohnungItem(inventory, false);
+				}
+				inventory.setItem(3, new ItemBuilder(Material.CHEST).setName(SECONDARY + "CaseOpening").setLore(Arrays.asList(TEXT + "Du hast noch " + IMPORTANT + getBelohnung().getCaseOpeningListener().getChests().get(player.getName()) + TEXT + " Kisten", " ", TEXT + "Kaufe mit shift " + PRIMARY + "Kisten " + TEXT + "für " + PRIMARY + "5000 " + IMPORTANT + "Coins")).build());
+				player.openInventory(inventory);
+			}
+		});
 	}
 	
 	private void setBelohnungItem(Inventory inventory, boolean belohnung)

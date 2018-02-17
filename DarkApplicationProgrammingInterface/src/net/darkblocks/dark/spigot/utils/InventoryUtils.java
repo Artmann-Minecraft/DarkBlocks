@@ -16,66 +16,66 @@ import java.util.List;
  */
 public class InventoryUtils
 {
-	public static void sortChestInventory(Inventory inventory, List<ItemStack> itemStacks)
+	public static void sortChestInventory(Inventory inventory, List<ItemStack> itemStacks, int addSlots)
 	{
 		switch (itemStacks.size())
 		{
 			case 1:
-				inventory.setItem(4, itemStacks.get(0));
+				inventory.setItem(4 + addSlots, itemStacks.get(0));
 				break;
 			case 2:
-				inventory.setItem(2, itemStacks.get(0));
-				inventory.setItem(6, itemStacks.get(1));
+				inventory.setItem(2 + addSlots, itemStacks.get(0));
+				inventory.setItem(6 + addSlots, itemStacks.get(1));
 				break;
 			case 3:
-				inventory.setItem(1, itemStacks.get(0));
-				inventory.setItem(4, itemStacks.get(1));
-				inventory.setItem(7, itemStacks.get(2));
+				inventory.setItem(1 + addSlots, itemStacks.get(0));
+				inventory.setItem(4 + addSlots, itemStacks.get(1));
+				inventory.setItem(7 + addSlots, itemStacks.get(2));
 				break;
 			case 4:
-				inventory.setItem(1, itemStacks.get(0));
-				inventory.setItem(3, itemStacks.get(1));
-				inventory.setItem(5, itemStacks.get(2));
-				inventory.setItem(7, itemStacks.get(3));
+				inventory.setItem(1 + addSlots, itemStacks.get(0));
+				inventory.setItem(3 + addSlots, itemStacks.get(1));
+				inventory.setItem(5 + addSlots, itemStacks.get(2));
+				inventory.setItem(7 + addSlots, itemStacks.get(3));
 				break;
 			case 5:
-				inventory.setItem(0, itemStacks.get(0));
-				inventory.setItem(2, itemStacks.get(1));
-				inventory.setItem(4, itemStacks.get(2));
-				inventory.setItem(6, itemStacks.get(3));
-				inventory.setItem(8, itemStacks.get(4));
+				inventory.setItem(addSlots, itemStacks.get(0));
+				inventory.setItem(2 + addSlots, itemStacks.get(1));
+				inventory.setItem(4 + addSlots, itemStacks.get(2));
+				inventory.setItem(6 + addSlots, itemStacks.get(3));
+				inventory.setItem(8 + addSlots, itemStacks.get(4));
 				break;
 			case 6:
-				inventory.setItem(1, itemStacks.get(0));
-				inventory.setItem(2, itemStacks.get(1));
-				inventory.setItem(3, itemStacks.get(2));
-				inventory.setItem(5, itemStacks.get(3));
-				inventory.setItem(6, itemStacks.get(4));
-				inventory.setItem(7, itemStacks.get(5));
+				inventory.setItem(1 + addSlots, itemStacks.get(0));
+				inventory.setItem(2 + addSlots, itemStacks.get(1));
+				inventory.setItem(3 + addSlots, itemStacks.get(2));
+				inventory.setItem(5 + addSlots, itemStacks.get(3));
+				inventory.setItem(6 + addSlots, itemStacks.get(4));
+				inventory.setItem(7 + addSlots, itemStacks.get(5));
 				break;
 			case 7:
-				inventory.setItem(0, itemStacks.get(0));
-				inventory.setItem(1, itemStacks.get(1));
-				inventory.setItem(2, itemStacks.get(2));
-				inventory.setItem(4, itemStacks.get(3));
-				inventory.setItem(6, itemStacks.get(4));
-				inventory.setItem(7, itemStacks.get(5));
-				inventory.setItem(8, itemStacks.get(6));
+				inventory.setItem(addSlots, itemStacks.get(0));
+				inventory.setItem(1 + addSlots, itemStacks.get(1));
+				inventory.setItem(2 + addSlots, itemStacks.get(2));
+				inventory.setItem(4 + addSlots, itemStacks.get(3));
+				inventory.setItem(6 + addSlots, itemStacks.get(4));
+				inventory.setItem(7 + addSlots, itemStacks.get(5));
+				inventory.setItem(8 + addSlots, itemStacks.get(6));
 				break;
 			case 8:
-				inventory.setItem(0, itemStacks.get(0));
-				inventory.setItem(1, itemStacks.get(1));
-				inventory.setItem(2, itemStacks.get(2));
-				inventory.setItem(3, itemStacks.get(3));
-				inventory.setItem(5, itemStacks.get(4));
-				inventory.setItem(6, itemStacks.get(5));
-				inventory.setItem(7, itemStacks.get(6));
-				inventory.setItem(8, itemStacks.get(7));
+				inventory.setItem(addSlots, itemStacks.get(0));
+				inventory.setItem(1 + addSlots, itemStacks.get(1));
+				inventory.setItem(2 + addSlots, itemStacks.get(2));
+				inventory.setItem(3 + addSlots, itemStacks.get(3));
+				inventory.setItem(5 + addSlots, itemStacks.get(4));
+				inventory.setItem(6 + addSlots, itemStacks.get(5));
+				inventory.setItem(7 + addSlots, itemStacks.get(6));
+				inventory.setItem(8 + addSlots, itemStacks.get(7));
 				break;
 			case 9:
 				for (int i = 0; i < itemStacks.size(); i++)
 				{
-					inventory.setItem(i, itemStacks.get(i));
+					inventory.setItem(i + addSlots, itemStacks.get(i));
 				}
 				break;
 		}

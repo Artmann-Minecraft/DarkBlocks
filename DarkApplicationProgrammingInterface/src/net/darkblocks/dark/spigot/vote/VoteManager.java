@@ -191,7 +191,7 @@ public class VoteManager implements Listener
 										{
 											itemStacks.add(new ItemBuilder(Material.PAPER).setName(Colors.SECONDARY + maps).build());
 										}
-										InventoryUtils.sortChestInventory(inventory, itemStacks);
+										InventoryUtils.sortChestInventory(inventory, itemStacks, 0);
 										player.openInventory(inventory);
 										break;
 								}

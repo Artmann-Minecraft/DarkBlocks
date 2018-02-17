@@ -29,6 +29,7 @@ import static net.darkblocks.dark.universal.messages.Colors.SECONDARY;
 public class Belohnung
 {
 	private final CaseOpeningListener caseOpeningListener;
+	private final BelohnungListener belohnungListener;
 	private final UserManager userManager;
 	private final JavaPlugin javaPlugin;
 	private final MySQL mySQL;
@@ -41,7 +42,7 @@ public class Belohnung
 		this.mySQL = mySQL;
 		this.coinsAPI = coinsAPI;
 		this.caseOpeningListener = new CaseOpeningListener(javaPlugin, this);
-		new BelohnungListener(javaPlugin, this);
+		this.belohnungListener = new BelohnungListener(javaPlugin, this);
 		Configuration configuration = Configuration.loadConfiguration(new File(javaPlugin.getDataFolder(), "extras.yml"));
 		Location location = new Location(Bukkit.getWorld(configuration.getString("Extras.Belohnung.World")), configuration.getDouble("Extras.Belohnung.X"), configuration.getDouble("Extras.Belohnung.Y"), configuration.getDouble("Extras.Belohnung.Z"), (float) configuration.getDouble("Extras.Belohnung.Yaw"), (float) configuration.getDouble("Extras.Belohnung.Pitch"));
 		ArmorStand armorStand = location.getWorld().spawn(location, ArmorStand.class);

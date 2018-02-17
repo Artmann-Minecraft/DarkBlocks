@@ -221,7 +221,7 @@ public class CaseOpeningListener implements Listener
 							});
 							break;
 						case 14:
-							player.closeInventory();
+							getBelohnung().getBelohnungListener().openBelohungsInventory(player);
 							break;
 						case 0:
 							if (event.getCurrentItem() != null && event.getCurrentItem().getType() == Material.CHEST)

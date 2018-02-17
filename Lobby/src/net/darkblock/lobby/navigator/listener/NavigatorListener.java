@@ -3,7 +3,11 @@
  */
 package net.darkblock.lobby.navigator.listener;
 
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
 import com.segdogames.segdocloudplugin.api.CloudAPI;
+import com.segdogames.segdocloudplugin.spigot.Bootstrap;
+import com.segdogames.segdocloudplugin.spigot.signs.SignServer;
 import lombok.Getter;
 import net.darkblock.lobby.navigator.utils.NavigatorItems;
 import net.darkblock.lobby.navigator.utils.NavigatorThread;
@@ -31,9 +35,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static net.darkblocks.dark.universal.messages.Colors.SECONDARY;
 import static net.darkblocks.dark.universal.messages.Colors.TEXT;
@@ -47,17 +49,19 @@ public class NavigatorListener implements CashedPlayerInteractEvent, CashedInven
 	private final Map<String, Boolean> navigatorAnimation;
 	private final Map<String, Location> warps;
 	private final ItemStack itemStack;
-	private final ItemStack lobby;
+	private final ItemBuilder lobby;
 	private final Inventory inventory;
 	private final MySQL mySQL;
+	private final JavaPlugin javaPlugin;
 	
 	public NavigatorListener(JavaPlugin javaPlugin, MySQL mySQL, Map<String, Boolean> navigatorAnimation, CashedEventsManager cashedEventsManager)
 	{
 		init(javaPlugin, cashedEventsManager);
+		this.javaPlugin = javaPlugin;
 		this.navigatorAnimation = navigatorAnimation;
 		this.warps = new HashMap<>();
 		this.itemStack = new ItemBuilder(Material.COMPASS).setName(SECONDARY + "Navigator").build();
-		this.lobby = new ItemBuilder(Material.INK_SACK, 1, (short) 10).setName(SECONDARY + CloudAPI.get().getNameAPI().getServerName()).build();
+		this.lobby = new ItemBuilder(Material.INK_SACK).setName(SECONDARY + CloudAPI.get().getNameAPI().getServerName());
 		this.inventory = Bukkit.createInventory(null, 45, SECONDARY + "Navigator");
 		InventoryUtils.setDesign(this.inventory, new ArrayList<>());
 		this.inventory.setItem(4, NavigatorItems.CORES.getItemStack());
@@ -73,6 +77,7 @@ public class NavigatorListener implements CashedPlayerInteractEvent, CashedInven
 		{
 			getWarps().put(name.toLowerCase(), new Location(Bukkit.getWorld(configuration.getString("warps." + name + ".world")), configuration.getDouble("warps." + name + ".x"), configuration.getDouble("warps." + name + ".y"), configuration.getDouble("warps." + name + ".z"), (float) configuration.getDouble("warps." + name + ".yaw"), (float) configuration.getDouble("warps." + name + ".pitch")));
 		}
+		Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(javaPlugin, "BungeeCord");
 	}
 	
 	@EventHandler
@@ -127,7 +132,15 @@ public class NavigatorListener implements CashedPlayerInteractEvent, CashedInven
 			Player player = event.getPlayer();
 			PlayerInventory inventory = player.getInventory();
 			InventoryUtils.setDesign(inventory, new ArrayList<>());
-			inventory.setItem(22, this.lobby);
+			List<ItemStack> lobbies = new ArrayList<>();
+			for (SignServer server : Bootstrap.getINSTANCE().getSignSystem().getServers().values())
+			{
+				if (server.getGroup().equalsIgnoreCase("Lobby"))
+				{
+					lobbies.add(this.lobby.setDurability((short) (server.getName().equalsIgnoreCase(CloudAPI.get().getNameAPI().getServerName()) ? 10 : 8)).setName(SECONDARY + server.getName()).build());
+				}
+			}
+			InventoryUtils.sortChestInventory(inventory, Arrays.asList(), 9);
 			if (getNavigatorAnimation().get(player.getName()))
 			{
 				new NavigatorThread(player).start();
@@ -161,11 +174,18 @@ public class NavigatorListener implements CashedPlayerInteractEvent, CashedInven
 					}
 				}
 			}
-			else if (event.getClickedInventory() == player.getOpenInventory().getBottomInventory())
+			else if (event.getClickedInventory() == player.getOpenInventory().getBottomInventory() && currentItem.getType() == Material.INK_SACK)
 			{
-				if (currentItem.getType() == Material.INK_SACK)
+				if (currentItem.getDurability() == 10)
 				{
 					player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du bist bereits auf dieser Lobby");
+				}
+				else if (currentItem.getItemMeta().getDisplayName() != null)
+				{
+					ByteArrayDataOutput out = ByteStreams.newDataOutput();
+					out.writeUTF("Connect");
+					out.writeUTF(ChatColor.stripColor(currentItem.getItemMeta().getDisplayName()));
+					player.sendPluginMessage(getJavaPlugin(), "BungeeCord", out.toByteArray());
 				}
 			}
 		}

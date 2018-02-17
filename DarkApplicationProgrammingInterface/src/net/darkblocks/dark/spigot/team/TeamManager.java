@@ -249,7 +249,7 @@ public class TeamManager implements Listener
 		{
 			itemStacks.add(getItem(gameTeam, player));
 		}
-		InventoryUtils.sortChestInventory(inventory, itemStacks);
+		InventoryUtils.sortChestInventory(inventory, itemStacks, 0);
 		player.openInventory(inventory);
 	}
 	
