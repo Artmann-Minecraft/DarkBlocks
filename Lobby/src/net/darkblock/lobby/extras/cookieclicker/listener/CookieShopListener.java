@@ -24,7 +24,6 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -108,11 +107,11 @@ class CookieShopListener implements Listener
 				{
 					if (currentItem.getType() == Material.COOKIE)
 					{
-						whoClicked.openInventory(new InventoryBuilder(getUpdates()).setItem(13, new ItemBuilder(getUpdates().getItem(13)).setLore(TEXT + "Du hast " + PRIMARY + getCookieListener().getCookieClicker().getCookies().get(whoClicked.getUniqueId()) + IMPORTANT + " Cookies").build()).build());
+						getCookieListener().format(whoClicked, result -> whoClicked.openInventory(new InventoryBuilder(getUpdates()).setItem(13, new ItemBuilder(getUpdates().getItem(13)).setLore(TEXT + "Du hast " + PRIMARY + result + IMPORTANT + " Cookies").build()).build()));
 					}
 					else if (currentItem.getType() == Material.GOLD_INGOT)
 					{
-						whoClicked.openInventory(new InventoryBuilder(getCoins()).setItem(13, new ItemBuilder(getCoins().getItem(13)).setLore(TEXT + "Du hast " + PRIMARY + getCookieListener().getCookieClicker().getCookies().get(whoClicked.getUniqueId()) + IMPORTANT + " Cookies").build()).build());
+						getCookieListener().format(whoClicked, result -> whoClicked.openInventory(new InventoryBuilder(getCoins()).setItem(13, new ItemBuilder(getCoins().getItem(13)).setLore(TEXT + "Du hast " + PRIMARY + result + IMPORTANT + " Cookies").build()).build()));
 					}
 				}
 				else if (currentItem.getItemMeta().getLore() != null)
@@ -124,20 +123,10 @@ class CookieShopListener implements Listener
 						{
 							getCookieClicker().getCookies().put(whoClicked.getUniqueId(), getCookieClicker().getCookies().get(whoClicked.getUniqueId()) - value * 100000);
 							getCookieClicker().getCookiesPerClick().put(whoClicked.getUniqueId(), getCookieClicker().getCookiesPerClick().get(whoClicked.getUniqueId()) + value);
-							String cookies = new DecimalFormat("0,000,000,000.00").format(getCookieClicker().getCookies().get(whoClicked.getUniqueId()));
-							for (char c : cookies.toCharArray())
-							{
-								if (c == '0' || c == '.')
-								{
-									cookies = cookies.substring(1);
-								}
-								else
-								{
-									getUpdates().setItem(13, new ItemBuilder(getUpdates().getItem(13)).setLore(TEXT + "Du hast " + PRIMARY + cookies + IMPORTANT + " Cookies").build());
-									whoClicked.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du hast " + PRIMARY + value + IMPORTANT + " Cookie" + (value > 1 ? "s" : "") + " pro Klick mehr " + currentItem.getItemMeta().getLore().get(0) + TEXT + " gekauft");
-									return;
-								}
-							}
+							getCookieListener().format(whoClicked, result -> {
+								whoClicked.getOpenInventory().setItem(13, new ItemBuilder(getUpdates().getItem(13)).setLore(TEXT + "Du hast " + PRIMARY + result + IMPORTANT + " Cookies").build());
+								whoClicked.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du hast " + PRIMARY + value + IMPORTANT + " Cookie" + (value > 1 ? "s" : "") + " pro Klick mehr " + currentItem.getItemMeta().getLore().get(0) + TEXT + " gekauft");
+							});
 						}
 						else
 						{
@@ -151,21 +140,10 @@ class CookieShopListener implements Listener
 							getCookieClicker().getCookies().put(whoClicked.getUniqueId(), getCookieClicker().getCookies().get(whoClicked.getUniqueId()) - value * 1000);
 							whoClicked.sendMessage(getCoinsAPI().addCoins(whoClicked.getUniqueId(), String.valueOf((int) value), result -> {
 								Bukkit.getPluginManager().callEvent(new PlayerUpdateCoinsEvent((Player) event.getWhoClicked(), result));
-								String cookies = new DecimalFormat("0,000,000,000.00").format(getCookieClicker().getCookies().get(whoClicked.getUniqueId()));
-								for (char c : cookies.toCharArray())
-								{
-									if (c == '0' || c == '.')
-									{
-										cookies = cookies.substring(1);
-									}
-									else
-									{
-										getCoins().setItem(13, new ItemBuilder(getCoins().getItem(13)).setLore(TEXT + "Du hast " + PRIMARY + cookies + IMPORTANT + " Cookies").build());
-										whoClicked.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du hast " + PRIMARY + value + IMPORTANT + " Cookie" + (value > 1 ? "s" : "") + " pro Klick mehr " + currentItem.getItemMeta().getLore().get(0) + TEXT + " gekauft");
-										return;
-									}
-								}
-								whoClicked.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du hast " + PRIMARY + (int) value + IMPORTANT + " Coins " + currentItem.getItemMeta().getLore().get(0) + TEXT + " gekauft");
+								getCookieListener().format(whoClicked, result1 -> {
+									whoClicked.getOpenInventory().setItem(13, new ItemBuilder(getCoins().getItem(13)).setLore(TEXT + "Du hast " + PRIMARY + result1 + IMPORTANT + " Cookies").build());
+									whoClicked.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du hast " + PRIMARY + (int) value + IMPORTANT + " Coins " + currentItem.getItemMeta().getLore().get(0) + TEXT + " gekauft");
+								});
 							}));
 						}
 						else

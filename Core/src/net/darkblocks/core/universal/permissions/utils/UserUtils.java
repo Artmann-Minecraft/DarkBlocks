@@ -1,3 +1,7 @@
+/*
+ * © Copyright - Lars Artmann | LartyHD 2018.
+ */
+
 package net.darkblocks.core.universal.permissions.utils;
 
 import net.darkblocks.core.universal.permissions.manager.GroupManager;
@@ -72,19 +76,25 @@ public class UserUtils
 							user.getPermissions().addAll(group.getPermissions());
 						}
 						mySQL.query("SELECT * FROM `Permissions`", result1 -> {
-							while (result1.next())
+							try
 							{
-								if (result1.getInt("type") == 1)
+								while (result1.next())
 								{
-									if (result1.getString("name").equalsIgnoreCase(uniqueId.toString()))
+									if (result1.getInt("type") == 1)
 									{
-										user.getPermissions().add(result1.getString("permission"));
+										if (result1.getString("name").equalsIgnoreCase(uniqueId.toString()))
+										{
+											user.getPermissions().add(result1.getString("permission"));
+										}
 									}
 								}
-							}
-							if (callback != null)
+								if (callback != null)
+								{
+									callback.call();
+								}
+							} catch (SQLException ex)
 							{
-								callback.call();
+								ex.printStackTrace();
 							}
 						});
 					}

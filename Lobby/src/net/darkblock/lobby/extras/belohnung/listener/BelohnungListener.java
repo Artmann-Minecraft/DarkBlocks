@@ -28,6 +28,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkEffectMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.UUID;
@@ -55,16 +56,22 @@ public class BelohnungListener implements Listener
 	{
 		Player player = event.getPlayer();
 		getBelohnung().getMySQL().query("SELECT * FROM Belohnung WHERE `uuid` = '" + player.getUniqueId() + "'", result -> {
-			if (result.next())
+			try
 			{
-				if (result.getLong("time") - (System.currentTimeMillis() / 1000) < 1)
+				if (result.next())
 				{
-					player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du kannst dir eine " + IMPORTANT + "Belohnung " + TEXT + "abholen");
+					if (result.getLong("time") - (System.currentTimeMillis() / 1000) < 1)
+					{
+						player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du kannst dir eine " + IMPORTANT + "Belohnung " + TEXT + "abholen");
+					}
 				}
-			}
-			else
+				else
+				{
+					getBelohnung().getMySQL().update("INSERT INTO Belohnung(`uuid`, `time`) VALUES ('" + player.getUniqueId() + "','" + 0 + "')", () -> player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du kannst dir eine " + IMPORTANT + "Belohnung " + TEXT + "abholen"));
+				}
+			} catch (SQLException ex)
 			{
-				getBelohnung().getMySQL().update("INSERT INTO Belohnung(`uuid`, `time`) VALUES ('" + player.getUniqueId() + "','" + 0 + "')", () -> player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du kannst dir eine " + IMPORTANT + "Belohnung " + TEXT + "abholen"));
+				ex.printStackTrace();
 			}
 		});
 	}
@@ -139,12 +146,7 @@ public class BelohnungListener implements Listener
 								}
 								player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du hast dir erfolgreich deine " + IMPORTANT + "Belohnung " + TEXT + "abgeholt");
 								Bukkit.getPluginManager().callEvent(new PlayerUpdateCoinsEvent(player, result));
-								getBelohnung().getMySQL().query("SELECT * FROM Belohnung WHERE `uuid` = '" + player.getUniqueId() + "'", result1 -> {
-									if (result1.next())
-									{
-										player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du kannst dir wieder in " + getZeitMessage(result1.getLong("time") - (System.currentTimeMillis() / 1000)) + " die nächste Belohnung abholen");
-									}
-								});
+								getTime(player);
 								player.closeInventory();
 								return;
 							}
@@ -153,16 +155,27 @@ public class BelohnungListener implements Listener
 				}
 				else
 				{
-					getBelohnung().getMySQL().query("SELECT * FROM Belohnung WHERE `uuid` = '" + player.getUniqueId() + "'", result1 -> {
-						if (result1.next())
-						{
-							player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du kannst dir wieder in " + getZeitMessage(result1.getLong("time") - (System.currentTimeMillis() / 1000)) + " die nächste Belohnung abholen");
-						}
-					});
+					getTime(player);
 					player.closeInventory();
 				}
 			}
 		}
+	}
+	
+	private void getTime(Player player)
+	{
+		getBelohnung().getMySQL().query("SELECT * FROM Belohnung WHERE `uuid` = '" + player.getUniqueId() + "'", result1 -> {
+			try
+			{
+				if (result1.next())
+				{
+					player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du kannst dir wieder in " + getZeitMessage(result1.getLong("time") - (System.currentTimeMillis() / 1000)) + " die nächste Belohnung abholen");
+				}
+			} catch (SQLException ex)
+			{
+				ex.printStackTrace();
+			}
+		});
 	}
 	
 	public void openBelohungsInventory(Player player)
@@ -170,18 +183,24 @@ public class BelohnungListener implements Listener
 		getBelohnung().getMySQL().query("SELECT * FROM Belohnung WHERE `uuid` = '" + player.getUniqueId() + "'", result -> {
 			Inventory inventory = Bukkit.createInventory(null, InventoryType.HOPPER, SECONDARY + "Belohnung");
 			InventoryUtils.setDesign(inventory, new ArrayList<>());
-			if (result.next())
+			try
 			{
-				if (result.getLong("time") - (System.currentTimeMillis() / 1000) < 1)
+				if (result.next())
 				{
-					setBelohnungItem(inventory, true);
+					if (result.getLong("time") - (System.currentTimeMillis() / 1000) < 1)
+					{
+						setBelohnungItem(inventory, true);
+					}
+					else
+					{
+						setBelohnungItem(inventory, false);
+					}
+					inventory.setItem(3, new ItemBuilder(Material.CHEST).setName(SECONDARY + "CaseOpening").setLore(Arrays.asList(TEXT + "Du hast noch " + IMPORTANT + getBelohnung().getCaseOpeningListener().getChests().get(player.getName()) + TEXT + " Kisten", " ", TEXT + "Kaufe mit shift " + PRIMARY + "Kisten " + TEXT + "für " + PRIMARY + "5000 " + IMPORTANT + "Coins")).build());
+					player.openInventory(inventory);
 				}
-				else
-				{
-					setBelohnungItem(inventory, false);
-				}
-				inventory.setItem(3, new ItemBuilder(Material.CHEST).setName(SECONDARY + "CaseOpening").setLore(Arrays.asList(TEXT + "Du hast noch " + IMPORTANT + getBelohnung().getCaseOpeningListener().getChests().get(player.getName()) + TEXT + " Kisten", " ", TEXT + "Kaufe mit shift " + PRIMARY + "Kisten " + TEXT + "für " + PRIMARY + "5000 " + IMPORTANT + "Coins")).build());
-				player.openInventory(inventory);
+			} catch (SQLException ex)
+			{
+				ex.printStackTrace();
 			}
 		});
 	}

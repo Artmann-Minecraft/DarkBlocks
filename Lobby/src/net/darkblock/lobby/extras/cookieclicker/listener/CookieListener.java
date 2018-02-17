@@ -4,13 +4,16 @@
 package net.darkblock.lobby.extras.cookieclicker.listener;
 
 import lombok.Getter;
+import lombok.NonNull;
 import net.darkblock.lobby.extras.cookieclicker.CookieClicker;
 import net.darkblocks.dark.java.mysql.CoinsAPI;
+import net.darkblocks.dark.java.utils.Callback;
 import net.darkblocks.dark.spigot.events.PlayerDisconnectEvent;
 import net.darkblocks.dark.spigot.utils.PackageUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -136,36 +139,28 @@ public class CookieListener implements Listener
 			if (getCookieClicker().getCookies().get(uuid) != null)
 			{
 				getCookieClicker().getCookies().put(uuid, getCookieClicker().getCookies().get(uuid) + getCookieClicker().getCookiesPerClick().get(uuid));
-				subtitle = new DecimalFormat("0,000,000,000.00").format(getCookieClicker().getCookies().get(uuid));
-				for (char c : subtitle.toCharArray())
+				format(player, result -> PackageUtils.sendTitle(player, "" + PRIMARY + EXTRA + "CookieClicker", TEXT + "" + result + IMPORTANT + " Cookies", 0, 20, 10));
+			}
+		}
+	}
+	
+	protected void format(@NonNull HumanEntity humanEntity, @NonNull Callback<String> callback)
+	{
+		String format = new DecimalFormat("0,000,000,000.00").format(getCookieClicker().getCookies().get(humanEntity.getUniqueId()));
+		for (char c : format.toCharArray())
+		{
+			if (c == '0' || c == '.')
+			{
+				format = format.substring(1);
+			}
+			else
+			{
+				if (c == ',')
 				{
-					if (c == '0' || c == '.')
-					{
-						subtitle = subtitle.substring(1);
-					}
-					else
-					{
-						PackageUtils.sendTitle(player, "" + PRIMARY + EXTRA + "CookieClicker", TEXT + "" + subtitle + IMPORTANT + " Cookies", 0, 20, 10);
-						return;
-					}
+					format = "0" + format;
 				}
-				/*subtitle = String.valueOf(Math.round(100.0 * getCookieClicker().getCookies().get(uuid)) / 100.0);
-				if (subtitle.length() > 2)
-				{
-					subtitle = (subtitle.substring(0, subtitle.length() - 2) + "," + subtitle.substring(subtitle.length() - 2)).replace(".", "");
-					if (subtitle.split(",")[0].length() > 3)
-					{
-						subtitle = subtitle.split(",")[0].substring(0, subtitle.length() - (3 + subtitle.split(",")[1].length())) + "." + subtitle.substring(subtitle.length() - (3 + subtitle.split(",")[1].length()));
-						if (subtitle.split(",")[0].length() > 6)
-						{
-							subtitle = subtitle.split(",")[0].substring(0, subtitle.length() - (6 + subtitle.split(",")[1].length())) + "." + subtitle.substring(subtitle.length() - (6 + subtitle.split(",")[1].length()));
-							if (subtitle.split(",")[0].length() > 9)
-							{
-								subtitle = subtitle.split(",")[0].substring(0, subtitle.length() - (9 + subtitle.split(",")[1].length())) + "." + subtitle.substring(subtitle.length() - (9 + subtitle.split(",")[1].length()));
-							}
-						}
-					}
-				}*/
+				callback.call(format);
+				return;
 			}
 		}
 	}
