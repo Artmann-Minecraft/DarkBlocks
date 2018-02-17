@@ -1,3 +1,7 @@
+/*
+ * © Copyright - Lars Artmann | LartyHD 2018.
+ */
+
 package net.darkblock.lobby.extras.belohnung.utils;
 
 import lombok.AllArgsConstructor;
@@ -11,13 +15,13 @@ import org.bukkit.inventory.ItemStack;
  */
 @Data
 @AllArgsConstructor
-public abstract class ChestOpeningItem
+public abstract class CaseOpeningItem
 {
 	private String name;
 	private String command;
 	private ItemStack displayItem;
 	
-	public ChestOpeningItem(String name, ItemStack displayItem)
+	public CaseOpeningItem(String name, ItemStack displayItem)
 	{
 		this.name = name;
 		this.displayItem = displayItem;

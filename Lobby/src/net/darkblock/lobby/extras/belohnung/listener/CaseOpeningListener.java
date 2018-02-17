@@ -6,7 +6,7 @@ package net.darkblock.lobby.extras.belohnung.listener;
 import lombok.Getter;
 import lombok.NonNull;
 import net.darkblock.lobby.extras.belohnung.Belohnung;
-import net.darkblock.lobby.extras.belohnung.utils.ChestOpeningItem;
+import net.darkblock.lobby.extras.belohnung.utils.CaseOpeningItem;
 import net.darkblocks.dark.java.mysql.MySQL;
 import net.darkblocks.dark.spigot.builder.InventoryBuilder;
 import net.darkblocks.dark.spigot.builder.ItemBuilder;
@@ -38,15 +38,15 @@ import static net.darkblocks.dark.universal.messages.Colors.*;
  * Created by LartyHD on 16.02.2018  13:47.
  */
 @Getter
-public class ChestOpeningListener implements Listener
+public class CaseOpeningListener implements Listener
 {
 	private final Map<String, Integer> chests;
-	private final List<ChestOpeningItem> items;
+	private final List<CaseOpeningItem> items;
 	private final List<String> player;
 	private final Belohnung belohnung;
 	private final ItemBuilder againItem;
 	
-	public ChestOpeningListener(JavaPlugin javaPlugin, Belohnung belohnung)
+	public CaseOpeningListener(JavaPlugin javaPlugin, Belohnung belohnung)
 	{
 		this.chests = new HashMap<>();
 		this.items = new ArrayList<>();
@@ -54,7 +54,7 @@ public class ChestOpeningListener implements Listener
 		this.belohnung = belohnung;
 		this.againItem = new ItemBuilder(Material.CHEST).setName(SECONDARY + "Weitere Kiste öffnen");
 		getBelohnung().getMySQL().update("CREATE TABLE IF NOT EXISTS Chests(uuid VARCHAR (50), `chests` INT, PRIMARY KEY (uuid))", () -> {
-			addItem(new ChestOpeningItem("1000 Coins", new ItemBuilder(Material.GOLD_NUGGET).setName(SECONDARY + "1000 Coins").build())
+			addItem(new CaseOpeningItem("1000 Coins", new ItemBuilder(Material.GOLD_NUGGET).setName(SECONDARY + "1000 Coins").build())
 			{
 				@Override
 				public void execute(Player player)
@@ -62,7 +62,7 @@ public class ChestOpeningListener implements Listener
 					player.sendMessage(belohnung.getCoinsAPI().addCoins(player.getUniqueId(), String.valueOf(1000), null));
 				}
 			}, 100);
-			addItem(new ChestOpeningItem("5000 Coins", new ItemBuilder(Material.GOLD_INGOT).setName(SECONDARY + "5000 Coins").build())
+			addItem(new CaseOpeningItem("5000 Coins", new ItemBuilder(Material.GOLD_INGOT).setName(SECONDARY + "5000 Coins").build())
 			{
 				@Override
 				public void execute(Player player)
@@ -70,7 +70,7 @@ public class ChestOpeningListener implements Listener
 					player.sendMessage(belohnung.getCoinsAPI().addCoins(player.getUniqueId(), String.valueOf(5000), null));
 				}
 			}, 40);
-			addItem(new ChestOpeningItem("10000 Coins", new ItemBuilder(Material.GOLD_BLOCK).setName(SECONDARY + "10000 Coins").build())
+			addItem(new CaseOpeningItem("10000 Coins", new ItemBuilder(Material.GOLD_BLOCK).setName(SECONDARY + "10000 Coins").build())
 			{
 				@Override
 				public void execute(Player player)
@@ -78,12 +78,12 @@ public class ChestOpeningListener implements Listener
 					player.sendMessage(belohnung.getCoinsAPI().addCoins(player.getUniqueId(), String.valueOf(10000), null));
 				}
 			}, 20);
-			addItem(new ChestOpeningItem("2 Kisten", new ItemBuilder(Material.CHEST).setName(SECONDARY + "2 Kisten").build())
+			addItem(new CaseOpeningItem("2 Kisten", new ItemBuilder(Material.CHEST).setName(SECONDARY + "2 Kisten").build())
 			{
 				@Override
 				public void execute(Player player)
 				{
-					ChestOpeningListener.this.chests.put(player.getName(), ChestOpeningListener.this.chests.get(player.getName()) + 2);
+					CaseOpeningListener.this.chests.put(player.getName(), CaseOpeningListener.this.chests.get(player.getName()) + 2);
 				}
 			}, 10);
 			Bukkit.getPluginManager().registerEvents(this, javaPlugin);
@@ -94,11 +94,11 @@ public class ChestOpeningListener implements Listener
 		}
 	}
 	
-	private void addItem(@NonNull ChestOpeningItem chestOpeningItem, int chance)
+	private void addItem(@NonNull CaseOpeningItem caseOpeningItem, int chance)
 	{
 		for (int i = 0; i < chance; i++)
 		{
-			this.items.add(chestOpeningItem);
+			this.items.add(caseOpeningItem);
 		}
 	}
 	
@@ -182,14 +182,14 @@ public class ChestOpeningListener implements Listener
 							{
 								player.openInventory(new InventoryBuilder(player, InventoryType.HOPPER, SECONDARY + "CaseOpening | Buy")
 										.setDesign(new ArrayList<>())
-										.setItem(0, new ItemBuilder(Material.STAINED_CLAY).setDurability((short) 5).setName(TEXT + "Kaufen").setLore(TEXT + "Eine Kiste kostet" + IMPORTANT + " 5000 Coins").build())
-										.setItem(4, new ItemBuilder(Material.STAINED_CLAY).setDurability((short) 14).setName(TEXT + "Abbrechen").build())
+										.setItem(0, new ItemBuilder(Material.STAINED_CLAY).setDurability((short) 5).setName(SECONDARY + "Kaufen").setLore(TEXT + "Eine Kiste kostet" + IMPORTANT + " 5000 Coins").build())
+										.setItem(4, new ItemBuilder(Material.STAINED_CLAY).setDurability((short) 14).setName(SECONDARY + "Abbrechen").build())
 										.setItem(2, new ItemBuilder(Material.CHEST).setName(SECONDARY + "CaseOpening").setLore(Collections.singletonList(TEXT + "Du hast noch " + IMPORTANT + this.chests.get(player.getName()) + TEXT + " Kisten")).build())
 										.build());
 							}
 							else
 							{
-								performChestOpening(player);
+								performCaseOpening(player);
 							}
 						}
 						else
@@ -234,7 +234,7 @@ public class ChestOpeningListener implements Listener
 									}
 									else
 									{
-										performChestOpening(player);
+										performCaseOpening(player);
 									}
 								}
 								else
@@ -257,14 +257,14 @@ public class ChestOpeningListener implements Listener
 								{
 									player.openInventory(new InventoryBuilder(player, InventoryType.HOPPER, SECONDARY + "CaseOpening | Buy")
 											.setDesign(new ArrayList<>())
-											.setItem(0, new ItemBuilder(Material.STAINED_CLAY).setDurability((short) 5).setName(TEXT + "Kaufen").setLore(TEXT + "Eine Kiste kostet" + IMPORTANT + " 5000 Coins").build())
-											.setItem(4, new ItemBuilder(Material.STAINED_CLAY).setDurability((short) 14).setName(TEXT + "Abbrechen").build())
+											.setItem(0, new ItemBuilder(Material.STAINED_CLAY).setDurability((short) 5).setName(SECONDARY + "Kaufen").setLore(TEXT + "Eine Kiste kostet" + IMPORTANT + " 5000 Coins").build())
+											.setItem(4, new ItemBuilder(Material.STAINED_CLAY).setDurability((short) 14).setName(SECONDARY + "Abbrechen").build())
 											.setItem(2, new ItemBuilder(Material.CHEST).setName(SECONDARY + "CaseOpening").setLore(Collections.singletonList(TEXT + "Du hast noch " + IMPORTANT + this.chests.get(player.getName()) + TEXT + " Kisten")).build())
 											.build());
 								}
 								else
 								{
-									performChestOpening(player);
+									performCaseOpening(player);
 								}
 							}
 							else
@@ -279,47 +279,62 @@ public class ChestOpeningListener implements Listener
 		}
 	}
 	
-	private void performChestOpening(Player player)
+	private void performCaseOpening(Player player)
 	{
 		Collections.shuffle(this.items);
 		Inventory caseOpeningInventory = new InventoryBuilder(player, 27, SECONDARY + "CaseOpening").setDesign(new ArrayList<>()).setItem(4, new ItemBuilder(Material.HOPPER).setName(SECONDARY + "Dein Item").build()).build();
 		executeOneChestDelay(caseOpeningInventory, player);
 		player.openInventory(caseOpeningInventory);
 		new Thread(() -> {
+			System.out.println(1);
 			this.player.add(player.getName());
 			try
 			{
+				System.out.println(2);
 				for (int i = 0; i < 100; i++)
 				{
+					System.out.println(3);
 					if (!executeOneChestDelay(caseOpeningInventory, player))
 					{
+						System.out.println(4);
 						return;
 					}
+					System.out.println(5);
 					Thread.sleep((long) (25));
 					player.playSound(player.getLocation(), Sound.BURP, 1, 1);
 				}
+				System.out.println(6);
 				for (int i = 0; i < 50; i++)
 				{
+					System.out.println(7);
 					if (!executeOneChestDelay(caseOpeningInventory, player))
 					{
+						System.out.println(8);
 						return;
 					}
 					Thread.sleep((long) (50));
 					player.playSound(player.getLocation(), Sound.BURP, 1, 1);
 				}
+				System.out.println(9);
 				for (int i = 0; i < 25; i++)
 				{
+					System.out.println(10);
 					if (!executeOneChestDelay(caseOpeningInventory, player))
 					{
+						System.out.println(11);
 						return;
 					}
+					System.out.println(12);
 					Thread.sleep((long) (100));
 					player.playSound(player.getLocation(), Sound.BURP, 1, 1);
 				}
+				System.out.println(13);
 			} catch (InterruptedException ex)
 			{
+				System.out.println(14);
 				ex.printStackTrace();
 			}
+			System.out.println(15);
 			this.player.remove(player.getName());
 			new BukkitRunnable()
 			{
@@ -334,16 +349,16 @@ public class ChestOpeningListener implements Listener
 	
 	private Inventory finished(Player player, Inventory inventory)
 	{
-		ChestOpeningItem chestOpeningItem = getItems().get(3);
-		if (chestOpeningItem.getDisplayItem().getItemMeta().getDisplayName().equalsIgnoreCase(inventory.getItem(13).getItemMeta().getDisplayName()))
+		CaseOpeningItem caseOpeningItem = getItems().get(3);
+		if (caseOpeningItem.getDisplayItem().getItemMeta().getDisplayName().equalsIgnoreCase(inventory.getItem(13).getItemMeta().getDisplayName()))
 		{
 			Inventory finishedCaseOpeningInventory = Bukkit.createInventory(null, 27, SECONDARY + "CaseOpening | Finish");
 			InventoryUtils.setDesign(finishedCaseOpeningInventory, new ArrayList<>());
 			finishedCaseOpeningInventory.setItem(4, new ItemBuilder(Material.HOPPER).setName(SECONDARY + "Dein Item").build());
-			finishedCaseOpeningInventory.setItem(13, chestOpeningItem.getDisplayItem());
+			finishedCaseOpeningInventory.setItem(13, caseOpeningItem.getDisplayItem());
 			this.chests.put(player.getName(), this.chests.get(player.getName()) - 1);
-			chestOpeningItem.executeCommand();
-			chestOpeningItem.execute(player);
+			caseOpeningItem.executeCommand();
+			caseOpeningItem.execute(player);
 			new BukkitRunnable()
 			{
 				@Override
@@ -357,7 +372,7 @@ public class ChestOpeningListener implements Listener
 				}
 			}.runTaskLater(getBelohnung().getJavaPlugin(), 20);
 			InventoryUtils.setDesign(player.getInventory(), new ArrayList<>());
-			player.getInventory().setItem(22, ChestOpeningListener.this.againItem.setLore(TEXT + "Du hast noch " + IMPORTANT + getBelohnung().getChestOpeningListener().getChests().get(player.getName()) + TEXT + " Kisten").build());
+			player.getInventory().setItem(22, CaseOpeningListener.this.againItem.setLore(TEXT + "Du hast noch " + IMPORTANT + getBelohnung().getCaseOpeningListener().getChests().get(player.getName()) + TEXT + " Kisten").build());
 			return finishedCaseOpeningInventory;
 		}
 		return null;
@@ -365,17 +380,24 @@ public class ChestOpeningListener implements Listener
 	
 	private boolean executeOneChestDelay(Inventory inventory, Player player)
 	{
-		if (player.getOpenInventory().getTopInventory().getName().equalsIgnoreCase(SECONDARY + "ChestOpening"))
+		System.out.println(player);
+		System.out.println(player.getOpenInventory());
+		System.out.println(player.getOpenInventory().getTopInventory());
+		System.out.println(player.getOpenInventory().getTopInventory().getName());
+		if (player.getOpenInventory().getTopInventory().getName().equalsIgnoreCase(SECONDARY + "CaseOpening"))
 		{
+			System.out.println(200);
 			return false;
 		}
 		else
 		{
-			ChestOpeningItem chestOpeningItem = this.items.get(0);
-			this.items.add(chestOpeningItem);
-			this.items.remove(chestOpeningItem);
+			System.out.println(201);
+			CaseOpeningItem caseOpeningItem = this.items.get(0);
+			this.items.add(caseOpeningItem);
+			this.items.remove(caseOpeningItem);
 			for (int i = 0; i < 7; i++)
 			{
+				System.out.println(202);
 				inventory.setItem(i + 10, this.items.get(i).getDisplayItem());
 			}
 			return true;

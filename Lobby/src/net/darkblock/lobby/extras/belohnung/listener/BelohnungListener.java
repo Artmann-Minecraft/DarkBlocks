@@ -29,6 +29,7 @@ import org.bukkit.inventory.meta.FireworkEffectMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -89,7 +90,7 @@ public class BelohnungListener implements Listener
 					{
 						setBelohnungItem(inventory, false);
 					}
-					inventory.setItem(3, new ItemBuilder(Material.CHEST).setName(SECONDARY + "CaseOpening").setLore(TEXT + "Du hast noch " + IMPORTANT + getBelohnung().getChestOpeningListener().getChests().get(player.getName()) + TEXT + " Kisten").build());
+					inventory.setItem(3, new ItemBuilder(Material.CHEST).setName(SECONDARY + "CaseOpening").setLore(Arrays.asList(TEXT + "Du hast noch " + IMPORTANT + getBelohnung().getCaseOpeningListener().getChests().get(player.getName()) + TEXT + " Kisten", " ", TEXT + "Kaufe mit shift " + PRIMARY + "Kisten " + TEXT + "für " + PRIMARY + "5000 " + IMPORTANT + "Coins")).build());
 					player.openInventory(inventory);
 				}
 			});
@@ -114,7 +115,7 @@ public class BelohnungListener implements Listener
 					player.sendMessage(getBelohnung().getCoinsAPI().addCoins(uuid, String.valueOf(1000), result -> {
 						try
 						{
-							getBelohnung().getChestOpeningListener().getChests().put(player.getName(), getBelohnung().getChestOpeningListener().getChests().get(player.getName()) + 1);
+							getBelohnung().getCaseOpeningListener().getChests().put(player.getName(), getBelohnung().getCaseOpeningListener().getChests().get(player.getName()) + 1);
 						} catch (NullPointerException ex)
 						{
 							player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Es ist ein Fehler aufgetreten bitte betrete den Server neu");

@@ -1,8 +1,12 @@
+/*
+ * © Copyright - Lars Artmann | LartyHD 2018.
+ */
+
 package net.darkblock.lobby.extras.belohnung;
 
 import lombok.Getter;
 import net.darkblock.lobby.extras.belohnung.listener.BelohnungListener;
-import net.darkblock.lobby.extras.belohnung.listener.ChestOpeningListener;
+import net.darkblock.lobby.extras.belohnung.listener.CaseOpeningListener;
 import net.darkblocks.core.universal.permissions.manager.UserManager;
 import net.darkblocks.dark.java.mysql.CoinsAPI;
 import net.darkblocks.dark.java.mysql.MySQL;
@@ -25,7 +29,7 @@ import static net.darkblocks.dark.universal.messages.Colors.SECONDARY;
 @Getter
 public class Belohnung
 {
-	private final ChestOpeningListener chestOpeningListener;
+	private final CaseOpeningListener caseOpeningListener;
 	private final UserManager userManager;
 	private final JavaPlugin javaPlugin;
 	private final MySQL mySQL;
@@ -37,7 +41,7 @@ public class Belohnung
 		this.userManager = userManager;
 		this.mySQL = mySQL;
 		this.coinsAPI = coinsAPI;
-		this.chestOpeningListener = new ChestOpeningListener(javaPlugin, this);
+		this.caseOpeningListener = new CaseOpeningListener(javaPlugin, this);
 		new BelohnungListener(javaPlugin, this);
 		Configuration configuration = Configuration.loadConfiguration(new File(javaPlugin.getDataFolder(), "extras.yml"));
 		Location location = new Location(Bukkit.getWorld(configuration.getString("Extras.Belohnung.World")), configuration.getDouble("Extras.Belohnung.X"), configuration.getDouble("Extras.Belohnung.Y"), configuration.getDouble("Extras.Belohnung.Z"), (float) configuration.getDouble("Extras.Belohnung.Yaw"), (float) configuration.getDouble("Extras.Belohnung.Pitch"));
@@ -57,6 +61,6 @@ public class Belohnung
 	
 	public void disable(MySQL mySQL)
 	{
-		this.chestOpeningListener.disable(mySQL);
+		this.caseOpeningListener.disable(mySQL);
 	}
 }
