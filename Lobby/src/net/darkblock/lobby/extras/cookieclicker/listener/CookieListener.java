@@ -41,7 +41,7 @@ public class CookieListener implements Listener
 		Bukkit.getPluginManager().registerEvents(this, javaPlugin);
 		this.cookieClicker = cookieClicker;
 		this.javaPlugin = javaPlugin;
-		new CookieShopListener(javaPlugin, cookieClicker, coinsAPI);
+		new CookieShopListener(this, cookieClicker, coinsAPI);
 	}
 	
 	@EventHandler

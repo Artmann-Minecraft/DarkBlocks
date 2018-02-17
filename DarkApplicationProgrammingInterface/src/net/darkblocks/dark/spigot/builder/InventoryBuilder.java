@@ -19,6 +19,11 @@ public class InventoryBuilder implements Builder<Inventory>
 {
 	private final Inventory inventory;
 	
+	public InventoryBuilder(Inventory inventory)
+	{
+		this.inventory = inventory;
+	}
+	
 	public InventoryBuilder(InventoryHolder holder, InventoryType type)
 	{
 		this.inventory = Bukkit.createInventory(holder, type);

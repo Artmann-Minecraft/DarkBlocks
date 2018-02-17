@@ -39,7 +39,7 @@ public class ItemBuilder implements Builder<ItemStack>
 	/*
 	 *CREATE
 	 */
-	private ItemBuilder(ItemStack itemStack)
+	public ItemBuilder(ItemStack itemStack)
 	{
 		this.itemStack = itemStack;
 	}
