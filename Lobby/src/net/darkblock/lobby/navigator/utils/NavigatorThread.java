@@ -1,3 +1,7 @@
+/*
+ * © Copyright - Lars Artmann | LartyHD 2018.
+ */
+
 package net.darkblock.lobby.navigator.utils;
 
 import net.darkblocks.dark.spigot.builder.ItemBuilder;
@@ -36,124 +40,138 @@ public class NavigatorThread extends Thread
 				Thread.sleep(25);
 			}
 			//WEIßES GLASS OBEN
-			Thread.sleep(50);
 			setGlas(inventory, 0, (short) 0);
 			playSound();
+			Thread.sleep(25);
 			for (int i = 3; i < 6; i++)
 			{
-				Thread.sleep(50);
 				setGlas(inventory, i, (short) 0);
 				playSound();
+				Thread.sleep(25);
 			}
-			Thread.sleep(50);
 			setGlas(inventory, 8, (short) 0);
+			playSound();
+			Thread.sleep(25);
 			//WEIßES GLASS OBEN
 			//WEIßES GLASS UNTEN
-			playSound();
-			Thread.sleep(50);
 			setGlas(inventory, 36, (short) 0);
 			playSound();
+			Thread.sleep(25);
 			for (int i = 39; i < 42; i++)
 			{
-				Thread.sleep(50);
 				setGlas(inventory, i, (short) 0);
 				playSound();
+				Thread.sleep(25);
 			}
-			Thread.sleep(50);
 			setGlas(inventory, 44, (short) 0);
 			playSound();
+			Thread.sleep(25);
 			//WEIßES GLASS UNTEN
-			Thread.sleep(250);
 			//SCHWERZES GLASS 1
-			Thread.sleep(50);
 			setGlas(inventory, 1, (short) 15);
 			playSound();
-			Thread.sleep(50);
+			Thread.sleep(25);
 			setGlas(inventory, 7, (short) 15);
 			playSound();
+			Thread.sleep(25);
 			//SCHWERZES GLASS 1
 			//SCHWERZES GLASS 2
-			Thread.sleep(50);
 			setGlas(inventory, 9, (short) 15);
 			playSound();
-			Thread.sleep(50);
+			Thread.sleep(25);
 			setGlas(inventory, 17, (short) 15);
 			playSound();
+			Thread.sleep(25);
 			//SCHWERZES GLASS 2
 			//SCHWERZES GLASS 3
-			Thread.sleep(50);
 			setGlas(inventory, 18, (short) 15);
 			playSound();
-			Thread.sleep(50);
+			Thread.sleep(25);
 			setGlas(inventory, 26, (short) 15);
 			playSound();
+			Thread.sleep(25);
 			//SCHWERZES GLASS 3
 			//SCHWERZES GLASS 4
-			Thread.sleep(50);
 			setGlas(inventory, 27, (short) 15);
 			playSound();
-			Thread.sleep(50);
+			Thread.sleep(25);
 			setGlas(inventory, 35, (short) 15);
 			playSound();
+			Thread.sleep(25);
 			//SCHWERZES GLASS 4
 			//SCHWERZES GLASS 5
-			Thread.sleep(50);
 			setGlas(inventory, 37, (short) 15);
 			playSound();
-			Thread.sleep(50);
+			Thread.sleep(25);
 			setGlas(inventory, 43, (short) 15);
 			playSound();
+			Thread.sleep(25);
 			//SCHWERZES GLASS 5
 			//ADD TELEPORTS
 			//1
-			Thread.sleep(200);
+			remove(inventory, 4);
 			inventory.setItem(4, NavigatorItems.CORES.getItemStack());
 			playSound();
+			Thread.sleep(200);
 			//1
 			//2
-			Thread.sleep(200);
+			remove(inventory, 22);
 			inventory.setItem(22, NavigatorItems.PLATZHALTER.getItemStack());
 			playSound();
+			Thread.sleep(200);
 			//2
 			//3
-			Thread.sleep(200);
+			remove(inventory, 19);
 			inventory.setItem(19, NavigatorItems.FFA.getItemStack());
 			playSound();
+			Thread.sleep(200);
 			//3
 			//4
-			Thread.sleep(200);
+			remove(inventory, 25);
 			inventory.setItem(25, NavigatorItems.GUNGAME.getItemStack());
 			playSound();
+			Thread.sleep(200);
 			//4
 			//5
-			Thread.sleep(200);
+			remove(inventory, 22);
 			inventory.setItem(22, NavigatorItems.SPAWN.getItemStack());
 			playSound();
+			Thread.sleep(200);
 			//5
 			//6
-			Thread.sleep(200);
+			remove(inventory, 40);
 			inventory.setItem(40, NavigatorItems.PLATZHALTER.getItemStack());
 			playSound();
+			Thread.sleep(200);
 			//6
 			//7
-			Thread.sleep(200);
+			remove(inventory, 38);
 			inventory.setItem(38, NavigatorItems.COOKIECLICKER.getItemStack());
 			playSound();
+			Thread.sleep(200);
 			//7
 			//8
-			Thread.sleep(200);
+			remove(inventory, 42);
 			inventory.setItem(42, NavigatorItems.BELOHNUNG.getItemStack());
 			playSound();
+			Thread.sleep(200);
 			//8
 			//9
-			Thread.sleep(200);
+			remove(inventory, 40);
 			inventory.setItem(40, NavigatorItems.TEAMPVP.getItemStack());
 			playSound();
+			Thread.sleep(200);
 			//9
 			//ADD TELEPORTS
 		} catch (InterruptedException ignored)
 		{
 		}
+	}
+	
+	private void remove(Inventory inventory, int slot) throws InterruptedException
+	{
+		inventory.setItem(slot, null);
+		Thread.sleep(25);
 	}
 	
 	private void setGlas(Inventory inventory, int slot, short durability)
