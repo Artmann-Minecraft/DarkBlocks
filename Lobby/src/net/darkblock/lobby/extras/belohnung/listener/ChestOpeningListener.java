@@ -360,7 +360,7 @@ public class ChestOpeningListener implements Listener
 	
 	private boolean executeOneChestDelay(Inventory inventory, Player player)
 	{
-		if (!player.getOpenInventory().getTopInventory().getName().equalsIgnoreCase(SECONDARY + "ChestOpening"))
+		if (player.getOpenInventory().getTopInventory().getName().equalsIgnoreCase(SECONDARY + "ChestOpening"))
 		{
 			return false;
 		}
