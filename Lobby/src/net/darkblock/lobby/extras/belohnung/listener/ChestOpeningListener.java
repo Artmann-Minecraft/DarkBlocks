@@ -155,7 +155,7 @@ public class ChestOpeningListener implements Listener
 			{
 				for (int i = 9; i < event.getPlayer().getInventory().getSize(); i++)
 				{
-					event.getPlayer().getInventory().setItem(i, null);
+					event.getPlayer().getInventory().setItem(i, new ItemStack(Material.AIR));
 				}
 			}
 		}
@@ -176,18 +176,26 @@ public class ChestOpeningListener implements Listener
 					Material type = itemStack.getType();
 					if (type != null && type == Material.CHEST)
 					{
-						if (this.chests.get(player.getName()) != null && (event.isShiftClick() || this.chests.get(player.getName()) < 1))
+						if (this.chests.get(player.getName()) != null)
 						{
-							player.openInventory(new InventoryBuilder(player, InventoryType.HOPPER, SECONDARY + "CaseOpening | Buy")
-									.setDesign(new ArrayList<>())
-									.setItem(0, new ItemBuilder(Material.STAINED_CLAY).setDurability((short) 5).setName(TEXT + "Kaufen").setLore(TEXT + "Eine Kiste kostet" + IMPORTANT + " 5000 Coins").build())
-									.setItem(4, new ItemBuilder(Material.STAINED_CLAY).setDurability((short) 14).setName(TEXT + "Abbrechen").build())
-									.setItem(2, new ItemBuilder(Material.CHEST).setName(SECONDARY + "CaseOpening").setLore(Collections.singletonList(TEXT + "Du hast noch " + IMPORTANT + this.chests.get(player.getName()) + TEXT + " Kisten")).build())
-									.build());
+							if (event.isShiftClick() || this.chests.get(player.getName()) < 1)
+							{
+								player.openInventory(new InventoryBuilder(player, InventoryType.HOPPER, SECONDARY + "CaseOpening | Buy")
+										.setDesign(new ArrayList<>())
+										.setItem(0, new ItemBuilder(Material.STAINED_CLAY).setDurability((short) 5).setName(TEXT + "Kaufen").setLore(TEXT + "Eine Kiste kostet" + IMPORTANT + " 5000 Coins").build())
+										.setItem(4, new ItemBuilder(Material.STAINED_CLAY).setDurability((short) 14).setName(TEXT + "Abbrechen").build())
+										.setItem(2, new ItemBuilder(Material.CHEST).setName(SECONDARY + "CaseOpening").setLore(Collections.singletonList(TEXT + "Du hast noch " + IMPORTANT + this.chests.get(player.getName()) + TEXT + " Kisten")).build())
+										.build());
+							}
+							else
+							{
+								performChestOpening(player);
+							}
 						}
 						else
 						{
-							performChestOpening(player);
+							player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Es ist ein " + IMPORTANT + "Fehler " + TEXT + "aufgetreten");
+							player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Bitte betreten den " + IMPORTANT + "Server " + TEXT + "neu");
 						}
 					}
 					break;
@@ -218,7 +226,34 @@ public class ChestOpeningListener implements Listener
 						case 0:
 							if (event.getCurrentItem() != null && event.getCurrentItem().getType() == Material.CHEST)
 							{
-								if (this.chests.get(player.getName()) != null && (event.isShiftClick() || this.chests.get(player.getName()) < 1))
+								if (this.chests.get(player.getName()) != null)
+								{
+									if (event.isShiftClick() || this.chests.get(player.getName()) < 1)
+									{
+										player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du hast nicht genug " + IMPORTANT + "Kisten");
+									}
+									else
+									{
+										performChestOpening(player);
+									}
+								}
+								else
+								{
+									player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Es ist ein " + IMPORTANT + "Fehler " + TEXT + "aufgetreten");
+									player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Bitte betreten den " + IMPORTANT + "Server " + TEXT + "neu");
+								}
+							}
+							break;
+					}
+					break;
+				case "caseopening | finish":
+					if (event.getClickedInventory() == player.getOpenInventory().getBottomInventory() && event.getCurrentItem() != null && event.getCurrentItem().getType() == Material.CHEST)
+					{
+						if (this.chests.get(player.getName()) != null)
+						{
+							if (this.chests.get(player.getName()) != null)
+							{
+								if (this.chests.get(player.getName()) < 1)
 								{
 									player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du hast nicht genug " + IMPORTANT + "Kisten");
 								}
@@ -227,9 +262,14 @@ public class ChestOpeningListener implements Listener
 									performChestOpening(player);
 								}
 							}
-							break;
+							else
+							{
+								player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Es ist ein " + IMPORTANT + "Fehler " + TEXT + "aufgetreten");
+								player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Bitte betreten den " + IMPORTANT + "Server " + TEXT + "neu");
+							}
+						}
+						break;
 					}
-					break;
 			}
 		}
 	}
@@ -312,7 +352,7 @@ public class ChestOpeningListener implements Listener
 				}
 			}.runTaskLater(getBelohnung().getJavaPlugin(), 20);
 			InventoryUtils.setDesign(player.getInventory(), new ArrayList<>());
-			inventory.setItem(22, this.againItem.setLore(TEXT + "Du hast noch " + IMPORTANT + getBelohnung().getChestOpeningListener().getChests().get(player.getName()) + TEXT + " Kisten").build());
+			player.getInventory().setItem(22, ChestOpeningListener.this.againItem.setLore(TEXT + "Du hast noch " + IMPORTANT + getBelohnung().getChestOpeningListener().getChests().get(player.getName()) + TEXT + " Kisten").build());
 			return finishedCaseOpeningInventory;
 		}
 		return null;
