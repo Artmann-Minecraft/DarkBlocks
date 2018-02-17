@@ -144,7 +144,7 @@ public class CookieListener implements Listener
 		}
 	}
 	
-	protected void format(@NonNull HumanEntity humanEntity, @NonNull Callback<String> callback)
+	void format(@NonNull HumanEntity humanEntity, @NonNull Callback<String> callback)
 	{
 		String format = new DecimalFormat("0,000,000,000.00").format(getCookieClicker().getCookies().get(humanEntity.getUniqueId()));
 		for (char c : format.toCharArray())

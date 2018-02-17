@@ -1,7 +1,6 @@
 /*
  * © Copyright - Lars Artmann | LartyHD 2018.
  */
-
 package net.darkblocks.core.universal.permissions.utils;
 
 import net.darkblocks.core.universal.permissions.manager.GroupManager;
