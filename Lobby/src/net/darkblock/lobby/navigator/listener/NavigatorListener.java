@@ -30,7 +30,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -133,9 +132,8 @@ public class NavigatorListener implements CashedPlayerInteractEvent, CashedInven
 		{
 			event.setCancelled(true);
 			Player player = event.getPlayer();
-			PlayerInventory inventory = player.getInventory();
-			InventoryUtils.setDesign(inventory, new ArrayList<>());
-			setLobbys();
+			InventoryUtils.setDesign(player.getInventory(), new ArrayList<>());
+			setLobbys(player);
 			if (getNavigatorAnimation().get(player.getName()))
 			{
 				new NavigatorThread(player).start();
@@ -181,13 +179,13 @@ public class NavigatorListener implements CashedPlayerInteractEvent, CashedInven
 					out.writeUTF("Connect");
 					out.writeUTF(ChatColor.stripColor(currentItem.getItemMeta().getDisplayName()));
 					player.sendPluginMessage(getJavaPlugin(), "BungeeCord", out.toByteArray());
-					setLobbys();
+					setLobbys(player);
 				}
 			}
 		}
 	}
 	
-	private void setLobbys()
+	private void setLobbys(Player player)
 	{
 		List<ItemStack> lobbies = new ArrayList<>();
 		for (SignServer server : Bootstrap.getINSTANCE().getSignSystem().getServers().values())
@@ -197,6 +195,6 @@ public class NavigatorListener implements CashedPlayerInteractEvent, CashedInven
 				lobbies.add(this.lobby.setDurability((short) (server.getName().equalsIgnoreCase(CloudAPI.get().getNameAPI().getServerName()) ? 10 : 8)).setName(SECONDARY + server.getName()).build());
 			}
 		}
-		InventoryUtils.sortChestInventory(this.inventory, lobbies, 18);
+		InventoryUtils.sortChestInventory(player.getInventory(), lobbies, 18);
 	}
 }
