@@ -1,7 +1,6 @@
 /*
  * © Copyright - Lars Artmann | LartyHD 2018.
  */
-
 package net.darkblocks.dark.java.licenses;
 
 import com.sun.javaws.exceptions.InvalidArgumentException;

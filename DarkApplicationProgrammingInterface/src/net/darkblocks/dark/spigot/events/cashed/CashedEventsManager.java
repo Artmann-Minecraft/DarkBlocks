@@ -1,7 +1,6 @@
 /*
  * © Copyright - Lars Artmann | LartyHD 2018.
  */
-
 package net.darkblocks.dark.spigot.events.cashed;
 
 import lombok.Getter;

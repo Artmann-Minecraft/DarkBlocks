@@ -1,7 +1,6 @@
 /*
  * © Copyright - Lars Artmann | LartyHD 2018.
  */
-
 package net.darkblocks.dark.segdocloud.manager;
 
 import com.segdogames.segdocloudplugin.api.CloudAPI;

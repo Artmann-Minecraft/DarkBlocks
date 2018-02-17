@@ -1,7 +1,6 @@
 /*
  * © Copyright - Lars Artmann | LartyHD 2018.
  */
-
 package net.darkblocks.core.bungee.joinme.utils;
 
 import net.md_5.bungee.api.ChatColor;

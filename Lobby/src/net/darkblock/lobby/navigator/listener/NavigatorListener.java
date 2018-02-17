@@ -1,7 +1,6 @@
 /*
  * © Copyright - Lars Artmann | LartyHD 2018.
  */
-
 package net.darkblock.lobby.navigator.listener;
 
 import com.segdogames.segdocloudplugin.api.CloudAPI;

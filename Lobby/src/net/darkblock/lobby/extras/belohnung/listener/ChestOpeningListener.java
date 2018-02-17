@@ -11,6 +11,7 @@ import net.darkblocks.dark.java.mysql.MySQL;
 import net.darkblocks.dark.spigot.builder.InventoryBuilder;
 import net.darkblocks.dark.spigot.builder.ItemBuilder;
 import net.darkblocks.dark.spigot.events.PlayerDisconnectEvent;
+import net.darkblocks.dark.spigot.events.PlayerUpdateCoinsEvent;
 import net.darkblocks.dark.spigot.utils.InventoryUtils;
 import net.darkblocks.dark.universal.messages.Messages;
 import org.bukkit.*;
@@ -203,6 +204,7 @@ public class ChestOpeningListener implements Listener
 								else
 								{
 									getBelohnung().getCoinsAPI().removeCoins(player.getUniqueId(), String.valueOf(5000), result1 -> {
+										Bukkit.getPluginManager().callEvent(new PlayerUpdateCoinsEvent(player, result1));
 										this.chests.put(player.getName(), this.chests.get(player.getName()) + 1);
 										player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Dir wurde eine " + IMPORTANT + "Kiste " + TEXT + "hinzugefügt");
 										player.getOpenInventory().setItem(2, new ItemBuilder(Material.CHEST).setName(SECONDARY + "CaseOpening").setLore(Collections.singletonList(TEXT + "Du hast noch " + IMPORTANT + this.chests.get(player.getName()) + TEXT + " Kisten")).build());

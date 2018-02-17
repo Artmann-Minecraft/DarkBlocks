@@ -1,7 +1,6 @@
 /*
  * © Copyright - Lars Artmann | LartyHD 2018.
  */
-
 package net.darkblocks.core.spigot.fix.bungeehack.listener;
 
 import lombok.Getter;

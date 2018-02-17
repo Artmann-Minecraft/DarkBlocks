@@ -1,7 +1,6 @@
 /*
  * © Copyright - Lars Artmann | LartyHD 2018.
  */
-
 package net.darkblock.lobby.extras.cookieclicker.listener;
 
 import lombok.Getter;

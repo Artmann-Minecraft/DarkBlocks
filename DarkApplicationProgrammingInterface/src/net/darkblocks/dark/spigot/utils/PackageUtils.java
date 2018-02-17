@@ -1,7 +1,6 @@
 /*
  * © Copyright - Lars Artmann | LartyHD 2018.
  */
-
 package net.darkblocks.dark.spigot.utils;
 
 import net.minecraft.server.v1_8_R3.*;

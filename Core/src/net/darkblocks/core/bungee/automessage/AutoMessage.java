@@ -1,7 +1,6 @@
 /*
  * © Copyright - Lars Artmann | LartyHD 2018.
  */
-
 package net.darkblocks.core.bungee.automessage;
 
 import net.darkblocks.core.bungee.Core;
