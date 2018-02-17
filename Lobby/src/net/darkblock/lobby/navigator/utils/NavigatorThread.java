@@ -1,7 +1,6 @@
 /*
  * © Copyright - Lars Artmann | LartyHD 2018.
  */
-
 package net.darkblock.lobby.navigator.utils;
 
 import net.darkblocks.dark.spigot.builder.ItemBuilder;
@@ -11,6 +10,7 @@ import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftInventoryCrafting;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import static net.darkblocks.dark.universal.messages.Colors.SECONDARY;
 
@@ -170,7 +170,7 @@ public class NavigatorThread extends Thread
 	
 	private void remove(Inventory inventory, int slot) throws InterruptedException
 	{
-		inventory.setItem(slot, null);
+		inventory.setItem(slot, new ItemStack(Material.AIR));
 		Thread.sleep(25);
 	}
 	
