@@ -109,7 +109,7 @@ public class NavigatorListener implements CashedPlayerInteractEvent, CashedInven
 	@EventHandler
 	public void onInventoryCloseEvent(InventoryCloseEvent event)
 	{
-		if (event.getInventory().getName().equalsIgnoreCase(this.inventory.getName()))
+		if (event.getInventory() != null && event.getInventory().getName().equalsIgnoreCase(this.inventory.getName()))
 		{
 			for (int i = 9; i < event.getPlayer().getInventory().getSize(); i++)
 			{

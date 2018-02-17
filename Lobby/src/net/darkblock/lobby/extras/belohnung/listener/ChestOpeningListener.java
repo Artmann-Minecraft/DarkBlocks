@@ -151,7 +151,7 @@ public class ChestOpeningListener implements Listener
 				}.runTaskLater(getBelohnung().getJavaPlugin(), 1);
 				this.player.remove(event.getPlayer().getName());
 			}
-			else if (event.getInventory().getName().equalsIgnoreCase(SECONDARY + "CaseOpening | Buy"))
+			else if (event.getInventory().getName().equalsIgnoreCase(SECONDARY + "CaseOpening | Finish"))
 			{
 				for (int i = 9; i < event.getPlayer().getInventory().getSize(); i++)
 				{
@@ -360,7 +360,7 @@ public class ChestOpeningListener implements Listener
 	
 	private boolean executeOneChestDelay(Inventory inventory, Player player)
 	{
-		if (player.getOpenInventory().getTopInventory().getName().equalsIgnoreCase(SECONDARY + "ChestOpening"))
+		if (!player.getOpenInventory().getTopInventory().getName().equalsIgnoreCase(SECONDARY + "ChestOpening"))
 		{
 			return false;
 		}
