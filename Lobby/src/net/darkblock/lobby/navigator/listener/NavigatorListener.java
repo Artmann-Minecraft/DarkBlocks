@@ -35,7 +35,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static net.darkblocks.dark.universal.messages.Colors.SECONDARY;
 import static net.darkblocks.dark.universal.messages.Colors.TEXT;
@@ -140,7 +143,7 @@ public class NavigatorListener implements CashedPlayerInteractEvent, CashedInven
 					lobbies.add(this.lobby.setDurability((short) (server.getName().equalsIgnoreCase(CloudAPI.get().getNameAPI().getServerName()) ? 10 : 8)).setName(SECONDARY + server.getName()).build());
 				}
 			}
-			InventoryUtils.sortChestInventory(inventory, Arrays.asList(), 9);
+			InventoryUtils.sortChestInventory(inventory, lobbies, 9);
 			if (getNavigatorAnimation().get(player.getName()))
 			{
 				new NavigatorThread(player).start();
