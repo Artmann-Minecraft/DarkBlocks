@@ -1,3 +1,7 @@
+/*
+ * © Copyright - Lars Artmann | LartyHD 2018.
+ */
+
 package net.darkblock.lobby.listener;
 
 import net.darkblocks.core.universal.permissions.manager.UserManager;
@@ -12,6 +16,7 @@ import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -100,7 +105,13 @@ public class MainListener implements Listener
 	}
 	
 	@EventHandler
-	public void onInventoryClick(InventoryClickEvent event)
+	public void onInventoryInteractEvent(InventoryInteractEvent event)
+	{
+		event.setCancelled(true);
+	}
+	
+	@EventHandler
+	public void onInventoryClickEvent(InventoryClickEvent event)
 	{
 		event.setCancelled(true);
 	}

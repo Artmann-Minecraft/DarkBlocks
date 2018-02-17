@@ -112,55 +112,55 @@ public class NavigatorThread extends Thread
 			remove(inventory, 4);
 			inventory.setItem(4, NavigatorItems.CORES.getItemStack());
 			playSound();
-			Thread.sleep(225);
+			Thread.sleep(200);
 			//1
 			//2
 			remove(inventory, 22);
 			inventory.setItem(22, NavigatorItems.PLATZHALTER.getItemStack());
 			playSound();
-			Thread.sleep(225);
+			Thread.sleep(200);
 			//2
 			//3
 			remove(inventory, 19);
 			inventory.setItem(19, NavigatorItems.FFA.getItemStack());
 			playSound();
-			Thread.sleep(225);
+			Thread.sleep(200);
 			//3
 			//4
 			remove(inventory, 25);
 			inventory.setItem(25, NavigatorItems.GUNGAME.getItemStack());
 			playSound();
-			Thread.sleep(225);
+			Thread.sleep(200);
 			//4
 			//5
 			remove(inventory, 22);
 			inventory.setItem(22, NavigatorItems.SPAWN.getItemStack());
 			playSound();
-			Thread.sleep(225);
+			Thread.sleep(200);
 			//5
 			//6
 			remove(inventory, 40);
 			inventory.setItem(40, NavigatorItems.PLATZHALTER.getItemStack());
 			playSound();
-			Thread.sleep(225);
+			Thread.sleep(200);
 			//6
 			//7
 			remove(inventory, 38);
 			inventory.setItem(38, NavigatorItems.COOKIECLICKER.getItemStack());
 			playSound();
-			Thread.sleep(225);
+			Thread.sleep(200);
 			//7
 			//8
 			remove(inventory, 42);
 			inventory.setItem(42, NavigatorItems.BELOHNUNG.getItemStack());
 			playSound();
-			Thread.sleep(225);
+			Thread.sleep(200);
 			//8
 			//9
 			remove(inventory, 40);
 			inventory.setItem(40, NavigatorItems.TEAMPVP.getItemStack());
 			playSound();
-			Thread.sleep(225);
+			Thread.sleep(200);
 			//9
 			//ADD TELEPORTS
 		} catch (InterruptedException ignored)
@@ -171,7 +171,7 @@ public class NavigatorThread extends Thread
 	private void remove(Inventory inventory, int slot) throws InterruptedException
 	{
 		inventory.setItem(slot, new ItemStack(Material.AIR));
-		Thread.sleep(225);
+		Thread.sleep(200);
 	}
 	
 	private void setGlas(Inventory inventory, int slot, short durability)

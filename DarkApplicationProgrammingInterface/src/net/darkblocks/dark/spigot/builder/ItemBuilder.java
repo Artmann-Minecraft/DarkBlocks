@@ -753,7 +753,7 @@ public class ItemBuilder implements Builder<ItemStack>
 	@Override
 	public ItemBuilder clone()
 	{
-		return new ItemBuilder(getItemStack());
+		return new ItemBuilder(getItemStack().clone());
 	}
 	
 	@Override

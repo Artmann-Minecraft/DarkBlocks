@@ -39,8 +39,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static net.darkblocks.dark.universal.messages.Colors.SECONDARY;
-import static net.darkblocks.dark.universal.messages.Colors.TEXT;
+import static net.darkblocks.dark.universal.messages.Colors.*;
 
 /**
  * Created by LartyHD on 08.02.2018  07:16.
@@ -178,6 +177,7 @@ public class NavigatorListener implements CashedPlayerInteractEvent, CashedInven
 					ByteArrayDataOutput out = ByteStreams.newDataOutput();
 					out.writeUTF("Connect");
 					out.writeUTF(ChatColor.stripColor(currentItem.getItemMeta().getDisplayName()));
+					System.out.println(ChatColor.stripColor(currentItem.getItemMeta().getDisplayName()));
 					player.sendPluginMessage(getJavaPlugin(), "BungeeCord", out.toByteArray());
 					setLobbys(player);
 				}
@@ -192,7 +192,8 @@ public class NavigatorListener implements CashedPlayerInteractEvent, CashedInven
 		{
 			if (server.getGroup().equalsIgnoreCase("Lobby"))
 			{
-				lobbies.add(this.lobby.clone().setDurability((short) (server.getName().equalsIgnoreCase(CloudAPI.get().getNameAPI().getServerName()) ? 10 : 8)).setName(SECONDARY + server.getName()).build());
+				System.out.println(server.getName());
+				lobbies.add(this.lobby.clone().setAmount(server.getPlayers()).setLore(TEXT + "Spieler" + IMPORTANT + ": " + TEXT + server.getPlayers() + IMPORTANT + "/" + TEXT + server.getMaxPlayers()).setDurability((short) (server.getName().equalsIgnoreCase(CloudAPI.get().getNameAPI().getServerName()) ? 10 : 8)).setName(SECONDARY + server.getName()).build());
 			}
 		}
 		InventoryUtils.sortChestInventory(player.getInventory(), lobbies, 18);
