@@ -135,15 +135,7 @@ public class NavigatorListener implements CashedPlayerInteractEvent, CashedInven
 			Player player = event.getPlayer();
 			PlayerInventory inventory = player.getInventory();
 			InventoryUtils.setDesign(inventory, new ArrayList<>());
-			List<ItemStack> lobbies = new ArrayList<>();
-			for (SignServer server : Bootstrap.getINSTANCE().getSignSystem().getServers().values())
-			{
-				if (server.getGroup().equalsIgnoreCase("Lobby"))
-				{
-					lobbies.add(this.lobby.setDurability((short) (server.getName().equalsIgnoreCase(CloudAPI.get().getNameAPI().getServerName()) ? 10 : 8)).setName(SECONDARY + server.getName()).build());
-				}
-			}
-			InventoryUtils.sortChestInventory(inventory, lobbies, 18);
+			setLobbys();
 			if (getNavigatorAnimation().get(player.getName()))
 			{
 				new NavigatorThread(player).start();
