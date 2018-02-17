@@ -19,7 +19,9 @@ import net.darkblocks.dark.spigot.events.cashed.CashedEventsManager;
 import net.darkblocks.dark.spigot.events.cashed.CashedInventoryClickEvent;
 import net.darkblocks.dark.spigot.events.cashed.CashedPlayerInteractEvent;
 import net.darkblocks.dark.spigot.utils.InventoryUtils;
+import net.darkblocks.dark.spigot.utils.PackageUtils;
 import net.darkblocks.dark.universal.messages.Messages;
+import net.minecraft.server.v1_8_R3.EnumParticle;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -31,6 +33,9 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.sql.SQLException;
@@ -162,6 +167,18 @@ public class NavigatorListener implements CashedPlayerInteractEvent, CashedInven
 					if (getWarps().get(name.toLowerCase()) != null)
 					{
 						player.teleport(getWarps().get(name.toLowerCase()));
+						player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 5, 1, false, false));
+						float walkSpeed = player.getWalkSpeed();
+						new BukkitRunnable()
+						{
+							@Override
+							public void run()
+							{
+								player.setWalkSpeed(walkSpeed);
+							}
+						}.runTaskLater(getJavaPlugin(), 100);
+						player.setWalkSpeed(0F);
+						PackageUtils.sendPlayerParticle(player, EnumParticle.ENCHANTMENT_TABLE, player.getLocation(), 5, 25);
 						player.closeInventory();
 					}
 				}
