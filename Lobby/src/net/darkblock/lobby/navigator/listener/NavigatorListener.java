@@ -143,7 +143,7 @@ public class NavigatorListener implements CashedPlayerInteractEvent, CashedInven
 					lobbies.add(this.lobby.setDurability((short) (server.getName().equalsIgnoreCase(CloudAPI.get().getNameAPI().getServerName()) ? 10 : 8)).setName(SECONDARY + server.getName()).build());
 				}
 			}
-			InventoryUtils.sortChestInventory(inventory, lobbies, 10);
+			InventoryUtils.sortChestInventory(inventory, lobbies, 17);
 			if (getNavigatorAnimation().get(player.getName()))
 			{
 				new NavigatorThread(player).start();

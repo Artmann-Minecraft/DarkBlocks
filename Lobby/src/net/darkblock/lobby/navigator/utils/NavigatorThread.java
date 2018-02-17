@@ -171,7 +171,7 @@ public class NavigatorThread extends Thread
 	private void remove(Inventory inventory, int slot) throws InterruptedException
 	{
 		inventory.setItem(slot, new ItemStack(Material.AIR));
-		Thread.sleep(25);
+		Thread.sleep(200);
 	}
 	
 	private void setGlas(Inventory inventory, int slot, short durability)
