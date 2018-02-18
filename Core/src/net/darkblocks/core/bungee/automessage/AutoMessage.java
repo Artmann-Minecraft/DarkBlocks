@@ -24,7 +24,7 @@ public class AutoMessage
 	{
 		List<List<TextComponent>> list = Arrays.asList(
 				Arrays.asList(new TextComponent(""), new TextComponent(TEXT + "Interesse am " + PRIMARY + "Youtuber " + TEXT + "oder " + PRIMARY + "Mega+ " + TEXT + "Rang?"), new TextComponent(TEXT + "Dann mach doch mal " + PRIMARY + "/YT " + TEXT + "oder " + PRIMARY + "/Mega+"), new TextComponent("")),
-				Arrays.asList(new TextComponent(""), new TextComponent(TEXT + "Du willst unserem " + PRIMARY + "Serverteam " + TEXT + " beitreten?"), new TextComponent(TEXT + "Dann bewerbe dich doch im " + PRIMARY + "Forum " + TEXT + "doch mal"), new TextComponent("")));
+				Arrays.asList(new TextComponent(""), new TextComponent(TEXT + "Du willst unserem " + PRIMARY + "Serverteam " + TEXT + "beitreten?"), new TextComponent(TEXT + "Dann bewerbe dich doch im " + PRIMARY + "Forum"), new TextComponent("")));
 		BungeeCord.getInstance().getScheduler().runAsync(plugin, () -> {
 			try
 			{

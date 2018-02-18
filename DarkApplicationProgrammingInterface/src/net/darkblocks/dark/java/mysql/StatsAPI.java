@@ -4,8 +4,12 @@
 package net.darkblocks.dark.java.mysql;
 
 import lombok.Getter;
+import net.darkblocks.dark.java.config.PropertiesConfig;
 import net.darkblocks.dark.java.utils.Callback;
+import net.darkblocks.dark.java.utils.ClearCallback;
+import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
@@ -15,7 +19,7 @@ import java.util.UUID;
  * Project: RedStone
  */
 @Getter
-class StatsAPI
+public class StatsAPI
 {
 	private final String tableName;
 	private final MySQL mySQL;
@@ -27,7 +31,7 @@ class StatsAPI
 		this.mySQL = statsMySQL;
 		this.tableName = tableName;
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("CREATE TABLE IF NOT EXISTS ").append(tableName).append("(`uuid` VARCHAR(100), `name` VARCHAR(100), `ip` VARCHAR(100), ");
+		stringBuilder.append("CREATE TABLE IF NOT EXISTS ").append(tableName).append("(`uuid` VARCHAR(100), ");
 		for (String stat : this.stats)
 		{
 			stringBuilder.append("`").append(stat.toLowerCase()).append("` INT, ");
@@ -38,30 +42,34 @@ class StatsAPI
 		getMySQL().update(command);
 	}
 	
-	public void createAccount(UUID uuid, String name, String ip)
+	public StatsAPI(JavaPlugin javaPlugin, List<String> stats)
+	{
+		this(javaPlugin.getName(), stats, new MySQL(new PropertiesConfig(new File("databases"), "stats.properties")));
+	}
+	
+	public void createAccount(UUID uuid)
 	{
 		this.mySQL.query("SELECT `uuid` FROM " + this.tableName + " WHERE `uuid` = '" + uuid + "'", result -> {
 			try
 			{
-				if (result.next())
+				if (!result.next())
 				{
-					return;
+					StringBuilder stringBuilder = new StringBuilder();
+					stringBuilder.append("INSERT INTO ").append(this.tableName).append("(`uuid`");
+					for (String stat : this.stats)
+					{
+						stringBuilder.append(", `").append(stat.toLowerCase()).append("`");
+					}
+					stringBuilder.append(") VALUES ('").append(uuid).append("'");
+					for (int i = 0; i < this.stats.size(); i++)
+					{
+						stringBuilder.append(",'" + 0 + "'");
+					}
+					stringBuilder.append(")");
+					String command = stringBuilder.toString();
+					System.out.println("[STATS] MySQL CreateAccount Command wurde zusammen gebaut: " + command);
+					this.mySQL.update(command);
 				}
-				StringBuilder stringBuilder = new StringBuilder();
-				stringBuilder.append("INSERT INTO ").append(this.tableName).append("(`uuid`, `name`, `ip`");
-				for (String stat : this.stats)
-				{
-					stringBuilder.append(", `").append(stat.toLowerCase()).append("`");
-				}
-				stringBuilder.append(") VALUES ('").append(uuid).append("','").append(name).append("','").append(ip).append("'");
-				for (int i = 0; i < this.stats.size(); i++)
-				{
-					stringBuilder.append(",'" + 0 + "'");
-				}
-				stringBuilder.append(")");
-				String command = stringBuilder.toString();
-				System.out.println("[STATS] MySQL CreateAccount Command wurde zusammen gebaut: " + command);
-				this.mySQL.update(command);
 			} catch (SQLException ex)
 			{
 				ex.printStackTrace();
@@ -69,7 +77,7 @@ class StatsAPI
 		});
 	}
 	
-	private void get(UUID uuid, String statsName, Callback<Integer> callback)
+	public void get(UUID uuid, String statsName, Callback<Integer> callback)
 	{
 		this.mySQL.query("SELECT " + statsName.toLowerCase() + " FROM " + this.tableName + " WHERE `uuid` = '" + uuid + "'", result -> {
 			try
@@ -101,18 +109,50 @@ class StatsAPI
 		});
 	}
 	
-	private void set(UUID uuid, int count, String statsName)
+	public void set(UUID uuid, int count, String statsName)
 	{
-		this.mySQL.update("UPDATE " + this.tableName + " SET " + statsName.toLowerCase() + " = '" + count + "' WHERE uuid = '" + uuid.toString() + "'");
+		set(uuid, count, statsName, null);
+	}
+	
+	public void set(UUID uuid, int count, String statsName, ClearCallback callback)
+	{
+		this.mySQL.update("UPDATE " + this.tableName + " SET " + statsName.toLowerCase() + " = '" + count + "' WHERE uuid = '" + uuid.toString() + "'", () -> {
+			if (callback != null)
+			{
+				callback.call();
+			}
+		});
 	}
 	
 	public void add(UUID uuid, int count, String statsName)
 	{
-		get(uuid, statsName, result -> set(uuid, result + count, statsName));
+		add(uuid, count, statsName, null);
+	}
+	
+	public void add(UUID uuid, int count, String statsName, ClearCallback callback)
+	{
+		get(uuid, statsName, result -> {
+			set(uuid, result + count, statsName)
+			; if (callback != null)
+			{
+				callback.call();
+			}
+		});
 	}
 	
 	public void remove(UUID uuid, int count, String statsName)
 	{
-		get(uuid, statsName, result -> set(uuid, result - count, statsName));
+		remove(uuid, count, statsName, null);
+	}
+	
+	public void remove(UUID uuid, int count, String statsName, ClearCallback callback)
+	{
+		get(uuid, statsName, result -> {
+			set(uuid, result - count, statsName)
+			; if (callback != null)
+			{
+				callback.call();
+			}
+		});
 	}
 }

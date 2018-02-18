@@ -10,6 +10,7 @@ import net.darkblocks.dark.spigot.controller.GameController;
 import net.darkblocks.dark.spigot.events.ServerStateChangeEvent;
 import net.darkblocks.dark.spigot.team.SpectatorManager;
 import net.darkblocks.dark.universal.messages.Messages;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -20,6 +21,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.projectiles.ProjectileSource;
 
 import java.util.HashMap;
@@ -34,7 +36,7 @@ import static net.darkblocks.dark.universal.messages.Colors.TEXT;
 @Setter
 public class InGameListener implements Listener
 {
-	private final GameController gameController;
+	private GameController gameController;
 	private final HashMap<String, Player> killer;
 	private SpectatorManager spectatorManager;
 	
@@ -44,6 +46,12 @@ public class InGameListener implements Listener
 		this.spectatorManager = spectatorManager;
 		this.killer = new HashMap<>();
 		gameController.registerListener(this);
+	}
+	
+	public InGameListener(JavaPlugin javaPlugin)
+	{
+		this.killer = new HashMap<>();
+		Bukkit.getPluginManager().registerEvents(this, javaPlugin);
 	}
 	
 	@EventHandler
@@ -68,14 +76,12 @@ public class InGameListener implements Listener
 	public void onPlayerQuit(PlayerQuitEvent event)
 	{
 		event.setQuitMessage(null);
-		//TODO: CHECK WIN???
 	}
 	
 	@EventHandler
 	public void onPlayerKick(PlayerKickEvent event)
 	{
 		event.setLeaveMessage(null);
-		//TODO: CHECK WIN???
 	}
 	
 	@EventHandler

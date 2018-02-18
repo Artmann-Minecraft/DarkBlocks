@@ -41,18 +41,20 @@ import static net.darkblocks.dark.universal.messages.Colors.*;
 public class CaseOpeningListener implements Listener
 {
 	private final Map<String, Integer> chests;
-	private final List<CaseOpeningItem> items;
+	private final LinkedList<CaseOpeningItem> items;
 	private final List<String> player;
 	private final Belohnung belohnung;
 	private final ItemBuilder againItem;
+	private final Random random;
 	
 	public CaseOpeningListener(JavaPlugin javaPlugin, Belohnung belohnung)
 	{
 		this.chests = new HashMap<>();
-		this.items = new ArrayList<>();
+		this.items = new LinkedList<>();
 		this.player = new ArrayList<>();
 		this.belohnung = belohnung;
 		this.againItem = new ItemBuilder(Material.CHEST).setName(SECONDARY + "Weitere Kiste öffnen");
+		this.random = new Random();
 		getBelohnung().getMySQL().update("CREATE TABLE IF NOT EXISTS Chests(uuid VARCHAR (50), `chests` INT, PRIMARY KEY (uuid))", () -> {
 			addItem(new CaseOpeningItem("1000 Coins", new ItemBuilder(Material.GOLD_NUGGET).setName(SECONDARY + "1000 Coins").build())
 			{
@@ -211,16 +213,15 @@ public class CaseOpeningListener implements Listener
 								}
 								else
 								{
-									getBelohnung().getCoinsAPI().removeCoins(player.getUniqueId(), String.valueOf(5000), result1 -> {
-										Bukkit.getPluginManager().callEvent(new PlayerUpdateCoinsEvent(player, result1));
-										this.chests.put(player.getName(), this.chests.get(player.getName()) + 1);
-										player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Dir wurde eine " + IMPORTANT + "Kiste " + TEXT + "hinzugefügt");
-										player.getOpenInventory().setItem(2, new ItemBuilder(Material.CHEST).setName(SECONDARY + "CaseOpening").setLore(Collections.singletonList(TEXT + "Du hast noch " + IMPORTANT + this.chests.get(player.getName()) + TEXT + " Kisten")).build());
-									});
+									this.chests.put(player.getName(), this.chests.get(player.getName()) + 1);
+									player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Dir wurde eine " + IMPORTANT + "Kiste " + TEXT + "hinzugefügt");
+									player.getOpenInventory().setItem(2, new ItemBuilder(Material.CHEST).setName(SECONDARY + "CaseOpening").setLore(Collections.singletonList(TEXT + "Du hast noch " + IMPORTANT + this.chests.get(player.getName()) + TEXT + " Kisten")).build());
+									getBelohnung().getCoinsAPI().removeCoins(player.getUniqueId(), String.valueOf(5000), result1 -> Bukkit.getPluginManager().callEvent(new PlayerUpdateCoinsEvent(player, result1)));
 								}
 							});
 							break;
 						case 14:
+							player.closeInventory();
 							getBelohnung().getBelohnungListener().openBelohungsInventory(player);
 							break;
 						case 0:
@@ -344,6 +345,7 @@ public class CaseOpeningListener implements Listener
 			this.chests.put(player.getName(), this.chests.get(player.getName()) - 1);
 			caseOpeningItem.executeCommand();
 			caseOpeningItem.execute(player);
+			player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du hast " + PRIMARY + caseOpeningItem.getName() + TEXT + " gewonnen");
 			new BukkitRunnable()
 			{
 				@Override
@@ -371,9 +373,8 @@ public class CaseOpeningListener implements Listener
 		}
 		else
 		{
-			CaseOpeningItem caseOpeningItem = this.items.get(0);
-			this.items.add(caseOpeningItem);
-			this.items.remove(caseOpeningItem);
+			this.items.addLast(this.items.get(this.random.nextInt(this.items.size())));
+			this.items.removeFirst();
 			for (int i = 0; i < 7; i++)
 			{
 				inventory.setItem(i + 10, this.items.get(i).getDisplayItem());

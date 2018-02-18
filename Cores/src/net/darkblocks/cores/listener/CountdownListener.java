@@ -1,3 +1,7 @@
+/*
+ * © Copyright - Lars Artmann | LartyHD 2018.
+ */
+
 package net.darkblocks.cores.listener;
 
 import net.darkblocks.core.spigot.permissions.events.PlayerPermissionsLoadedEvent;
@@ -20,9 +24,9 @@ import net.darkblocks.dark.spigot.listener.PreGameListener;
 import net.darkblocks.dark.spigot.team.GameTeam;
 import net.darkblocks.dark.spigot.team.SpectatorManager;
 import net.darkblocks.dark.spigot.team.TeamManager;
+import net.darkblocks.dark.spigot.utils.Items;
 import net.darkblocks.dark.spigot.utils.MapsUtils;
 import net.darkblocks.dark.spigot.vote.VoteManager;
-import net.darkblocks.dark.universal.messages.Colors;
 import net.darkblocks.dark.universal.messages.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
@@ -52,7 +56,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static net.darkblocks.dark.universal.messages.Colors.*;
+import static net.darkblocks.dark.universal.messages.Colors.IMPORTANT;
+import static net.darkblocks.dark.universal.messages.Colors.TEXT;
 
 /**
  * Created by LartyHD on 04.01.2018  23:33.
@@ -108,8 +113,8 @@ public class CountdownListener implements Listener
 			protected void setJoinItems(Player player)
 			{
 				PlayerInventory inventory = player.getInventory();
-				inventory.setItem(0, new ItemBuilder(Material.ENDER_CHEST).setName(Colors.SECONDARY + "Teams").build());
-				inventory.setItem(8, new ItemBuilder(Material.SKULL_ITEM, 1, (short) 3).setOwnerFromURL("http://textures.minecraft.net/texture/1b6f1a25b6bc199946472aedb370522584ff6f4e83221e5946bd2e41b5ca13b", "MHF_ArrowRight").setName(SECONDARY + "Zurück zur Lobby").build());
+				inventory.setItem(0, Items.TEAMS.getItemStack());
+				inventory.setItem(8, Items.LEAVE.getItemStack());
 			}
 			
 			@EventHandler

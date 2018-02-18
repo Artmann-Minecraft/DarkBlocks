@@ -38,6 +38,17 @@ public class MySQL
 		connect();
 	}
 	
+	public MySQL(PropertiesConfig properties)
+	{
+		this.host = (String) properties.get("Host");
+		this.port = (String) properties.get("Port");
+		this.username = (String) properties.get("Username");
+		this.password = (String) properties.get("Password");
+		this.database = (String) properties.get("Database");
+		this.executorService = Executors.newCachedThreadPool();
+		connect();
+	}
+	
 	public MySQL(String host, String port, String username, String password, String database)
 	{
 		this.host = host;

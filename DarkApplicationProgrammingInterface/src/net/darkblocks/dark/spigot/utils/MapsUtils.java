@@ -69,7 +69,7 @@ public class MapsUtils
 		new Thread(() -> {
 			try
 			{
-				Thread.sleep(20);
+				Thread.sleep(100);
 			} catch (InterruptedException ex)
 			{
 				ex.printStackTrace();
@@ -90,6 +90,11 @@ public class MapsUtils
 		{
 			spectatorManager.getSpectators().setLocation(new Location(Bukkit.getWorld(configuration.getString("spawns.spectator.World")), configuration.getDouble("spawns.spectator.X"), configuration.getDouble("spawns.spectator.Y"), configuration.getDouble("spawns.spectator.Z"), (float) configuration.getDouble("spawns.spectator.yaw"), (float) configuration.getDouble("spawns.spectator.pitch")));
 		}
+	}
+	
+	public static Location loadSpawn(@NonNull Configuration configuration, String name)
+	{
+		return new Location(Bukkit.getWorld(configuration.getString("spawns." + name + ".World")), configuration.getDouble("spawns." + name + ".X"), configuration.getDouble("spawns." + name + ".Y"), configuration.getDouble("spawns." + name + ".Z"), (float) configuration.getDouble("spawns." + name + ".yaw"), (float) configuration.getDouble("spawns." + name + ".pitch"));
 	}
 	
 	public static Location getLobbyLocation(JavaPlugin javaPlugin)

@@ -114,7 +114,7 @@ class CookieShopListener implements Listener
 						getCookieListener().format(whoClicked, result -> whoClicked.openInventory(new InventoryBuilder(getCoins()).setItem(13, new ItemBuilder(getCoins().getItem(13)).setLore(TEXT + "Du hast " + PRIMARY + result + IMPORTANT + " Cookies").build()).build()));
 					}
 				}
-				else if (currentItem.getItemMeta().getLore() != null)
+				else if (currentItem.getItemMeta().getLore() != null && currentItem.getItemMeta().getLore().size() > 1)
 				{
 					double value = Double.valueOf(org.bukkit.ChatColor.stripColor(currentItem.getItemMeta().getLore().get(2)).substring(8));
 					if (inventory.equals(getUpdates()))

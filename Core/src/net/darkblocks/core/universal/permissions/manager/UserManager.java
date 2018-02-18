@@ -1,3 +1,7 @@
+/*
+ * © Copyright - Lars Artmann | LartyHD 2018.
+ */
+
 package net.darkblocks.core.universal.permissions.manager;
 
 import lombok.Getter;
@@ -11,20 +15,32 @@ import java.util.UUID;
 /**
  * Created by LartyHD on 08.02.2018 01:40.
  */
-@Getter
 public class UserManager
 {
-	private final Set<User> user;
+	@Getter
+	private static Set<User> user;
 	
 	public UserManager(MySQL mySQL, String tableName)
 	{
-		this.user = new HashSet<>();
+		user = new HashSet<>();
 		mySQL.update("CREATE TABLE IF NOT EXISTS " + (tableName == null ? "Userdata" : tableName) + "(`uuid` VARCHAR(36), `groups` TEXT, `firstonline` VARCHAR(19), `lastonline` VARCHAR(19), `prefix` VARCHAR(16), `suffix` VARCHAR(16), PRIMARY KEY(uuid))");
+	}
+	
+	public static User getUser(UUID uuid)
+	{
+		for (User user : user)
+		{
+			if (user.getUuid() == uuid)
+			{
+				return user;
+			}
+		}
+		return null;
 	}
 	
 	public boolean hasPermission(UUID uuid, String permision)
 	{
-		for (User user : getUser())
+		for (User user : user)
 		{
 			if (user.getUuid() == uuid)
 			{
