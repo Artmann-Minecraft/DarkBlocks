@@ -56,7 +56,7 @@ public class CoinsCommand extends Command
 						sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "notonline"));
 						sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", TEXT + "Lade Informationen aus Datenbank... "));
 						getCoinsAPI().getCoins(UUIDFetcher.getUUID(args[0]), result -> {
-							if (result != -1)
+							if (!result.equals("-1"))
 							{
 								sender.sendMessage(Messages.getInstance().getShortTextComponent(getClass(), "prefix", IMPORTANT + args[0] + TEXT + " hat " + PRIMARY + result + IMPORTANT + " Coins"));
 							}

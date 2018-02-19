@@ -24,6 +24,26 @@ public class InventoryBuilder implements Builder<Inventory>
 		this.inventory = inventory;
 	}
 	
+	public InventoryBuilder(InventoryType type)
+	{
+		this.inventory = Bukkit.createInventory(null, type);
+	}
+	
+	public InventoryBuilder(InventoryType type, String name)
+	{
+		this.inventory = Bukkit.createInventory(null, type, name);
+	}
+	
+	public InventoryBuilder(int slots)
+	{
+		this.inventory = Bukkit.createInventory(null, slots);
+	}
+	
+	public InventoryBuilder(int slots, String name)
+	{
+		this.inventory = Bukkit.createInventory(null, slots, name);
+	}
+	
 	public InventoryBuilder(InventoryHolder holder, InventoryType type)
 	{
 		this.inventory = Bukkit.createInventory(holder, type);

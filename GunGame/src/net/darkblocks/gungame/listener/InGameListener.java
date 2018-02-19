@@ -12,7 +12,8 @@ import net.darkblocks.dark.spigot.events.PlayerDisconnectEvent;
 import net.darkblocks.dark.spigot.utils.Items;
 import net.darkblocks.dark.spigot.utils.LocationUtils;
 import net.darkblocks.dark.universal.messages.Messages;
-import net.darkblocks.gungame.kits.KitManager;
+import net.darkblocks.gungame.kits.manager.KitManager;
+import net.darkblocks.gungame.shop.manager.ShopManager;
 import net.darkblocks.gungame.utils.ScoreBoardUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -41,27 +42,28 @@ public class InGameListener extends net.darkblocks.dark.spigot.listener.InGameLi
 	private final Map<String, Integer> killStreak;
 	private final Set<String> useHealer;
 	private final KitManager kitManager;
-	private final ShopListener shopListener;
 	private final Location location;
 	private final StatsAPI statsAPI;
 	private final CoinsAPI coinsAPI;
+	private final Random random;
 	private final String map;
 	private final JavaPlugin javaPlugin;
 	private final boolean allowTeams;
 	
-	public InGameListener(JavaPlugin javaPlugin, KitManager kitManager, ShopListener shopListener, Location location, StatsAPI statsAPI, CoinsAPI coinsAPI, String map)
+	public InGameListener(JavaPlugin javaPlugin, KitManager kitManager, Location location, StatsAPI statsAPI, CoinsAPI coinsAPI, String map)
 	{
 		super(javaPlugin);
 		this.javaPlugin = javaPlugin;
 		this.killStreak = new HashMap<>();
 		this.useHealer = new HashSet<>();
 		this.kitManager = kitManager;
-		this.shopListener = shopListener;
 		this.location = location;
 		this.statsAPI = statsAPI;
 		this.coinsAPI = coinsAPI;
+		this.random = new Random();
 		this.map = map;
 		this.allowTeams = new Random().nextBoolean();
+		new ShopManager(javaPlugin, this);
 	}
 	
 	@EventHandler
@@ -154,15 +156,6 @@ public class InGameListener extends net.darkblocks.dark.spigot.listener.InGameLi
 	{
 		event.setRespawnLocation(LocationUtils.randomLook(this.location));
 		Player player = event.getPlayer();
-		if (!getShopListener().getKeepInv().contains(player.getName()))
-		{
-			getKitManager().downgrade(player);
-		}
-		else
-		{
-			getShopListener().getKeepInv().remove(player.getName());
-			Bukkit.getScheduler().scheduleSyncDelayedTask(getJavaPlugin(), () -> player.setLevel(getKitManager().getPlayer().get(player.getName())), 3);
-		}
 		Player killer = player.getKiller();
 		player.playSound(player.getLocation(), Sound.GHAST_DEATH, 2, 1);
 		getKillStreak().put(player.getName(), 0);

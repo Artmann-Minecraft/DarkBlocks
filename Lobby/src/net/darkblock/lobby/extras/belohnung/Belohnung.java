@@ -9,8 +9,8 @@ import net.darkblock.lobby.extras.belohnung.listener.CaseOpeningListener;
 import net.darkblocks.core.universal.permissions.manager.UserManager;
 import net.darkblocks.dark.java.mysql.CoinsAPI;
 import net.darkblocks.dark.java.mysql.MySQL;
-import net.darkblocks.dark.spigot.builder.ItemBuilder;
 import net.darkblocks.dark.spigot.config.Configuration;
+import net.darkblocks.dark.spigot.utils.Items;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -52,7 +52,7 @@ public class Belohnung
 		armorStand.setBasePlate(false);
 		armorStand.setCustomName(SECONDARY + "Belohnung");
 		armorStand.setCustomNameVisible(true);
-		armorStand.setHelmet(new ItemBuilder(Material.SKULL_ITEM, 1, (byte) 3).setOwnerFromURL("http://textures.minecraft.net/texture/6f68d509b5d1669b971dd1d4df2e47e19bcb1b33bf1a7ff1dda29bfc6f9ebf", "MHF_Chest").build());
+		armorStand.setHelmet(Items.CHEST.getItemStack());
 		ItemStack itemStack = new ItemStack(Material.IRON_BOOTS);
 		armorStand.setChestplate(itemStack);
 		armorStand.setLeggings(itemStack);

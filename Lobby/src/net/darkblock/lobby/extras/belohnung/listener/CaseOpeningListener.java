@@ -207,7 +207,7 @@ public class CaseOpeningListener implements Listener
 					{
 						case 5:
 							getBelohnung().getCoinsAPI().getCoins(player.getUniqueId(), result -> {
-								if (result < 5000)
+								if (Integer.valueOf(result) < 5000)
 								{
 									player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du hast nicht genug Coins (dir fehlen " + IMPORTANT + result + " Coins" + TEXT + ")");
 								}

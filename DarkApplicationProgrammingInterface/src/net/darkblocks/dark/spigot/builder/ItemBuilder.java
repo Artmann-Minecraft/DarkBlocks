@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import net.darkblocks.dark.java.builder.Builder;
 import net.darkblocks.dark.java.utils.ReflectUtils;
+import net.darkblocks.dark.spigot.listener.ItemListener;
 import org.apache.commons.codec.binary.Base64;
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
@@ -23,10 +24,7 @@ import org.bukkit.inventory.meta.*;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by LartyHD on 17.01.2018  01:32.
@@ -34,28 +32,44 @@ import java.util.UUID;
 @Getter
 public class ItemBuilder implements Builder<ItemStack>
 {
-	private final ItemStack itemStack;
+	private final Set<ItemListener> listener;
+	private ItemStack itemStack;
 	
 	/*
 	 *CREATE
 	 */
+	private ItemBuilder()
+	{
+		this.listener = new HashSet<>();
+	}
+	
 	public ItemBuilder(ItemStack itemStack)
 	{
+		this();
 		this.itemStack = itemStack;
 	}
 	
 	public ItemBuilder(Material material)
 	{
+		this();
 		this.itemStack = new ItemStack(material);
 	}
 	
 	public ItemBuilder(Material material, int amount)
 	{
+		this();
 		this.itemStack = new ItemStack(material, amount);
+	}
+	
+	public ItemBuilder(Material material, short damage)
+	{
+		this();
+		this.itemStack = new ItemStack(material, 1, damage);
 	}
 	
 	public ItemBuilder(Material material, int amount, short damage)
 	{
+		this();
 		this.itemStack = new ItemStack(material, amount, damage);
 	}
 	/*
@@ -124,6 +138,42 @@ public class ItemBuilder implements Builder<ItemStack>
 		getItemStack().addUnsafeEnchantments(enchantments);
 		return this;
 	}
+	
+	public ItemBuilder addLore(List<String> lore)
+	{
+		ItemMeta itemMeta = getItemStack().getItemMeta();
+		itemMeta.getLore().addAll(lore);
+		itemMeta.setLore(itemMeta.getLore());
+		getItemStack().setItemMeta(itemMeta);
+		return this;
+	}
+	
+	public ItemBuilder addLore(int i, List<String> lore)
+	{
+		ItemMeta itemMeta = getItemStack().getItemMeta();
+		itemMeta.getLore().addAll(i, lore);
+		itemMeta.setLore(itemMeta.getLore());
+		getItemStack().setItemMeta(itemMeta);
+		return this;
+	}
+	
+	public ItemBuilder addLore(String lore)
+	{
+		ItemMeta itemMeta = getItemStack().getItemMeta();
+		itemMeta.getLore().add(lore);
+		itemMeta.setLore(itemMeta.getLore());
+		getItemStack().setItemMeta(itemMeta);
+		return this;
+	}
+	
+	public ItemBuilder addLore(int i, String lore)
+	{
+		ItemMeta itemMeta = getItemStack().getItemMeta();
+		itemMeta.getLore().add(i, lore);
+		itemMeta.setLore(itemMeta.getLore());
+		getItemStack().setItemMeta(itemMeta);
+		return this;
+	}
 	/*
 	 *ItemStack Add
 	 */
@@ -134,6 +184,24 @@ public class ItemBuilder implements Builder<ItemStack>
 	public ItemBuilder removeEnchantment(Enchantment enchantment)
 	{
 		getItemStack().removeEnchantment(enchantment);
+		return this;
+	}
+	
+	public ItemBuilder removeLore(List<String> lore)
+	{
+		ItemMeta itemMeta = getItemStack().getItemMeta();
+		itemMeta.getLore().removeAll(lore);
+		itemMeta.setLore(itemMeta.getLore());
+		getItemStack().setItemMeta(itemMeta);
+		return this;
+	}
+	
+	public ItemBuilder removeLore(int i)
+	{
+		ItemMeta itemMeta = getItemStack().getItemMeta();
+		itemMeta.getLore().remove(i);
+		itemMeta.setLore(itemMeta.getLore());
+		getItemStack().setItemMeta(itemMeta);
 		return this;
 	}
 	/*
@@ -745,6 +813,18 @@ public class ItemBuilder implements Builder<ItemStack>
 		}
 		return this;
 	}
+	
+	/*
+	 *Extras
+	 */
+	public ItemBuilder addItemListener(ItemListener itemListener)
+	{
+		this.listener.add(itemListener);
+		return this;
+	}
+	/*
+	 *Extras
+	 */
 	
 	/*
 	 *Extras

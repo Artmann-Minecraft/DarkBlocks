@@ -1,7 +1,7 @@
 /*
  * © Copyright - Lars Artmann | LartyHD 2018.
  */
-package net.darkblocks.gungame.kits;
+package net.darkblocks.gungame.kits.manager;
 
 import lombok.Getter;
 import net.darkblocks.gungame.kits.utils.Kits;

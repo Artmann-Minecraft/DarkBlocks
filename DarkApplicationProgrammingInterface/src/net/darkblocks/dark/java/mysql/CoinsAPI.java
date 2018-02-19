@@ -66,7 +66,7 @@ public class CoinsAPI
 	/**
 	 * Gibt die Coins des Accounts der übergebenen UUID
 	 */
-	public void getCoins(UUID uuid, Callback<Integer> callback)
+	public void getCoins(UUID uuid, Callback<String> callback)
 	{
 		this.mySQL.query("SELECT coins FROM " + this.tableName + " WHERE `uuid` = '" + uuid + "'", result -> {
 			try
@@ -75,11 +75,11 @@ public class CoinsAPI
 				{
 					if (result.next())
 					{
-						callback.call(result.getInt(1));
+						callback.call(result.getString(1));
 					}
 					else
 					{
-						callback.call(-1);
+						callback.call("-1");
 					}
 				}
 			} catch (SQLException ex)
@@ -139,16 +139,16 @@ public class CoinsAPI
 			switch (this.valueType)
 			{
 				case LONG:
-					setCoins(uuid, String.valueOf(result - Long.valueOf(coins)), callback);
+					setCoins(uuid, String.valueOf(Long.valueOf(result) - Long.valueOf(coins)), callback);
 					break;
 				case INTEGER:
-					setCoins(uuid, String.valueOf(result - Integer.valueOf(coins)), callback);
+					setCoins(uuid, String.valueOf(Integer.valueOf(result) - Integer.valueOf(coins)), callback);
 					break;
 				case FLOAT:
-					setCoins(uuid, String.valueOf(result - Float.valueOf(coins)), callback);
+					setCoins(uuid, String.valueOf(Float.valueOf(result) - Float.valueOf(coins)), callback);
 					break;
 				case DOUBLE:
-					setCoins(uuid, String.valueOf(result - Double.valueOf(coins)), callback);
+					setCoins(uuid, String.valueOf(Double.valueOf(result) - Double.valueOf(coins)), callback);
 					break;
 			}
 		});
