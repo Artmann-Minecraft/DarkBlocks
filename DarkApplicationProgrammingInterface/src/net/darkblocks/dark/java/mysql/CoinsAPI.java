@@ -75,7 +75,7 @@ public class CoinsAPI
 				{
 					if (result.next())
 					{
-						callback.call(result.getString(1));
+						callback.call(String.valueOf(result.getObject("coins")));
 					}
 					else
 					{
@@ -113,16 +113,16 @@ public class CoinsAPI
 			switch (this.valueType)
 			{
 				case LONG:
-					setCoins(uuid, String.valueOf(result + Long.valueOf(coins)), callback);
+					setCoins(uuid, String.valueOf(Long.valueOf(result) + Long.valueOf(coins)), callback);
 					break;
 				case INTEGER:
-					setCoins(uuid, String.valueOf(result + Integer.valueOf(coins)), callback);
+					setCoins(uuid, String.valueOf(Integer.valueOf(result) + Integer.valueOf(coins)), callback);
 					break;
 				case FLOAT:
-					setCoins(uuid, String.valueOf(result + Float.valueOf(coins)), callback);
+					setCoins(uuid, String.valueOf(Float.valueOf(result) + Float.valueOf(coins)), callback);
 					break;
 				case DOUBLE:
-					setCoins(uuid, String.valueOf(result + Double.valueOf(coins)), callback);
+					setCoins(uuid, String.valueOf(Double.valueOf(result) + Double.valueOf(coins)), callback);
 					break;
 			}
 		});
