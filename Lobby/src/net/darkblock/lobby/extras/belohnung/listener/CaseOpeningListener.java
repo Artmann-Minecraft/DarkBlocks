@@ -343,7 +343,6 @@ public class CaseOpeningListener implements Listener
 			finishedCaseOpeningInventory.setItem(4, new ItemBuilder(Material.HOPPER).setName(SECONDARY + "Dein Item").build());
 			finishedCaseOpeningInventory.setItem(13, caseOpeningItem.getDisplayItem());
 			this.chests.put(player.getName(), this.chests.get(player.getName()) - 1);
-			caseOpeningItem.executeCommand();
 			caseOpeningItem.execute(player);
 			player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du hast " + PRIMARY + caseOpeningItem.getName() + TEXT + " gewonnen");
 			new BukkitRunnable()

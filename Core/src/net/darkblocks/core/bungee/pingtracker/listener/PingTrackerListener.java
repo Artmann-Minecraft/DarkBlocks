@@ -1,9 +1,13 @@
+/*
+ * © Copyright - Lars Artmann | LartyHD 2018.
+ */
 package net.darkblocks.core.bungee.pingtracker.listener;
 
 import net.darkblocks.dark.java.utils.Logger;
 import net.darkblocks.dark.universal.messages.Messages;
 import net.darkblocks.dark.universal.utils.CommandUtils;
 import net.md_5.bungee.BungeeCord;
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ProxyPingEvent;
 import net.md_5.bungee.api.plugin.Listener;
@@ -47,7 +51,7 @@ public class PingTrackerListener implements Listener
 			String message = "In der letzten Minute wurden " + IMPORTANT + this.minutePings.size() + TEXT + " Pings dokumentiert";
 			if (finalLogger != null)
 			{
-				finalLogger.log(Level.INFO, message);
+				finalLogger.log(Level.INFO, ChatColor.stripColor(message));
 			}
 			this.minutePings.clear();
 		}, 0, 1, TimeUnit.MINUTES);
@@ -55,7 +59,7 @@ public class PingTrackerListener implements Listener
 			String message = "In der letzten Stunden wurden " + IMPORTANT + this.hourPings.size() + TEXT + " Pings dokumentiert";
 			if (finalLogger != null)
 			{
-				finalLogger.log(Level.INFO, message);
+				finalLogger.log(Level.INFO, ChatColor.stripColor(message));
 			}
 			for (ProxiedPlayer player : BungeeCord.getInstance().getPlayers())
 			{
@@ -70,7 +74,7 @@ public class PingTrackerListener implements Listener
 			String message = "In den letzten 24 Stunden wurden " + IMPORTANT + this.dayPings.size() + TEXT + " Pings dokumentiert";
 			if (finalLogger != null)
 			{
-				finalLogger.log(Level.INFO, message);
+				finalLogger.log(Level.INFO, ChatColor.stripColor(message));
 			}
 			for (ProxiedPlayer player : BungeeCord.getInstance().getPlayers())
 			{

@@ -1,7 +1,6 @@
 /*
  * © Copyright - Lars Artmann | LartyHD 2018.
  */
-
 package net.darkblocks.cores.listener;
 
 import net.darkblocks.core.spigot.permissions.events.PlayerPermissionsLoadedEvent;
