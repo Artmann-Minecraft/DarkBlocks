@@ -1,3 +1,7 @@
+/*
+ * © Copyright - Lars Artmann | LartyHD 2018.
+ */
+
 package net.darkblocks.core.bungee.otherversionblocker.listener;
 
 import lombok.Getter;
@@ -28,12 +32,7 @@ public class OtherVersionBlockerListener implements Listener
 		if (event.getConnection().getVersion() != 47)
 		{
 			event.setCancelled(true);
-			StringBuilder stringBuilder = new StringBuilder();
-			for (int i = 0; i < 10; i++)
-			{
-				stringBuilder.append(IMPORTANT).append("1.8.").append(i).append(TEXT).append(", ");
-			}
-			event.setCancelReason(TEXT + "Bitte betrete " + Messages.getInstance().getShortMessage(getClass(), "servername") + TEXT + " mit einer dieser Versionen" + IMPORTANT + ":\n" + stringBuilder.substring(0, stringBuilder.length() - 2));
+			event.setCancelReason(TEXT + "Bitte betrete " + Messages.getInstance().getShortMessage(getClass(), "servername") + TEXT + " mit einer dieser Versionen" + IMPORTANT + ":\n" + "1.8.0, 1.8.1, 1.8.2, 1.8.3, 1.8.4, 1.8.5, 1.8.6, 1.8.7, 1.8.8, 1.8.9");
 		}
 	}
 }
