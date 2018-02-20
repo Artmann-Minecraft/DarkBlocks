@@ -61,8 +61,7 @@ public class CaseOpeningListener implements Listener
 				@Override
 				public void execute(Player player)
 				{
-					Bukkit.getPluginManager().callEvent(new PlayerUpdateCoinsEvent(player, String.valueOf(1000)));
-					player.sendMessage(belohnung.getCoinsAPI().addCoins(player.getUniqueId(), String.valueOf(1000), null));
+					player.sendMessage(belohnung.getCoinsAPI().addCoins(player.getUniqueId(), String.valueOf(1000), result -> Bukkit.getPluginManager().callEvent(new PlayerUpdateCoinsEvent(player, result))));
 				}
 			}, 80);
 			addItem(new CaseOpeningItem("5000 Coins", new ItemBuilder(Material.GOLD_INGOT).setName(SECONDARY + "5000 Coins").build())
@@ -70,8 +69,7 @@ public class CaseOpeningListener implements Listener
 				@Override
 				public void execute(Player player)
 				{
-					Bukkit.getPluginManager().callEvent(new PlayerUpdateCoinsEvent(player, String.valueOf(5000)));
-					player.sendMessage(belohnung.getCoinsAPI().addCoins(player.getUniqueId(), String.valueOf(5000), null));
+					player.sendMessage(belohnung.getCoinsAPI().addCoins(player.getUniqueId(), String.valueOf(5000), result -> Bukkit.getPluginManager().callEvent(new PlayerUpdateCoinsEvent(player, result))));
 				}
 			}, 40);
 			addItem(new CaseOpeningItem("10000 Coins", new ItemBuilder(Material.GOLD_BLOCK).setName(SECONDARY + "10000 Coins").build())
@@ -79,8 +77,7 @@ public class CaseOpeningListener implements Listener
 				@Override
 				public void execute(Player player)
 				{
-					Bukkit.getPluginManager().callEvent(new PlayerUpdateCoinsEvent(player, String.valueOf(10000)));
-					player.sendMessage(belohnung.getCoinsAPI().addCoins(player.getUniqueId(), String.valueOf(10000), null));
+					player.sendMessage(belohnung.getCoinsAPI().addCoins(player.getUniqueId(), String.valueOf(10000), result -> Bukkit.getPluginManager().callEvent(new PlayerUpdateCoinsEvent(player, result))));
 				}
 			}, 20);
 			addItem(new CaseOpeningItem("2 Kisten", new ItemBuilder(Material.CHEST).setName(SECONDARY + "2 Kisten").build())
