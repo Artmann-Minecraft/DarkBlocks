@@ -4,7 +4,6 @@
 package net.darkblock.lobby;
 
 import lombok.Getter;
-import net.darkblock.lobby.effects.sounds.Sounds;
 import net.darkblock.lobby.extras.Extras;
 import net.darkblock.lobby.listener.DoubleJumpListener;
 import net.darkblock.lobby.listener.MainListener;
@@ -70,7 +69,7 @@ public class Lobby extends DarkPlugin
 		new Navigator(this, this.mySQL, this.navigatorAnimation, cashedEventsManager);
 		new Verstecker(this, cashedEventsManager);
 		new Profil(this, cashedEventsManager, this.navigatorAnimation);
-		new Sounds(this);
+//		new Sounds(this);
 		this.extras = new Extras(this, userManager, this.mySQL, coinsAPI);
 	}
 	

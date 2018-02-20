@@ -19,7 +19,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -48,7 +48,7 @@ public class CookieListener implements Listener
 	}
 	
 	@EventHandler
-	public void onJoin(PlayerJoinEvent event)
+	public void onPlayerLoginEvent(PlayerLoginEvent event)
 	{
 		final UUID uuid = event.getPlayer().getUniqueId();
 		this.getCookieClicker().getMySQL().query("SELECT * FROM Cookies WHERE uuid = '" + uuid.toString() + "'", result -> {
@@ -58,15 +58,15 @@ public class CookieListener implements Listener
 				{
 					getCookieClicker().getCookies().put(uuid, result.getDouble("coins"));
 				}
+				else
+				{
+					this.getCookieClicker().getMySQL().update("INSERT INTO Cookies (uuid, coins) values ('" + uuid.toString() + "', '0')");
+				}
 			} catch (SQLException ignored)
 			{
 			} finally
 			{
-				if (getCookieClicker().getCookies().get(uuid) == null)
-				{
-					getCookieClicker().getCookies().put(uuid, 0D);
-					this.getCookieClicker().getMySQL().update("INSERT INTO Cookies (uuid, coins) values ('" + uuid.toString() + "', '0')");
-				}
+				getCookieClicker().getCookies().putIfAbsent(uuid, 0D);
 			}
 		});
 		this.getCookieClicker().getMySQL().query("SELECT * FROM CookiesPerClick WHERE uuid = '" + uuid.toString() + "'", result -> {
@@ -76,16 +76,16 @@ public class CookieListener implements Listener
 				{
 					getCookieClicker().getCookiesPerClick().put(uuid, result.getDouble("coins"));
 				}
+				else
+				{
+					this.getCookieClicker().getMySQL().update("INSERT INTO CookiesPerClick (uuid, coins) values ('" + uuid.toString() + "', '1')");
+				}
 			} catch (SQLException ignored)
 			{
 				ignored.printStackTrace();
 			} finally
 			{
-				if (getCookieClicker().getCookiesPerClick().get(uuid) == null)
-				{
-					getCookieClicker().getCookiesPerClick().put(uuid, 0D);
-					this.getCookieClicker().getMySQL().update("INSERT INTO CookiesPerClick (uuid, coins) values ('" + uuid.toString() + "', '1')");
-				}
+				getCookieClicker().getCookiesPerClick().putIfAbsent(uuid, 1D);
 			}
 		});
 	}

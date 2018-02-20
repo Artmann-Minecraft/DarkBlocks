@@ -5,6 +5,7 @@ package net.darkblock.lobby.extras.belohnung.listener;
 
 import lombok.Getter;
 import net.darkblock.lobby.extras.belohnung.Belohnung;
+import net.darkblocks.core.universal.permissions.manager.UserManager;
 import net.darkblocks.core.universal.permissions.utils.User;
 import net.darkblocks.dark.spigot.builder.ItemBuilder;
 import net.darkblocks.dark.spigot.events.PlayerUpdateCoinsEvent;
@@ -111,45 +112,40 @@ public class BelohnungListener implements Listener
 							player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Es ist ein Fehler aufgetreten bitte betrete den Server neu");
 							return;
 						}
-						for (User user : getBelohnung().getUserManager().getUser())
+						User user = UserManager.getUser(uuid);
+						if (user != null)
 						{
-							if (user.getUuid() == player.getUniqueId())
+							AtomicBoolean go = new AtomicBoolean(false);
+							switch (user.getLowestSortID())
 							{
-								AtomicBoolean go = new AtomicBoolean(false);
-								switch (user.getLowestSortID())
-								{
-									case 11000:
-										getBelohnung().getMySQL().update("UPDATE Belohnung SET `time` = '" + (System.currentTimeMillis() / 1000 + 86400) + "' WHERE `uuid` = '" + uuid + "'", () -> go.set(true));
-										break;
-									case 10170:
-										getBelohnung().getMySQL().update("UPDATE Belohnung SET `time` = '" + (System.currentTimeMillis() / 1000 + 43200) + "' WHERE `uuid` = '" + uuid + "'", () -> go.set(true));
-										break;
-									case 10160:
-										getBelohnung().getMySQL().update("UPDATE Belohnung SET `time` = '" + (System.currentTimeMillis() / 1000 + 43200) + "' WHERE `uuid` = '" + uuid + "'", () -> go.set(true));
-										break;
-									case 10150:
-										getBelohnung().getMySQL().update("UPDATE Belohnung SET `time` = '" + (System.currentTimeMillis() / 1000 + 21600) + "' WHERE `uuid` = '" + uuid + "'", () -> go.set(true));
-										break;
-									default:
-										getBelohnung().getMySQL().update("UPDATE Belohnung SET `time` = '" + (System.currentTimeMillis() / 1000 + 10800) + "' WHERE `uuid` = '" + uuid + "'", () -> go.set(true));
-										break;
-								}
-								while (!go.get())
-								{
-									try
-									{
-										Thread.sleep(1);
-									} catch (InterruptedException ex)
-									{
-										ex.printStackTrace();
-									}
-								}
-								player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du hast dir erfolgreich deine " + IMPORTANT + "Belohnung " + TEXT + "abgeholt");
-								Bukkit.getPluginManager().callEvent(new PlayerUpdateCoinsEvent(player, result));
-								getTime(player);
-								player.closeInventory();
-								return;
+								case 12000:
+									getBelohnung().getMySQL().update("UPDATE Belohnung SET `time` = '" + (System.currentTimeMillis() / 1000 + 86400) + "' WHERE `uuid` = '" + uuid + "'", () -> go.set(true));
+									break;
+								case 10160:
+								case 10150:
+									getBelohnung().getMySQL().update("UPDATE Belohnung SET `time` = '" + (System.currentTimeMillis() / 1000 + 43200) + "' WHERE `uuid` = '" + uuid + "'", () -> go.set(true));
+									break;
+								case 10140:
+									getBelohnung().getMySQL().update("UPDATE Belohnung SET `time` = '" + (System.currentTimeMillis() / 1000 + 21600) + "' WHERE `uuid` = '" + uuid + "'", () -> go.set(true));
+									break;
+								default:
+									getBelohnung().getMySQL().update("UPDATE Belohnung SET `time` = '" + (System.currentTimeMillis() / 1000 + 10800) + "' WHERE `uuid` = '" + uuid + "'", () -> go.set(true));
+									break;
 							}
+							while (!go.get())
+							{
+								try
+								{
+									Thread.sleep(1);
+								} catch (InterruptedException ex)
+								{
+									ex.printStackTrace();
+								}
+							}
+							player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du hast dir erfolgreich deine " + IMPORTANT + "Belohnung " + TEXT + "abgeholt");
+							Bukkit.getPluginManager().callEvent(new PlayerUpdateCoinsEvent(player, result));
+							getTime(player);
+							player.closeInventory();
 						}
 					}));
 				}

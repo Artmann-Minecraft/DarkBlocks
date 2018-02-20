@@ -79,7 +79,9 @@ public class CoinsAPI
 					}
 					else
 					{
-						callback.call("-1");
+						getMySQL().update("INSERT INTO " + this.tableName + " (uuid, coins) values ('" + uuid.toString() + "', '0')", () -> {
+							callback.call("0");
+						});
 					}
 				}
 			} catch (SQLException ex)
