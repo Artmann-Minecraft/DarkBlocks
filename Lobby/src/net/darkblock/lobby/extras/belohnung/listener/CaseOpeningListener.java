@@ -61,6 +61,7 @@ public class CaseOpeningListener implements Listener
 				@Override
 				public void execute(Player player)
 				{
+					Bukkit.getPluginManager().callEvent(new PlayerUpdateCoinsEvent(player, String.valueOf(1000)));
 					player.sendMessage(belohnung.getCoinsAPI().addCoins(player.getUniqueId(), String.valueOf(1000), null));
 				}
 			}, 80);
@@ -69,6 +70,7 @@ public class CaseOpeningListener implements Listener
 				@Override
 				public void execute(Player player)
 				{
+					Bukkit.getPluginManager().callEvent(new PlayerUpdateCoinsEvent(player, String.valueOf(5000)));
 					player.sendMessage(belohnung.getCoinsAPI().addCoins(player.getUniqueId(), String.valueOf(5000), null));
 				}
 			}, 40);
@@ -77,6 +79,7 @@ public class CaseOpeningListener implements Listener
 				@Override
 				public void execute(Player player)
 				{
+					Bukkit.getPluginManager().callEvent(new PlayerUpdateCoinsEvent(player, String.valueOf(10000)));
 					player.sendMessage(belohnung.getCoinsAPI().addCoins(player.getUniqueId(), String.valueOf(10000), null));
 				}
 			}, 20);
