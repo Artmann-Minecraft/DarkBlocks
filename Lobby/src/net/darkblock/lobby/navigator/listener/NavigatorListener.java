@@ -161,12 +161,13 @@ public class NavigatorListener implements CashedPlayerInteractEvent, CashedInven
 				if (name != null && !name.replaceAll(" ", "").equalsIgnoreCase(""))
 				{
 					event.setCancelled(true);
-					if (getWarps().get(name.toLowerCase()) != null)
+					Location location = getWarps().get(ChatColor.stripColor(name.toLowerCase()));
+					if (location != null)
 					{
-						player.teleport(getWarps().get(ChatColor.stripColor(name.toLowerCase())));
+						player.teleport(location);
+						player.closeInventory();
 						PackageUtils.sendTitle(player, name, null, 10, 40, 10);
 						PackageUtils.sendPlayerParticle(player, EnumParticle.ENCHANTMENT_TABLE, player.getLocation().add(0, 1, 0), 3F, 25);
-						player.closeInventory();
 					}
 				}
 			}
