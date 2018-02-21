@@ -50,7 +50,7 @@ public class GunGame extends DarkPlugin
 		MySQL mySQL = new MySQL();
 		UserManager userManager = new UserManager(mySQL, null);
 		new Core(this, mySQL, userManager, new GroupManager(mySQL, null));
-		List<String> maps = new ArrayList<>(MapsUtils.loadMapNames(this));
+		List<String> maps = MapsUtils.loadMapNames(this);
 		String map = maps.get(new Random().nextInt(maps.size()));
 		MapsUtils.loadMap(map);
 		new InGameListener(this, new KitManager(this), MapsUtils.loadSpawn(Configuration.loadConfiguration(new File(this.getDataFolder(), "spawns.yml")), map), new StatsAPI(this, Arrays.asList("Punkte", "Kills", "Tode", "MaxKillStreak")), new CoinsAPI("Coins", ValueType.INTEGER, mySQL), map);

@@ -68,8 +68,11 @@ public class InGameListener implements Listener
 	{
 		Player player = event.getPlayer();
 		event.setJoinMessage(null);
-		player.teleport(this.spectatorManager.getSpectators().getLocation());
-		this.spectatorManager.add(player);
+		if (this.spectatorManager != null)
+		{
+			player.teleport(this.spectatorManager.getSpectators().getLocation());
+			this.spectatorManager.add(player);
+		}
 	}
 	
 	@EventHandler

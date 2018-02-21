@@ -63,7 +63,7 @@ public class InGameListener extends net.darkblocks.dark.spigot.listener.InGameLi
 		this.coinsAPI = coinsAPI;
 		this.random = new Random();
 		this.map = map;
-		this.allowTeams = new Random().nextBoolean();
+		this.allowTeams = this.random.nextBoolean();
 		new ShopManager(javaPlugin, this);
 	}
 	

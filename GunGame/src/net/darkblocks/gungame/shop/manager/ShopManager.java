@@ -51,7 +51,7 @@ public class ShopManager extends Listener
 	{
 		super(javaPlugin);
 		this.inGameListener = inGameListener;
-		this.items = Arrays.asList(new ShopItemListener(javaPlugin, new ItemBuilder(Material.INK_SACK, (short) 1).setName(SECONDARY + "Magic Heal").setUnbreakable().setLore(Arrays.asList(TEXT + "Kaufe ihn dir für " + PRIMARY + "50 " + IMPORTANT + "Coins", TEXT + "Er regeneriert dich sofort")).build(), 30, 50)
+		this.items = Arrays.asList(new ShopItemListener(javaPlugin, new ItemBuilder(Material.INK_SACK, (short) 1).setName(SECONDARY + "Magic Heal").setUnbreakable().setLore(Arrays.asList(TEXT + "Kaufe ihn dir für " + PRIMARY + "50 " + IMPORTANT + "Coins", TEXT + "Er regeneriert dich sofort")).hideItemFlags().build(), 30, 50)
 		{
 			@Getter
 			private Set<String> healer;
@@ -73,7 +73,7 @@ public class ShopManager extends Listener
 				{
 					buy(player, getInGameListener().getCoinsAPI(), result -> {
 						player.playSound(player.getLocation(), Sound.LEVEL_UP, 2, 1);
-						player.getInventory().addItem(new ItemBuilder(getItemStack()).removeLore(0).build());
+						player.getInventory().addItem(new ItemBuilder(getItemStack()).removeLore(0).hideItemFlags().build());
 						player.closeInventory();
 					});
 				}
@@ -109,7 +109,7 @@ public class ShopManager extends Listener
 					}
 				}
 			}
-		}, new ShopItemListener(javaPlugin, new ItemBuilder(Material.DIAMOND).setName(SECONDARY + "Level Up").setUnbreakable().setLore(Arrays.asList(TEXT + "Kaufe ihn dir für " + PRIMARY + "100 " + IMPORTANT + "Coins", TEXT + "Erhöht dein Level um 5")).build(), 60, 100)
+		}, new ShopItemListener(javaPlugin, new ItemBuilder(Material.DIAMOND).setName(SECONDARY + "Level Up").setUnbreakable().setLore(Arrays.asList(TEXT + "Kaufe ihn dir für " + PRIMARY + "100 " + IMPORTANT + "Coins", TEXT + "Erhöht dein Level um 5")).hideItemFlags().build(), 60, 100)
 		{
 			@Getter
 			private Set<String> updater;
@@ -149,7 +149,7 @@ public class ShopManager extends Listener
 					});
 				}
 			}
-		}, new ShopItemListener(javaPlugin, new ItemBuilder(Material.FIREBALL).setName(SECONDARY + "Instant Killer").setUnbreakable().setLore(Arrays.asList(TEXT + "Kaufe ihn dir für " + PRIMARY + "500 " + IMPORTANT + "Coins", TEXT + "Töte einen Spieler sofort")).addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 1000).hideItemFlags().build(), 300, 500)
+		}, new ShopItemListener(javaPlugin, new ItemBuilder(Material.FIREBALL).setName(SECONDARY + "Instant Killer").setUnbreakable().setLore(Arrays.asList(TEXT + "Kaufe ihn dir für " + PRIMARY + "500 " + IMPORTANT + "Coins", TEXT + "Töte einen Spieler sofort")).addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 1000).hideItemFlags().hideItemFlags().build(), 300, 500)
 		{
 			@Getter
 			private Set<String> killer;
@@ -165,7 +165,7 @@ public class ShopManager extends Listener
 			{
 				buy(player, getInGameListener().getCoinsAPI(), result -> {
 					player.playSound(player.getLocation(), Sound.LEVEL_UP, 2, 1);
-					player.getInventory().addItem(new ItemBuilder(getItemStack()).removeLore(0).build());
+					player.getInventory().addItem(new ItemBuilder(getItemStack()).removeLore(0).hideItemFlags().build());
 					player.closeInventory();
 				});
 			}
@@ -182,7 +182,7 @@ public class ShopManager extends Listener
 					}
 				}
 			}
-		}, new ShopItemListener(javaPlugin, new ItemBuilder(Material.PAPER).setName(SECONDARY + "KeepInventory").setUnbreakable().setLore(Arrays.asList(TEXT + "Kaufe ihn dir für " + PRIMARY + "500 " + IMPORTANT + "Coins", TEXT + "Behalte nach deinem Tot deine Items")).build(), 300, 500)
+		}, new ShopItemListener(javaPlugin, new ItemBuilder(Material.PAPER).setName(SECONDARY + "KeepInventory").setUnbreakable().setLore(Arrays.asList(TEXT + "Kaufe ihn dir für " + PRIMARY + "500 " + IMPORTANT + "Coins", TEXT + "Behalte nach deinem Tot deine Items")).hideItemFlags().build(), 300, 500)
 		{
 			@Getter
 			private Set<String> keepInv;
@@ -236,6 +236,10 @@ public class ShopManager extends Listener
 		int i = 0;
 		for (ShopItemListener shopItemListener : getItems())
 		{
+			if (i == 2)
+			{
+				i++;
+			}
 			switch (i)
 			{
 				case 0:
@@ -286,7 +290,7 @@ public class ShopManager extends Listener
 	
 	private void editArmorStand(ArmorStand armorStand, Random random)
 	{
-		ItemStack itemStack = new ItemBuilder(armorStand.getChestplate()).setColor(Color.fromRGB(random.nextInt(256), random.nextInt(256), random.nextInt(256))).build();
+		ItemStack itemStack = new ItemBuilder(armorStand.getChestplate()).setColor(Color.fromRGB(random.nextInt(256), random.nextInt(256), random.nextInt(256))).hideItemFlags().build();
 		armorStand.setChestplate(itemStack);
 		armorStand.setLeggings(itemStack);
 		armorStand.setBoots(itemStack);
