@@ -1,7 +1,6 @@
 /*
  * © Copyright - Lars Artmann | LartyHD 2018.
  */
-
 package net.darkblocks.lobby.verstecker;
 
 import net.darkblocks.dark.spigot.events.cashed.CashedEventsManager;

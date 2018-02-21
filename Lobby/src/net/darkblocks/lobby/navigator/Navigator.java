@@ -1,7 +1,6 @@
 /*
  * © Copyright - Lars Artmann | LartyHD 2018.
  */
-
 package net.darkblocks.lobby.navigator;
 
 import net.darkblocks.dark.java.mysql.MySQL;
