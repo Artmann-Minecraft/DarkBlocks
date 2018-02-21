@@ -93,7 +93,7 @@ public class LobbyCountdown extends Countdown
 					Location playerLocation = players.getLocation();
 					if (getSeconds() == 10)
 					{
-						//					Utils.sendTitle(players, 10, 20, 10, this.messages.getGameName(), this.messages.getColoredServerName());TODO: SEND TITLE
+						PackageUtils.sendTitle(players, Messages.getInstance().getShortMessage(getClass(), "gamename"), Messages.getInstance().getShortMessage(getClass(), "servername"), 10, 20, 10);
 						players.playSound(playerLocation, Sound.ORB_PICKUP, 1.0F, 1.0F);
 					}
 					else if (getSeconds() >= 1 && getSeconds() <= 4)
