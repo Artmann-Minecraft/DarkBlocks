@@ -1,0 +1,6 @@
+name: GunGame
+version: 1.0
+main: net.darkblock.gungame.GunGame
+author: Lars Artmann aka. LartyHD
+depend:
+- SegdoCloudPlugin
