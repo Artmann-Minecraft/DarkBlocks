@@ -23,7 +23,6 @@ public abstract class Listener implements org.bukkit.event.Listener
 		Bukkit.getPluginManager().registerEvents(this, javaPlugin);
 	}
 	
-	@SuppressWarnings("WeakerAccess")
 	public void init()
 	{
 	}

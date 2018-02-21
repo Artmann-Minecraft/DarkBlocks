@@ -16,7 +16,7 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 @Getter
 @Setter
-public class ItemListener extends Listener
+public abstract class ItemListener extends Listener
 {
 	private ItemStack itemStack;
 	

@@ -26,6 +26,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -186,6 +187,15 @@ public class InGameListener extends net.darkblocks.dark.spigot.listener.InGameLi
 				});
 			}
 		})));
+	}
+	
+	@EventHandler
+	public void onInventoryClickEvent(InventoryClickEvent event)
+	{
+		if (event.getClickedInventory().equals(event.getInventory()))
+		{
+			event.setCancelled(true);
+		}
 	}
 	
 	@EventHandler

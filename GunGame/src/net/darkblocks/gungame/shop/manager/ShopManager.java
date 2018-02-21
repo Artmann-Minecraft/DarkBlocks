@@ -3,7 +3,6 @@
  */
 package net.darkblocks.gungame.shop.manager;
 
-import com.google.common.collect.Sets;
 import lombok.Getter;
 import net.darkblocks.dark.spigot.builder.InventoryBuilder;
 import net.darkblocks.dark.spigot.builder.ItemBuilder;
@@ -46,13 +45,13 @@ public class ShopManager extends Listener
 {
 	private final Inventory inventory;
 	private final InGameListener inGameListener;
-	private final Set<ShopItemListener> items;
+	private final List<ShopItemListener> items;
 	
 	public ShopManager(JavaPlugin javaPlugin, InGameListener inGameListener)
 	{
 		super(javaPlugin);
 		this.inGameListener = inGameListener;
-		this.items = Sets.newHashSet(new ShopItemListener(javaPlugin, new ItemBuilder(Material.INK_SACK, (short) 1).setName(SECONDARY + "Magic Heal").setUnbreakable().setLore(Arrays.asList(TEXT + "Kaufe ihn dir für " + PRIMARY + "50 " + IMPORTANT + "Coins", TEXT + "Er regeneriert dich sofort")).build(), 30, 50)
+		this.items = Arrays.asList(new ShopItemListener(javaPlugin, new ItemBuilder(Material.INK_SACK, (short) 1).setName(SECONDARY + "Magic Heal").setUnbreakable().setLore(Arrays.asList(TEXT + "Kaufe ihn dir für " + PRIMARY + "50 " + IMPORTANT + "Coins", TEXT + "Er regeneriert dich sofort")).build(), 30, 50)
 		{
 			@Getter
 			private Set<String> healer;
