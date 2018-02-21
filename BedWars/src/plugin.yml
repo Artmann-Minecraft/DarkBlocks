@@ -1,4 +1,4 @@
 name: BedWars
 version: 1.0
-main: net.darkblock.bedwars.BedWars
+main: net.darkblocks.bedwars.BedWars
 author: Lars Artmann aka. LartyHD
