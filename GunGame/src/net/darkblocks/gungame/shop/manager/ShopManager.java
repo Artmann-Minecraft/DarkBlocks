@@ -71,10 +71,13 @@ public class ShopManager extends Listener
 				}
 				else
 				{
-					buy(player, getInGameListener().getCoinsAPI(), result -> {
-						player.playSound(player.getLocation(), Sound.LEVEL_UP, 2, 1);
-						player.getInventory().addItem(new ItemBuilder(getItemStack()).removeLore(0).hideItemFlags().build());
-						player.closeInventory();
+					buy(player, getInGameListener().getCoinsAPI(), "50", result -> {
+						if (result)
+						{
+							player.playSound(player.getLocation(), Sound.LEVEL_UP, 2, 1);
+							player.getInventory().addItem(new ItemBuilder(getItemStack()).removeLore(0).hideItemFlags().build());
+							player.closeInventory();
+						}
 					});
 				}
 			}
@@ -129,7 +132,7 @@ public class ShopManager extends Listener
 				}
 				else
 				{
-					buy(player, getInGameListener().getCoinsAPI(), result -> {
+					buy(player, getInGameListener().getCoinsAPI(), "100", result -> {
 						player.playSound(player.getLocation(), Sound.LEVEL_UP, 2, 1);
 						new Thread(() ->
 						{
@@ -163,7 +166,7 @@ public class ShopManager extends Listener
 			@Override
 			public void buy(Player player)
 			{
-				buy(player, getInGameListener().getCoinsAPI(), result -> {
+				buy(player, getInGameListener().getCoinsAPI(), "500", result -> {
 					player.playSound(player.getLocation(), Sound.LEVEL_UP, 2, 1);
 					player.getInventory().addItem(new ItemBuilder(getItemStack()).removeLore(0).hideItemFlags().build());
 					player.closeInventory();
@@ -202,7 +205,7 @@ public class ShopManager extends Listener
 				}
 				else
 				{
-					buy(player, getInGameListener().getCoinsAPI(), result -> {
+					buy(player, getInGameListener().getCoinsAPI(), "500", result -> {
 						player.playSound(player.getLocation(), Sound.LEVEL_UP, 2, 1);
 						getKeepInv().add(player.getName());
 						player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.TEXT + "Du hast jetzt " + IMPORTANT + "KeepInventory " + TEXT + " aktiviert");

@@ -17,7 +17,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.HashMap;
 import java.util.Map;
 
-import static net.darkblocks.dark.universal.messages.Colors.*;
+import static net.darkblocks.dark.universal.messages.Colors.SECONDARY;
+import static net.darkblocks.dark.universal.messages.Colors.TEXT;
 
 /**
  * Created by LartyHD on 19.02.2018  02:33.
@@ -41,8 +42,8 @@ public abstract class ShopItemListener extends ItemListener
 	
 	private void used(@NonNull String name)
 	{
+		ShopItemListener.this.user.put(name, (int) (System.currentTimeMillis() / 1000 + this.waitTime));
 		new Thread(() -> {
-			ShopItemListener.this.user.put(name, (int) (System.currentTimeMillis() / 1000 + this.waitTime));
 			try
 			{
 				Thread.sleep(this.waitTime * 1000);
@@ -56,14 +57,14 @@ public abstract class ShopItemListener extends ItemListener
 		}).start();
 	}
 	
-	protected void buy(Player player, CoinsAPI coinsAPI, Callback<Boolean> callback)
+	protected void buy(Player player, CoinsAPI coinsAPI, String price, Callback<Boolean> callback)
 	{
 		coinsAPI.getCoins(player.getUniqueId(), result -> {
 			if (Integer.valueOf(result) >= getPrice())
 			{
-				if (getUser().get(player.getName()) > System.currentTimeMillis() / 1000)
+				if (getUser().get(player.getName()) != null && getUser().get(player.getName()) > System.currentTimeMillis() / 1000)
 				{
-					player.sendMessage(getWaitMessage(player.getName()));
+					player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du kannst " + SECONDARY + this.displayName + TEXT + " in " + TimeUtils.getZeit(getUser().get(player.getName()) - System.currentTimeMillis() / 1000) + " wieder kaufen");
 					if (callback != null)
 					{
 						callback.call(false);
@@ -72,7 +73,7 @@ public abstract class ShopItemListener extends ItemListener
 				else
 				{
 					used(player.getName());
-					player.sendMessage(coinsAPI.removeCoins(player.getUniqueId(), result, result1 -> {
+					player.sendMessage(coinsAPI.removeCoins(player.getUniqueId(), price, result1 -> {
 						if (callback != null)
 						{
 							callback.call(true);
@@ -82,18 +83,13 @@ public abstract class ShopItemListener extends ItemListener
 			}
 			else
 			{
-				player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du hast nicht " + PRIMARY + "genug " + IMPORTANT + " Coins");
+				player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "notenoughcoins"));
 				if (callback != null)
 				{
 					callback.call(false);
 				}
 			}
 		});
-	}
-	
-	private String getWaitMessage(@NonNull String name)
-	{
-		return Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du kannst " + SECONDARY + this.displayName + TEXT + " in " + TimeUtils.getZeit(getUser().get(name) - System.currentTimeMillis() / 1000) + " wieder kaufen";
 	}
 	
 	public abstract void buy(@NonNull Player player);

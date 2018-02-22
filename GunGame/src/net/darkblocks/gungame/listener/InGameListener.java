@@ -146,7 +146,7 @@ public class InGameListener extends net.darkblocks.dark.spigot.listener.InGameLi
 	public void on(PlayerInteractEvent event)
 	{
 		event.setCancelled(true);
-		if (event.getItem().equals(Items.LEAVE.getItemStack()))
+		if (event.getItem() != null && event.getItem().equals(Items.LEAVE.getItemStack()))
 		{
 			event.getPlayer().kickPlayer("LEAVE");
 		}
