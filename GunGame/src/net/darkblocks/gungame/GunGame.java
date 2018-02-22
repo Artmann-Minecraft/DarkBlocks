@@ -9,12 +9,10 @@ import net.darkblocks.core.universal.permissions.manager.UserManager;
 import net.darkblocks.dark.java.mysql.CoinsAPI;
 import net.darkblocks.dark.java.mysql.MySQL;
 import net.darkblocks.dark.java.mysql.StatsAPI;
-import net.darkblocks.dark.java.utils.ServerState;
 import net.darkblocks.dark.java.utils.ValueType;
 import net.darkblocks.dark.segdocloud.manager.CloudManager;
 import net.darkblocks.dark.spigot.builder.ItemBuilder;
 import net.darkblocks.dark.spigot.config.Configuration;
-import net.darkblocks.dark.spigot.events.ServerStateChangeEvent;
 import net.darkblocks.dark.spigot.plugin.DarkPlugin;
 import net.darkblocks.dark.spigot.utils.Items;
 import net.darkblocks.dark.spigot.utils.MapsUtils;
@@ -73,6 +71,5 @@ public class GunGame extends DarkPlugin
 			armorStand.setBoots(itemStack);
 		}
 		new CloudManager(this, "- - -");
-		Bukkit.getPluginManager().callEvent(new ServerStateChangeEvent(ServerState.STARTUP, ServerState.INGAME));
 	}
 }

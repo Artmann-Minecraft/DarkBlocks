@@ -140,10 +140,11 @@ public class InGameListener extends net.darkblocks.dark.spigot.listener.InGameLi
 	public void onPlayerDeathEvent(PlayerDeathEvent event)
 	{
 		event.setKeepInventory(true);
+		event.setDroppedExp(0);
 	}
 	
 	@EventHandler
-	public void on(PlayerInteractEvent event)
+	public void onPlayerInteractEvent(PlayerInteractEvent event)
 	{
 		event.setCancelled(true);
 		if (event.getItem() != null && event.getItem().equals(Items.LEAVE.getItemStack()))
