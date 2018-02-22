@@ -1,8 +1,9 @@
 /*
- * © Copyright - MineWar.net | Lars Artmann aka. LartyHD 2017
+ * © Copyright - Lars Artmann | LartyHD 2018.
  */
 package net.darkblocks.core.spigot.permissions.listener;
 
+import lombok.NonNull;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissibleBase;
@@ -16,7 +17,7 @@ import java.util.Set;
  * Created by LartyHD on 03.07.2017  16:30.
  * Project: War
  */
-@SuppressWarnings({"ALL", "unused"})
+@SuppressWarnings({"ALL", "unused" })
 public class DarkPermissible extends PermissibleBase
 {
 	private ServerOperator opable;
@@ -54,7 +55,7 @@ public class DarkPermissible extends PermissibleBase
 		this.perms.add(permission);
 	}
 	
-	public void addPermissions(Collection<String> permissions)
+	public void addPermissions(@NonNull Collection<String> permissions)
 	{
 		this.perms.addAll(permissions);
 	}

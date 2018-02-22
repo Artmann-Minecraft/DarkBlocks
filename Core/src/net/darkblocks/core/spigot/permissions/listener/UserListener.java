@@ -1,3 +1,7 @@
+/*
+ * © Copyright - Lars Artmann | LartyHD 2018.
+ */
+
 package net.darkblocks.core.spigot.permissions.listener;
 
 import lombok.Getter;
@@ -13,7 +17,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
@@ -54,20 +58,17 @@ public class UserListener implements Listener
 	}
 	
 	@EventHandler(priority = EventPriority.LOW)
-	public void onPlayerLoginEvent(PlayerJoinEvent event)
+	public void onPlayerLoginEvent(PlayerLoginEvent event)
 	{
 		final Player player = event.getPlayer();
 		UserUtils.onLogin(this.mySQL, player.getUniqueId(), this.userManager, this.groupManager, () -> {
-			for (User user : this.userManager.getUser())
+			inject(player);
+			User user = UserManager.getUser(player.getUniqueId());
+			if (user != null)
 			{
-				if (user.getUuid() == player.getUniqueId())
-				{
-					inject(player);
-					this.permissibles.get(player.getUniqueId()).addPermissions(user.getPermissions());
-					Bukkit.getPluginManager().callEvent(new PlayerPermissionsLoadedEvent(player, user));
-					return;
-				}
+				this.permissibles.get(player.getUniqueId()).addPermissions(user.getPermissions());
 			}
+			Bukkit.getPluginManager().callEvent(new PlayerPermissionsLoadedEvent(player, user));
 		});
 	}
 	

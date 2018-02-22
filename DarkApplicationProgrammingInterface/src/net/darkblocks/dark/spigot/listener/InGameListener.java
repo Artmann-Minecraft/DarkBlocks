@@ -64,7 +64,7 @@ public class InGameListener implements Listener
 	}
 	
 	@EventHandler
-	public void onPlayerJoin(PlayerJoinEvent event)
+	public void onPlayerJoinEvent(PlayerJoinEvent event)
 	{
 		Player player = event.getPlayer();
 		event.setJoinMessage(null);
@@ -76,19 +76,19 @@ public class InGameListener implements Listener
 	}
 	
 	@EventHandler
-	public void onPlayerQuit(PlayerQuitEvent event)
+	public void onPlayerQuitEvent(PlayerQuitEvent event)
 	{
 		event.setQuitMessage(null);
 	}
 	
 	@EventHandler
-	public void onPlayerKick(PlayerKickEvent event)
+	public void onPlayerKickEvent(PlayerKickEvent event)
 	{
 		event.setLeaveMessage(null);
 	}
 	
 	@EventHandler
-	public void onPlayerMove(PlayerMoveEvent event)
+	public void onPlayerMoveEvent(PlayerMoveEvent event)
 	{
 		Player player = event.getPlayer();
 		if (player.getLocation().getBlockY() < 0)
@@ -98,7 +98,7 @@ public class InGameListener implements Listener
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onDeath(PlayerDeathEvent event)
+	public void onPlayerDeathEvent(PlayerDeathEvent event)
 	{
 		Player player = event.getEntity();
 		String playerName = player.getDisplayName();
@@ -151,7 +151,7 @@ public class InGameListener implements Listener
 	}
 	
 	@EventHandler
-	public void onDamage(EntityDamageByEntityEvent event)
+	public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent event)
 	{
 		Entity damager = event.getDamager();
 		if (!event.isCancelled() && damager != null)
@@ -173,7 +173,7 @@ public class InGameListener implements Listener
 	}
 	
 	@EventHandler
-	public void onChat(AsyncPlayerChatEvent event)
+	public void onAsyncPlayerChatEvent(AsyncPlayerChatEvent event)
 	{
 		Player player = event.getPlayer();
 //		if (Saves.getTeamManager() != null) TODO: TEAMS

@@ -68,8 +68,10 @@ public class InGameListener extends net.darkblocks.dark.spigot.listener.InGameLi
 	}
 	
 	@EventHandler
-	public void onMove(PlayerMoveEvent event)
+	@Override
+	public void onPlayerMoveEvent(PlayerMoveEvent event)
 	{
+		super.onPlayerMoveEvent(event);
 		Player player = event.getPlayer();
 		Material type = event.getTo().getBlock().getType();
 		if (type == Material.WATER || type == Material.STATIONARY_WATER || type == Material.LAVA || type == Material.STATIONARY_LAVA)
@@ -79,8 +81,10 @@ public class InGameListener extends net.darkblocks.dark.spigot.listener.InGameLi
 	}
 	
 	@EventHandler
+	@Override
 	public void onPlayerJoinEvent(PlayerJoinEvent event)
 	{
+		super.onPlayerJoinEvent(event);
 		Player player = event.getPlayer();
 		UUID uniqueId = player.getUniqueId();
 		getStatsAPI().createAccount(uniqueId);
@@ -117,8 +121,10 @@ public class InGameListener extends net.darkblocks.dark.spigot.listener.InGameLi
 	}
 	
 	@EventHandler
+	@Override
 	public void onPlayerQuitEvent(PlayerQuitEvent event)
 	{
+		super.onPlayerQuitEvent(event);
 		User user = UserManager.getUser(event.getPlayer().getUniqueId());
 		if (user != null)
 		{
@@ -127,8 +133,10 @@ public class InGameListener extends net.darkblocks.dark.spigot.listener.InGameLi
 	}
 	
 	@EventHandler
+	@Override
 	public void onPlayerKickEvent(PlayerKickEvent event)
 	{
+		super.onPlayerKickEvent(event);
 		User user = UserManager.getUser(event.getPlayer().getUniqueId());
 		if (user != null)
 		{
@@ -137,8 +145,10 @@ public class InGameListener extends net.darkblocks.dark.spigot.listener.InGameLi
 	}
 	
 	@EventHandler
+	@Override
 	public void onPlayerDeathEvent(PlayerDeathEvent event)
 	{
+		super.onPlayerDeathEvent(event);
 		event.setKeepInventory(true);
 		event.setDroppedExp(0);
 	}
