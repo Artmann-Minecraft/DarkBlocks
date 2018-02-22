@@ -30,7 +30,6 @@ public class DarkPlugin extends JavaPlugin
 	@Override
 	public synchronized void onEnable()
 	{
-		super.onEnable();
 		sendPluginInfos("Enable");
 	}
 	
@@ -61,11 +60,11 @@ public class DarkPlugin extends JavaPlugin
 		{
 			consoleSender.sendMessage("§aDescription§8: " + description.getDescription());
 		}
-		if (description.getDepend() != null)
+		if (description.getDepend().size() > 0)
 		{
 			consoleSender.sendMessage("§aDepend§8: " + description.getDepend());
 		}
-		if (description.getSoftDepend() != null)
+		if (description.getSoftDepend().size() > 0)
 		{
 			consoleSender.sendMessage("§aSoftDepend§8: " + description.getSoftDepend());
 		}
@@ -79,5 +78,6 @@ public class DarkPlugin extends JavaPlugin
 			}
 		}
 		consoleSender.sendMessage("§m                                                  ");
+		consoleSender.sendMessage("§a" + (key.endsWith("e") ? key + "d" : key + "ed") + " Plugin");
 	}
 }
