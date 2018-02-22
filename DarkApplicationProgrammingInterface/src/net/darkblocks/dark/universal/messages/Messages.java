@@ -7,8 +7,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import net.md_5.bungee.api.chat.TextComponent;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by LartyHD on 14.11.2017  17:44.
@@ -81,19 +80,31 @@ public class Messages
 		getMessages().put(key.toLowerCase(), changeColors(messages));
 	}
 	
-	private String changeColors(String text)
+	private String changeColors(@NonNull String text)
 	{
 		return text.replaceAll("&", "§");
 	}
 	
-	private String getPath(Class clazz)
+	private String getPath(@NonNull Class clazz)
 	{
 		return clazz.getName().toLowerCase().replaceAll("net.darkblocks.", "dark.") + ".";
 	}
 	
-	public String getShortMessage(Class clazz, String name)
+	public String getShortMessage(@NonNull Class clazz, @NonNull String name)
 	{
-		return getMessage(getPath(clazz) + name, "dark." + getPath(clazz).split(".")[1] + "." + name, "dark." + name);
+		List<Character> list = new ArrayList<>();
+		for (char c : getPath(clazz).substring(5).toCharArray())
+		{
+			if (c == '.')
+			{
+				return getMessage(getPath(clazz) + name, "dark." + Arrays.toString(list.toArray(new Character[list.size()])) + "." + name, "dark." + name);
+			}
+			else
+			{
+				list.add(c);
+			}
+		}
+		return getMessage(getPath(clazz) + name, "dark." + name);
 	}
 	
 	public TextComponent getShortTextComponent(Class clazz, String name)
