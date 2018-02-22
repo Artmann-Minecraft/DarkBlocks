@@ -97,11 +97,11 @@ public enum Kits
 	{
 		if (level != 0)
 		{
-			return new ItemBuilder(material).setName(SECONDARY + "Waffe").addUnsafeEnchantment(Enchantment.DAMAGE_ALL, level).setUnbreakable().build();
+			return new ItemBuilder(material).setName(SECONDARY + "Waffe").addUnsafeEnchantment(Enchantment.DAMAGE_ALL, level).setUnbreakable().hideItemFlags().build();
 		}
 		else
 		{
-			return new ItemBuilder(material).setName(SECONDARY + "Waffe").setUnbreakable().build();
+			return new ItemBuilder(material).setName(SECONDARY + "Waffe").setUnbreakable().hideItemFlags().build();
 		}
 	}
 	
@@ -132,11 +132,11 @@ public enum Kits
 		}
 		if (level != 0)
 		{
-			return new ItemBuilder(material).setName(SECONDARY + typeName).addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, level).setUnbreakable().build();
+			return new ItemBuilder(material).setName(SECONDARY + typeName).addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, level).setUnbreakable().hideItemFlags().build();
 		}
 		else
 		{
-			return new ItemBuilder(material).setName(SECONDARY + typeName).setUnbreakable().build();
+			return new ItemBuilder(material).setName(SECONDARY + typeName).setUnbreakable().hideItemFlags().build();
 		}
 	}
 }

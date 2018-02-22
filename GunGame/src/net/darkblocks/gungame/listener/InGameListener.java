@@ -192,7 +192,7 @@ public class InGameListener extends net.darkblocks.dark.spigot.listener.InGameLi
 	@EventHandler
 	public void onInventoryClickEvent(InventoryClickEvent event)
 	{
-		if (event.getClickedInventory().equals(event.getInventory()))
+		if (event.getClickedInventory() != null && event.getClickedInventory().equals(event.getInventory()))
 		{
 			event.setCancelled(true);
 		}
