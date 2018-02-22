@@ -23,6 +23,7 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
@@ -97,7 +98,7 @@ public class ShopManager extends Listener
 				if (event.getItem() != null && event.getItem().getType() != null)
 				{
 					Player player = event.getPlayer();
-					if (event.getItem().getType() == Material.INK_SACK)
+					if (event.getItem().getType() == Material.INK_SACK && event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getAction() == Action.RIGHT_CLICK_AIR)
 					{
 						event.setCancelled(true);
 						if ((int) player.getHealth() == (int) player.getMaxHealth())
@@ -133,22 +134,25 @@ public class ShopManager extends Listener
 				else
 				{
 					buy(player, getInGameListener().getCoinsAPI(), "100", result -> {
-						player.playSound(player.getLocation(), Sound.LEVEL_UP, 2, 1);
-						new Thread(() ->
+						if (result)
 						{
-							for (int i = 0; i < 5; i++)
+							player.playSound(player.getLocation(), Sound.LEVEL_UP, 2, 1);
+							new Thread(() ->
 							{
-								getInGameListener().getKitManager().update(player);
-								try
+								for (int i = 0; i < 5; i++)
 								{
-									Thread.sleep(50);
-								} catch (InterruptedException ex)
-								{
-									ex.printStackTrace();
+									getInGameListener().getKitManager().update(player);
+									try
+									{
+										Thread.sleep(50);
+									} catch (InterruptedException ex)
+									{
+										ex.printStackTrace();
+									}
 								}
-							}
-						}).start();
-						player.closeInventory();
+							}).start();
+							player.closeInventory();
+						}
 					});
 				}
 			}
@@ -206,10 +210,13 @@ public class ShopManager extends Listener
 				else
 				{
 					buy(player, getInGameListener().getCoinsAPI(), "500", result -> {
-						player.playSound(player.getLocation(), Sound.LEVEL_UP, 2, 1);
-						getKeepInv().add(player.getName());
-						player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.TEXT + "Du hast jetzt " + IMPORTANT + "KeepInventory " + TEXT + " aktiviert");
-						player.closeInventory();
+						if (result)
+						{
+							player.playSound(player.getLocation(), Sound.LEVEL_UP, 2, 1);
+							getKeepInv().add(player.getName());
+							player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + Colors.TEXT + "Du hast jetzt " + IMPORTANT + "KeepInventory " + TEXT + " aktiviert");
+							player.closeInventory();
+						}
 					});
 				}
 			}
