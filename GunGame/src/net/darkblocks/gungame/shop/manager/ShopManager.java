@@ -171,16 +171,19 @@ public class ShopManager extends Listener
 			public void buy(Player player)
 			{
 				buy(player, getInGameListener().getCoinsAPI(), "500", result -> {
-					player.playSound(player.getLocation(), Sound.LEVEL_UP, 2, 1);
-					player.getInventory().addItem(new ItemBuilder(getItemStack()).removeLore(0).hideItemFlags().build());
-					player.closeInventory();
+					if (result)
+					{
+						player.playSound(player.getLocation(), Sound.LEVEL_UP, 2, 1);
+						player.getInventory().addItem(new ItemBuilder(getItemStack()).removeLore(0).hideItemFlags().build());
+						player.closeInventory();
+					}
 				});
 			}
 			
 			@EventHandler
 			public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent event)
 			{
-				if (event.getDamager() instanceof Player)
+				if (event.getDamager() instanceof Player && event.getEntity() instanceof Player)
 				{
 					Player damager = (Player) event.getDamager();
 					if (damager.getItemInHand().getType() == Material.FIREBALL && !event.isCancelled())
