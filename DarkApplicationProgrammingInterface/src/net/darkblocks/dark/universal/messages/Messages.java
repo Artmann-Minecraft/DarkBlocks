@@ -7,8 +7,8 @@ import lombok.Getter;
 import lombok.NonNull;
 import net.md_5.bungee.api.chat.TextComponent;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by LartyHD on 14.11.2017  17:44.
@@ -88,24 +88,12 @@ public class Messages
 	
 	private String getPath(@NonNull Class clazz)
 	{
-		return clazz.getName().toLowerCase() + ".";
+		return clazz.getName().toLowerCase() + ".".replaceAll("net.darkblocks", "dark");
 	}
 	
 	public String getShortMessage(@NonNull Class clazz, @NonNull String name)
 	{
-		List<Character> list = new ArrayList<>();
-		for (char c : getPath(clazz).substring(5).toCharArray())
-		{
-			if (c == '.')
-			{
-				return getMessage(getPath(clazz) + name, "net.darkblocks." + list.stream().map(String::valueOf).collect(Collectors.joining()) + "." + name, "net.darkblocks." + name);
-			}
-			else
-			{
-				list.add(c);
-			}
-		}
-		return getMessage(getPath(clazz) + name, "dark." + Arrays.toString(list.toArray(new Character[list.size()])) + "." + name, "dark." + name);
+		return getMessage(getPath(clazz) + name, "dark." + name);
 	}
 	
 	public TextComponent getShortTextComponent(Class clazz, String name)
