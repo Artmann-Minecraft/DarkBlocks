@@ -98,7 +98,7 @@ public class ShopManager extends Listener
 				if (event.getItem() != null && event.getItem().getType() != null)
 				{
 					Player player = event.getPlayer();
-					if (event.getItem().getType() == Material.INK_SACK && event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getAction() == Action.RIGHT_CLICK_AIR)
+					if (event.getItem().getType() == Material.INK_SACK && (event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR))
 					{
 						event.setCancelled(true);
 						if ((int) player.getHealth() == (int) player.getMaxHealth())
