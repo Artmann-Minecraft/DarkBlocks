@@ -93,7 +93,7 @@ public class Messages
 	
 	public String getShortMessage(Class clazz, String name)
 	{
-		return getMessage(getPath(clazz) + name, "dark." + name);
+		return getMessage(getPath(clazz) + name, "dark." + getPath(clazz).split(".")[1] + "." + name, "dark." + name);
 	}
 	
 	public TextComponent getShortTextComponent(Class clazz, String name)

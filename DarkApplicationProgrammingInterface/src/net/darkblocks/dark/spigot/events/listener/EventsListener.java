@@ -6,6 +6,7 @@ package net.darkblocks.dark.spigot.events.listener;
 import net.darkblocks.dark.spigot.events.PlayerDisconnectEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerKickEvent;
@@ -37,13 +38,13 @@ public class EventsListener implements Listener
 		event.getPlayer().setFireTicks(0);
 	}
 	
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerQuitEvent(PlayerQuitEvent event)
 	{
 		Bukkit.getPluginManager().callEvent(new PlayerDisconnectEvent(event.getPlayer()));
 	}
 	
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerKickEvent(PlayerKickEvent event)
 	{
 		if (!event.isCancelled())
