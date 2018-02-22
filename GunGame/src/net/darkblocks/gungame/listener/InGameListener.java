@@ -177,7 +177,7 @@ public class InGameListener extends net.darkblocks.dark.spigot.listener.InGameLi
 					}
 					getStatsAPI().add(killer.getUniqueId(), 1, "Kills");
 					getStatsAPI().add(killer.getUniqueId(), 10, "Punkte");
-					player.sendMessage(getCoinsAPI().addCoins(killer.getUniqueId(), "5", result2 -> {
+					killer.sendMessage(getCoinsAPI().addCoins(killer.getUniqueId(), "5", result2 -> {
 						broadcastKillStreak(getKillStreak().get(killer.getName()), killer);
 						ScoreBoardUtils.sendInGameScoreBoard(killer, getMap(), getStatsAPI(), this.allowTeams);
 						killer.playSound(killer.getLocation(), Sound.ENDERMAN_HIT, 2, 1);

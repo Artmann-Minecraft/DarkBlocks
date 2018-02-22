@@ -8,9 +8,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
 
@@ -25,12 +25,12 @@ public class EventsListener implements Listener
 	}
 	
 	@EventHandler
-	public void onPlayerDeathEvent(PlayerDeathEvent event)
+	public void onPlayerRespawnEvent(PlayerRespawnEvent event)
 	{
-		Player entity = event.getEntity();
-		entity.spigot().respawn();
-		entity.setVelocity(new Vector(0, 0, 0));
-		entity.setFireTicks(0);
+		Player player = event.getPlayer();
+		player.spigot().respawn();
+		player.setVelocity(new Vector(0, 0, 0));
+		player.setFireTicks(0);
 	}
 	
 	@EventHandler
