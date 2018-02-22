@@ -62,7 +62,7 @@ public abstract class ShopItemListener extends ItemListener
 		coinsAPI.getCoins(player.getUniqueId(), result -> {
 			if (Integer.valueOf(result) >= getPrice())
 			{
-				if (getUser().get(player.getName()) != null && getUser().get(player.getName()) > System.currentTimeMillis() / 1000)
+				if (getUser().get(player.getName()) != null)
 				{
 					player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Du kannst " + SECONDARY + this.displayName + TEXT + " in " + TimeUtils.getZeit(getUser().get(player.getName()) - System.currentTimeMillis() / 1000) + " wieder kaufen");
 					if (callback != null)
