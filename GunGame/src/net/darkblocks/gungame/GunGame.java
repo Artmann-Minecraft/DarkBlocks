@@ -42,9 +42,9 @@ public class GunGame extends DarkPlugin
 	{
 		super.onEnable();
 		Map<String, String> messages = new HashMap<>();
-		messages.put("dark.gungame.prefix", "§f" + EXTRA + "[" + PRIMARY + EXTRA + "GunGame§f" + EXTRA + "] §r");
-		messages.put("dark.servername", "" + PRIMARY + EXTRA + "DarkBlocks§f" + EXTRA + "." + PRIMARY + EXTRA + "Net");
-		messages.put("dark.notenoughcoins", messages.get("dark.prefix") + TEXT + "Du hast nicht " + PRIMARY + "genug " + IMPORTANT + "Coins");
+		messages.put("net.darkblocks.gungame.prefix", "§f" + EXTRA + "[" + PRIMARY + EXTRA + "GunGame§f" + EXTRA + "] §r");
+		messages.put("net.darkblocks.servername", "" + PRIMARY + EXTRA + "DarkBlocks§f" + EXTRA + "." + PRIMARY + EXTRA + "Net");
+		messages.put("net.darkblocks.notenoughcoins", messages.get("net.darkblocks.prefix") + TEXT + "Du hast nicht " + PRIMARY + "genug " + IMPORTANT + "Coins");
 		new Messages(messages);
 		MySQL mySQL = new MySQL();
 		UserManager userManager = new UserManager(mySQL, null);
