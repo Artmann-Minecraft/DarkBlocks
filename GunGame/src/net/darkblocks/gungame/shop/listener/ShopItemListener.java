@@ -42,7 +42,7 @@ public abstract class ShopItemListener extends ItemListener
 	
 	private void used(@NonNull String name)
 	{
-		ShopItemListener.this.user.put(name, (int) (System.currentTimeMillis() / 1000 + this.waitTime));
+		ShopItemListener.this.user.put(name, (int) (System.currentTimeMillis() / 1000 + this.waitTime + 1));
 		new Thread(() -> {
 			try
 			{
