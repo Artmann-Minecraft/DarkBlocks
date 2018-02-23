@@ -43,7 +43,7 @@ public class Belohnung
 		this.coinsAPI = coinsAPI;
 		this.caseOpeningListener = new CaseOpeningListener(javaPlugin, this);
 		this.belohnungListener = new BelohnungListener(javaPlugin, this);
-		Configuration configuration = Configuration.loadConfiguration(javaPlugin.getDataFolder(), new File("extras.yml"));
+		Configuration configuration = Configuration.loadConfiguration(new File(javaPlugin.getDataFolder(), "extras.yml"));
 		Location location = new Location(Bukkit.getWorld(configuration.getString("Extras.Belohnung.World")), configuration.getDouble("Extras.Belohnung.X"), configuration.getDouble("Extras.Belohnung.Y"), configuration.getDouble("Extras.Belohnung.Z"), (float) configuration.getDouble("Extras.Belohnung.Yaw"), (float) configuration.getDouble("Extras.Belohnung.Pitch"));
 		ArmorStand armorStand = location.getWorld().spawn(location, ArmorStand.class);
 		armorStand.setGravity(false);

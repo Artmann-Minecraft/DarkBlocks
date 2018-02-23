@@ -52,10 +52,10 @@ public class GunGame extends DarkPlugin
 		List<String> maps = MapsUtils.loadMapNames(this);
 		String map = maps.get(new Random().nextInt(maps.size()));
 		MapsUtils.loadMap(map);
-		new InGameListener(this, new KitManager(this), MapsUtils.loadSpawn(Configuration.loadConfiguration(getDataFolder(), new File("spawns.yml")), map), new StatsAPI(this, Arrays.asList("Punkte", "Kills", "Tode", "MaxKillStreak")), new CoinsAPI("Coins", ValueType.INTEGER, mySQL), map);
+		new InGameListener(this, new KitManager(this), MapsUtils.loadSpawn(Configuration.loadConfiguration(new File(getDataFolder(), "spawns.yml")), map), new StatsAPI(this, Arrays.asList("Punkte", "Kills", "Tode", "MaxKillStreak")), new CoinsAPI("Coins", ValueType.INTEGER, mySQL), map);
 		Random random = new Random();
 		ItemStack itemStack = new ItemBuilder(Material.LEATHER_BOOTS).setColor(Color.fromRGB(random.nextInt(256), random.nextInt(256), random.nextInt(256))).build();
-		Configuration configuration = Configuration.loadConfiguration(getDataFolder(), new File("shop.yml"));
+		Configuration configuration = Configuration.loadConfiguration(new File(getDataFolder(), "shop.yml"));
 		for (int i = 1; i < configuration.getInt("count"); i++)
 		{
 			Location location = new Location(Bukkit.getWorld(configuration.getString("Shop." + i + ".World")), configuration.getDouble("Shop." + i + ".X"), configuration.getDouble("Shop." + i + ".Y"), configuration.getDouble("Shop." + i + ".Z"), (float) configuration.getDouble("Shop." + i + ".Yaw"), (float) configuration.getDouble("Shop." + i + ".Pitch"));

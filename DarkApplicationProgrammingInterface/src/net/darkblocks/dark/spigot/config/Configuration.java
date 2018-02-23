@@ -15,31 +15,13 @@ public class Configuration extends YamlConfiguration
 {
 	private File theFile;
 	
-	public static Configuration loadConfiguration(@NonNull File folder, @NonNull File file)
+	public static Configuration loadConfiguration(@NonNull File file)
 	{
 		Configuration config = new Configuration();
-		config.setTheFile(file);
 		try
 		{
-			if (!folder.exists())
-			{
-				if (folder.mkdirs())
-				{
-					System.out.println(" ");
-					System.out.println("[Configuration] Created Folder " + folder);
-					System.out.println(" ");
-				}
-			}
-			if (!file.exists())
-			{
-				if (file.createNewFile())
-				{
-					System.out.println(" ");
-					System.out.println("[Configuration] Created File " + file);
-					System.out.println(" ");
-				}
-			}
 			config.load(file);
+			config.setTheFile(file);
 		} catch (Exception ex)
 		{
 			ex.printStackTrace();
@@ -47,7 +29,6 @@ public class Configuration extends YamlConfiguration
 		return config;
 	}
 	
-	@SuppressWarnings("WeakerAccess")
 	public File getTheFile()
 	{
 		return this.theFile;

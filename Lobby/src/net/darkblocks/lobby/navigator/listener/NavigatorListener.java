@@ -75,7 +75,7 @@ public class NavigatorListener implements CashedPlayerInteractEvent, CashedInven
 		this.inventory.setItem(38, NavigatorItems.COOKIECLICKER.getItemStack());
 		this.inventory.setItem(42, NavigatorItems.BELOHNUNG.getItemStack());
 		this.mySQL = mySQL;
-		Configuration configuration = Configuration.loadConfiguration(javaPlugin.getDataFolder(), new File("Data.yml"));
+		Configuration configuration = Configuration.loadConfiguration(new File(javaPlugin.getDataFolder(), "Data.yml"));
 		for (String name : configuration.getConfigurationSection("warps").getKeys(false))
 		{
 			getWarps().put(name.toLowerCase(), new Location(Bukkit.getWorld(configuration.getString("warps." + name + ".world")), configuration.getDouble("warps." + name + ".x"), configuration.getDouble("warps." + name + ".y"), configuration.getDouble("warps." + name + ".z"), (float) configuration.getDouble("warps." + name + ".yaw"), (float) configuration.getDouble("warps." + name + ".pitch")));
