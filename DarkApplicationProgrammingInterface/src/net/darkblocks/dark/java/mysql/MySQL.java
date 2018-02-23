@@ -27,8 +27,8 @@ public class MySQL
 	
 	public MySQL()
 	{
-		@SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
 		PropertiesConfig properties = new PropertiesConfig(new File("databases"), "mysql.properties");
+		setProperties(properties);
 		this.host = (String) properties.get("Host");
 		this.port = (String) properties.get("Port");
 		this.username = (String) properties.get("Username");
@@ -40,6 +40,7 @@ public class MySQL
 	
 	public MySQL(PropertiesConfig properties)
 	{
+		setProperties(properties);
 		this.host = (String) properties.get("Host");
 		this.port = (String) properties.get("Port");
 		this.username = (String) properties.get("Username");
@@ -47,6 +48,19 @@ public class MySQL
 		this.database = (String) properties.get("Database");
 		this.executorService = Executors.newCachedThreadPool();
 		connect();
+	}
+	
+	private void setProperties(PropertiesConfig properties)
+	{
+		if (properties.isEmpty())
+		{
+			properties.setProperty("Host", "localhost");
+			properties.setProperty("Port", "3306");
+			properties.setProperty("Username", "Minecraft");
+			properties.setProperty("Password", "PW123456");
+			properties.setProperty("Database", "Plugins");
+			properties.save();
+		}
 	}
 	
 	public MySQL(String host, String port, String username, String password, String database)
