@@ -45,7 +45,7 @@ public class CookieClicker
 			new CookiesCommand(javaPlugin, this);
 			new CookieListener(javaPlugin, this, coinsAPI);
 		}));
-		Configuration configuration = Configuration.loadConfiguration(new File(javaPlugin.getDataFolder(), "extras.yml"));
+		Configuration configuration = Configuration.loadConfiguration(javaPlugin.getDataFolder(), new File("extras.yml"));
 		Location cookieClicker = new Location(Bukkit.getWorld(configuration.getString("Extras.CookieClicker.World")), configuration.getDouble("Extras.CookieClicker.X"), configuration.getDouble("Extras.CookieClicker.Y"), configuration.getDouble("Extras.CookieClicker.Z"));
 		ArmorStand armorStand = cookieClicker.getWorld().spawn(cookieClicker.add(0, -1.5, 0), ArmorStand.class);
 		armorStand.setGravity(false);

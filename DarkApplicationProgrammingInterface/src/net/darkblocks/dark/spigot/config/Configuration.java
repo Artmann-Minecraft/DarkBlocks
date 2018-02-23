@@ -15,18 +15,27 @@ public class Configuration extends YamlConfiguration
 {
 	private File theFile;
 	
-	public static Configuration loadConfiguration(@NonNull File file)
+	public static Configuration loadConfiguration(@NonNull File folder, @NonNull File file)
 	{
 		Configuration config = new Configuration();
 		config.setTheFile(file);
 		try
 		{
-			if (!config.getTheFile().exists())
+			if (!folder.exists())
 			{
-				if (config.getTheFile().createNewFile())
+				if (folder.mkdirs())
 				{
 					System.out.println(" ");
-					System.out.println("[Configuration] Created File " + file.getPath());
+					System.out.println("[Configuration] Created Folder " + folder);
+					System.out.println(" ");
+				}
+			}
+			if (!file.exists())
+			{
+				if (file.createNewFile())
+				{
+					System.out.println(" ");
+					System.out.println("[Configuration] Created File " + file);
 					System.out.println(" ");
 				}
 			}

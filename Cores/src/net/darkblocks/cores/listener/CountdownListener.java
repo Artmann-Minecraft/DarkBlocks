@@ -230,7 +230,7 @@ public class CountdownListener implements Listener
 		}
 		this.teamManager = new TeamManager(this.javaPlugin, true, 2);
 		this.voteManager.getVotes().getResult();
-		MapsUtils.loadSpawns(Configuration.loadConfiguration(new File(this.javaPlugin.getDataFolder() + File.separator + "maps" + File.separator + this.voteManager.getMapName() + ".yml")), this.teamManager, this.spectatorManager);
+		MapsUtils.loadSpawns(Configuration.loadConfiguration(new File(this.javaPlugin.getDataFolder() + File.separator + "maps"), new File(this.voteManager.getMapName() + ".yml")), this.teamManager, this.spectatorManager);
 	}
 	
 	@EventHandler
@@ -254,7 +254,7 @@ public class CountdownListener implements Listener
 	@EventHandler
 	public void onPreGameCountdownFinishedEvent(PreGameCountdownFinishedEvent event)
 	{
-		Configuration configuration = Configuration.loadConfiguration(new File(this.javaPlugin.getDataFolder() + File.separator + "maps" + File.separator + this.voteManager.getMapName() + ".yml"));
+		Configuration configuration = Configuration.loadConfiguration(new File(this.javaPlugin.getDataFolder() + File.separator + "maps"), new File(this.voteManager.getMapName() + ".yml"));
 		//MapsUtils.loadSpawns(configuration, this.teamManager, this.spectatorManager);
 		Set<Core> cores = new HashSet<>();
 		for (String coreNames : configuration.getStringList("Cores.CoreNames"))
