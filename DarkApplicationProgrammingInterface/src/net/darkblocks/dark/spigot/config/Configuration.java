@@ -18,6 +18,7 @@ public class Configuration extends YamlConfiguration
 	public static Configuration loadConfiguration(@NonNull File file)
 	{
 		Configuration config = new Configuration();
+		config.setTheFile(file);
 		try
 		{
 			if (!config.getTheFile().exists())
@@ -30,7 +31,6 @@ public class Configuration extends YamlConfiguration
 				}
 			}
 			config.load(file);
-			config.setTheFile(file);
 		} catch (Exception ex)
 		{
 			ex.printStackTrace();
