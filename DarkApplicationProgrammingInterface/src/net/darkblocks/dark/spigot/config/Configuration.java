@@ -20,6 +20,15 @@ public class Configuration extends YamlConfiguration
 		Configuration config = new Configuration();
 		try
 		{
+			if (!config.getTheFile().exists())
+			{
+				if (config.getTheFile().createNewFile())
+				{
+					System.out.println(" ");
+					System.out.println("[Configuration] Created File " + file.getPath());
+					System.out.println(" ");
+				}
+			}
 			config.load(file);
 			config.setTheFile(file);
 		} catch (Exception ex)
@@ -29,6 +38,7 @@ public class Configuration extends YamlConfiguration
 		return config;
 	}
 	
+	@SuppressWarnings("WeakerAccess")
 	public File getTheFile()
 	{
 		return this.theFile;
