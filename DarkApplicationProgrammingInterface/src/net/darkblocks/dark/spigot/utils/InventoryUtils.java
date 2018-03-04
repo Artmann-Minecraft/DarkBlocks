@@ -83,31 +83,7 @@ public class InventoryUtils
 	
 	public static int getInventorySize(int size)
 	{
-		if (size < 10)
-		{
-			return 9;
-		}
-		if (size < 19)
-		{
-			return 18;
-		}
-		if (size < 28)
-		{
-			return 27;
-		}
-		if (size < 37)
-		{
-			return 36;
-		}
-		if (size < 46)
-		{
-			return 45;
-		}
-		if (size < 55)
-		{
-			return 54;
-		}
-		return 0;
+		return size <= 9 ? 9 : size <= 18 ? 18 : size <= 27 ? 27 : size <= 36 ? 36 : size <= 45 ? 45 : 54;
 	}
 	
 	private static void fillGlass(Inventory inventory, short durability)
