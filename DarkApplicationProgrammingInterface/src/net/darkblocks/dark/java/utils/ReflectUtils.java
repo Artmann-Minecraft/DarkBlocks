@@ -1,5 +1,5 @@
 /*
- * © Copyright - Lars Artmann | LartyHD 2018.
+ * © Copyright - Lars Artmann | LartyHD 2019.
  */
 package net.darkblocks.dark.java.utils;
 
@@ -21,8 +21,8 @@ public class ReflectUtils
 		}
 	}
 	
-	@SuppressWarnings("SameParameterValue")
-	protected static Object getValue(Object object, String name)
+	@SuppressWarnings({"SameParameterValue, ConstantConditions", "WeakerAccess"})
+	public static Object getValue(Object object, String name)
 	{
 		try
 		{

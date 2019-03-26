@@ -1,5 +1,5 @@
 /*
- * © Copyright - Lars Artmann | LartyHD 2018.
+ * © Copyright - Lars Artmann | LartyHD 2019.
  */
 package net.darkblocks.lobby.extras.belohnung.listener;
 
@@ -84,7 +84,8 @@ public class BelohnungListener implements Listener
 		if (entity instanceof ArmorStand && entity.getName().equalsIgnoreCase(SECONDARY + "Belohnung"))
 		{
 			event.setCancelled(true);
-			Player player = event.getPlayer(); openBelohungsInventory(player);
+			Player player = event.getPlayer();
+			openBelohungsInventory(player);
 		}
 	}
 	
@@ -103,15 +104,15 @@ public class BelohnungListener implements Listener
 				UUID uuid = player.getUniqueId();
 				if (itemMeta.getEffect() != null)
 				{
+					try
+					{
+						getBelohnung().getCaseOpeningListener().getChests().put(player.getName(), getBelohnung().getCaseOpeningListener().getChests().get(player.getName()) + 1);
+					} catch (NullPointerException ex)
+					{
+						player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Es ist ein Fehler aufgetreten bitte betrete den Server neu");
+						return;
+					}
 					player.sendMessage(getBelohnung().getCoinsAPI().addCoins(uuid, String.valueOf(1000), result -> {
-						try
-						{
-							getBelohnung().getCaseOpeningListener().getChests().put(player.getName(), getBelohnung().getCaseOpeningListener().getChests().get(player.getName()) + 1);
-						} catch (NullPointerException ex)
-						{
-							player.sendMessage(Messages.getInstance().getShortMessage(getClass(), "prefix") + TEXT + "Es ist ein Fehler aufgetreten bitte betrete den Server neu");
-							return;
-						}
 						User user = UserManager.getUser(uuid);
 						if (user != null)
 						{
